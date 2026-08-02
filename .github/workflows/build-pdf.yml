@@ -31,11 +31,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install TeX Live (XeLaTeX) + Arabic fonts
+      - name: Install TeX Live (LuaLaTeX + XeLaTeX) + Arabic fonts
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             texlive-xetex \
+            texlive-luatex \
             texlive-latex-recommended \
             texlive-latex-extra \
             texlive-fonts-recommended \
@@ -58,11 +59,12 @@ jobs:
           echo "=== Arabic fonts visible to fontspec ==="
           fc-list | grep -iE "amiri|naskh" | sort
 
-      - name: Build PDF (latexmk + XeLaTeX, multiple passes for TOC/refs)
+      - name: Build PDF (latexmk + LuaLaTeX, multiple passes for TOC/refs)
         run: |
-          # .latexmkrc already forces xelatex; -interaction=nonstopmode keeps
-          # the build going on warnings instead of hanging on prompts.
-          latexmk -xelatex -interaction=nonstopmode -file-line-error -halt-on-error main.tex
+          # .latexmkrc now forces lualatex; we also pass -lualatex explicitly.
+          # LuaLaTeX generates correct ToUnicode CMaps for Arabic fonts,
+          # which fixes the garbled-copy-paste issue seen with XeTeX+Amiri.
+          latexmk -lualatex -interaction=nonstopmode -file-line-error main.tex
 
       - name: Show build log tail on failure
         if: failure()

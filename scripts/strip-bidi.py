@@ -38,10 +38,17 @@ silently, but plain-text editors and terminals show them as small boxes,
 stray dots, or garbled characters.
 
 This script removes them all, leaving clean text.
+
+It also normalizes Arabic Presentation Forms (U+FB50–U+FDFF,
+U+FE70–U+FEFF) to their basic Arabic equivalents (U+0600–U+06FF)
+via Unicode NFKC normalization, so that copied text uses the
+standard Arabic codepoints that search engines and text editors
+expect.
 """
 
 import sys
 import argparse
+import unicodedata
 
 # All Unicode Bidirectional Control Characters
 BIDI_CONTROLS = {
@@ -59,10 +66,18 @@ BIDI_CONTROLS = {
 }
 
 
-def strip_bidi(text: str) -> str:
-    """Remove all bidi control characters from text."""
+def strip_bidi(text: str, normalize_arabic: bool = True) -> str:
+    """Remove bidi control characters and optionally normalize Arabic.
+
+    Args:
+        text: Input text to clean.
+        normalize_arabic: If True (default), convert Arabic Presentation
+            Forms to their basic Arabic equivalents via NFKC.
+    """
     for ch in BIDI_CONTROLS:
         text = text.replace(ch, "")
+    if normalize_arabic:
+        text = unicodedata.normalize("NFKC", text)
     return text
 
 
@@ -86,6 +101,11 @@ def main():
         action="store_true",
         help="Print the number of removed characters to stderr",
     )
+    parser.add_argument(
+        "--no-normalize",
+        action="store_true",
+        help="Skip Arabic Presentation Forms normalization (keep as-is)",
+    )
     args = parser.parse_args()
 
     # Read input
@@ -99,7 +119,7 @@ def main():
     n_before = sum(text.count(c) for c in BIDI_CONTROLS)
 
     # Strip
-    clean = strip_bidi(text)
+    clean = strip_bidi(text, normalize_arabic=not args.no_normalize)
 
     # Write output
     if args.output == "-":
