@@ -24,15 +24,11 @@
 % 2) Encoding & fonts (XeLaTeX)
 %------------------------------------------------------------------------------
 \usepackage{fontspec}
-\setmainfont{Amiri}[
-  Path=/home/z/.local/share/fonts/,
-  Extension=.ttf,
-  UprightFont=Amiri-Regular,
-  BoldFont=Amiri-Bold,
-  ItalicFont=Amiri-Italic,
-  BoldItalicFont=Amiri-BoldItalic,
-  Ligatures=TeX
-]
+% Portable font setup: do NOT hardcode a local Path — let fontspec
+% discover the fonts from the system font directory via fontconfig.
+% Works on local machines AND in CI (GitHub Actions / Docker) as long
+% as the `amiri` and `fonts-noto` packages are installed.
+\setmainfont{Amiri}[Ligatures=TeX]
 \newfontfamily\arabicfont[Script=Arabic]{Amiri}
 \newfontfamily\arabicfontfancy[Script=Arabic]{Noto Naskh Arabic}
 \newfontfamily\englishfont{Liberation Serif}

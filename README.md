@@ -48,6 +48,26 @@ cd kau_thesis
 tectonic main.tex
 ```
 
+### عبر GitHub Actions (تلقائياً عند كل Push)
+
+المستودع مزوّد بـ workflow جاهز في:
+
+```
+.github/workflows/build-pdf.yml
+```
+
+عند كل دفعة (push) لفرع `main`، يقوم الـ workflow تلقائياً بـ:
+
+1. تثبيت XeLaTeX وحزم TeX Live اللازمة + الخطوط العربية (Amiri, Noto Naskh).
+2. ترجمة `main.tex` عبر `latexmk -xelatex` (عدة دورات لحل الفهرس والمراجع).
+3. رفع `main.pdf` كـ artifact قابل للتنزيل من صفحة الـ Action.
+4. عمل commit للـ PDF المُحدّث وإعادته للمستودع تلقائياً.
+
+كما يمكن تشغيله يدوياً من تبويب **Actions → Build Thesis PDF → Run workflow**.
+
+> ملاحظة: الـ workflow يستخدم خطوط النظام فقط (بدون مسارات مُ hardcoded)،
+> لذا يعمل على أي بيئة فيها حزم `fonts-hosny-amiri` و `fonts-noto-core` مثبّتة.
+
 ## المتطلبات
 
 - **محرك الترجمة:** XeLaTeX (إلزامي لدعم العربية عبر polyglossia + bidi).
