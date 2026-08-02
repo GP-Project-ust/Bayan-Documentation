@@ -1,0 +1,28 @@
+# LaTeX intermediate files — don't commit these
+*.aux
+*.toc
+*.lof
+*.lot
+*.out
+*.log
+*.xdv
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.bcf
+*.run.xml
+*.blg
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python (for scripts)
+__pycache__/
+*.pyc

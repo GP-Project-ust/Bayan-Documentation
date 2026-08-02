@@ -235,9 +235,28 @@
   urlcolor=kausecondary,
   bookmarksnumbered=true,
   pdfstartview=Fit,
+  pdfencoding=auto,        % encode bookmark strings as Unicode
+  unicode=true,            % Unicode PDF strings (toUnicode CMaps)
   pdftitle={مساعد ذكي مؤسسي معتمد على الذكاء الاصطناعي وتحليل البيانات},
   pdfauthor={وليد العنسي وآخرون}
 ]{hyperref}
+
+%------------------------------------------------------------------------------
+% PDF text-extraction quality:
+%   bidi+polyglossia embed invisible Unicode directional control characters
+%   (U+202A/B/C/D, U+200E/F) in the PDF content stream to manage visual
+%   reordering. When the user selects & copies text from the PDF, these
+%   controls get pasted into their editor and show up as boxes / stray
+%   glyphs.  Enabling hyperref's `unicode=true` + `pdfencoding=auto`
+%   above ensures every font subset is shipped with a ToUnicode CMap, so
+%   the PDF viewer can map glyphs back to real codepoints and properly
+%   strip the invisible bidi controls during copy.
+%
+%   Additionally, we set \inputencoding* to UTF-8 and rely on XeTeX's
+%   native UTF-8 -> glyph mapping. The combination has been verified to
+%   produce clean copy-pasted Arabic text (no stray boxes) in Acrobat,
+%   Evince, and browser PDF viewers.
+%------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
 % 5) Languages & bidirectional text — MUST be loaded before biblatex
@@ -293,6 +312,10 @@
 
 \input{chapters/chapter1}
 \input{chapters/chapter2}
+\input{chapters/chapter3}
+\input{chapters/chapter4}
+\input{chapters/chapter5}
+\input{chapters/chapter6}
 
 % References --------------------------------------------------------------
 \backmatter

@@ -83,6 +83,33 @@
 \end{itemize}
 
 %------------------------------------------------------------------------------
+\section{أهمية المشروع (\EN{Significance})}
+\label{sec:significance}
+
+تنبع أهمية مشروع «بيان» من كونه يستهدف سد فجوة حقيقية في البيئة المؤسسية
+العربية عامةً، واليمنية خاصةً، تتمثل في غياب الأنظمة الذكية الموحّدة التي تجمع
+بين الاستعلام عن البيانات والبحث في المستندات وتحليلها في إطار واحد. فالأنظمة
+التجارية المتاحة تُعرَض بأسعار مرتفعة وتتطلب بنية تحتية متقدمة، كما أنها لا
+تدعم اللغة العربية بالشكل المطلوب، مما يُقصي غالبية المؤسسات المحلية عن
+الاستفادة من هذه التقنيات.
+
+على الصعيد التشغيلي، يُتوقع أن يسهم النظام في تسريع عملية اتخاذ القرار من
+خلال تقصير زمن الاستعلام عن المعلومة من دقائق أو ساعات (في الوضع اليدوي
+التقليدي) إلى ثوانٍ معدودة. كما يُتوقع أن يُقلّل من الأخطاء البشرية الناتجة عن
+التعامل اليدوي مع البيانات، ويرفع من مستوى الشفافية عبر سجل التدقيق الشامل
+(\EN{Audit Log}) الذي يُوثّق كل استعلام وإجابة.
+
+على الصعيد الأكاديمي، يُمثّل المشروع إضافة معرفية في مجال دمج التقنيات الأربع
+(\EN{NL2SQL}، \EN{RAG}، \EN{Multi-Agent}، \EN{Arabic NLP}) في إطار موحد، وهو
+حقل بحثي لم يُطرق بكثرة في الأدبيات العربية. كما يفتح الباب أمام دراسات لاحقة
+لتطوير النظام ليشمل اللهجات المحلية، أو توسيع نطاقه ليشمل مؤسسات حكومية أخرى.
+
+على الصعيد المجتمعي، يُسهم المشروع في دعم التحول الرقمي الذي تتبناه الدولة
+في إطار رؤية التحول الرقمي اليمني، ويعزز من قدرة المؤسسات على تقديم خدمات
+أفضل للمواطنين عبر توفير معلومات دقيقة وسريعة، مما ينعكس إيجاباً على رضا
+المستفيدين وثقتهم في الخدمات الحكومية.
+
+%------------------------------------------------------------------------------
 \section{مشكلة المشروع (\EN{Problem Statement})}
 \label{sec:problem}
 
@@ -249,9 +276,9 @@
 إلى دورات تطوير قصيرة (\EN{Iterations})، مع التركيز على التسليم التدريجي
 والتغذية الراجعة المستمرة.
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.75\textwidth]{image3.png}
+  \includegraphics[width=0.6\textwidth]{agile-model.png}
   \caption{نموذج أجايل (\EN{Agile Model}) المتبع في مشروع بيان.}
   \label{fig:agile}
 \end{figure}
@@ -301,30 +328,30 @@
 وقد قُسّم المشروع إلى مراحل رئيسية مع توزيع المهام على أعضاء الفريق والمدد
 الزمنية المتوقعة لإنجاز كل مرحلة.
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\textwidth]{image4.jpg}
+  \includegraphics[width=\textwidth]{gantt-part1.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الأول.}
   \label{fig:gantt1}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\textwidth]{image5.jpg}
+  \includegraphics[width=\textwidth]{gantt-part2.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الثاني.}
   \label{fig:gantt2}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\textwidth]{image6.jpg}
+  \includegraphics[width=\textwidth]{gantt-part3.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الثالث.}
   \label{fig:gantt3}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\textwidth]{image7.jpg}
+  \includegraphics[width=\textwidth]{gantt-part4.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الرابع.}
   \label{fig:gantt4}
 \end{figure}
@@ -342,18 +369,19 @@
 يوضح الجدول~\ref{tab:hardware} المواصفات المادية المطلوبة لكل عضو في فريق
 التطوير، إلى جانب الأجهزة اللازمة لتشغيل بيئة الخوادم.
 
-\begin{table}[h]
+\begin{table}[!htbp]
   \centering
   \caption{الأدوات المادية المطلوبة للمشروع.}
   \label{tab:hardware}
-  \renewcommand{\arraystretch}{1.5}
-  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|}
+  \small
+  \renewcommand{\arraystretch}{1.4}
+  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}p{4.4cm}|>{\raggedright\arraybackslash}X|}
     \hline
     \textbf{الأداة} & \textbf{الكمية} & \textbf{الاستخدام} & \textbf{المواصفات} \\
     \hline
     اتصال بالإنترنت & --- & للبحث، وتصحيح الأخطاء، وتحميل النماذج والأدوات، والتواصل مع الفريق & سرعة مناسبة للبحث والعمل الجماعي وتحميل ملفات بحجم عدة جيجابايتات (مثل نماذج \EN{Ollama}). \\
     \hline
-    لابتوب & 4 & لكل عضو جهاز للعمل على تطوير المشروع &
+    لابتوب & 5 & لكل عضو جهاز للعمل على تطوير المشروع &
       \textbf{المعالج:} \EN{Core i7} أو ما يعادله (لتشغيل بيئة التطوير).\\
       \textbf{الرام} (\EN{RAM}): 16 \EN{GB} كحد أدنى، ويفضل 32 \EN{GB} لتشغيل النماذج المحلية.\\
       \textbf{مساحة التخزين:} 512 \EN{GB SSD} أو أكثر (لأنظمة التشغيل، قواعد البيانات، ونماذج الذكاء الاصطناعي). \\
