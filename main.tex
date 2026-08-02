@@ -263,13 +263,18 @@
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-% 5) Languages & bidirectional text — MUST be loaded before biblatex
+% 5) Languages & bidirectional text
 %------------------------------------------------------------------------------
+% polyglossia with Arabic automatically loads the correct bidi package:
+%   - 'bidi'     for XeTeX  (requires \RequireXeTeX)
+%   - 'luabidi'  for LuaTeX
+% We must NOT manually \usepackage{bidi} — it would conflict with luabidi
+% under LuaLaTeX. Just load polyglossia and let it handle bidi.
 \usepackage{polyglossia}
 \setmainlanguage[numerals=maghrib]{arabic}
 \setotherlanguage{english}
 
-\usepackage{bidi}
+% \setRTL is provided by whichever bidi package polyglossia loaded.
 \setRTL
 
 %------------------------------------------------------------------------------
