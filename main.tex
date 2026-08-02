@@ -316,6 +316,13 @@
 \input{chapters/chapter4}
 \input{chapters/chapter5}
 \input{chapters/chapter6}
+\input{chapters/chapter7}
+
+% Appendices --------------------------------------------------------------
+% Appendices use \chapter* (unnumbered) with manual Arabic-letter prefixes
+% (ملحق أ, ملحق ب, ...) defined in frontmatter/appendices.tex.
+% We don't use \appendix because it conflicts with titlesec + bidi.
+\input{frontmatter/appendices}
 
 % References --------------------------------------------------------------
 \backmatter
