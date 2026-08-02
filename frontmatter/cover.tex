@@ -1,0 +1,75 @@
+%==============================================================================
+% Cover page — KAU-style
+%==============================================================================
+\thispagestyle{empty}
+\begin{titlepage}
+
+% --- الترويسة المتقابلة وشعار الجامعة في المنتصف ---
+\noindent
+\begin{minipage}[c]{0.38\textwidth}
+    \centering
+    {\Large \thesisCountryAR}\\[6pt]
+    {\Large \thesisUniversityAR}\\[6pt]
+    {\large \thesisCollegeAR}\\[6pt]
+    {\large \thesisDepartmentAR}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.20\textwidth}
+    \centering
+    % شعار الجامعة
+    \includegraphics[width=2.8cm]{image1.jpeg} 
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.38\textwidth}
+    \centering
+    \begin{LTR}
+    \textenglish{%
+    Republic of Yemen\\
+    University of Science and Technology\\
+    College of Computing\\
+    Department of Information Technology
+    }
+    \end{LTR}
+\end{minipage}
+
+\vspace{18pt}
+
+% --- من هنا يبدأ التوسيط لباقي محتوى الغلاف ---
+\begin{center}
+
+% Decorative line (الخط التجميلي)
+{\color{kausecondary}\rule{0.95\textwidth}{1pt}}\\[25pt]
+
+% شعار المشروع أو القسم
+\includegraphics[width=3.5cm]{image2.png}\\[30pt]
+
+% Thesis title (large, colored, framed)
+\begin{tikzpicture}[overlay,remember picture]
+\node[rectangle,draw=kauprimary,line width=1.2pt,rounded corners=4pt,
+      inner sep=18pt,fill=kaulight,
+      minimum width=0.85\textwidth,align=center]
+  at (current page.center)
+  {\Huge\bfseries\color{kauprimary}\thesisTitleAR\\[6pt]
+   \large\color{kaudark}\textenglish{\thesisTitleEN}};
+\end{tikzpicture}
+
+\vspace{5.5cm}
+
+% Authors
+{\large \textbf{إعداد الطلاب:}}\\[6pt]
+{\large وليد محسن يحيى العنسي}\\[2pt]
+{\large محمد رشيد أحمد الشريف}\\[2pt]
+{\large أحمد علي محمد المتوكل}\\[2pt]
+{\large عبدالكريم قاسم عبده العبدلي}\\[16pt]
+
+% Supervisor
+{\large \textbf{تحت إشراف:} \thesisSupervisorAR}\\[18pt]
+
+{\Huge \color{kauprimary} \textbf{$\blacklozenge \ \ \lozenge \ \ \blacklozenge$}}\\[16pt]
+
+% Footer note
+{\large أُنجز هذا المشروع استكمالاً لمتطلبات التخرج في \thesisCollegeAR}\\[6pt]
+{\Large \bfseries \thesisYearAR}
+
+\end{center}
+\end{titlepage}
