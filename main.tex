@@ -1,0 +1,309 @@
+% !TEX program = xelatex
+% !TEX encoding = UTF-8
+%==============================================================================
+% KAU-style Arabic Thesis Template
+% Adapted for: مساعد ذكي مؤسسي معتمد على الذكاء الاصطناعي وتحليل البيانات
+% Engine: XeLaTeX (required for Arabic)
+%==============================================================================
+\documentclass[12pt,a4paper,oneside,openany]{book}
+
+%------------------------------------------------------------------------------
+% 1) Page geometry
+%------------------------------------------------------------------------------
+\usepackage[
+  top=2.5cm,
+  bottom=2.5cm,
+  inner=2.5cm,
+  outer=2.5cm,
+  headheight=14pt,
+  headsep=1cm,
+  footskip=1.2cm
+]{geometry}
+
+%------------------------------------------------------------------------------
+% 2) Encoding & fonts (XeLaTeX)
+%------------------------------------------------------------------------------
+\usepackage{fontspec}
+\setmainfont{Amiri}[
+  Path=/home/z/.local/share/fonts/,
+  Extension=.ttf,
+  UprightFont=Amiri-Regular,
+  BoldFont=Amiri-Bold,
+  ItalicFont=Amiri-Italic,
+  BoldItalicFont=Amiri-BoldItalic,
+  Ligatures=TeX
+]
+\newfontfamily\arabicfont[Script=Arabic]{Amiri}
+\newfontfamily\arabicfontfancy[Script=Arabic]{Noto Naskh Arabic}
+\newfontfamily\englishfont{Liberation Serif}
+\newfontfamily\monofont{DejaVu Sans Mono}[Scale=0.85]
+
+%------------------------------------------------------------------------------
+% 3) Graphics, color, tables, lists — load BEFORE bidi/polyglossia
+%------------------------------------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{{./figures/}}
+\usepackage{tikz}
+\usetikzlibrary{calc,shapes.geometric,positioning}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\definecolor{kauprimary}{HTML}{1F4E79}
+\definecolor{kausecondary}{HTML}{2E75B6}
+\definecolor{kauaccent}{HTML}{C00000}
+\definecolor{kaulight}{HTML}{F2F2F2}
+\definecolor{kaudark}{HTML}{1A1A1A}
+\definecolor{dividersilver}{HTML}{AAAAAA}
+\definecolor{dividerdim}{HTML}{6B7C93}
+
+\usepackage{xstring}
+
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{makecell}
+\renewcommand\arraystretch{1.4}
+
+\usepackage{enumitem}
+\setlist{itemsep=4pt,parsep=2pt,topsep=4pt}
+
+\usepackage[font=small,labelfont=bf,format=plain]{caption}
+
+\usepackage{titlesec}
+% Chapter & section styling (RTL aware) — finalised after bidi loads
+% NOTE: \chapter is fully overridden below by \kauChapterDivider; titlesec
+%       settings here only affect \chapter* (unnumbered) calls and the
+%       \section / \subsection / \subsubsection styling.
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{kauprimary}}
+  {\filleft\Large\color{kausecondary} الفصل \thechapter}
+  {10pt}
+  {\titlerule[1.2pt]\vspace{8pt}\Huge\filleft}
+\titlespacing*{\chapter}{0pt}{-20pt}{30pt}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries\color{kauprimary}}
+  {\thesection}{8pt}{}
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries\color{kaudark}}
+  {\thesubsection}{6pt}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\itshape\color{kaudark}}
+  {\thesubsubsection}{6pt}{}
+
+%------------------------------------------------------------------------------
+% Custom dark-themed chapter divider page (full-page overlay)
+% Matches the thesis style: dark background, ordinal + bilingual titles,
+% decorative diamonds, page number in Arabic-Indic numerals.
+%------------------------------------------------------------------------------
+\usepackage{xparse}
+
+% Arabic ordinal naming: 1 -> الأول, 2 -> الثاني, ... (up to 12)
+\newcommand{\kauArabicOrdinal}[1]{%
+  \ifcase#1%
+    \or الأوّل%
+    \or الثاني%
+    \or الثالث%
+    \or الرابع%
+    \or الخامس%
+    \or السادس%
+    \or السابع%
+    \or الثامن%
+    \or التاسع%
+    \or العاشر%
+    \or الحاديَ عشر%
+    \or الثاني عشر%
+  \fi
+}
+
+% Convert Western digits in a number to Arabic-Indic (٠ ١ ٢ ... ٩)
+\newcommand{\kauToArabicIndic}[1]{%
+  \StrSubstitute{#1}{0}{٠}[\kaiTMP]%
+  \StrSubstitute{\kaiTMP}{1}{١}[\kaiTMP]%
+  \StrSubstitute{\kaiTMP}{2}{٢}[\kaiTMP]%
+  \StrSubstitute{\kaiTMP}{3}{٣}[\kaiTMP]%
+  \StrSubstitute{\kaiTMP}{4}{٤}[\kaiTMP]%
+  \StrSubstitute{\kaiTMP}{5}{٥}[\kaiTMP]%
+  \StrSubstitute{\kaiTMP}{6}{٦}[\kaiTMP]%
+  \StrSubstitute{\kaiTMP}{7}{٧}[\kaiTMP]%
+  \StrSubstitute{\kaiTMP}{8}{٨}[\kaiTMP]%
+  \StrSubstitute{\kaiTMP}{9}{٩}[\kaiTMP]%
+  \kaiTMP%
+}
+
+% Save the original \chapter so \chapter* (unnumbered) still works for
+% references / appendices etc.
+\let\kauOriginalChapter\chapter
+
+% Redefine \chapter to render the chapter divider page before chapter content.
+% Design: white background, RTL text (Arabic-first), bilingual titles,
+%   horizontal rules, three diamonds, page number at bottom.
+% Usage: \chapter[English Title]{Arabic Title}
+%        \chapter*{Title}   -> falls back to the original behaviour
+\RenewDocumentCommand{\chapter}{s o m}{%
+  \IfBooleanTF{#1}%
+  {%  \chapter*{...}  — keep original behaviour (no divider page)
+    \kauOriginalChapter*{#3}%
+  }%
+  {%  \chapter{...} or \chapter[EN]{AR} — render divider page
+    \clearpage
+    \thispagestyle{empty}%
+    \refstepcounter{chapter}%
+    % TOC entry + running headers
+    \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#3}%
+    \chaptermark{#3}%
+    % Pre-compute strings
+    \edef\kauDivChapNum{\thechapter}%
+    \def\kauDivArTitle{#3}%
+    \IfNoValueTF{#2}{\def\kauDivEnTitle{}}{\def\kauDivEnTitle{#2}}%
+    \def\kauDivOrdinal{\kauArabicOrdinal{\kauDivChapNum}}%
+    \edef\kauDivPage{\thepage}%
+    \def\kauDivPageNum{\kauToArabicIndic{\kauDivPage}}%
+    % --- White-themed chapter divider page (plain LaTeX text, RTL) ---
+    % Top padding so the block sits roughly in the upper-middle of the page.
+    \null\vspace*{0.10\textheight}%
+    \begingroup
+      % Centre each line horizontally. In RTL context, \centering keeps
+      % every line centred on the page; Arabic text flows right-to-left
+      % inside that centred line as expected.
+      \centering
+      % --- Top horizontal rule ---
+      {\color{dividersilver}\rule{0.85\textwidth}{0.5pt}}
+
+      \vspace{14pt}
+      % --- "الفصل" label (small, gray) ---
+      {\color{dividersilver}\large الفصل}
+
+      \vspace{8pt}
+      % --- Big Arabic ordinal (blue-gray, ~60pt, bold) ---
+      {\color{dividerdim}\fontsize{60pt}{72pt}\bfseries\kauDivOrdinal}
+
+      \vspace{12pt}
+      % --- "Chapter N" English caption (small, gray, LTR inline) ---
+      {\color{dividersilver}\normalsize\textenglish{\englishfont Chapter \kauDivChapNum}}
+
+      \vspace{18pt}
+      % --- Middle horizontal rule ---
+      {\color{dividersilver}\rule{0.85\textwidth}{0.5pt}}
+
+      \vspace{24pt}
+      % --- Arabic chapter title (black, large, bold) ---
+      {\color{kaudark}\LARGE\bfseries\kauDivArTitle}
+
+      \vspace{10pt}
+      % --- English chapter title (small, gray, LTR inline) ---
+      \IfNoValueTF{#2}{}{%
+        {\color{dividersilver}\normalsize\textenglish{\englishfont \kauDivEnTitle}}%
+      }
+
+      \vspace{40pt}
+      % --- Three decorative diamonds:  filled - hollow - filled ---
+      %     \blacklozenge and \lozenge come from amssymb (already loaded).
+      {\color{dividerdim}\Large$\blacklozenge$}%
+      \hspace{18pt}%
+      {\color{dividersilver}\Large$\lozenge$}%
+      \hspace{18pt}%
+      {\color{dividerdim}\Large$\blacklozenge$}
+    \endgroup
+    % --- Push the page number to the bottom of the page ---
+    \vfill
+    \begin{center}
+      {\color{dividersilver}\small\kauDivPageNum}
+    \end{center}
+    \clearpage
+  }%
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\small\leftmark}
+\fancyhead[L]{\small\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyhead[L]{\small\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+%------------------------------------------------------------------------------
+% 4) Hyperref — load before polyglossia/bidi to avoid bidi clashes
+%------------------------------------------------------------------------------
+\usepackage[
+  colorlinks=true,
+  linkcolor=kauprimary,
+  citecolor=kauaccent,
+  urlcolor=kausecondary,
+  bookmarksnumbered=true,
+  pdfstartview=Fit,
+  pdftitle={مساعد ذكي مؤسسي معتمد على الذكاء الاصطناعي وتحليل البيانات},
+  pdfauthor={وليد العنسي وآخرون}
+]{hyperref}
+
+%------------------------------------------------------------------------------
+% 5) Languages & bidirectional text — MUST be loaded before biblatex
+%------------------------------------------------------------------------------
+\usepackage{polyglossia}
+\setmainlanguage[numerals=maghrib]{arabic}
+\setotherlanguage{english}
+
+\usepackage{bidi}
+\setRTL
+
+%------------------------------------------------------------------------------
+% 6) Custom commands
+%------------------------------------------------------------------------------
+\newcommand{\EN}[1]{\textenglish{\englishfont #1}}
+\newcommand{\CODE}[1]{\textenglish{\monofont #1}}
+\newcommand{\eng}[1]{\textenglish{#1}}
+
+%------------------------------------------------------------------------------
+% 7) Document info
+%------------------------------------------------------------------------------
+\newcommand{\thesisTitleAR}{مساعد ذكي مؤسسي معتمد على الذكاء الاصطناعي وتحليل البيانات}
+\newcommand{\thesisTitleEN}{Smart Institutional Assistant Based on Artificial Intelligence and Data Analytics}
+\newcommand{\thesisUniversityAR}{جامعة العلوم والتكنولوجيا}
+\newcommand{\thesisCollegeAR}{كلية الحاسبات وتقنية المعلومات}
+\newcommand{\thesisDepartmentAR}{قسم تقنية المعلومات}
+\newcommand{\thesisCountryAR}{الجمهورية اليمنية}
+\newcommand{\thesisSupervisorAR}{د. نبيل المخلافي}
+\newcommand{\thesisYearAR}{2026 / 2027}
+
+%==============================================================================
+\begin{document}
+%==============================================================================
+
+% Front matter ------------------------------------------------------------
+\frontmatter
+\pagenumbering{roman}
+
+\input{frontmatter/cover}
+\input{frontmatter/declaration}
+\input{frontmatter/dedication}
+\input{frontmatter/acknowledgment}
+\input{frontmatter/abstract}
+\input{frontmatter/abbreviations}
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+% Main matter -------------------------------------------------------------
+\mainmatter
+\pagenumbering{arabic}
+
+\input{chapters/chapter1}
+\input{chapters/chapter2}
+
+% References --------------------------------------------------------------
+\backmatter
+\chapter*{المراجع}
+\addcontentsline{toc}{chapter}{المراجع}
+\markboth{المراجع}{المراجع}
+
+\input{references_manual}
+
+\end{document}
