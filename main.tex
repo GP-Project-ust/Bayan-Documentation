@@ -1,9 +1,9 @@
-% !TEX program = lualatex
+% !TEX program = xelatex
 % !TEX encoding = UTF-8
 %==============================================================================
 % KAU-style Arabic Thesis Template
 % Adapted for: مساعد ذكي مؤسسي معتمد على الذكاء الاصطناعي وتحليل البيانات
-% Engine: LuaLaTeX (required for Arabic + clean PDF text extraction)
+% Engine: XeLaTeX (required for Arabic)
 %==============================================================================
 \documentclass[12pt,a4paper,oneside,openany]{book}
 
@@ -21,20 +21,16 @@
 ]{geometry}
 
 %------------------------------------------------------------------------------
-% 2) Encoding & fonts (LuaLaTeX)
+% 2) Encoding & fonts (XeLaTeX)
 %------------------------------------------------------------------------------
 \usepackage{fontspec}
 % Portable font setup: do NOT hardcode a local Path — let fontspec
 % discover the fonts from the system font directory via fontconfig.
-%
-% IMPORTANT: We use Noto Naskh Arabic as the main Arabic font (not Amiri)
-% because Amiri's subsetted ToUnicode CMap is broken under XeTeX/LuaTeX
-% font subsetting, which makes copied Arabic text come out as random
-% glyphs (N'Ko, Gurmukhi, etc.) in PDF viewers. Noto Naskh Arabic has a
-% correct and complete ToUnicode CMap that survives subsetting.
-\setmainfont{Noto Naskh Arabic}[Ligatures=TeX]
-\newfontfamily\arabicfont[Script=Arabic]{Noto Naskh Arabic}
-\newfontfamily\arabicfontfancy[Script=Arabic]{Amiri}
+% Works on local machines AND in CI (GitHub Actions / Docker) as long
+% as the `amiri` and `fonts-noto` packages are installed.
+\setmainfont{Amiri}[Ligatures=TeX]
+\newfontfamily\arabicfont[Script=Arabic]{Amiri}
+\newfontfamily\arabicfontfancy[Script=Arabic]{Noto Naskh Arabic}
 \newfontfamily\englishfont{Liberation Serif}
 \newfontfamily\monofont{DejaVu Sans Mono}[Scale=0.85]
 
@@ -263,18 +259,13 @@
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-% 5) Languages & bidirectional text
+% 5) Languages & bidirectional text — MUST be loaded before biblatex
 %------------------------------------------------------------------------------
-% polyglossia with Arabic automatically loads the correct bidi package:
-%   - 'bidi'     for XeTeX  (requires \RequireXeTeX)
-%   - 'luabidi'  for LuaTeX
-% We must NOT manually \usepackage{bidi} — it would conflict with luabidi
-% under LuaLaTeX. Just load polyglossia and let it handle bidi.
 \usepackage{polyglossia}
 \setmainlanguage[numerals=maghrib]{arabic}
 \setotherlanguage{english}
 
-% \setRTL is provided by whichever bidi package polyglossia loaded.
+\usepackage{bidi}
 \setRTL
 
 %------------------------------------------------------------------------------
