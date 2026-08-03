@@ -44,12 +44,14 @@
 \includegraphics[width=3.5cm]{logo-bayan.png}\\[30pt]
 
 % Thesis title (large, colored, framed)
+% NOTE: TikZ nodes default to LTR, which reverses Arabic word order.
+%   Wrapping the Arabic title in \RL{} forces right-to-left rendering.
 \begin{tikzpicture}[overlay,remember picture]
 \node[rectangle,draw=kauprimary,line width=1.2pt,rounded corners=4pt,
       inner sep=18pt,fill=kaulight,
       minimum width=0.85\textwidth,align=center]
   at (current page.center)
-  {\Huge\bfseries\color{kauprimary}\thesisTitleAR\\[6pt]
+  {\RL{\Huge\bfseries\color{kauprimary}\thesisTitleAR}\\[6pt]
    \large\color{kaudark}\textenglish{\thesisTitleEN}};
 \end{tikzpicture}
 
