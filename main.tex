@@ -64,6 +64,25 @@
 \usepackage{enumitem}
 \setlist{itemsep=4pt,parsep=2pt,topsep=4pt}
 
+%------------------------------------------------------------------------------
+% Paragraph spacing per Ministry of Higher Education guide (2022):
+%   "تباعد بين الفقرات: 6 نقاط قبل وبعد"
+%   "تباعد بين الأسطر: سطر ونصف"
+% We use parskip for 6pt before/after paragraphs, and setspace for 1.5 line
+% spacing. parindent=0 because Arabic academic convention does not indent
+% the first line of paragraphs (visual separation is via parskip).
+%------------------------------------------------------------------------------
+\usepackage{setspace}
+\onehalfspacing  % line spacing = 1.5 (per Ministry guide)
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+
+%------------------------------------------------------------------------------
+% Table of contents depth — per Ministry guide example (page 8):
+% shows up to subsection level (1.1.1), not deeper.
+%------------------------------------------------------------------------------
+\setcounter{tocdepth}{2}
+
 \usepackage[font=small,labelfont=bf,format=plain]{caption}
 
 \usepackage{titlesec}

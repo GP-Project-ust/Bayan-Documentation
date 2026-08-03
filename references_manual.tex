@@ -2,8 +2,17 @@
 % Manual bibliography (thebibliography environment)
 % Citations are referenced via \cite{key} — numbering follows declaration order
 % Each entry's English content is wrapped in \textenglish{...} to force LTR
+%
+% Hanging indent per Ministry of Higher Education guide (2022) + IEEE:
+%   First line of each entry starts at the left margin (with [N]).
+%   Continuation lines are indented 0.5cm (hanging indent).
+% Implemented via \hangindent + \hangafter in each \bibitem.
 %==============================================================================
 \begin{thebibliography}{99}
+% Bibliography body: single spacing + small font, with hanging indent
+\renewcommand{\baselinestretch}{1.0}\small
+\setlength{\parskip}{0pt}
+\everypar{\hangindent=0.5cm \hangafter=1}
 
 \bibitem{un2024egd}
 \textenglish{United Nations, ``E-Government Survey 2024: Accelerating Digital Transformation for Sustainable Development,'' \textit{United Nations Department of Economic and Social Affairs}, 2024. [Online]. Available: \url{https://publicadministration.un.org/egovkb/}}
