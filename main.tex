@@ -287,6 +287,17 @@
 \newcommand{\thesisSupervisorAR}{د. نبيل المخلافي}
 \newcommand{\thesisYearAR}{2026 / 2027}
 
+%------------------------------------------------------------------------------
+% Figure & table numbering — per Ministry guide: use dash separator (1-1)
+% instead of dot (1.1) for both figures and tables.
+% MUST be defined here (after all packages, just before \begin{document})
+% to ensure no other package overrides it.
+%------------------------------------------------------------------------------
+\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
+\renewcommand{\thetable}{\thechapter-\arabic{table}}
+% Remove the trailing dot from chapter number in cross-references
+\renewcommand{\thechapter}{\arabic{chapter}}
+
 %==============================================================================
 \begin{document}
 %==============================================================================
@@ -295,16 +306,32 @@
 \frontmatter
 \pagenumbering{roman}
 
+%------------------------------------------------------------------------------
+% Front matter — order per Ministry of Higher Education guide (2022):
+%   1. Cover
+%   2. Abstract (Summary) — Arabic + English
+%   3. Authorization (English)
+%   4. Dedication
+%   5. Acknowledgment
+%   6. Student Declaration + Supervisor Certification
+%   7. Examination Committee
+%   8. Table of Contents
+%   9. List of Figures
+%  10. List of Tables
+%  11. List of Abbreviations
+%------------------------------------------------------------------------------
 \input{frontmatter/cover}
-\input{frontmatter/declaration}
+\input{frontmatter/abstract}
+\input{frontmatter/authorization}
 \input{frontmatter/dedication}
 \input{frontmatter/acknowledgment}
-\input{frontmatter/abstract}
-\input{frontmatter/abbreviations}
+\input{frontmatter/declaration}
+\input{frontmatter/examination_committee}
 
 \tableofcontents
-\listoftables
 \listoffigures
+\listoftables
+\input{frontmatter/abbreviations}
 
 % Main matter -------------------------------------------------------------
 \mainmatter
