@@ -1,0 +1,151 @@
+%==============================================================================
+% figures/tikz/agile-cycle.tex
+% Professional Agile methodology cycle diagram for Bayan project.
+% Renders natively in LaTeX (real text, Amiri font, vector PDF output).
+% Uses the document's color palette (kauprimary, kausecondary, kauaccent,
+% kaulight, kaudark) so it visually matches the rest of the thesis.
+%
+% Usage in any chapter:
+%   \begin{figure}[!htbp]
+%     \centering
+%     \resizebox{0.7\textwidth}{!}{\input{figures/tikz/agile-cycle.tex}}
+%     \caption{...}
+%     \label{...}
+%   \end{figure}
+%==============================================================================
+
+% Radii (in cm):
+%   Ri = inner radius (where chevron arrows start)
+%   Ro = outer radius (where chevron arrows end)
+%   Tip = chevron tip extension beyond Ro
+%   RL  = label radius (outer ring text)
+\def\RingRi{2.4}
+\def\RingRo{3.6}
+\def\RingTip{0.35}
+\def\RingRL{4.95}
+
+\begin{tikzpicture}[
+  % Six stage color styles — drawn from the Bayan palette family.
+  c1/.style={fill=kauprimary!85,   draw=kauprimary,   text=white},
+  c2/.style={fill=kausecondary!85, draw=kausecondary, text=white},
+  c3/.style={fill=kaudark!85,      draw=kaudark,      text=white},
+  c4/.style={fill=kauaccent!85,    draw=kauaccent,    text=white},
+  c5/.style={fill=kauprimary!55,   draw=kauprimary,   text=white},
+  c6/.style={fill=kausecondary!50, draw=kausecondary, text=white},
+  badge/.style={
+    circle, fill=white, draw=kauprimary, line width=1pt,
+    text=kauprimary, font=\large\bfseries, inner sep=0pt,
+    minimum size=1.1cm,
+  },
+  stage label/.style={
+    font=\large\bfseries, text=kaudark, align=center,
+  },
+  center title/.style={
+    font=\Huge\bfseries\color{kauprimary}, align=center,
+  },
+  center subtitle/.style={
+    font=\normalsize\color{kausecondary}, align=center,
+  },
+  >=stealth,
+]
+
+  %------------------------------------------------------------------------
+  % Six chevron-arrow segments arranged in a clockwise ring.
+  % Each segment spans 60 degrees. Math convention: 0°=right, 90°=top.
+  % Stage 1: 30°→90° (top-right)        — Planning
+  % Stage 2: -30°→30° (right)            — Design
+  % Stage 3: -90°→-30° (bottom-right)    — Development
+  % Stage 4: -150°→-90° (bottom-left)    — Testing
+  % Stage 5: 150°→210° (left)            — Deployment  [210° = -150°]
+  % Stage 6: 90°→150° (top-left)         — Review
+  %------------------------------------------------------------------------
+
+  % --- Stage 1: Planning (top-right, 30 to 90 deg) ---
+  \fill[c1]
+    (90:\RingRi) --
+    (90:\RingRo) --
+    (35:\RingRo) --
+    (30:{\RingRo+\RingTip}) --
+    (25:\RingRo) --
+    (30:\RingRi) -- cycle;
+
+  % --- Stage 2: Design (right, -30 to 30 deg) ---
+  \fill[c2]
+    (30:\RingRi) --
+    (30:\RingRo) --
+    (-25:\RingRo) --
+    (-30:{\RingRo+\RingTip}) --
+    (-35:\RingRo) --
+    (-30:\RingRi) -- cycle;
+
+  % --- Stage 3: Development (bottom-right, -90 to -30 deg) ---
+  \fill[c3]
+    (-30:\RingRi) --
+    (-30:\RingRo) --
+    (-85:\RingRo) --
+    (-90:{\RingRo+\RingTip}) --
+    (-95:\RingRo) --
+    (-90:\RingRi) -- cycle;
+
+  % --- Stage 4: Testing (bottom-left, -150 to -90 deg) ---
+  \fill[c4]
+    (-90:\RingRi) --
+    (-90:\RingRo) --
+    (-145:\RingRo) --
+    (-150:{\RingRo+\RingTip}) --
+    (-155:\RingRo) --
+    (-150:\RingRi) -- cycle;
+
+  % --- Stage 5: Deployment (left, 150 to 210 deg) ---
+  \fill[c5]
+    (-150:\RingRi) --
+    (-150:\RingRo) --
+    (155:\RingRo) --
+    (150:{\RingRo+\RingTip}) --
+    (145:\RingRo) --
+    (150:\RingRi) -- cycle;
+
+  % --- Stage 6: Review (top-left, 90 to 150 deg) ---
+  \fill[c6]
+    (150:\RingRi) --
+    (150:\RingRo) --
+    (95:\RingRo) --
+    (90:{\RingRo+\RingTip}) --
+    (85:\RingRo) --
+    (90:\RingRi) -- cycle;
+
+  %------------------------------------------------------------------------
+  % Inner decorative rings (subtle outlines for polish).
+  %------------------------------------------------------------------------
+  \draw[kauprimary!30, line width=0.6pt] (0,0) circle ({\RingRi-0.15});
+  \draw[kauprimary!20, line width=0.4pt] (0,0) circle ({\RingRo+\RingTip+0.15});
+
+  %------------------------------------------------------------------------
+  % Center title.
+  %------------------------------------------------------------------------
+  \node[center title] at (0,0.35) {\RL{منهجية}};
+  \node[center title] at (0,-0.45) {\RL{أجايل}};
+  \node[center subtitle] at (0,-1.15) {\RL{\EN{Agile Methodology}}};
+
+  %------------------------------------------------------------------------
+  % Stage labels (Arabic name + English gloss) outside each segment.
+  % Position at the mid-angle of each 60-degree segment.
+  %------------------------------------------------------------------------
+  \node[stage label] at (60:\RingRL)  {\RL{التخطيط}\\[2pt]{\small\color{kausecondary}\EN{Planning}}};
+  \node[stage label] at (0:\RingRL)   {\RL{التصميم}\\[2pt]{\small\color{kausecondary}\EN{Design}}};
+  \node[stage label] at (-60:\RingRL) {\RL{التطوير}\\[2pt]{\small\color{kausecondary}\EN{Development}}};
+  \node[stage label] at (-120:\RingRL){\RL{الاختبار}\\[2pt]{\small\color{kausecondary}\EN{Testing}}};
+  \node[stage label] at (180:\RingRL) {\RL{الإطلاق}\\[2pt]{\small\color{kausecondary}\EN{Deployment}}};
+  \node[stage label] at (120:\RingRL) {\RL{المراجعة}\\[2pt]{\small\color{kausecondary}\EN{Review}}};
+
+  %------------------------------------------------------------------------
+  % Numbered badges (1–6) on each segment, centered on the segment.
+  %------------------------------------------------------------------------
+  \node[badge] at (60:3.0)  {1};
+  \node[badge] at (0:3.0)   {2};
+  \node[badge] at (-60:3.0) {3};
+  \node[badge] at (-120:3.0){4};
+  \node[badge] at (180:3.0) {5};
+  \node[badge] at (120:3.0) {6};
+
+\end{tikzpicture}
