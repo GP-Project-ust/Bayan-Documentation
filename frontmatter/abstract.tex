@@ -15,15 +15,18 @@
 (\EN{Multi-Agent System}) يمكّن المستخدمين من التفاعل مع بيانات ومستندات
 المؤسسة باللغة العربية الطبيعية.
 
-يعتمد النظام على معمارية متقدمة تضم خمسة وكلاء ذكاء اصطناعي متخصصين: وكيل
-المشرف لتوجيه الاستعلامات، ووكيل \EN{SQL} لتحويل اللغة الطبيعية إلى استعلامات
-قواعد بيانات، ووكيل \EN{RAG} للاسترجاع المعزز بالمستندات، ووكيل المحلل
-لاستخراج الرؤى والاتجاهات، ووكيل التقارير لتنسيق المخرجات. وتعد طبقة
-الـ\EN{Views} الذكية للبيانات من أبرز ابتكارات النظام، حيث ترفع دقة ترجمة
-اللغة الطبيعية إلى \EN{SQL} من \(\sim\)70\% إلى \(\sim\)90\%+. يوفر النظام
-واجهة محادثة عربية (\EN{RTL}) تدعم الفصحى والعامية، إلى جانب لوحة تحكم
-للإدارة تتيح تبديل النماذج اللغوية بين المحلية (\EN{Ollama}) والسحابية،
-ومراقبة الأداء، وإدارة الصلاحيات والأمان المتدرج
+يعتمد النظام على معمارية متقدمة تضم خمسة وكلاء ذكاء اصطناعي متخصصين يعملون
+بتنسيق عبر إطار \EN{LangGraph}: الوكيل المشرف (\EN{Supervisor Agent}) لتوجيه
+الاستعلامات وإدارة تدفق العمل، ووكيل \EN{SQL} (\EN{SQL Agent}) لتحويل اللغة
+الطبيعية إلى استعلامات قواعد بيانات، ووكيل \EN{RAG} (\EN{RAG Agent})
+للاسترجاع المعزز بالمستندات، ووكيل التحليل (\EN{Analyst Agent}) لاستخراج
+الرؤى والاتجاهات الإحصائية، ووكيل التقارير (\EN{Reporter Agent}) لتنسيق
+المخرجات. وتعد طبقة الـ\EN{Views} الذكية للبيانات من أبرز ابتكارات النظام،
+حيث ترفع دقة ترجمة اللغة الطبيعية إلى \EN{SQL} من \(\sim\)70\% (دون طبقة
+\EN{Views}) إلى \(\sim\)90\%+ (مع طبقة \EN{Views}). يوفر النظام واجهة محادثة
+عربية (\EN{RTL}) تدعم الفصحى والعامية، إلى جانب لوحة تحكم للإدارة تتيح
+تبديل النماذج اللغوية بين المحلية (\EN{Ollama} — يُعتمد \EN{Qwen 2.5 (14B)}
+كنموذج رئيسي) والسحابية، ومراقبة الأداء، وإدارة الصلاحيات والأمان المتدرج
 (\EN{Public}، \EN{Masked}، \EN{Restricted}، \EN{Blacklist}).
 
 يستهدف النظام خمس فئات من المستخدمين: المديرين الذين يحتاجون إلى رؤى
@@ -65,14 +68,16 @@ intelligent multi-agent conversational system that enables users to interact
 with the institution's data and documents in natural Arabic language.
 
 The system relies on an advanced architecture comprising five specialized AI
-agents: a Supervisor agent for routing queries, an SQL agent for translating
-natural language into database queries, a RAG agent for retrieval-augmented
-generation over documents, an Analyst agent for extracting insights and trends,
-and a Reporter agent for formatting outputs. The intelligent \texttt{Views}
-layer is one of the system's key innovations, raising NL2SQL accuracy from
-$\sim$70\% to $\sim$90\%+. The system provides an Arabic RTL conversational
-interface supporting both Modern Standard Arabic and dialects, alongside an
-administrative dashboard that allows switching between local (Ollama) and cloud
+agents coordinated via the LangGraph framework: a Supervisor Agent for routing
+queries and managing the workflow, an SQL Agent for translating natural language
+into database queries, a RAG Agent for retrieval-augmented generation over
+documents, an Analyst Agent for extracting insights and statistical trends, and
+a Reporter Agent for formatting outputs. The intelligent \texttt{Views} layer
+is one of the system's key innovations, raising NL2SQL accuracy from $\sim$70\%
+(without the Views layer) to $\sim$90\%+ (with the Views layer). The system
+provides an Arabic RTL conversational interface supporting both Modern Standard
+Arabic and dialects, alongside an administrative dashboard that allows switching
+between local (Ollama --- using Qwen 2.5 14B as the default model) and cloud
 language models, monitoring performance, and managing tiered permissions
 (\texttt{Public}, \texttt{Masked}, \texttt{Restricted}, \texttt{Blacklist}).
 
