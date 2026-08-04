@@ -5,49 +5,14 @@
 \addcontentsline{toc}{chapter}{الملخص}
 \markboth{الملخص}{الملخص}
 
-مع تزايد حجم البيانات والمستندات في المؤسسات الحديثة، أصبح من الضروري تطوير
-حلول ذكية تمكن المستخدمين من الوصول إلى المعلومات واتخاذ القرارات بسرعة
-وكفاءة. تعتمد كثير من المؤسسات اليوم على وسائل تقليدية مثل الاستعلامات
-المباشرة لقواعد البيانات من قبل متخصصين، والبحث اليدوي في المستندات غير
-المفهرسة، وإعداد التقارير بشكل يدوي، وهي وسائل تفتقر إلى السرعة والشمولية
-وسهولة الاستخدام. ولمعالجة هذه الإشكالات، يقدم هذا المشروع نظام
-«المساعد الذكي المؤسسي» (بيان)، وهو نظام محادثة ذكي متعدد الوكلاء
-(\EN{Multi-Agent System}) يمكّن المستخدمين من التفاعل مع بيانات ومستندات
-المؤسسة باللغة العربية الطبيعية.
+\vspace*{2cm}
 
-يعتمد النظام على معمارية متقدمة تضم خمسة وكلاء ذكاء اصطناعي متخصصين يعملون
-بتنسيق عبر إطار \EN{LangGraph}: الوكيل المشرف (\EN{Supervisor Agent}) لتوجيه
-الاستعلامات وإدارة تدفق العمل، ووكيل \EN{SQL} (\EN{SQL Agent}) لتحويل اللغة
-الطبيعية إلى استعلامات قواعد بيانات، ووكيل \EN{RAG} (\EN{RAG Agent})
-للاسترجاع المعزز بالمستندات، ووكيل التحليل (\EN{Analyst Agent}) لاستخراج
-الرؤى والاتجاهات الإحصائية، ووكيل التقارير (\EN{Reporter Agent}) لتنسيق
-المخرجات. وتعد طبقة الـ\EN{Views} الذكية للبيانات من أبرز ابتكارات النظام،
-حيث ترفع دقة ترجمة اللغة الطبيعية إلى \EN{SQL} من \(\sim\)70\% (دون طبقة
-\EN{Views}) إلى \(\sim\)90\%+ (مع طبقة \EN{Views}). يوفر النظام واجهة محادثة
-عربية (\EN{RTL}) تدعم الفصحى والعامية، إلى جانب لوحة تحكم للإدارة تتيح
-تبديل النماذج اللغوية بين المحلية (\EN{Ollama} — يُعتمد \EN{Qwen 2.5 (14B)}
-كنموذج رئيسي) والسحابية، ومراقبة الأداء، وإدارة الصلاحيات والأمان المتدرج
-(\EN{Public}، \EN{Masked}، \EN{Restricted}، \EN{Blacklist}).
+\begin{center}
+\Large\color{kaudark}
+سيتم كتابة الملخص عند الانتهاء من جميع فصول الأطروحة.
+\end{center}
 
-يستهدف النظام خمس فئات من المستخدمين: المديرين الذين يحتاجون إلى رؤى
-استراتيجية سريعة، والمحللين الذين يجرون استعلامات معقدة، والموظفين العاديين
-الباحثين عن معلومات محددة، ومسؤولي النظام المشرفين على التشغيل والأمان،
-ومشغلي التهيئة المسؤولين عن الإعداد الأولي. وتشمل الوظائف الرئيسية: المحادثة
-العربية الذكية، تحويل اللغة الطبيعية إلى \EN{SQL}، الاسترجاع المعزز
-بالمستندات، التحليل الذكي للبيانات، توليد التقارير، الإعداد المؤتمت خلال
-8 ساعات، والأمان المتدرج، وتتبع الوكلاء لعرض مسار التنفيذ.
-
-ويركز المشروع على تقديم حل تقني عملي مصمم ليتوافق مع البيئة المؤسسية المحلية
-واحتياجات المؤسسات في اليمن والدول العربية، بهدف تمكين الوصول للبيانات للجميع،
-رفع كفاءة اتخاذ القرار، وتعزيز الشفافية والمساءلة، وتقليل الجهد اليدوي
-والتكلفة. ويشكل نظام «بيان» خطوة مهمة نحو التحول الرقمي في قطاع إدارة
-المؤسسات، بما يسهم في رفع مستوى رضا المستخدمين، وتحسين الكفاءة التشغيلية،
-وتعزيز القدرة على الابتكار من خلال توفير رؤى عميقة قائمة على البيانات.
-
-\vspace{12pt}
-\noindent\textbf{الكلمات المفتاحية:} الذكاء الاصطناعي، تحويل اللغة الطبيعية
-إلى \EN{SQL}، الاسترجاع المعزز بالتوليد (\EN{RAG})، الأنظمة متعددة الوكلاء،
-معالجة اللغة العربية، \EN{LangGraph}، البيانات المؤسسية.
+\vspace*{2cm}
 
 \clearpage
 
@@ -57,40 +22,14 @@
 \addcontentsline{toc}{chapter}{Abstract}
 \markboth{Abstract}{Abstract}
 
-With the increasing volume of data and documents in modern institutions, it has
-become essential to develop intelligent solutions that enable users to access
-information and make decisions quickly and efficiently. Many institutions still
-rely on traditional methods such as direct database queries by specialists,
-manual search through unindexed documents, and manual report preparation —
-methods that lack speed, comprehensiveness, and usability. To address these
-issues, this project presents the ``Smart Institutional Assistant'' (Bayan), an
-intelligent multi-agent conversational system that enables users to interact
-with the institution's data and documents in natural Arabic language.
+\vspace*{2cm}
 
-The system relies on an advanced architecture comprising five specialized AI
-agents coordinated via the LangGraph framework: a Supervisor Agent for routing
-queries and managing the workflow, an SQL Agent for translating natural language
-into database queries, a RAG Agent for retrieval-augmented generation over
-documents, an Analyst Agent for extracting insights and statistical trends, and
-a Reporter Agent for formatting outputs. The intelligent \texttt{Views} layer
-is one of the system's key innovations, raising NL2SQL accuracy from $\sim$70\%
-(without the Views layer) to $\sim$90\%+ (with the Views layer). The system
-provides an Arabic RTL conversational interface supporting both Modern Standard
-Arabic and dialects, alongside an administrative dashboard that allows switching
-between local (Ollama --- using Qwen 2.5 14B as the default model) and cloud
-language models, monitoring performance, and managing tiered permissions
-(\texttt{Public}, \texttt{Masked}, \texttt{Restricted}, \texttt{Blacklist}).
+\begin{center}
+\Large\color{kaudark}
+The abstract will be written upon completion of all thesis chapters.
+\end{center}
 
-The system targets five user roles: executives needing fast strategic insights,
-analysts running complex queries, regular employees searching for specific
-information, system administrators overseeing operations and security, and
-onboarding operators responsible for initial setup. Key features include:
-intelligent Arabic conversation, NL2SQL, retrieval-augmented generation, smart
-data analytics, report generation, automated onboarding within 8 hours, tiered
-security, and agent-trace transparency.
-
-\textbf{Keywords:} Artificial Intelligence, NL2SQL, RAG, Multi-Agent Systems,
-Arabic NLP, LangGraph, Enterprise Data.
+\vspace*{2cm}
 
 \selectlanguage{arabic}
 \clearpage
