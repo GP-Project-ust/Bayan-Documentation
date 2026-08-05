@@ -8,15 +8,16 @@
 \noindent
 \begin{minipage}[c]{0.38\textwidth}
     \centering
-    {\large \thesisCountryAR}\\[4pt]
-    {\large \thesisUniversityAR}\\[4pt]
-    {\normalsize \thesisCollegeAR}\\[4pt]
-    {\normalsize \thesisDepartmentAR}
+    {\Large \thesisCountryAR}\\[6pt]
+    {\Large \thesisUniversityAR}\\[6pt]
+    {\large \thesisCollegeAR}\\[6pt]
+    {\large \thesisDepartmentAR}
 \end{minipage}%
 \hfill
 \begin{minipage}[c]{0.20\textwidth}
     \centering
-    \includegraphics[width=2.5cm]{logo-ust.jpeg}
+    % شعار الجامعة
+    \includegraphics[width=2.8cm]{logo-ust.jpeg} 
 \end{minipage}%
 \hfill
 \begin{minipage}[c]{0.38\textwidth}
@@ -31,46 +32,49 @@
     \end{LTR}
 \end{minipage}
 
-\vspace{15pt}
+\vspace{18pt}
 
 % --- من هنا يبدأ التوسيط لباقي محتوى الغلاف ---
 \begin{center}
 
-% Decorative line
-{\color{kausecondary}\rule{0.95\textwidth}{1pt}}\\[20pt]
+% Decorative line (الخط التجميلي)
+{\color{kausecondary}\rule{0.95\textwidth}{1pt}}\\[25pt]
 
-% شعار المشروع
-\includegraphics[width=3cm]{logo-bayan.png}\\[20pt]
+% شعار المشروع أو القسم
+\includegraphics[width=3.5cm]{logo-bayan.png}\\[30pt]
 
-% Thesis title
+% Thesis title (large, colored, framed)
+% NOTE: TikZ nodes default to LTR, which reverses Arabic word order.
+%   Wrapping the Arabic title in \RL{} forces right-to-left rendering.
 \begin{tikzpicture}[overlay,remember picture]
 \node[rectangle,draw=kauprimary,line width=1.2pt,rounded corners=4pt,
-      inner sep=14pt,fill=kaulight,
+      inner sep=18pt,fill=kaulight,
       minimum width=0.85\textwidth,align=center]
   at (current page.center)
-  {\RL{\LARGE\bfseries\color{kauprimary}\thesisTitleAR}\\[6pt]
-   \small\color{kaudark}\textenglish{\thesisTitleEN}};
+  {\RL{\Huge\bfseries\color{kauprimary}\thesisTitleAR}\\[6pt]
+   \large\color{kaudark}\textenglish{\thesisTitleEN}};
 \end{tikzpicture}
 
-\vspace{2.5cm}
+\vspace{5.5cm}
 
 % Authors
-{\normalsize \textbf{إعداد الطلاب:}}\\[6pt]
-{\normalsize وليد محسن يحيى العنسي}\\[2pt]
-{\normalsize محمد رشيد أحمد الشريف}\\[2pt]
-{\normalsize أحمد علي محمد المتوكل}\\[2pt]
-{\normalsize عبدالكريم قاسم عبده العبدلي}\\[2pt]
-{\normalsize محمد نجيب العواضي}\\[12pt]
+{\large \textbf{إعداد الطلاب:}}\\[6pt]
+{\large وليد محسن يحيى العنسي}\\[2pt]
+{\large محمد رشيد أحمد الشريف}\\[2pt]
+{\large أحمد علي محمد المتوكل}\\[2pt]
+{\large عبدالكريم قاسم عبده العبدلي}\\[2pt]
+{\large محمد نجيب العواضي}\\[16pt]
 
 % Supervisor
-{\normalsize \textbf{تحت إشراف:} \thesisSupervisorAR}\\[12pt]
+{\large \textbf{تحت إشراف:} \thesisSupervisorAR}\\[18pt]
 
-{\Large \color{kauprimary} \textbf{$\blacklozenge \ \ \lozenge \ \ \blacklozenge$}}\\[10pt]
+{\Huge \color{kauprimary} \textbf{$\blacklozenge \ \ \lozenge \ \ \blacklozenge$}}\\[16pt]
+
+% Footer note
 
 % Footer note
 {\small قُدِّم هذا المشروع استكمالًا لمتطلبات نيل درجة البكالوريوس في
 تقنية المعلومات، بكلية الحاسبات وتقنية المعلومات، للعام الجامعي
 1448هـ الموافق 2026--2027م.}
-
 \end{center}
 \end{titlepage}
