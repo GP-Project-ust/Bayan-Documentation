@@ -31,7 +31,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      #---------------------------------------------------------------------
+      # Cache TeX Live packages to speed up builds (saves ~4-5 minutes).
+      # The cache key includes the OS and a version tag. If the cache hit
+      # occurs, we skip the long apt-get install step below.
+      #---------------------------------------------------------------------
+      - name: Cache TeX Live packages
+        id: cache-texlive
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/share/texlive
+            /usr/share/texmf
+            /var/cache/apt
+          key: texlive-2024-${{ runner.os }}-v1
+          restore-keys: |
+            texlive-2024-
+
       - name: Install TeX Live (XeLaTeX) + Arabic fonts
+        if: steps.cache-texlive.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
@@ -51,6 +69,19 @@ jobs:
             python3-pygments \
             librsvg2-bin \
             poppler-utils
+
+      #---------------------------------------------------------------------
+      # Always install fonts (small, fast) even if TeX Live is cached,
+      # because fonts live in /usr/share/fonts which is not cached.
+      #---------------------------------------------------------------------
+      - name: Install Arabic fonts (always)
+        if: steps.cache-texlive.outputs.cache-hit == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            fonts-hosny-amiri \
+            fonts-noto-core \
+            fonts-noto-extra
 
       - name: Refresh font cache
         run: |
