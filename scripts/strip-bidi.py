@@ -1,107 +1,63 @@
 #!/usr/bin/env python3
 """
-strip-bidi.py — Clean invisible Unicode Bidirectional Control Characters
-from text that has been copy-pasted from a PDF generated with the LaTeX
-`bidi` + `polyglossia` packages (Arabic / Hebrew documents).
+strip-bidi.py — Clean text copied from Bayan thesis PDF.
+
+Cleans:
+1. Invisible Unicode Bidirectional Control Characters
+   (U+202A/B/C/D/E, U+200E/F, U+2066/7/8/9)
+2. Arabic Presentation Forms (U+FB50–U+FDFF, U+FE70–U+FEFF)
+   → normalized to basic Arabic (U+0600–U+06FF) via NFKC.
 
 USAGE
 =====
-  1. From a file:
-       python3 scripts/strip-bidi.py input.txt -o clean.txt
-       python3 scripts/strip-bidi.py input.txt            # prints to stdout
-       cat input.txt | python3 scripts/strip-bidi.py > clean.txt
-
-  2. From clipboard (requires `xclip` or `pbpaste`):
-       xclip -o | python3 scripts/strip-bidi.py | xclip -i
-
-WHY THIS IS NEEDED
-==================
-The LaTeX `bidi` package inserts invisible Unicode control characters into
-the PDF content stream so the PDF viewer knows how to visually reorder
-mixed LTR/RTL text. Examples:
-
-  U+202A  LEFT-TO-RIGHT EMBEDDING (LRE)
-  U+202B  RIGHT-TO-LEFT EMBEDDING (RLE)
-  U+202C  POP DIRECTIONAL FORMATTING (PDF)
-  U+202D  LEFT-TO-RIGHT OVERRIDE (LRO)
-  U+202E  RIGHT-TO-LEFT OVERRIDE (RLO)
-  U+200E  LEFT-TO-RIGHT MARK (LRM)
-  U+200F  RIGHT-TO-LEFT MARK (RLM)
-  U+2066  LEFT-TO-RIGHT ISOLATE (LRI)
-  U+2067  RIGHT-TO-LEFT ISOLATE (RLI)
-  U+2068  FIRST STRONG ISOLATE (FSI)
-  U+2069  POP DIRECTIONAL ISOLATE (PDI)
-
-When you copy text from the PDF, these controls get pasted into your
-editor. Modern editors (Word, Google Docs, LibreOffice) usually hide them
-silently, but plain-text editors and terminals show them as small boxes,
-stray dots, or garbled characters.
-
-This script removes them all, leaving clean text.
+  python3 scripts/strip-bidi.py input.txt -o clean.txt
+  cat input.txt | python3 scripts/strip-bidi.py > clean.txt
+  pdftotext main.pdf - | python3 scripts/strip-bidi.py > clean.txt
 """
 
 import sys
 import argparse
+import unicodedata
 
-# All Unicode Bidirectional Control Characters
 BIDI_CONTROLS = {
-    "\u202a",  # LRE
-    "\u202b",  # RLE
-    "\u202c",  # PDF
-    "\u202d",  # LRO
-    "\u202e",  # RLO
-    "\u200e",  # LRM
-    "\u200f",  # RLM
-    "\u2066",  # LRI
-    "\u2067",  # RLI
-    "\u2068",  # FSI
-    "\u2069",  # PDI
+    "\u202a", "\u202b", "\u202c", "\u202d", "\u202e",
+    "\u200e", "\u200f",
+    "\u2066", "\u2067", "\u2068", "\u2069",
 }
 
 
 def strip_bidi(text: str) -> str:
-    """Remove all bidi control characters from text."""
+    """Remove bidi control characters and normalize Arabic."""
     for ch in BIDI_CONTROLS:
         text = text.replace(ch, "")
+    # NFKC normalization converts Presentation Forms to basic Arabic
+    text = unicodedata.normalize("NFKC", text)
     return text
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Strip invisible Unicode bidi control characters from text."
+        description="Strip bidi controls + normalize Arabic from PDF text."
     )
-    parser.add_argument(
-        "input",
-        nargs="?",
-        default="-",
-        help="Input file (default: - for stdin)",
-    )
-    parser.add_argument(
-        "-o", "--output",
-        default="-",
-        help="Output file (default: - for stdout)",
-    )
-    parser.add_argument(
-        "--count",
-        action="store_true",
-        help="Print the number of removed characters to stderr",
-    )
+    parser.add_argument("input", nargs="?", default="-",
+                        help="Input file (default: stdin)")
+    parser.add_argument("-o", "--output", default="-",
+                        help="Output file (default: stdout)")
+    parser.add_argument("--count", action="store_true",
+                        help="Print stats to stderr")
     args = parser.parse_args()
 
-    # Read input
     if args.input == "-":
         text = sys.stdin.read()
     else:
         with open(args.input, "r", encoding="utf-8") as f:
             text = f.read()
 
-    # Count before
-    n_before = sum(text.count(c) for c in BIDI_CONTROLS)
+    n_bidi = sum(text.count(c) for c in BIDI_CONTROLS)
+    n_pres = sum(1 for c in text if 0xFB50 <= ord(c) <= 0xFEFF)
 
-    # Strip
     clean = strip_bidi(text)
 
-    # Write output
     if args.output == "-":
         sys.stdout.write(clean)
     else:
@@ -109,7 +65,8 @@ def main():
             f.write(clean)
 
     if args.count:
-        sys.stderr.write(f"Removed {n_before} bidi control characters\n")
+        sys.stderr.write(f"Removed {n_bidi} bidi controls\n")
+        sys.stderr.write(f"Normalized {n_pres} presentation forms\n")
 
 
 if __name__ == "__main__":

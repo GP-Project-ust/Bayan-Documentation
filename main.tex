@@ -24,15 +24,19 @@
 % 2) Encoding & fonts (XeLaTeX)
 %------------------------------------------------------------------------------
 \usepackage{fontspec}
-\XeTeXgenerateactualtext=1 % السطر المسؤول عن إصلاح مشكلة نسخ النص العربي
-
 % Portable font setup: do NOT hardcode a local Path — let fontspec
 % discover the fonts from the system font directory via fontconfig.
 % Works on local machines AND in CI (GitHub Actions / Docker) as long
 % as the `amiri` and `fonts-noto` packages are installed.
-\setmainfont{Amiri}[Ligatures=TeX]
-\newfontfamily\arabicfont[Script=Arabic]{Amiri}
-\newfontfamily\arabicfontfancy[Script=Arabic]{Noto Naskh Arabic}
+%
+% IMPORTANT: We use Noto Naskh Arabic as the main Arabic font (not Amiri)
+% because Amiri's subsetted ToUnicode CMap is broken under XeTeX, which
+% makes copied Arabic text come out as random glyphs. Noto Naskh Arabic
+% has a correct ToUnicode CMap that produces clean, searchable,
+% copy-pasteable Arabic text — while keeping a professional naskh style.
+\setmainfont{Noto Naskh Arabic}[Ligatures=TeX]
+\newfontfamily\arabicfont[Script=Arabic]{Noto Naskh Arabic}
+\newfontfamily\arabicfontfancy[Script=Arabic]{Amiri}
 \newfontfamily\englishfont{Liberation Serif}
 \newfontfamily\monofont{DejaVu Sans Mono}[Scale=0.85]
 
