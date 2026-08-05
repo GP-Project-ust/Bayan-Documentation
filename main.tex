@@ -24,6 +24,8 @@
 % 2) Encoding & fonts (XeLaTeX)
 %------------------------------------------------------------------------------
 \usepackage{fontspec}
+\XeTeXgenerateactualtext=1 % السطر المسؤول عن إصلاح مشكلة نسخ النص العربي
+
 % Portable font setup: do NOT hardcode a local Path — let fontspec
 % discover the fonts from the system font directory via fontconfig.
 % Works on local machines AND in CI (GitHub Actions / Docker) as long
