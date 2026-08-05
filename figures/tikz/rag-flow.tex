@@ -1,0 +1,131 @@
+%==============================================================================
+% figures/tikz/rag-flow.tex
+% RAG Pipeline Flow Diagram for Bayan System
+% Shows the actual retrieval-augmented generation pipeline within Bayan,
+% not a generic RAG diagram. Reflects the specific components:
+% multilingual-e5-large embeddings, Qdrant, Odoo documents, DeepSeek/GPT-4o.
+%==============================================================================
+
+\begin{tikzpicture}[
+  >=stealth,
+  node distance=1.2cm,
+  % Process node (rounded rectangle)
+  process/.style={
+    rectangle, rounded corners=6pt,
+    draw=kauprimary, fill=kaulight, text=kaudark,
+    font=\small\bfseries, align=center,
+    minimum width=4.5cm, minimum height=0.9cm,
+    inner sep=6pt,
+  },
+  % Data store node (cylinder shape using ellipse + rectangle)
+  datastore/.style={
+    cylinder, shape border rotate=90, aspect=0.3,
+    draw=kausecondary, fill=kausecondary!15, text=kaudark,
+    font=\small\bfseries, align=center,
+    minimum width=3.5cm, minimum height=1.2cm,
+    inner sep=4pt,
+  },
+  % LLM node (highlighted)
+  llmnode/.style={
+    rectangle, rounded corners=8pt,
+    draw=kauaccent, fill=kauaccent!10, text=kaudark,
+    font=\small\bfseries, align=center,
+    minimum width=4.5cm, minimum height=1cm,
+    inner sep=6pt,
+  },
+  % Output node
+  output/.style={
+    rectangle, rounded corners=6pt,
+    draw=kaudark, fill=kaudark!8, text=kaudark,
+    font=\small\bfseries, align=center,
+    minimum width=5cm, minimum height=1cm,
+    inner sep=6pt,
+  },
+  % Arrow style
+  arrow/.style={->, >=stealth, line width=1.2pt, draw=kauprimary},
+  arrow2/.style={->, >=stealth, line width=1.2pt, draw=kauaccent},
+  % Label on arrow
+  arlabel/.style={
+    font=\footnotesize\itshape, text=kaudark,
+    fill=white, inner sep=2pt,
+  },
+]
+
+  %------------------------------------------------------------------------
+  % Nodes (top to bottom flow)
+  %------------------------------------------------------------------------
+
+  % 1. User Question
+  \node[process] (question) {\RL{سؤال المستخدم (بالعربية)}\\\footnotesize\EN{User Question}};
+
+  % 2. RAG Agent
+  \node[process, below=of question] (ragagent) {\RL{وكيل \EN{RAG}}\\\footnotesize\EN{RAG Agent}};
+
+  % 3. Embedding Model
+  \node[process, below=of ragagent, fill=kausecondary!15, draw=kausecondary]
+    (embed) {\RL{نموذج التضمين}\\\footnotesize\EN{multilingual-e5-large}};
+
+  % 4. Vector Database (Qdrant) — placed to the right
+  \node[datastore, right=2cm of embed] (qdrant) {\RL{قاعدة البيانات المتجهة}\\\footnotesize\EN{Qdrant}};
+
+  % 5. Document Store (Odoo) — placed to the left of Qdrant
+  \node[datastore, left=2cm of embed] (docs) {\RL{مستندات \EN{Odoo}}\\\footnotesize\EN{Document Store}};
+
+  % 6. Retrieved Context
+  \node[process, below=of embed] (context) {\RL{المستندات المسترجعة}\\\footnotesize\EN{Top-K Retrieved Chunks}};
+
+  % 7. LLM
+  \node[llmnode, below=of context] (llm) {\RL{النموذج اللغوي الكبير}\\\footnotesize\EN{DeepSeek / GPT-4o API}};
+
+  % 8. Augmented Prompt (combined)
+  \node[process, below=of llm, minimum width=5.5cm] (prompt) {\RL{سياق + سؤال $\to$ توليد الإجابة}\\\footnotesize\EN{Augmented Generation}};
+
+  % 9. Final Answer with Citations
+  \node[output, below=of prompt] (answer) {\RL{الإجابة + الاستشهادات + مسار التنفيذ}\\\footnotesize\EN{Answer + Citations + Agent Trace}};
+
+  %------------------------------------------------------------------------
+  % Arrows (flow)
+  %------------------------------------------------------------------------
+
+  % Question → RAG Agent
+  \draw[arrow] (question) -- (ragagent);
+
+  % RAG Agent → Embedding
+  \draw[arrow] (ragagent) -- (embed)
+    node[arlabel, midway, right=2pt] {\EN{1. Embed}};
+
+  % Embedding → Qdrant (search)
+  \draw[arrow] (embed) -- (qdrant)
+    node[arlabel, midway, above] {\EN{2. Search}};
+
+  % Qdrant → Context (retrieve)
+  \draw[arrow] (qdrant.south) |- (context.east)
+    node[arlabel, near end, above] {\EN{3. Retrieve}};
+
+  % Docs → Qdrant (indexing, dashed = preprocessing)
+  \draw[->, >=stealth, line width=1pt, draw=kausecondary, dashed]
+    (docs) -- (qdrant)
+    node[arlabel, midway, above] {\EN{Indexed}};
+
+  % Context → LLM
+  \draw[arrow] (context) -- (llm)
+    node[arlabel, midway, right=2pt] {\EN{4. Context}};
+
+  % LLM → Prompt
+  \draw[arrow2] (llm) -- (prompt)
+    node[arlabel, midway, right=2pt] {\EN{5. Generate}};
+
+  % Prompt → Answer
+  \draw[arrow2] (prompt) -- (answer)
+    node[arlabel, midway, right=2pt] {\EN{6. Output}};
+
+  %------------------------------------------------------------------------
+  % Phase labels (right side)
+  %------------------------------------------------------------------------
+  \node[font=\Large\bfseries\color{kauprimary}, rotate=90]
+    at ($(ragagent.east)+(2.8, -3)$) {\RL{الاسترجاع}};
+
+  \node[font=\Large\bfseries\color{kauaccent}, rotate=90]
+    at ($(llm.east)+(2.8, 0)$) {\RL{التوليد}};
+
+\end{tikzpicture}

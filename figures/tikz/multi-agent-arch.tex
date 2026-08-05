@@ -1,0 +1,198 @@
+%==============================================================================
+% figures/tikz/multi-agent-arch.tex
+% Multi-Agent System Architecture for Bayan
+% Shows the full system architecture: User → Chat → Supervisor → 4 Agents
+% with data sources, LLM API, Audit Log, and LangGraph orchestration.
+%==============================================================================
+
+\begin{tikzpicture}[
+  >=stealth,
+  % User node
+  user/.style={
+    rectangle, rounded corners=8pt,
+    draw=kaudark, fill=kaudark!10, text=kaudark,
+    font=\small\bfseries, align=center,
+    minimum width=3cm, minimum height=0.8cm,
+  },
+  % Interface node
+  interface/.style={
+    rectangle, rounded corners=6pt,
+    draw=kauprimary, fill=kaulight, text=kaudark,
+    font=\small\bfseries, align=center,
+    minimum width=4cm, minimum height=0.8cm,
+  },
+  % Supervisor node (highlighted, larger)
+  supervisor/.style={
+    rectangle, rounded corners=8pt,
+    draw=kauprimary, fill=kauprimary!15, text=kaudark,
+    font=\normalsize\bfseries, align=center,
+    minimum width=5cm, minimum height=1cm,
+    line width=1.5pt,
+  },
+  % Agent node
+  agent/.style={
+    rectangle, rounded corners=6pt,
+    draw=kausecondary, fill=kausecondary!12, text=kaudark,
+    font=\footnotesize\bfseries, align=center,
+    minimum width=2.8cm, minimum height=1.1cm,
+  },
+  % Data source node
+  datasource/.style={
+    cylinder, shape border rotate=90, aspect=0.3,
+    draw=kaudark, fill=kaudark!8, text=kaudark,
+    font=\footnotesize, align=center,
+    minimum width=2.2cm, minimum height=0.8cm,
+    inner sep=2pt,
+  },
+  % LLM node
+  llm/.style={
+    rectangle, rounded corners=6pt,
+    draw=kauaccent, fill=kauaccent!10, text=kaudark,
+    font=\small\bfseries, align=center,
+    minimum width=3cm, minimum height=1cm,
+    line width=1.2pt,
+  },
+  % Log node
+  log/.style={
+    rectangle, rounded corners=4pt,
+    draw=kaudark!60, fill=kaudark!5, text=kaudark,
+    font=\footnotesize\bfseries, align=center,
+    minimum width=3.5cm, minimum height=0.7cm,
+  },
+  % Smart Views node
+  views/.style={
+    rectangle, rounded corners=4pt,
+    draw=kauaccent, fill=kauaccent!8, text=kaudark,
+    font=\footnotesize\bfseries, align=center,
+    minimum width=2.5cm, minimum height=0.7cm,
+  },
+  % Arrow styles
+  arrow/.style={->, >=stealth, line width=1pt, draw=kauprimary},
+  arrow2/.style={->, >=stealth, line width=0.8pt, draw=kausecondary},
+  arrowD/.style={->, >=stealth, line width=0.8pt, draw=kaudark!60, dashed},
+  bus/.style={->, >=stealth, line width=1pt, draw=kauaccent},
+  % Label
+  arlabel/.style={
+    font=\tiny\itshape, text=kaudark,
+    fill=white, inner sep=1pt,
+  },
+]
+
+  %==========================================================================
+  % LAYER 1: User + Chat Interface (top)
+  %==========================================================================
+  \node[user] (user) at (0, 0) {\RL{المستخدم}\\\EN{User}};
+
+  \node[interface, below=0.6cm of user] (chat)
+    {\RL{واجهة المحادثة العربية (\EN{RTL})}};
+
+  % Bidirectional arrow User ↔ Chat
+  \draw[<->, >=stealth, line width=1.2pt, draw=kaudark]
+    (user) -- (chat);
+
+  %==========================================================================
+  % LAYER 2: Supervisor Agent (router)
+  %==========================================================================
+  \node[supervisor, below=0.8cm of chat] (supervisor)
+    {\RL{الوكيل المشرف (\EN{Supervisor Agent})}\\\footnotesize\RL{توجيه وتوزيع المهام}};
+
+  % Arrow Chat → Supervisor
+  \draw[arrow] (chat) -- (supervisor);
+
+  %==========================================================================
+  % LAYER 3: Four Specialized Agents
+  %==========================================================================
+  % Positions: spread across 4 columns
+  \node[agent] (sql) at (-5.4, -4.5)
+    {\RL{وكيل \EN{SQL}}\\\EN{SQL Agent}\\\RL{تحويل النص لاستعلام}};
+
+  \node[agent] (rag) at (-1.8, -4.5)
+    {\RL{وكيل \EN{RAG}}\\\EN{RAG Agent}\\\RL{البحث في المستندات}};
+
+  \node[agent] (analyst) at (1.8, -4.5)
+    {\RL{وكيل التحليل}\\\EN{Analyst Agent}\\\RL{استخراج الرؤى}};
+
+  \node[agent] (reporter) at (5.4, -4.5)
+    {\RL{وكيل التقارير}\\\EN{Reporter Agent}\\\RL{تنسيق المخرجات}};
+
+  % Arrows Supervisor → Agents (fan out)
+  \draw[arrow2] (supervisor.south) -- (sql.north)
+    node[arlabel, midway, left=1pt] {\EN{Route}};
+  \draw[arrow2] (supervisor.south) -- (rag.north);
+  \draw[arrow2] (supervisor.south) -- (analyst.north);
+  \draw[arrow2] (supervisor.south) -- (reporter.north);
+
+  % Inter-agent collaboration (dashed)
+  \draw[arrowD] (sql.east) -- (rag.west)
+    node[arlabel, midway, above] {\EN{data}};
+  \draw[arrowD] (rag.east) -- (analyst.west)
+    node[arlabel, midway, above] {\EN{context}};
+  \draw[arrowD] (analyst.east) -- (reporter.west)
+    node[arlabel, midway, above] {\EN{results}};
+
+  %==========================================================================
+  % LAYER 4: Data Sources (below each agent)
+  %==========================================================================
+
+  % Smart Views (between SQL Agent and PostgreSQL)
+  \node[views] (views) at (-5.4, -6.2)
+    {\RL{طبقة \EN{Views} الذكية}};
+
+  % PostgreSQL (Odoo Education data)
+  \node[datasource] (postgres) at (-5.4, -7.5)
+    {\RL{\EN{PostgreSQL}}\\\RL{(\EN{Odoo Education})}};
+
+  % Qdrant (vector DB for RAG)
+  \node[datasource] (qdrant) at (-1.8, -7.5)
+    {\RL{\EN{Qdrant}}\\\RL{بيانات متجهة}};
+
+  % Arrows Agent → Data Source
+  \draw[arrow2] (sql.south) -- (views.north);
+  \draw[arrow2] (views.south) -- (postgres.north);
+  \draw[arrow2] (rag.south) -- (qdrant.north);
+
+  %==========================================================================
+  % LAYER 5: LLM API (right side, serving all agents)
+  %==========================================================================
+  \node[llm] (llm) at (8, -4.5)
+    {\RL{النموذج اللغوي}\\\EN{DeepSeek / GPT-4o}\\\EN{LLM API}};
+
+  % Bus line connecting LLM to all agents
+  \draw[bus] (llm.west) -- (reporter.east);
+  \draw[bus] (llm.west) -- (analyst.east);
+  % Vertical bus
+  \coordinate (buspoint) at (7, -4.5);
+  \draw[line width=1pt, draw=kauaccent] (7, -2.5) -- (7, -6);
+  \draw[bus] (7, -4) -- (sql.east |- sql.east);
+  % Connect bus to each agent (simplified: just show the bus)
+  \node[font=\tiny\itshape, text=kauaccent, fill=white]
+    at (7, -2.2) {\EN{serves all agents}};
+
+  %==========================================================================
+  % LAYER 6: Audit Log + Agent Trace (bottom)
+  %==========================================================================
+  \node[log] (audit) at (-2, -9.2)
+    {\RL{سجل التدقيق (\EN{Audit Log})}};
+
+  \node[log] (trace) at (2.5, -9.2)
+    {\RL{تتبع التنفيذ (\EN{Agent Trace})}};
+
+  % Arrows from agents area to logs
+  \draw[arrowD] (-2, -7.8) -- (audit.north);
+  \draw[arrowD] (2, -7.8) -- (trace.north);
+
+  % Trace → User (feedback loop, long dashed)
+  \draw[arrowD, line width=1pt]
+    (trace.east) -- ++(1.5, 0) |- (user.east)
+    node[arlabel, near end, right=1pt] {\EN{Transparency}};
+
+  %==========================================================================
+  % LangGraph Container (dashed border around agents)
+  %==========================================================================
+  \draw[dashed, line width=1.2pt, draw=kauprimary!50, rounded corners=10pt]
+    (-7.2, -3.3) rectangle (7.5, -5.5);
+
+  \node[font=\footnotesize\bfseries\color{kauprimary}, fill=white]
+    at (-3.5, -3.3) {\EN{LangGraph Orchestration Framework}};
+
+\end{tikzpicture}

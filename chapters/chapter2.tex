@@ -192,10 +192,21 @@
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.85\textwidth]{rag-flow.png}
+  \resizebox{0.85\textwidth}{!}{\input{figures/tikz/rag-flow.tex}}
   \caption{مخطط تدفق تقنية \EN{RAG} في نظام بيان.}
   \label{fig:rag-flow}
 \end{figure}
+
+\noindent يُوضح الشكل~\ref{fig:rag-flow} دورة معالجة الطلب الفعلية لتقنية
+\EN{RAG} في نظام بيان. تبدأ الدورة باستقبال وكيل \EN{RAG} لسؤال المستخدم
+بالعربية، ثم تحويله إلى متجه رقمي عبر نموذج التضمين
+\EN{multilingual-e5-large}. يُستخدم هذا المتجه للبحث في قاعدة البيانات
+المتجهة \EN{Qdrant} التي تحتوي على مستندات \EN{Odoo} المُفهرسة مسبقاً.
+تُسترجع أكثر المقاطع صلة، وتُمرَّر مع السؤال الأصلي إلى النموذج اللغوي
+(\EN{DeepSeek} أو \EN{GPT-4o}) لتوليد إجابة دقيقة مدعومة بالاستشهادات.
+يُختتم التدفق بإرجاع الإجابة مع مسار التنفيذ (\EN{Agent Trace}) لضمان
+الشفافية. ينقسم التدفق إلى مرحلتين رئيسيتين: الاسترجاع (\EN{Retrieval})
+والتوليد المعزز (\EN{Augmented Generation}).
 
 من أبرز الأطر الحالية لبناء أنظمة \EN{RAG}، يأتي \EN{LangChain}
 \cite{langchain2023} في المقدمة كإطار العمل الأكثر انتشاراً، ويقدم مكونات
@@ -246,10 +257,35 @@
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.7\textwidth]{multi-agent-arch.png}
+  \resizebox{0.95\textwidth}{!}{\input{figures/tikz/multi-agent-arch.tex}}
   \caption{معمارية النظام متعدد الوكلاء القائم على \EN{LangGraph}.}
   \label{fig:multi-agent}
 \end{figure}
+
+\noindent يُوضح الشكل~\ref{fig:multi-agent} المعمارية الكاملة لنظام بيان
+كنظام متعدد الوكلاء. يتفاعل المستخدم عبر واجهة محادثة عربية (\EN{RTL})
+مع الوكيل المشرف (\EN{Supervisor Agent}) الذي يعمل كموجّه مركزي
+(\EN{Router})، فيُحلّل سؤال المستخدم ويُحدد الوكيل المتخصص الأنسب
+لمعالجته. يتوزع العمل على أربعة وكلاء متخصصين داخل إطار تنسيق
+\EN{LangGraph}:
+
+\begin{itemize}
+  \item \textbf{وكيل \EN{SQL}:} يحوّل السؤال إلى استعلام قواعد بيانات عبر
+        طبقة \EN{Views} الذكية التي تُبسّط المخطط قبل التوليد، ثم ينفذه على
+        \EN{PostgreSQL} المتصل ببيانات \EN{Odoo Education}.
+  \item \textbf{وكيل \EN{RAG}:} يبحث في المستندات المؤسسية المُفهرسة في
+        \EN{Qdrant} ويولّد إجابات مدعومة بالاستشهادات.
+  \item \textbf{وكيل التحليل:} يستخرج الرؤى الإحصائية والاتجاهات من
+        البيانات التي يُوفرها وكيل \EN{SQL}.
+  \item \textbf{وكيل التقارير:} ينسّق المخرجات من الوكلاء الآخرين ويُنتج
+        تقارير منسقة بصيغ متعددة.
+\end{itemize}
+
+يُلاحظ أن جميع الوكلاء يتشاركون في الوصول إلى النموذج اللغوي الكبير
+(\EN{DeepSeek} أو \EN{GPT-4o}) عبر واجهة برمجية موحدة. كما تُسجَّل جميع
+العمليات في سجل التدقيق (\EN{Audit Log}) لضمان المساءلة، ويُعرض مسار
+التنفيذ (\EN{Agent Trace}) للمستخدم كحلقة تغذية راجعة تُعزز الشفافية
+والثقة في النظام.
 
 \subsection{تحديات معالجة اللغة العربية (\EN{Arabic NLP})}
 \label{subsec:arabic-nlp}
