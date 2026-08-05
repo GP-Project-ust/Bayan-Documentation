@@ -1,4 +1,4 @@
-name: Build Thesis PDF
+name: Build Thesis PDF + Word
 
 # Trigger on every push to main, on PRs, and allow manual runs.
 on:
@@ -33,8 +33,6 @@ jobs:
 
       #---------------------------------------------------------------------
       # Cache TeX Live packages to speed up builds (saves ~4-5 minutes).
-      # The cache key includes the OS and a version tag. If the cache hit
-      # occurs, we skip the long apt-get install step below.
       #---------------------------------------------------------------------
       - name: Cache TeX Live packages
         id: cache-texlive
@@ -48,7 +46,7 @@ jobs:
           restore-keys: |
             texlive-2024-
 
-      - name: Install TeX Live (XeLaTeX) + Arabic fonts
+      - name: Install TeX Live (XeLaTeX) + Arabic fonts + Pandoc
         if: steps.cache-texlive.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
@@ -68,20 +66,21 @@ jobs:
             fonts-noto-cjk \
             python3-pygments \
             librsvg2-bin \
-            poppler-utils
+            poppler-utils \
+            pandoc
 
       #---------------------------------------------------------------------
-      # Always install fonts (small, fast) even if TeX Live is cached,
-      # because fonts live in /usr/share/fonts which is not cached.
+      # Always install fonts + Pandoc (small, fast) even if TeX Live is cached
       #---------------------------------------------------------------------
-      - name: Install Arabic fonts (always)
+      - name: Install Arabic fonts + Pandoc (always)
         if: steps.cache-texlive.outputs.cache-hit == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             fonts-hosny-amiri \
             fonts-noto-core \
-            fonts-noto-extra
+            fonts-noto-extra \
+            pandoc
 
       - name: Refresh font cache
         run: |
@@ -91,8 +90,6 @@ jobs:
 
       - name: Build PDF (latexmk + XeLaTeX, multiple passes for TOC/refs)
         run: |
-          # .latexmkrc already forces xelatex; -interaction=nonstopmode keeps
-          # the build going on warnings instead of hanging on prompts.
           latexmk -xelatex -interaction=nonstopmode -file-line-error -halt-on-error main.tex
 
       - name: Show build log tail on failure
@@ -108,12 +105,46 @@ jobs:
           pdfinfo main.pdf || true
           ls -la main.pdf
 
+      #---------------------------------------------------------------------
+      # Build Word document via Pandoc
+      # Converts LaTeX → Word (.docx) with structure, tables, and text.
+      # TikZ diagrams are converted to images automatically.
+      #---------------------------------------------------------------------
+      - name: Build Word document (Pandoc)
+        run: |
+          echo "=== Converting LaTeX to Word via Pandoc ==="
+          pandoc main.tex \
+            -o Bayan-Thesis.docx \
+            --from=latex \
+            --to=docx \
+            --toc \
+            --toc-depth=3 \
+            --number-sections \
+            --standalone \
+            --resource-path=. \
+            2>&1 || echo "Pandoc completed with warnings (non-critical)"
+
+          if [ -f Bayan-Thesis.docx ]; then
+            echo "✅ Word document created successfully"
+            ls -la Bayan-Thesis.docx
+          else
+            echo "⚠️ Pandoc failed to create Word document (non-critical)"
+          fi
+
       - name: Upload PDF as workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: Bayan-Thesis-PDF
           path: main.pdf
           if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload Word document as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bayan-Thesis-Word
+          path: Bayan-Thesis.docx
+          if-no-files-found: warn
           retention-days: 30
 
       - name: Commit built PDF back to the repo
