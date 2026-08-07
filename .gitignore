@@ -26,3 +26,5 @@ Thumbs.db
 # Python (for scripts)
 __pycache__/
 *.pyc
+tectonic-bin/tectonic.exe
+docs/word/منهجية التطوير.docx
