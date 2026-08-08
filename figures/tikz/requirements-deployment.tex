@@ -1,19 +1,78 @@
-% Temporary placeholder for Figure 3-3.
-% Replace the contents of this file with the final Docker Compose deployment architecture.
-\begin{tikzpicture}
-  \node[
-    draw=dividerdim,
-    dashed,
-    line width=0.8pt,
-    rounded corners=3pt,
-    minimum width=0.88\textwidth,
-    minimum height=5.3cm,
-    align=center,
-    fill=kaulight,
-    text=dividerdim,
-    inner sep=12pt
-  ] {\Large\bfseries إطار مؤقت للشكل\\[8pt]
-      \normalsize معمارية نشر نظام «بيان» عبر \EN{Docker Compose}\\[6pt]
-      \EN{Frontend \quad Backend \quad PostgreSQL \quad Qdrant \quad Redis}\\[10pt]
-      \small سيُعاد توليد مخطط النشر النهائي لاحقاً.};
-\end{tikzpicture}
+% Professional Docker Compose deployment architecture for Figure 3-3.
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  >=stealth,
+  service/.style={
+    draw=kauprimary, fill=white, rounded corners=4pt,
+    line width=0.8pt, align=center, minimum width=3.35cm,
+    minimum height=1.05cm, inner sep=5pt, text=kaudark
+  },
+  datastore/.style={
+    draw=kausecondary, fill=kausecondary!7, rounded corners=4pt,
+    line width=0.8pt, align=center, minimum width=3.35cm,
+    minimum height=1.05cm, inner sep=5pt, text=kaudark
+  },
+  external/.style={
+    draw=dividerdim, fill=kaulight, rounded corners=4pt,
+    line width=0.8pt, align=center, minimum width=3.1cm,
+    minimum height=0.9cm, inner sep=5pt, text=kaudark
+  },
+  flow/.style={->, draw=kauprimary, line width=1pt},
+  dataflow/.style={<->, draw=kausecondary, line width=0.9pt},
+  optional/.style={<->, draw=dividerdim, dashed, line width=0.8pt}
+]
+  % Host boundary and container-orchestration boundary.
+  \node[draw=dividerdim, fill=kaulight!35, rounded corners=7pt,
+        line width=0.8pt, minimum width=16.2cm, minimum height=7.15cm,
+        label={[text=dividerdim,font=\bfseries\scriptsize]above right:خادم الإنتاج \EN{Ubuntu 22.04 LTS}}] (host) at (0,0) {};
+  \node[draw=kauprimary, dashed, rounded corners=6pt,
+        line width=1pt, minimum width=15.35cm, minimum height=6.25cm,
+        label={[fill=kaulight!35,text=kauprimary,font=\bfseries\scriptsize,inner sep=3pt]above right:\EN{Docker Compose Network}}] (compose) at (0,-0.12) {};
+
+  % Presentation and application layers.
+  \node[service, fill=kauprimary!7] (frontend) at (5.4,1.65)
+    {\textcolor{kauprimary}{\bfseries واجهة الويب}\par\scriptsize\EN{Next.js 18+}\;—\;محادثة ولوحة تحكم};
+  \node[service, fill=kauprimary!7] (backend) at (1.15,1.65)
+    {\textcolor{kauprimary}{\bfseries الواجهة الخلفية}\par\scriptsize\EN{FastAPI / REST API}};
+  \node[service, fill=kauprimary!7] (agents) at (-3.1,1.65)
+    {\textcolor{kauprimary}{\bfseries منظومة الوكلاء}\par\scriptsize\EN{LangGraph Multi-Agent}};
+
+  % Persistent infrastructure services.
+  \node[datastore] (postgres) at (4.65,-1.45)
+    {\textcolor{kausecondary}{\bfseries قاعدة البيانات}\par\scriptsize\EN{PostgreSQL 16 + pgvector}};
+  \node[datastore] (redis) at (0,-1.45)
+    {\textcolor{kausecondary}{\bfseries الجلسات والتنسيق}\par\scriptsize\EN{Redis}};
+  \node[datastore] (qdrant) at (-4.65,-1.45)
+    {\textcolor{kausecondary}{\bfseries مخزن المتجهات}\par\scriptsize\EN{Qdrant}};
+
+  % Model providers are deliberately shown as switchable dependencies.
+  \node[external] (ollama) at (-2.15,-3.0)
+    {\bfseries نموذج محلي\par\scriptsize\EN{Ollama}};
+  \node[external] (cloud) at (2.15,-3.0)
+    {\bfseries نموذج سحابي\par\scriptsize\EN{DeepSeek / GPT-4o API}};
+
+  % Main request path, with numbered markers for immediate readability.
+  \draw[flow] (frontend.west) -- node[above,font=\tiny,text=kauprimary] {\EN{HTTPS}} (backend.east);
+  \draw[flow] (backend.west) -- node[above,font=\tiny,text=kauprimary] {توجيه الطلب} (agents.east);
+
+  % Service-to-data communication.
+  \draw[dataflow] (backend.south) |- (postgres.north);
+  \draw[dataflow] (backend.south) -- (redis.north);
+  \draw[dataflow] (agents.south) |- (qdrant.north);
+  \draw[dataflow] (agents.south) -- (redis.north);
+  \draw[optional] (agents.south) |- (ollama.north);
+  \draw[optional] (agents.south) |- (cloud.north);
+
+  % User outside the host boundary.
+  \node[external, minimum width=2.45cm] (user) at (8.75,1.65)
+    {\bfseries المستخدم\par\scriptsize متصفح ويب};
+  \draw[flow] (user.west) -- (frontend.east);
+
+  % Layer labels and model-switch note.
+  \node[text=dividerdim, font=\tiny\bfseries, rotate=90] at (7.35,1.65) {طبقة العرض والتطبيق};
+  \node[text=dividerdim, font=\tiny\bfseries, rotate=90] at (7.35,-1.45) {طبقة البيانات};
+  \node[text=dividerdim, font=\tiny] at (0,-3.62)
+    {اختيار مزوّد النموذج من الإعدادات دون تعديل الشفرة};
+\end{tikzpicture}%
+}

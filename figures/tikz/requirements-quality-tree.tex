@@ -1,20 +1,57 @@
-% Temporary placeholder for Figure 3-2.
-% Replace the contents of this file with the final ISO/IEC 25010 quality tree.
-\begin{tikzpicture}
-  \node[
-    draw=dividerdim,
-    dashed,
-    line width=0.8pt,
-    rounded corners=3pt,
-    minimum width=0.88\textwidth,
-    minimum height=5.3cm,
-    align=center,
-    fill=kaulight,
-    text=dividerdim,
-    inner sep=12pt
-  ] {\Large\bfseries إطار مؤقت للشكل\\[8pt]
-      \normalsize توزيع المتطلبات غير الوظيفية حسب خصائص الجودة\\[6pt]
-      \EN{Performance \quad Security \quad Reliability \quad Usability}\\[4pt]
-      \EN{Maintainability \& Portability}\\[10pt]
-      \small سيُعاد توليد شجرة الجودة النهائية لاحقاً.};
-\end{tikzpicture}
+% Professional ISO/IEC 25010 quality tree for Figure 3-2.
+% The diagram uses the thesis palette and remains self-contained when input from a figure.
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  quality/.style={
+    draw=kauprimary, fill=white, rounded corners=4pt,
+    line width=0.8pt, align=center, inner sep=6pt,
+    minimum height=1.35cm, text=kaudark
+  },
+  qualitytitle/.style={
+    draw=kauprimary, fill=kauprimary, rounded corners=5pt,
+    line width=1pt, align=center, inner sep=8pt,
+    text=white, font=\bfseries\small
+  },
+  qualitycount/.style={
+    draw=kausecondary, fill=kausecondary, circle,
+    minimum size=0.48cm, inner sep=0pt, text=white,
+    font=\bfseries\scriptsize
+  },
+  qualityline/.style={draw=dividerdim, line width=0.9pt}
+]
+  % Root of the quality model.
+  \node[qualitytitle, minimum width=5.2cm] (root)
+    {خصائص الجودة\;\EN{ISO/IEC 25010}};
+
+  % Five selected quality characteristics and their measurable requirements.
+  \node[quality, below left=1.25cm and 4.85cm of root, text width=2.75cm] (performance)
+    {\textcolor{kauprimary}{\bfseries الأداء}\par\scriptsize
+     زمن الاستجابة\par دعم المستخدمين\par كفاءة الموارد};
+  \node[quality, below left=1.25cm and 1.62cm of root, text width=2.75cm] (security)
+    {\textcolor{kauprimary}{\bfseries الأمان}\par\scriptsize
+     التحكم بالصلاحيات\par سجل التدقيق\par حماية البيانات};
+  \node[quality, below=1.25cm of root, text width=2.75cm] (reliability)
+    {\textcolor{kauprimary}{\bfseries الموثوقية}\par\scriptsize
+     التوفر\par التعافي من الأعطال\par استمرارية المحادثة};
+  \node[quality, below right=1.25cm and 1.62cm of root, text width=2.75cm] (usability)
+    {\textcolor{kauprimary}{\bfseries قابلية الاستخدام}\par\scriptsize
+     سهولة التعلم\par دعم العربية و\EN{RTL}\par إنجاز المهام};
+  \node[quality, below right=1.25cm and 4.85cm of root, text width=2.75cm] (maintainability)
+    {\textcolor{kauprimary}{\bfseries الصيانة والنقل}\par\scriptsize
+     توثيق الشفرة\par قابلية النشر\par توافق البيئات};
+
+  % Requirement counts, kept separate for visual clarity.
+  \node[qualitycount, above right=-0.12cm and -0.12cm of performance] {4};
+  \node[qualitycount, above right=-0.12cm and -0.12cm of security] {5};
+  \node[qualitycount, above right=-0.12cm and -0.12cm of reliability] {3};
+  \node[qualitycount, above right=-0.12cm and -0.12cm of usability] {3};
+  \node[qualitycount, above right=-0.12cm and -0.12cm of maintainability] {5};
+
+  \foreach \target in {performance,security,reliability,usability,maintainability}
+    \draw[qualityline] (root.south) -- (\target.north);
+
+  \node[below=0.34cm of reliability, text=dividerdim, font=\scriptsize]
+    {20 متطلباً غير وظيفيّاً قابلاً للقياس};
+\end{tikzpicture}%
+}
