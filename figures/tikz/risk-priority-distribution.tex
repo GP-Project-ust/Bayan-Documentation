@@ -1,0 +1,72 @@
+%==============================================================================
+% figures/tikz/risk-priority-distribution.tex
+% Horizontal bar chart: number of risks per priority level — Thesis §3.5.
+% Data (from the risk-register summary table):
+%   حرجة (Critical)      = 3
+%   عالية (High)         = 7
+%   متوسطة-عالية (Med-High) = 1
+%   متوسطة (Medium)      = 5
+%   منخفضة (Low)         = 6
+%   (total = 22)
+% Bar colours mirror the 5×5 risk-matrix shading.
+% Depends on main.tex: kauprimary/kauaccent/kaudark/dividersilver + \EN macro.
+%==============================================================================
+\resizebox{0.85\textwidth}{!}{%
+\begin{tikzpicture}[
+  x=0.85cm, y=1cm,
+  >=stealth,
+  title/.style={font=\large\bfseries, kauprimary},
+  axistitle/.style={font=\small\bfseries, kauprimary},
+  catlabel/.style={font=\footnotesize, kaudark, align=right, anchor=east},
+  countlabel/.style={font=\small\bfseries, kaudark, anchor=west},
+  ticknum/.style={font=\scriptsize, kaudark},
+]
+
+% ---- Title ----
+\node[title] at (4.2,5.7) {توزيع المخاطر حسب مستوى الأولوية};
+
+% ---- Light vertical gridlines (behind bars) ----
+\foreach \x in {1,2,...,8}{%
+  \draw[dividersilver!40, very thin] (\x,0.1) -- (\x,5.0);
+}
+
+% ---- Bars: top → bottom  حرجة, عالية, متوسطة-عالية, متوسطة, منخفضة ----
+
+% حرجة (Critical) = 3
+\filldraw[fill=red!85!black, draw=kaudark, thin] (0,4.2) rectangle (3,4.8);
+\node[countlabel] at (3.12,4.5) {3};
+\node[catlabel]  at (-0.15,4.5) {حرجة (\EN{Critical})};
+
+% عالية (High) = 7
+\filldraw[fill=red!60, draw=kaudark, thin] (0,3.2) rectangle (7,3.8);
+\node[countlabel] at (7.12,3.5) {7};
+\node[catlabel]  at (-0.15,3.5) {عالية (\EN{High})};
+
+% متوسطة-عالية (Medium-High) = 1
+\filldraw[fill=orange!60, draw=kaudark, thin] (0,2.2) rectangle (1,2.8);
+\node[countlabel] at (1.12,2.5) {1};
+\node[catlabel]  at (-0.15,2.5) {متوسطة-عالية (\EN{Medium-High})};
+
+% متوسطة (Medium) = 5
+\filldraw[fill=yellow!50, draw=kaudark, thin] (0,1.2) rectangle (5,1.8);
+\node[countlabel] at (5.12,1.5) {5};
+\node[catlabel]  at (-0.15,1.5) {متوسطة (\EN{Medium})};
+
+% منخفضة (Low) = 6
+\filldraw[fill=green!30, draw=kaudark, thin] (0,0.2) rectangle (6,0.8);
+\node[countlabel] at (6.12,0.5) {6};
+\node[catlabel]  at (-0.15,0.5) {منخفضة (\EN{Low})};
+
+% ---- Category (y) axis line ----
+\draw[kaudark, thick] (0,0.1) -- (0,5.0);
+
+% ---- Count (x) axis with ticks 0–8 ----
+\draw[kaudark, ->] (0,-0.05) -- (8.4,-0.05);
+\foreach \x in {0,1,...,8}{%
+  \draw[kaudark] (\x,-0.05) -- (\x,-0.20);
+  \node[ticknum] at (\x,-0.42) {\x};
+}
+\node[axistitle] at (4.2,-0.95) {عدد المخاطر};
+
+\end{tikzpicture}%
+}

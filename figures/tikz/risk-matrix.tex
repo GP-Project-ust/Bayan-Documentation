@@ -1,0 +1,168 @@
+%==============================================================================
+% figures/tikz/risk-matrix.tex
+% 5×5 Risk Matrix for the Bayan (بيان) Arabic AI assistant — Thesis §3.5.
+% Plots all 22 identified risks by Probability (y-axis) × Impact (x-axis).
+% Cell shading encodes the priority level:
+%   green   (Low,          score 1–3)
+%   yellow  (Medium,       score 4–7)
+%   orange  (Medium-High,  score 8–11)
+%   red     (High,         score 12–19)
+%   dark red(Critical,     score 20–25)
+% Each cell shows its score (top, bold) and the risk IDs that fall in it.
+% Depends on main.tex: kauprimary/kauaccent/kaudark + the \EN macro.
+%==============================================================================
+\resizebox{0.95\textwidth}{!}{%
+\begin{tikzpicture}[
+  x=2.4cm, y=1.5cm,
+  >=stealth,
+  score/.style={font=\footnotesize\bfseries, kaudark, inner sep=1pt},
+  scorew/.style={font=\footnotesize\bfseries, white, inner sep=1pt},
+  risk/.style={font=\scriptsize, kaudark, align=center, inner sep=1pt,
+               text width=20mm},
+  riskw/.style={font=\scriptsize, white, align=center, inner sep=1pt,
+                text width=20mm},
+  xtick/.style={font=\scriptsize, kaudark, align=center, text width=22mm,
+                anchor=north},
+  ytick/.style={font=\scriptsize, kaudark, align=center, text width=22mm,
+                anchor=east},
+  axistitle/.style={font=\small\bfseries, kauprimary},
+  title/.style={font=\large\bfseries, kauprimary},
+  legendlbl/.style={font=\scriptsize, kaudark, anchor=west},
+]
+
+% ---- Title ----
+\node[title] at (2.5,5.65) {مصفوفة المخاطر \EN{5×5}};
+
+% ===== Row P=5  (y: 4 → 5)  scores: 5,10,15,20,25 =====
+\fill[yellow!50, draw=white, line width=1pt] (0,4) rectangle (1,5);
+\node[score] at (0.5,4.82) {5};
+\node[risk]  at (0.5,4.40) {R-22};
+
+\fill[orange!60, draw=white, line width=1pt] (1,4) rectangle (2,5);
+\node[score] at (1.5,4.82) {10};
+\node[risk]  at (1.5,4.40) {R-06\\R-10};
+
+\fill[red!60, draw=white, line width=1pt] (2,4) rectangle (3,5);
+\node[score] at (2.5,4.82) {15};
+\node[risk]  at (2.5,4.40) {R-01};
+
+\fill[red!85!black, draw=white, line width=1pt] (3,4) rectangle (4,5);
+\node[scorew] at (3.5,4.82) {20};
+
+\fill[red!85!black, draw=white, line width=1pt] (4,4) rectangle (5,5);
+\node[scorew] at (4.5,4.82) {25};
+
+% ===== Row P=4  (y: 3 → 4)  scores: 4,8,12,16,20 =====
+\fill[yellow!50, draw=white, line width=1pt] (0,3) rectangle (1,4);
+\node[score] at (0.5,3.82) {4};
+
+\fill[orange!60, draw=white, line width=1pt] (1,3) rectangle (2,4);
+\node[score] at (1.5,3.82) {8};
+\node[risk]  at (1.5,3.40) {R-02\\R-05};
+
+\fill[red!60, draw=white, line width=1pt] (2,3) rectangle (3,4);
+\node[score] at (2.5,3.82) {12};
+\node[risk]  at (2.5,3.40) {R-08};
+
+\fill[red!60, draw=white, line width=1pt] (3,3) rectangle (4,4);
+\node[score] at (3.5,3.82) {16};
+\node[risk]  at (3.5,3.40) {R-04};
+
+\fill[red!85!black, draw=white, line width=1pt] (4,3) rectangle (5,4);
+\node[scorew] at (4.5,3.82) {20};
+\node[riskw]  at (4.5,3.40) {R-13};
+
+% ===== Row P=3  (y: 2 → 3)  scores: 3,6,9,12,15 =====
+\fill[green!30, draw=white, line width=1pt] (0,2) rectangle (1,3);
+\node[score] at (0.5,2.82) {3};
+
+\fill[yellow!50, draw=white, line width=1pt] (1,2) rectangle (2,3);
+\node[score] at (1.5,2.82) {6};
+\node[risk]  at (1.5,2.40) {R-11\\R-14};
+
+\fill[orange!60, draw=white, line width=1pt] (2,2) rectangle (3,3);
+\node[score] at (2.5,2.82) {9};
+\node[risk]  at (2.5,2.40) {R-07};
+
+\fill[red!60, draw=white, line width=1pt] (3,2) rectangle (4,3);
+\node[score] at (3.5,2.82) {12};
+\node[risk]  at (3.5,2.40) {R-03\\R-09};
+
+\fill[red!60, draw=white, line width=1pt] (4,2) rectangle (5,3);
+\node[score] at (4.5,2.82) {15};
+\node[risk]  at (4.5,2.40) {R-20};
+
+% ===== Row P=2  (y: 1 → 2)  scores: 2,4,6,8,10 =====
+\fill[green!30, draw=white, line width=1pt] (0,1) rectangle (1,2);
+\node[score] at (0.5,1.82) {2};
+
+\fill[yellow!50, draw=white, line width=1pt] (1,1) rectangle (2,2);
+\node[score] at (1.5,1.82) {4};
+
+\fill[yellow!50, draw=white, line width=1pt] (2,1) rectangle (3,2);
+\node[score] at (2.5,1.82) {6};
+\node[risk]  at (2.5,1.40) {R-12};
+
+\fill[orange!60, draw=white, line width=1pt] (3,1) rectangle (4,2);
+\node[score] at (3.5,1.82) {8};
+\node[risk]  at (3.5,1.40) {R-18};
+
+\fill[orange!60, draw=white, line width=1pt] (4,1) rectangle (5,2);
+\node[score] at (4.5,1.82) {10};
+\node[risk]  at (4.5,1.40) {R-15};
+
+% ===== Row P=1  (y: 0 → 1)  scores: 1,2,3,4,5 =====
+\fill[green!30, draw=white, line width=1pt] (0,0) rectangle (1,1);
+\node[score] at (0.5,0.82) {1};
+
+\fill[green!30, draw=white, line width=1pt] (1,0) rectangle (2,1);
+\node[score] at (1.5,0.82) {2};
+\node[risk]  at (1.5,0.40) {R-19\\R-21};
+
+\fill[green!30, draw=white, line width=1pt] (2,0) rectangle (3,1);
+\node[score] at (2.5,0.82) {3};
+\node[risk]  at (2.5,0.40) {R-16\\R-17};
+
+\fill[yellow!50, draw=white, line width=1pt] (3,0) rectangle (4,1);
+\node[score] at (3.5,0.82) {4};
+
+\fill[yellow!50, draw=white, line width=1pt] (4,0) rectangle (5,1);
+\node[score] at (4.5,0.82) {5};
+
+% ---- Outer grid border ----
+\draw[kaudark, line width=0.8pt] (0,0) rectangle (5,5);
+
+% ---- X-axis (Impact) tick labels ----
+\node[xtick] at (0.5,-0.05) {1\\ضئيل};
+\node[xtick] at (1.5,-0.05) {2\\طفيف};
+\node[xtick] at (2.5,-0.05) {3\\متوسط};
+\node[xtick] at (3.5,-0.05) {4\\كبير};
+\node[xtick] at (4.5,-0.05) {5\\كارثي};
+\node[axistitle] at (2.5,-1.15) {الأثر (\EN{Impact})};
+
+% ---- Y-axis (Probability) tick labels ----
+\node[ytick] at (-0.05,0.5) {1\\نادر};
+\node[ytick] at (-0.05,1.5) {2\\غير محتمل};
+\node[ytick] at (-0.05,2.5) {3\\محتمل};
+\node[ytick] at (-0.05,3.5) {4\\مرجّح};
+\node[ytick] at (-0.05,4.5) {5\\شبه مؤكد};
+\node[axistitle, rotate=90] at (-1.40,2.5) {الاحتمال (\EN{Probability})};
+
+% ---- Legend (vertical, right-hand side) ----
+\fill[red!85!black, draw=kaudark, thin] (5.35,4.48) rectangle (5.62,4.75);
+\node[legendlbl] at (5.70,4.615) {حرجة (\EN{Critical})};
+
+\fill[red!60, draw=kaudark, thin] (5.35,3.78) rectangle (5.62,4.05);
+\node[legendlbl] at (5.70,3.915) {عالية (\EN{High})};
+
+\fill[orange!60, draw=kaudark, thin] (5.35,3.08) rectangle (5.62,3.35);
+\node[legendlbl] at (5.70,3.215) {متوسطة-عالية (\EN{Medium-High})};
+
+\fill[yellow!50, draw=kaudark, thin] (5.35,2.38) rectangle (5.62,2.65);
+\node[legendlbl] at (5.70,2.515) {متوسطة (\EN{Medium})};
+
+\fill[green!30, draw=kaudark, thin] (5.35,1.68) rectangle (5.62,1.95);
+\node[legendlbl] at (5.70,1.815) {منخفضة (\EN{Low})};
+
+\end{tikzpicture}%
+}

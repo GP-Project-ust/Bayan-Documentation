@@ -1,0 +1,91 @@
+%==============================================================================
+% figures/tikz/risk-category-distribution.tex
+% Vertical bar chart: number of risks per category — Thesis §3.5.
+% Data (from the risk-register summary table):
+%   تقنية             = 6
+%   أمنية             = 3
+%   تشغيلية           = 3
+%   اقتصادية          = 2
+%   قانونية وامتثال   = 3
+%   بيانات            = 3
+%   مشروعية           = 2
+%   (total = 22)
+% All bars use the kauprimary brand colour.
+% Depends on main.tex: kauprimary/kauaccent/kaudark/dividersilver + \EN macro.
+%==============================================================================
+\resizebox{0.85\textwidth}{!}{%
+\begin{tikzpicture}[
+  x=1.5cm, y=0.6cm,
+  >=stealth,
+  title/.style={font=\large\bfseries, kauprimary},
+  axistitle/.style={font=\small\bfseries, kauprimary},
+  catlabel/.style={font=\scriptsize, kaudark, align=center, anchor=north,
+                   text width=14mm},
+  countlabel/.style={font=\small\bfseries, kaudark, anchor=south},
+  ticknum/.style={font=\scriptsize, kaudark, anchor=east},
+]
+
+% ---- Title ----
+\node[title] at (4,7.9) {توزيع المخاطر حسب الفئة};
+
+% ---- Light horizontal gridlines (behind bars) ----
+\foreach \y in {1,2,...,7}{%
+  \draw[dividersilver!40, very thin] (0,\y) -- (7.8,\y);
+}
+
+% ---- Y-axis (count) with ticks 0–7 ----
+\draw[kaudark, ->] (0,0) -- (0,7.6);
+\foreach \y in {0,1,...,7}{%
+  \draw[kaudark] (-0.06,\y) -- (0.06,\y);
+  \node[ticknum] at (-0.18,\y) {\y};
+}
+\node[axistitle, rotate=90] at (-0.95,3.5) {عدد المخاطر};
+
+% ---- X-axis (category) baseline ----
+\draw[kaudark] (0,0) -- (7.8,0);
+
+% ---- Bars (x = 1 … 7), all in kauprimary ----
+% تقنية = 6
+\filldraw[fill=kauprimary, draw=kauprimary!50!black, thin]
+  (0.6,0) rectangle (1.4,6);
+\node[countlabel] at (1,6.2) {6};
+\node[catlabel]  at (1,-0.15) {تقنية};
+
+% أمنية = 3
+\filldraw[fill=kauprimary, draw=kauprimary!50!black, thin]
+  (1.6,0) rectangle (2.4,3);
+\node[countlabel] at (2,3.2) {3};
+\node[catlabel]  at (2,-0.15) {أمنية};
+
+% تشغيلية = 3
+\filldraw[fill=kauprimary, draw=kauprimary!50!black, thin]
+  (2.6,0) rectangle (3.4,3);
+\node[countlabel] at (3,3.2) {3};
+\node[catlabel]  at (3,-0.15) {تشغيلية};
+
+% اقتصادية = 2
+\filldraw[fill=kauprimary, draw=kauprimary!50!black, thin]
+  (3.6,0) rectangle (4.4,2);
+\node[countlabel] at (4,2.2) {2};
+\node[catlabel]  at (4,-0.15) {اقتصادية};
+
+% قانونية وامتثال = 3
+\filldraw[fill=kauprimary, draw=kauprimary!50!black, thin]
+  (4.6,0) rectangle (5.4,3);
+\node[countlabel] at (5,3.2) {3};
+\node[catlabel]  at (5,-0.15) {قانونية\\وامتثال};
+
+% بيانات = 3
+\filldraw[fill=kauprimary, draw=kauprimary!50!black, thin]
+  (5.6,0) rectangle (6.4,3);
+\node[countlabel] at (6,3.2) {3};
+\node[catlabel]  at (6,-0.15) {بيانات};
+
+% مشروعية = 2
+\filldraw[fill=kauprimary, draw=kauprimary!50!black, thin]
+  (6.6,0) rectangle (7.4,2);
+\node[countlabel] at (7,2.2) {2};
+\node[catlabel]  at (7,-0.15) {مشروعية};
+
+\end{tikzpicture}%
+}
