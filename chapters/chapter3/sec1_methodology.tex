@@ -32,42 +32,42 @@
   \label{tab:agile-phases}
   \small
   \renewcommand{\arraystretch}{1.45}
-  \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{4.1cm}|}
-    \hline
+  \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{4.1cm}}
+    \toprule
     \textbf{المرحلة} & \textbf{أبرز الأنشطة} & \textbf{المخرج الرئيسي} \\
-    \hline
+    \midrule
     \textbf{التخطيط}\\[-2pt]\EN{Planning}
     & تحديد أهداف الدورة الحالية، وإعداد قائمة مهام الدورة \EN{Sprint Backlog}،
       ومراجعة المتطلبات الوظيفية وغير الوظيفية المرتبطة بالمكون المستهدف.
     & وثيقة نطاق الدورة وقائمة المهام المحددة. \\
-    \hline
+    \midrule
     \textbf{التصميم}\\[-2pt]\EN{Design}
     & نمذجة المعمارية الفنية للوكيل المستهدف، وتحديد هياكل البيانات والواجهات
       البرمجية \EN{APIs}، وإعداد التصميم الأولي لهندسة المطالبات \EN{Prompt Engineering}.
     & مخططات التدفق، وهياكل البيانات، ومخطط هندسة المطالبات. \\
-    \hline
+    \midrule
     \textbf{التطوير}\\[-2pt]\EN{Development}
     & كتابة الشفرة البرمجية باستخدام \EN{Python} و\EN{FastAPI} و\EN{LangGraph}
       للواجهة الخلفية، أو \EN{Next.js} للواجهة الأمامية، وربط الوكلاء بمصادر
       البيانات \EN{PostgreSQL} و\EN{Qdrant}.
     & مكون برمجي جاهز يعمل بصورة مستقلة، مثل وكيل متخصص أو واجهة النظام. \\
-    \hline
+    \midrule
     \textbf{الاختبار}\\[-2pt]\EN{Testing}
     & تنفيذ اختبارات الوحدة \EN{Unit Testing} واختبارات التكامل
       \EN{Integration Testing}، ومعايرة دقة الاستعلامات، والحد من الهلوسة،
       وقياس مؤشرات الأداء المعتمدة.
     & تقرير اختبارات موثق يوضح نسب الدقة وزمن الاستجابة. \\
-    \hline
+    \midrule
     \textbf{الإطلاق والدمج}\\[-2pt]\EN{Deployment}
     & بناء المكونات البرمجية وحزمها داخل حاويات \EN{Docker Compose}، ودمجها
       في البيئة الموحدة، والتحقق من توافقها مع بقية الوكلاء.
     & نسخة محدثة من النظام، مدمجة ومجربة في بيئة التطوير. \\
-    \hline
+    \midrule
     \textbf{المراجعة والتقييم}\\[-2pt]\EN{Review}
     & تقديم عرض توضيحي للمخرجات أمام مشرف المشروع، وتوثيق الدروس المستفادة،
       وتحديث الأولويات وقائمة مهام الدورة التالية.
     & قائمة تحسينات وتعديلات معتمدة للدورة المباشرة التالية. \\
-    \hline
+    \bottomrule
   \end{tabularx}
 \end{table}
 
@@ -77,6 +77,13 @@
 لضمان التنفيذ المنهجي لمكونات نظام «بيان»، قُسّم نطاق المشروع إلى أربع دورات
 تطوير تكرارية متتالية، بحيث تركز كل دورة على مكون رئيسي أو مجموعة مترابطة من
 المكونات، وتنتهي بمخرج قابل للتقييم والدمج مع بقية النظام.
+
+\begin{figure}[htbp]
+  \centering
+  \resizebox{0.91\textwidth}{!}{\input{figures/tikz/project-sprints.tex}}
+  \caption{خارطة الدورات التطويرية الأربع المعتمدة في مشروع «بيان».}
+  \label{fig:project-sprints}
+\end{figure}
 
 \subsubsection{الدورة الأولى: بناء وكيل استعلام قواعد البيانات}
 \label{subsubsec:sprint-one}
@@ -141,33 +148,33 @@
 يلخص الجدول \ref{tab:sprints-summary} العلاقة بين كل دورة تطوير والمكون
 المستهدف والأدوات المستخدمة والمخرج المباشر المتحقق منها.
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{الملخص التنفيذي للدورات الأربع في منهجية تطوير نظام «بيان».}
   \label{tab:sprints-summary}
-  \scriptsize
+  \footnotesize
   \renewcommand{\arraystretch}{1.55}
-  \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.8cm}|}
-    \hline
+  \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.5cm} >{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{3.8cm}}
+    \toprule
     \textbf{الدورة} & \textbf{المكون المستهدف} & \textbf{الأنشطة والأدوات الرئيسية} & \textbf{المخرج النهائي المباشر} \\
-    \hline
+    \midrule
     \EN{Sprint 1} & وكيل \EN{SQL} وطبقة \EN{Smart Views}
     & \EN{PostgreSQL}، و\EN{FastAPI}، ومحرك \EN{NL2SQL}، وطبقة الرؤى الذكية.
     & وكيل \EN{SQL} آمن ومستقل لاسترجاع البيانات المهيكلة. \\
-    \hline
+    \midrule
     \EN{Sprint 2} & وكيل \EN{RAG} والبحث في المستندات
     & قاعدة \EN{Qdrant} المتجهة، والمتجهات الدلالية العربية، وتجزئة المستندات.
     & وكيل \EN{RAG} يجيب استناداً إلى السياسات واللوائح مع توثيق المصدر. \\
-    \hline
+    \midrule
     \EN{Sprint 3} & دمج الوكلاء والواجهة الأمامية
     & الوكيل المشرف \EN{LangGraph}، و\EN{Next.js}، و\EN{Tailwind CSS}.
     & نظام هجين موحد يعمل عبر واجهة ويب عربية حوارية. \\
-    \hline
+    \midrule
     \EN{Sprint 4} & الاختبار والتحسين والنشر
     & \EN{Docker Compose}، و\EN{Ollama (Qwen 2.5 14B)}، واختبارات
       \EN{End-to-End}.
     & نسخة تشغيلية محزمة وجاهزة للتقييم والتطبيق التجريبي. \\
-    \hline
+    \bottomrule
   \end{tabularx}
 \end{table}
 

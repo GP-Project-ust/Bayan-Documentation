@@ -1,0 +1,219 @@
+%==============================================================================
+% Professional vertical roadmap for Bayan's four development sprints.
+% Vector-only TikZ artwork; no external images or icon packages are required.
+%==============================================================================
+
+\begin{tikzpicture}[
+  x=1cm,
+  y=1cm,
+  line cap=round,
+  line join=round,
+  connector/.style={->, >=stealth, line width=1.25pt, draw=kaudark!65},
+  card title/.style={font=\Large\bfseries, align=center},
+  card body/.style={font=\normalsize, text=kaudark, align=center},
+  number/.style={font=\fontsize{19}{22}\selectfont\bfseries, text=white},
+]
+
+%------------------------------------------------------------------------------
+% Shared card geometry
+%------------------------------------------------------------------------------
+\def\CardLeft{-7.35}
+\def\CardRight{7.35}
+\def\CardHalfHeight{1.23}
+\def\IconX{-6.05}
+\def\TextX{0.25}
+\def\BadgeX{6.95}
+
+%==============================================================================
+% Sprint 1 — SQL Agent and Smart Views
+%==============================================================================
+\def\CardY{5.25}
+\definecolor{sprintone}{HTML}{17639A}
+
+% Soft shadow and card surface
+\fill[black!10, rounded corners=8pt]
+  (\CardLeft+0.10,\CardY-\CardHalfHeight-0.10)
+  rectangle (\CardRight+0.10,\CardY+\CardHalfHeight-0.10);
+\filldraw[fill=sprintone!4, draw=sprintone, line width=1.15pt, rounded corners=8pt]
+  (\CardLeft,\CardY-\CardHalfHeight)
+  rectangle (\CardRight,\CardY+\CardHalfHeight);
+
+% Icon medallion
+\fill[white] (\IconX,\CardY) circle (0.91);
+\draw[sprintone!65, line width=1.15pt] (\IconX,\CardY) circle (0.91);
+\draw[sprintone!18, line width=3.5pt] (\IconX,\CardY) circle (0.98);
+
+% Database icon
+\filldraw[fill=sprintone!82, draw=sprintone, line width=0.7pt]
+  (\IconX-0.48,\CardY+0.36) arc[start angle=180,end angle=360,x radius=0.48,y radius=0.16]
+  -- (\IconX+0.48,\CardY-0.29)
+  arc[start angle=0,end angle=-180,x radius=0.48,y radius=0.16] -- cycle;
+\draw[white!90, line width=0.65pt]
+  (\IconX-0.48,\CardY+0.05) arc[start angle=180,end angle=360,x radius=0.48,y radius=0.16];
+\draw[white!90, line width=0.65pt]
+  (\IconX-0.48,\CardY-0.25) arc[start angle=180,end angle=360,x radius=0.48,y radius=0.16];
+\filldraw[fill=white, draw=sprintone, line width=0.65pt, rounded corners=1.5pt]
+  (\IconX+0.02,\CardY-0.52) rectangle (\IconX+0.63,\CardY-0.06);
+\node[font=\scriptsize\bfseries, text=sprintone] at (\IconX+0.325,\CardY-0.29) {\EN{SQL}};
+
+% Title, divider, and body
+\node[card title, text=sprintone] at (\TextX,\CardY+0.52) {\RL{دورة التطوير الأولى}};
+\draw[sprintone!70, line width=0.75pt] (-3.35,\CardY+0.15) -- (3.85,\CardY+0.15);
+\fill[sprintone] (0.25,\CardY+0.15) circle (0.055);
+\node[card body] at (\TextX,\CardY-0.32)
+  {\RL{تطوير وكيل قواعد البيانات وطبقة الرؤى الذكية}\\[-1pt]
+   {\small\color{sprintone}\EN{SQL Agent \& Smart Views}}};
+
+% Number badge
+\filldraw[fill=sprintone, draw=sprintone!75!black, line width=0.8pt]
+  (\CardRight-0.08,\CardY+0.64) -- (\BadgeX-0.98,\CardY+0.64) --
+  (\BadgeX-1.36,\CardY) -- (\BadgeX-0.98,\CardY-0.64) --
+  (\CardRight-0.08,\CardY-0.64) -- cycle;
+\node[number] at (\BadgeX-0.48,\CardY) {01};
+
+%==============================================================================
+% Sprint 2 — RAG Agent and document indexing
+%==============================================================================
+\def\CardY{1.75}
+\definecolor{sprinttwo}{HTML}{2F7D32}
+
+\fill[black!10, rounded corners=8pt]
+  (\CardLeft+0.10,\CardY-\CardHalfHeight-0.10)
+  rectangle (\CardRight+0.10,\CardY+\CardHalfHeight-0.10);
+\filldraw[fill=sprinttwo!4, draw=sprinttwo, line width=1.15pt, rounded corners=8pt]
+  (\CardLeft,\CardY-\CardHalfHeight)
+  rectangle (\CardRight,\CardY+\CardHalfHeight);
+
+\fill[white] (\IconX,\CardY) circle (0.91);
+\draw[sprinttwo!65, line width=1.15pt] (\IconX,\CardY) circle (0.91);
+\draw[sprinttwo!18, line width=3.5pt] (\IconX,\CardY) circle (0.98);
+
+% Document and search icon
+\filldraw[fill=sprinttwo!88, draw=sprinttwo, line width=0.7pt, rounded corners=1.5pt]
+  (\IconX-0.46,\CardY-0.55) rectangle (\IconX+0.28,\CardY+0.54);
+\fill[white] (\IconX+0.02,\CardY+0.54) -- (\IconX+0.28,\CardY+0.28) --
+  (\IconX+0.02,\CardY+0.28) -- cycle;
+\draw[white, line width=0.75pt]
+  (\IconX-0.29,\CardY+0.08) -- (\IconX+0.08,\CardY+0.08)
+  (\IconX-0.29,\CardY-0.12) -- (\IconX+0.03,\CardY-0.12)
+  (\IconX-0.29,\CardY-0.32) -- (\IconX-0.03,\CardY-0.32);
+\draw[sprinttwo, line width=1.1pt] (\IconX+0.34,\CardY-0.21) circle (0.27);
+\draw[sprinttwo, line width=1.4pt] (\IconX+0.54,\CardY-0.41) -- (\IconX+0.75,\CardY-0.62);
+
+\node[card title, text=sprinttwo] at (\TextX,\CardY+0.52) {\RL{دورة التطوير الثانية}};
+\draw[sprinttwo!70, line width=0.75pt] (-3.35,\CardY+0.15) -- (3.85,\CardY+0.15);
+\fill[sprinttwo] (0.25,\CardY+0.15) circle (0.055);
+\node[card body] at (\TextX,\CardY-0.32)
+  {\RL{تطوير وكيل البحث وفهرسة المستندات واللوائح}\\[-1pt]
+   {\small\color{sprinttwo}\EN{RAG Agent \& Document Indexing}}};
+
+\filldraw[fill=sprinttwo, draw=sprinttwo!75!black, line width=0.8pt]
+  (\CardRight-0.08,\CardY+0.64) -- (\BadgeX-0.98,\CardY+0.64) --
+  (\BadgeX-1.36,\CardY) -- (\BadgeX-0.98,\CardY-0.64) --
+  (\CardRight-0.08,\CardY-0.64) -- cycle;
+\node[number] at (\BadgeX-0.48,\CardY) {02};
+
+%==============================================================================
+% Sprint 3 — Multi-agent integration and Arabic UI
+%==============================================================================
+\def\CardY{-1.75}
+\definecolor{sprintthree}{HTML}{633A98}
+
+\fill[black!10, rounded corners=8pt]
+  (\CardLeft+0.10,\CardY-\CardHalfHeight-0.10)
+  rectangle (\CardRight+0.10,\CardY+\CardHalfHeight-0.10);
+\filldraw[fill=sprintthree!4, draw=sprintthree, line width=1.15pt, rounded corners=8pt]
+  (\CardLeft,\CardY-\CardHalfHeight)
+  rectangle (\CardRight,\CardY+\CardHalfHeight);
+
+\fill[white] (\IconX,\CardY) circle (0.91);
+\draw[sprintthree!65, line width=1.15pt] (\IconX,\CardY) circle (0.91);
+\draw[sprintthree!18, line width=3.5pt] (\IconX,\CardY) circle (0.98);
+
+% Supervisor/network icon
+\foreach \ang in {30,90,150,210,270,330} {
+  \draw[sprintthree!75, line width=0.8pt]
+    (\IconX,\CardY) -- ++(\ang:0.56);
+  \filldraw[fill=white, draw=sprintthree, line width=0.9pt]
+    (\IconX,\CardY) ++(\ang:0.62) circle (0.12);
+}
+\filldraw[fill=sprintthree, draw=sprintthree!80!black, line width=0.7pt]
+  (\IconX,\CardY) circle (0.34);
+\fill[white] (\IconX,\CardY+0.10) circle (0.09);
+\fill[white] (\IconX-0.16,\CardY-0.16)
+  .. controls (\IconX-0.10,\CardY-0.03) and (\IconX+0.10,\CardY-0.03) ..
+  (\IconX+0.16,\CardY-0.16) -- cycle;
+
+\node[card title, text=sprintthree] at (\TextX,\CardY+0.52) {\RL{دورة التطوير الثالثة}};
+\draw[sprintthree!70, line width=0.75pt] (-3.35,\CardY+0.15) -- (3.85,\CardY+0.15);
+\fill[sprintthree] (0.25,\CardY+0.15) circle (0.055);
+\node[card body] at (\TextX,\CardY-0.32)
+  {\RL{دمج الوكلاء وبناء الواجهة العربية التفاعلية}\\[-1pt]
+   {\small\color{sprintthree}\EN{Supervisor Agent \& Arabic Web Interface}}};
+
+\filldraw[fill=sprintthree, draw=sprintthree!75!black, line width=0.8pt]
+  (\CardRight-0.08,\CardY+0.64) -- (\BadgeX-0.98,\CardY+0.64) --
+  (\BadgeX-1.36,\CardY) -- (\BadgeX-0.98,\CardY-0.64) --
+  (\CardRight-0.08,\CardY-0.64) -- cycle;
+\node[number] at (\BadgeX-0.48,\CardY) {03};
+
+%==============================================================================
+% Sprint 4 — Testing, optimization, and deployment
+%==============================================================================
+\def\CardY{-5.25}
+\definecolor{sprintfour}{HTML}{D66A00}
+
+\fill[black!10, rounded corners=8pt]
+  (\CardLeft+0.10,\CardY-\CardHalfHeight-0.10)
+  rectangle (\CardRight+0.10,\CardY+\CardHalfHeight-0.10);
+\filldraw[fill=sprintfour!4, draw=sprintfour, line width=1.15pt, rounded corners=8pt]
+  (\CardLeft,\CardY-\CardHalfHeight)
+  rectangle (\CardRight,\CardY+\CardHalfHeight);
+
+\fill[white] (\IconX,\CardY) circle (0.91);
+\draw[sprintfour!65, line width=1.15pt] (\IconX,\CardY) circle (0.91);
+\draw[sprintfour!18, line width=3.5pt] (\IconX,\CardY) circle (0.98);
+
+% Gear/check icon
+\foreach \ang in {0,45,...,315} {
+  \fill[sprintfour] (\IconX,\CardY) ++(\ang:0.48)
+    ++(-0.11,-0.13) rectangle ++(0.22,0.26);
+}
+\filldraw[fill=sprintfour, draw=sprintfour!80!black, line width=0.7pt]
+  (\IconX,\CardY) circle (0.49);
+\fill[white] (\IconX,\CardY) circle (0.32);
+\draw[sprintfour, line width=1.35pt]
+  (\IconX-0.18,\CardY) -- (\IconX-0.04,\CardY-0.14) --
+  (\IconX+0.23,\CardY+0.17);
+
+\node[card title, text=sprintfour] at (\TextX,\CardY+0.52) {\RL{دورة التطوير الرابعة}};
+\draw[sprintfour!70, line width=0.75pt] (-3.35,\CardY+0.15) -- (3.85,\CardY+0.15);
+\fill[sprintfour] (0.25,\CardY+0.15) circle (0.055);
+\node[card body] at (\TextX,\CardY-0.32)
+  {\RL{الاختبار الشامل وضبط الأداء والتجهيز للنشر}\\[-1pt]
+   {\small\color{sprintfour}\EN{Testing, Optimization \& Deployment}}};
+
+\filldraw[fill=sprintfour, draw=sprintfour!75!black, line width=0.8pt]
+  (\CardRight-0.08,\CardY+0.64) -- (\BadgeX-0.98,\CardY+0.64) --
+  (\BadgeX-1.36,\CardY) -- (\BadgeX-0.98,\CardY-0.64) --
+  (\CardRight-0.08,\CardY-0.64) -- cycle;
+\node[number] at (\BadgeX-0.48,\CardY) {04};
+
+%------------------------------------------------------------------------------
+% Connectors — drawn last to remain crisp between cards
+%------------------------------------------------------------------------------
+\draw[connector] (0,4.00) -- (0,3.03);
+\draw[connector] (0,0.50) -- (0,-0.47);
+\draw[connector] (0,-3.00) -- (0,-3.97);
+
+% Subtle decorative dot fields at the outer margins
+\foreach \y/\c in {5.25/sprintone,1.75/sprinttwo,-1.75/sprintthree,-5.25/sprintfour} {
+  \foreach \dx in {0,0.18,0.36} {
+    \foreach \dy in {-0.18,0,0.18} {
+      \fill[\c!48] (-7.82+\dx,\y+\dy) circle (0.025);
+      \fill[\c!48] (7.82-\dx,\y+\dy) circle (0.025);
+    }
+  }
+}
+
+\end{tikzpicture}
