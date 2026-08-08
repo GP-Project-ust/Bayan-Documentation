@@ -88,19 +88,19 @@
   \caption{مقارنة النماذج اللغوية المرشّحة لمشروع بيان.}
   \label{tab:llm-comparison}
   \small
-  \renewcommand{\arraystretch}{1.4}
-  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{1.8cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}X|}
-    \hline
+  \renewcommand{\arraystretch}{1.45}
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.8cm} >{\centering\arraybackslash}p{1.8cm} >{\centering\arraybackslash}p{1.6cm} >{\centering\arraybackslash}p{1.8cm} >{\raggedright\arraybackslash}X}
+    \toprule
     \textbf{النموذج} & \textbf{الحجم} & \textbf{دعم العربية} & \textbf{الترخيص} & \textbf{الاستخدام المقترح} \\
-    \hline
+    \midrule
     \textbf{\EN{Qwen 2.5 (14B)}} & 14B & جيد & \EN{Apache 2.0} & \textbf{النموذج الرئيسي} — تشغيل محلي افتراضي. \\
-    \hline
+    \midrule
     \EN{Jais (13B)} & 13B & ممتاز & مفتوح & بديل للنصوص العربية المعقدة. \\
-    \hline
+    \midrule
     \EN{Llama 3.1 (8B)} & 8B & متوسط & \EN{Llama 3 License} & للأجهزة محدودة الموارد. \\
-    \hline
+    \midrule
     \EN{GPT-4o} & غير معلن & جيد & تجاري & خيار سحابي عند توفّر الميزانية. \\
-    \hline
+    \bottomrule
   \end{tabularx}
 \end{table}
 
@@ -139,7 +139,7 @@
 (\EN{Prompt}) المُمرَّر للنموذج اللغوي. وقد تطورت تقنيات هندسة المُحفّزات في
 هذا المجال بشكل ملحوظ منذ عام 2023، وأبرزها:
 
-\begin{itemize}
+\begin{itemize}[label=\textcolor{kauprimary}{$\blacktriangleright$},leftmargin=*]
   \item \textbf{التعلم القليلي (\EN{Few-Shot Learning}):} إدراج أمثلة سؤال-جواب
         سابقة في المُحفّز لتوجيه النموذج نحو نمط الاستعلامات المطلوب، مما يرفع
         الدقة بنحو 15-20\LR{\%} مقارنةً بالتوليد الصفري (\EN{Zero-Shot}).
@@ -269,7 +269,7 @@
 لمعالجته. يتوزع العمل على أربعة وكلاء متخصصين داخل إطار تنسيق
 \EN{LangGraph}:
 
-\begin{itemize}
+\begin{itemize}[label=\textcolor{kauprimary}{$\blacktriangleright$},leftmargin=*]
   \item \textbf{وكيل \EN{SQL}:} يحوّل السؤال إلى استعلام قواعد بيانات عبر
         طبقة \EN{Views} الذكية التي تُبسّط المخطط قبل التوليد، ثم ينفذه على
         \EN{PostgreSQL} المتصل ببيانات \EN{Odoo Education}.
@@ -321,6 +321,7 @@
 الحديثة (2021-2025) والتجارية المتاحة فعلياً.
 
 \subsection{الأنظمة في مجال تحويل اللغة الطبيعية إلى \EN{SQL}}
+\label{subsec:related-nl2sql}
 يُعدّ معيار \EN{Spider} الذي أُطلق عام 2018 المرجع القياسي لتقييم أنظمة
 \EN{NL2SQL}، حيث يضم 10,181 سؤالاً عبر 200 قاعدة بيانات. وفي عام 2023،
 أُطلق معيار \EN{BIRD} الأكثر تحدياً لتركيزه على قواعد البيانات الواقعية مع
@@ -339,6 +340,7 @@
 تستفيد من البنية متعددة الوكلاء في المهام المعقدة.
 
 \subsection{الأنظمة في مجال الاسترجاع المعزز بالتوليد (\EN{RAG})}
+\label{subsec:related-rag}
 منذ تقديم مفهوم \EN{RAG} بشكلها الحديث عام 2020 \cite{lewis2020rag}، شهدت
 هذه التقنية تطوراً متسارعاً وأصبحت المعيار الذهبي لتطبيقات \EN{LLM} المؤسسية.
 أظهرت الدراسات أن \EN{RAG} يقلل الهلوسة بنسبة تصل إلى 50\LR{\%} مقارنة بالنماذج
@@ -359,6 +361,7 @@
 لقاعدة بيانات منفصلة.
 
 \subsection{الأنظمة في مجال الأنظمة متعددة الوكلاء}
+\label{subsec:related-multi-agent}
 رغم التطور المتسارع الذي شهدته الأنظمة متعددة الوكلاء منذ عام 2023 (انظر
 المراجعة التفصيلية في القسم~\ref{subsec:multi-agent})، فإن التطبيقات المؤسسية
 الجاهزة التي تعتمد هذه البنية لا تزال محدودة. تتركز الأطر المتاحة
@@ -369,6 +372,7 @@
 يقدم تطبيقاً ميدانياً متكاملاً للبنية متعددة الوكلاء في بيئة جامعية.
 
 \subsection{المساعدات الذكية في التعليم العالي}
+\label{subsec:related-edu-ai}
 رغم الانتشار الواسع للمساعدات الذكية في مجال خدمة العملاء، تبقى التطبيقات
 المتخصصة في التعليم العالي محدودة. أطلقت \EN{OpenAI} عام 2024 خدمة
 \EN{ChatGPT Edu} المخصصة للجامعات، التي تتيح بناء مساعدات مخصصة لكل مؤسسة.
@@ -391,6 +395,7 @@ Education} التي تركز على المساعدة الأكاديمية للط
 بيان لسده.
 
 \subsection{الدراسات العربية}
+\label{subsec:related-arabic}
 على الصعيد العربي، تظل الدراسات في مجال المساعدات الذكية المؤسسية محدودة
 وتتسم بالتشتت بين أربع اتجاهات رئيسية لا تلتقي عادةً في بحث واحد: معالجة
 اللغة العربية، استرجاع المعلومات العربية، \EN{NL2SQL} للعربية، وتطبيقات
@@ -447,31 +452,31 @@ Education} التي تركز على المساعدة الأكاديمية للط
   \caption{مقارنة شاملة بين الأنظمة السابقة ومشروع بيان.}
   \label{tab:comparison}
   \small
-  \renewcommand{\arraystretch}{1.4}
-  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}p{1.6cm}|>{\raggedright\arraybackslash}p{1.8cm}|}
-    \hline
+  \renewcommand{\arraystretch}{1.45}
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{1.8cm} >{\raggedright\arraybackslash}p{1.8cm} >{\raggedright\arraybackslash}p{1.8cm} >{\raggedright\arraybackslash}p{1.6cm} >{\raggedright\arraybackslash}p{1.8cm}}
+    \toprule
     \textbf{النظام/الإطار} & \textbf{التقنيات المستخدمة} & \textbf{اللغة} & \textbf{البيئة التطبيقية} & \textbf{دقة \EN{NL2SQL}} & \textbf{دقة \EN{RAG}} & \textbf{البنية} \\
-    \hline
+    \midrule
     \EN{Vanna.ai} \cite{vanna2024} (2024) & \EN{NL2SQL + RAG} & إنجليزية & تجارية & 80\% & غير مذكورة & أحادية \\
-    \hline
+    \midrule
     \EN{Arctic-Text2SQL} \cite{snowflake2025arctic} (2025) & \EN{NL2SQL + RL} & إنجليزية & تجارية & 71.83\% (\EN{BIRD}) & --- & أحادية \\
-    \hline
+    \midrule
     \EN{LangChain} \cite{langchain2023} (2023) & \EN{RAG + LLM} & متعددة & عامة & --- & عالية & أحادية \\
-    \hline
+    \midrule
     \EN{LlamaIndex} \cite{llamaindex2023} (2023) & \EN{RAG + LLM} & متعددة & عامة & --- & عالية & أحادية \\
-    \hline
+    \midrule
     \EN{AutoGen} \cite{wu2023autogen} (2023) & \EN{Multi-Agent} & إنجليزية & عامة & --- & --- & متعددة \\
-    \hline
+    \midrule
     \EN{CrewAI} \cite{crewai2024} (2024) & \EN{Multi-Agent} & إنجليزية & عامة & --- & --- & متعددة \\
-    \hline
+    \midrule
     \EN{MetaGPT} \cite{hong2023metagpt} (2024) & \EN{Multi-Agent} & إنجليزية & تطوير برمجي & --- & --- & متعددة \\
-    \hline
+    \midrule
     \EN{ChatGPT Edu} (2024) & \EN{LLM + RAG} & متعددة & تعليم عالٍ & --- & جيدة & أحادية \\
-    \hline
+    \midrule
     \EN{Qdrant} \cite{qdrant2024} (2024) & \EN{Vector DB} & متعددة & عامة & --- & عالية & --- \\
-    \hline
+    \midrule
     \textbf{مشروع بيان (المقترح)} & \EN{NL2SQL + RAG + Multi-Agent} & عربية (فصحى وعامية) & جامعي (يمني) & $\geq$ 85\% (مستهدف) & $\geq$ 80\% (مستهدف) & متعددة (\EN{LangGraph}) \\
-    \hline
+    \bottomrule
   \end{tabularx}
 \end{table}
 
@@ -545,23 +550,60 @@ Systems}، \EN{Arabic NLP}) في إطار موحد ومحلي الاستضافة
   \centering
   \caption{ملخص الفجوة البحثية ومساهمة مشروع بيان في سدها.}
   \label{tab:gap}
-  \renewcommand{\arraystretch}{1.5}
-  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
-    \hline
+  \small
+  \renewcommand{\arraystretch}{1.45}
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X}
+    \toprule
     \textbf{المحور} & \textbf{الفجوة المحددة} & \textbf{مساهمة مشروع بيان} \\
-    \hline
+    \midrule
     تقنية & غياب الدمج بين \EN{NL2SQL} و \EN{RAG} و \EN{Multi-Agent} & دمج التقنيات الأربع في إطار موحد \\
-    \hline
+    \midrule
     لغوية & ضعف دعم العربية واللهجات & دعم فصحى وعامية في واجهة \EN{RTL} \\
-    \hline
+    \midrule
     تطبيقية & فصل الاستعلام عن البيانات عن البحث في المستندات & نظام موحد يجمع الجانبين \\
-    \hline
+    \midrule
     سياقية & غياب حلول مخصصة للبيئة المؤسسية والمحلية & تخصيص كامل للبيئة المؤسسية مع بيئة محاكاة لأكثر من نوع من قواعد البيانات \\
-    \hline
+    \midrule
     ابتكارية & غياب طبقة تجريدية مبسطة فوق قواعد البيانات & ابتكار طبقة \EN{Views} ذكية \\
-    \hline
+    \bottomrule
   \end{tabularx}
 \end{table}
+
+%------------------------------------------------------------------------------
+\subsection{معايير تقييم النظام (\EN{Evaluation Metrics})}
+\label{subsec:eval-metrics}
+
+لضمان تقييم منهجي وموضوعي لنتائج النظام، تم تحديد مجموعة من المقاييس
+المعيارية الموزعة على ثلاثة محاور:
+
+\begin{itemize}[label=\textcolor{kauprimary}{$\blacktriangleright$},leftmargin=*]
+  \item \textbf{مقاييس دقة \EN{NL2SQL}:}
+    \begin{itemize}[label=\textcolor{kausecondary}{$\circ$},leftmargin=*]
+      \item \EN{Execution Accuracy (EX)}: نسبة الاستعلامات التي تُرجع النتيجة
+            الصحيحة عند التنفيذ.
+      \item \EN{Exact Match (EM)}: نسبة استعلامات \EN{SQL} المُولَّدة المطابقة
+            تماماً للحل المرجعي.
+    \end{itemize}
+  \item \textbf{مقاييس جودة \EN{RAG} (\EN{RAGAS Framework}):}
+    \begin{itemize}[label=\textcolor{kausecondary}{$\circ$},leftmargin=*]
+      \item \EN{Faithfulness}: مدى التزام الإجابة بالمستندات المسترجعة دون
+            هلوسة.
+      \item \EN{Answer Relevancy}: مدى صلة الإجابة بسؤال المستخدم.
+      \item \EN{Context Precision/Recall}: جودة المستندات المسترجعة.
+    \end{itemize}
+  \item \textbf{مقاييس الأداء التقني وتجربة المستخدم:}
+    \begin{itemize}[label=\textcolor{kausecondary}{$\circ$},leftmargin=*]
+      \item \EN{Latency}: زمن الاستجابة (مستهدف $\leq$ 3 ثوانٍ).
+      \item \EN{Throughput}: عدد الاستعلامات في الثانية.
+      \item \EN{System Usability Scale (SUS)}: مقياس قابلية الاستخدام
+            (مستهدف $\geq$ 70).
+      \item \EN{Customer Satisfaction (CSAT)}: رضا المستخدمين (مستهدف $\geq$
+            80\%).
+    \end{itemize}
+\end{itemize}
+
+سيتم تطبيق هذه المقاييس تفصيلياً في الفصل السادس (النتائج والمناقشة) بعد
+إكمال تنفيذ النظام واختباره.
 
 %------------------------------------------------------------------------------
 \section{الخلاصة}
@@ -589,38 +631,3 @@ Systems}، \EN{Arabic NLP}) في إطار موحد ومحلي الاستضافة
 لغوية، تطبيقية، سياقية، وابتكارية) يسعى المشروع لسدها، مما يُبرر القرارات
 التصميمية والهندسية المتخذة، ويهيئ القارئ للفصل الثالث الذي يقدم تحليلاً
 تفصيلياً للمتطلبات والمنهجية المتبعة في تطوير النظام.
-
-\subsection{معايير تقييم النظام (\EN{Evaluation Metrics})}
-\label{subsec:eval-metrics}
-
-لضمان تقييم منهجي وموضوعي لنتائج النظام، تم تحديد مجموعة من المقاييس
-المعيارية الموزعة على ثلاثة محاور:
-
-\begin{itemize}
-  \item \textbf{مقاييس دقة \EN{NL2SQL}:}
-    \begin{itemize}
-      \item \EN{Execution Accuracy (EX)}: نسبة الاستعلامات التي تُرجع النتيجة
-            الصحيحة عند التنفيذ.
-      \item \EN{Exact Match (EM)}: نسبة استعلامات \EN{SQL} المُولَّدة المطابقة
-            تماماً للحل المرجعي.
-    \end{itemize}
-  \item \textbf{مقاييس جودة \EN{RAG} (\EN{RAGAS Framework}):}
-    \begin{itemize}
-      \item \EN{Faithfulness}: مدى التزام الإجابة بالمستندات المسترجعة دون
-            هلوسة.
-      \item \EN{Answer Relevancy}: مدى صلة الإجابة بسؤال المستخدم.
-      \item \EN{Context Precision/Recall}: جودة المستندات المسترجعة.
-    \end{itemize}
-  \item \textbf{مقاييس الأداء التقني وتجربة المستخدم:}
-    \begin{itemize}
-      \item \EN{Latency}: زمن الاستجابة (مستهدف $\leq$ 3 ثوانٍ).
-      \item \EN{Throughput}: عدد الاستعلامات في الثانية.
-      \item \EN{System Usability Scale (SUS)}: مقياس قابلية الاستخدام
-            (مستهدف $\geq$ 70).
-      \item \EN{Customer Satisfaction (CSAT)}: رضا المستخدمين (مستهدف $\geq$
-            80\%).
-    \end{itemize}
-\end{itemize}
-
-سيتم تطبيق هذه المقاييس تفصيلياً في الفصل السادس (النتائج والمناقشة) بعد
-إكمال تنفيذ النظام واختباره.
