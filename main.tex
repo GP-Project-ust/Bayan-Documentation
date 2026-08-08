@@ -81,7 +81,7 @@
 % Table of contents depth — per Ministry guide example (page 8):
 % shows up to subsection level (1.1.1), not deeper.
 %------------------------------------------------------------------------------
-\setcounter{tocdepth}{2}
+% secnumdepth and tocdepth are set after titlesec loads (see below).
 
 \usepackage[font=small,labelfont=bf,format=plain]{caption}
 
@@ -103,9 +103,8 @@
 \titleformat{\subsection}
   {\normalfont\normalsize\bfseries\color{kaudark}}
   {\thesubsection}{6pt}{}
-\titleformat{\subsubsection}
-  {\normalfont\normalsize\itshape\color{kaudark}}
-  {\thesubsubsection}{6pt}{}
+\titleformat*{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{kauprimary}}
 
 %------------------------------------------------------------------------------
 % Custom dark-themed chapter divider page (full-page overlay)
@@ -319,6 +318,24 @@
 \renewcommand{\thetable}{\thechapter-\arabic{table}}
 % Remove the trailing dot from chapter number in cross-references
 \renewcommand{\thechapter}{\arabic{chapter}}
+
+%------------------------------------------------------------------------------
+% Subsubsection numbering — must be set AFTER bidi/polyglossia/titlesec load,
+% because each of them redefines \subsubsection and may strip the numbering.
+% The book class leaves subsubsection numberless by default; we patch
+% \@startsection to restore numbering at level 3, producing 3.4.4.1 etc.
+% We use \AtBeginDocument to ensure the patch runs AFTER all package hooks.
+%------------------------------------------------------------------------------
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+\makeatletter
+\AtBeginDocument{%
+  \def\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+                                       {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                       {1.5ex \@plus .2ex}%
+                                       {\normalfont\normalsize\bfseries\color{kauprimary}}}%
+}
+\makeatother
 
 %==============================================================================
 \begin{document}
