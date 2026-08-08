@@ -1,66 +1,59 @@
-% Professional classification of actors for Figure 3-1.
-\resizebox{0.9\textwidth}{!}{%
+% Actor classification – faithful to original image with improved formatting.
+% Two rows: top row = human actors on gold background, bottom row = AI agents.
+\resizebox{0.88\textwidth}{!}{%
 \begin{tikzpicture}[
   font=\small,
-  actor/.style={
-    draw=kauprimary, fill=white, rounded corners=4pt,
-    line width=0.8pt, align=center, inner sep=5pt,
-    minimum height=0.95cm, text=kaudark, text width=3.4cm
+  stickman/.pic={
+    \draw[line width=1.2pt, #1] (0, 0.45) circle (0.22);       % head
+    \draw[line width=1.2pt, #1] (0, 0.23) -- (0, -0.35);       % body
+    \draw[line width=1.2pt, #1] (-0.35, 0.1) -- (0, -0.05) -- (0.35, 0.1); % arms
+    \draw[line width=1.2pt, #1] (0, -0.35) -- (-0.25, -0.85);  % left leg
+    \draw[line width=1.2pt, #1] (0, -0.35) -- (0.25, -0.85);   % right leg
   },
-  agent/.style={
-    draw=kausecondary, fill=white, rounded corners=4pt,
-    line width=0.8pt, align=center, inner sep=5pt,
-    minimum height=0.95cm, text=kaudark, text width=3.4cm
+  actorlabel/.style={
+    align=center, font=\bfseries\footnotesize, text=kaudark
   },
-  actortitle/.style={
-    draw=kauprimary, fill=kauprimary, rounded corners=5pt,
-    line width=1pt, align=center, inner sep=8pt,
-    text=white, font=\bfseries\small, text width=4cm
-  },
-  agenttitle/.style={
-    draw=kausecondary, fill=kausecondary, rounded corners=5pt,
-    line width=1pt, align=center, inner sep=8pt,
-    text=white, font=\bfseries\small, text width=4cm
-  },
-  roottitle/.style={
-    draw=kaudark, fill=kaudark, rounded corners=6pt,
-    line width=1pt, align=center, inner sep=10pt,
-    text=white, font=\bfseries\large, text width=5cm
-  },
-  line/.style={draw=dividerdim, line width=1pt, -stealth},
-  groupbox/.style={rounded corners=6pt, line width=0.8pt}
+  actornum/.style={
+    align=center, font=\bfseries\scriptsize, text=kaudark
+  }
 ]
 
-  % Root
-  \node[roottitle] (root) at (0, 0) {فاعلو نظام «بيان»};
+  % ---- Gold background box for human actors ----
+  \fill[kauprimary!25, rounded corners=10pt] (-1.0, 1.6) rectangle (12.0, -1.6);
 
-  % Main Categories
-  \node[actortitle] (humans) at (3.5, -1.8) {فاعلون بشريون (خارجيون)};
-  \node[agenttitle] (agents) at (-3.5, -1.8) {وكلاء آليون (داخليون)};
+  % ---- Human Actors (Row 1) ----
+  \pic at (1.0, 0.3) {stickman={kaudark}};
+  \node[actorlabel, below] at (1.0, -0.75) {1. موظف المؤسسة\\\scriptsize\EN{Institutional User}};
 
-  % Connections from root to categories
-  \draw[line] (root.south) -- ++(0,-0.6) -| (humans.north);
-  \draw[line] (root.south) -- ++(0,-0.6) -| (agents.north);
+  \pic at (3.75, 0.3) {stickman={kaudark}};
+  \node[actorlabel, below] at (3.75, -0.75) {2. مدير المؤسسة\\\scriptsize\EN{Institution Manager}};
 
-  % Group Boxes
-  \node[groupbox, fill=kauprimary!5, draw=kauprimary!30, minimum width=4.2cm, minimum height=5.8cm] (hbox) at (3.5, -5.3) {};
-  \node[groupbox, fill=kausecondary!5, draw=kausecondary!30, minimum width=4.2cm, minimum height=5.8cm] (abox) at (-3.5, -5.3) {};
+  \pic at (6.5, 0.3) {stickman={kaudark}};
+  \node[actorlabel, below] at (6.5, -0.75) {3. مسؤول النظام\\\scriptsize\EN{System Administrator}};
 
-  % Connection to group boxes
-  \draw[line] (humans.south) -- (hbox.north);
-  \draw[line] (agents.south) -- (abox.north);
+  \pic at (9.25, 0.3) {stickman={kaudark}};
+  \node[actorlabel, below] at (9.25, -0.75) {4. مشغل التهيئة\\\scriptsize\EN{Onboarding Operator}};
 
-  % Human Actors
-  \node[actor] (h1) at (3.5, -3.35) {\textbf{موظف المؤسسة}\\\scriptsize\EN{(Enterprise Employee)}};
-  \node[actor] (h2) at (3.5, -4.65) {\textbf{مدير المؤسسة}\\\scriptsize\EN{(Enterprise Manager)}};
-  \node[actor] (h3) at (3.5, -5.95) {\textbf{مسؤول النظام}\\\scriptsize\EN{(System Administrator)}};
-  \node[actor] (h4) at (3.5, -7.25) {\textbf{مشغل التهيئة}\\\scriptsize\EN{(Onboarding Operator)}};
+  % ---- Separator ----
 
-  % AI Agents
-  \node[agent] (a1) at (-3.5, -3.35) {\textbf{الوكيل المشرف}\\\scriptsize\EN{(Supervisor Agent)}};
-  \node[agent] (a2) at (-3.5, -4.65) {\textbf{وكيل \EN{SQL}}\\\scriptsize\EN{(SQL Agent)}};
-  \node[agent] (a3) at (-3.5, -5.95) {\textbf{وكيل \EN{RAG}}\\\scriptsize\EN{(RAG Agent)}};
-  \node[agent] (a4) at (-3.5, -7.25) {\textbf{الوكيل المحلل}\\\scriptsize\EN{(Analyst Agent)}};
+  % ---- AI Agents (Row 2, no background) ----
+  \pic at (1.0, -2.75) {stickman={kaudark!70}};
+  \node[actorlabel, below] at (1.0, -3.8) {5. الوكيل المشرف\\\scriptsize\EN{Supervisor Agent}};
+
+  \pic at (3.75, -2.75) {stickman={kaudark!70}};
+  \node[actorlabel, below] at (3.75, -3.8) {6. وكيل \EN{SQL}\\\scriptsize\EN{SQL Agent}};
+
+  \pic at (6.5, -2.75) {stickman={kaudark!70}};
+  \node[actorlabel, below] at (6.5, -3.8) {7. وكيل \EN{RAG}\\\scriptsize\EN{RAG Agent}};
+
+  \pic at (9.25, -2.75) {stickman={kaudark!70}};
+  \node[actorlabel, below] at (9.25, -3.8) {8. الوكيل المحلل\\\scriptsize\EN{Analyst Agent}};
+
+  % ---- Bottom title ----
+  \node[fill=kaudark, text=white, rounded corners=5pt,
+        font=\bfseries\footnotesize, inner sep=7pt,
+        minimum width=8cm] at (5.5, -5.4)
+    {تصنيف الفاعلين إلى فاعلين بشريين ووكلاء ذكاء اصطناعي};
 
 \end{tikzpicture}%
 }

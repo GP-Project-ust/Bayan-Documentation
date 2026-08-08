@@ -1,0 +1,156 @@
+% Use Case Diagram – faithful to original with improved formatting.
+% Actors on both sides, ellipses for use cases, system boundary, includes/extends, notes.
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  stickman/.pic={
+    \draw[line width=1pt, #1] (0, 0.35) circle (0.18);
+    \draw[line width=1pt, #1] (0, 0.17) -- (0, -0.28);
+    \draw[line width=1pt, #1] (-0.28, 0.05) -- (0, -0.05) -- (0.28, 0.05);
+    \draw[line width=1pt, #1] (0, -0.28) -- (-0.2, -0.7);
+    \draw[line width=1pt, #1] (0, -0.28) -- (0.2, -0.7);
+  },
+  ucellipse/.style={
+    draw=kauprimary!60, fill=kauprimary!12, line width=0.9pt,
+    ellipse, align=center, inner xsep=6pt, inner ysep=4pt,
+    text=kaudark, font=\bfseries\scriptsize, minimum width=3.2cm, minimum height=1.1cm
+  },
+  ucinternal/.style={
+    draw=kauprimary!60, fill=kauprimary!12, line width=0.9pt,
+    ellipse, align=center, inner xsep=6pt, inner ysep=4pt,
+    text=kaudark, font=\bfseries\scriptsize, minimum width=2.6cm, minimum height=1.0cm
+  },
+  actorlabel/.style={
+    fill=kauprimary!15, draw=kauprimary!50, rounded corners=3pt,
+    align=center, font=\bfseries\scriptsize, text=kaudark,
+    inner sep=4pt, minimum width=2cm
+  },
+  assoc/.style={draw=kaudark, line width=0.8pt},
+  dep/.style={draw=kaudark, line width=0.8pt, dashed, -stealth},
+  notebox/.style={
+    draw=dividerdim, fill=white, rounded corners=3pt,
+    align=right, font=\scriptsize, text=kaudark,
+    inner sep=5pt, text width=4.5cm
+  },
+  legendbox/.style={
+    draw=dividerdim, fill=white, rounded corners=3pt,
+    align=center, font=\scriptsize, text=kaudark,
+    inner sep=3pt
+  }
+]
+
+  % ---- System Boundary ----
+  \draw[kaudark, line width=1.2pt, rounded corners=8pt]
+    (2.8, 2.2) rectangle (11.2, -12.0);
+  \node[font=\bfseries\small, text=kaudark, anchor=north] at (7.0, 2.0)
+    {\EN{AI Intelligent Query \& Analytics System}};
+
+  % ---- LEFT ACTORS (Human) ----
+  % 1. Institutional User
+  \pic at (0.6, 0.5) {stickman={kaudark}};
+  \node[actorlabel, below] at (0.6, -0.35) {موظف المؤسسة\\\scriptsize\EN{Institutional User}};
+
+  % 2. Institution Manager
+  \pic at (0.6, -3.8) {stickman={kaudark}};
+  \node[actorlabel, below] at (0.6, -4.65) {مدير المؤسسة\\\scriptsize\EN{Institution Manager}};
+
+  % 3. System Administrator
+  \pic at (0.6, -7.2) {stickman={kaudark}};
+  \node[actorlabel, below] at (0.6, -8.05) {مسؤول النظام\\\scriptsize\EN{System Administrator}};
+
+  % 4. Onboarding Operator
+  \pic at (0.6, -10.5) {stickman={kaudark}};
+  \node[actorlabel, below] at (0.6, -11.35) {مشغل التهيئة\\\scriptsize\EN{Onboarding Operator}};
+
+  % ---- RIGHT ACTORS (AI Agents) ----
+  % 5. Supervisor Agent
+  \pic at (13.4, -0.5) {stickman={kaudark!70}};
+  \node[actorlabel, below] at (13.4, -1.35) {الوكيل المشرف\\\scriptsize\EN{Supervisor Agent}};
+
+  % 6. SQL Agent
+  \pic at (13.4, -3.5) {stickman={kaudark!70}};
+  \node[actorlabel, below] at (13.4, -4.35) {وكيل \EN{SQL}\\\scriptsize\EN{SQL Agent}};
+
+  % 7. RAG Agent
+  \pic at (13.4, -6.5) {stickman={kaudark!70}};
+  \node[actorlabel, below] at (13.4, -7.35) {وكيل \EN{RAG}\\\scriptsize\EN{RAG Agent}};
+
+  % 8. Analyst Agent
+  \pic at (13.4, -9.5) {stickman={kaudark!70}};
+  \node[actorlabel, below] at (13.4, -10.35) {الوكيل المحلل\\\scriptsize\EN{Analyst Agent}};
+
+  % ---- USE CASES (Ellipses) ----
+  \node[ucellipse] (uc1) at (5.5, 1.2) {\EN{UC-01}\\طرح استعلام عن البيانات};
+  \node[ucellipse] (uc2) at (5.5, -0.5) {\EN{UC-02}\\البحث في المستندات};
+  \node[ucellipse] (uc3) at (5.5, -2.8) {\EN{UC-03}\\توليد تقرير مخصص};
+  \node[ucellipse] (uc4) at (5.5, -4.8) {\EN{UC-04}\\عرض الإشعارات};
+
+  \node[ucellipse] (uc5) at (5.5, -6.8) {\EN{UC-05}\\إدارة المستخدمين والأدوار};
+  \node[ucellipse] (uc6) at (5.5, -8.5) {\EN{UC-06}\\إدارة مصادر البيانات};
+  \node[ucellipse] (uc7) at (5.5, -10.0) {\EN{UC-07}\\مراجعة سجل التدقيق};
+  \node[ucellipse] (uc8) at (5.5, -11.5) {\EN{UC-08}\\تشغيل التهيئة الذكية};
+
+  % Internal use case
+  \node[ucinternal] (route) at (9.5, -1.5) {\EN{Route Query}\\(داخلي)};
+
+  % ---- ASSOCIATIONS (Human → Use Cases) ----
+  % Institutional User
+  \draw[assoc] (1.6, 0.5) -- (uc1.west);
+  \draw[assoc] (1.6, 0.5) -- (uc2.west);
+  \draw[assoc] (1.6, 0.2) -- (uc3.west);
+  \draw[assoc] (1.6, 0.2) -- (uc4.west);
+
+  % Institution Manager
+  \draw[assoc] (1.6, -3.8) -- (uc1.west);
+  \draw[assoc] (1.6, -3.8) -- (uc2.west);
+  \draw[assoc] (1.6, -3.8) -- (uc3.west);
+  \draw[assoc] (1.6, -3.8) -- (uc4.west);
+
+  % System Administrator
+  \draw[assoc] (1.6, -7.2) -- (uc4.west);
+  \draw[assoc] (1.6, -7.2) -- (uc5.west);
+  \draw[assoc] (1.6, -7.2) -- (uc6.west);
+  \draw[assoc] (1.6, -7.2) -- (uc7.west);
+
+  % Onboarding Operator
+  \draw[assoc] (1.6, -10.5) -- (uc8.west);
+
+  % ---- INCLUDES / EXTENDS ----
+  % UC-01 and UC-02 include Route Query
+  \draw[dep] (uc1.east) -- (route.north west)
+    node[midway, above, font=\scriptsize\itshape, text=kaudark] {\EN{<<include>>}};
+  \draw[dep] (uc2.east) -- (route.west)
+    node[midway, above, font=\scriptsize\itshape, text=kaudark] {\EN{<<include>>}};
+  % UC-03 extends UC-01
+  \draw[dep] (uc3.north) -- (uc1.south)
+    node[midway, right, font=\scriptsize\itshape, text=kaudark, xshift=2pt] {\EN{<<extend>>}};
+
+  % ---- ASSOCIATIONS (Route Query → AI Agents) ----
+  \draw[assoc, dashed] (route.east) -- (12.4, -0.5);
+  \draw[assoc, dashed] (route.east) -- (12.4, -3.5);
+  \draw[assoc, dashed] (route.east) -- (12.4, -6.5);
+  \draw[assoc, dashed] (route.east) -- (12.4, -9.5);
+
+  % ---- Divider line ----
+  \draw[dividerdim, dashed, line width=0.6pt] (3.0, -5.8) -- (11.0, -5.8);
+
+  % ---- NOTES ----
+  \node[notebox, anchor=north east] at (11.0, -12.8) {%
+    \textbf{ملاحظات:}\\
+    $\blacktriangleright$ \EN{UC-01} و\EN{UC-02} تتضمن \EN{Route Query} (داخلي).\\
+    $\blacktriangleright$ \EN{UC-03} يوسع \EN{UC-01}.\\
+    $\blacktriangleright$ \EN{Route Query} يُنفذ بواسطة الوكلاء الآليين.\\
+    $\blacktriangleright$ جميع العمليات تُسجل في \EN{UC-07} (سجل التدقيق).
+  };
+
+  % ---- LEGEND ----
+  \node[legendbox, anchor=south west] at (3.0, -14.3) {%
+    \begin{tabular}{ccccc}
+      \tikz{\pic[scale=0.5] {stickman={kaudark}};} & \textbf{فاعل} &
+      \tikz{\node[ellipse, draw=kauprimary!60, fill=kauprimary!12, inner sep=2pt, font=\tiny]{\EN{UC}};} & \textbf{حالة استخدام} &
+      \tikz{\draw[-stealth, dashed, line width=0.6pt] (0,0) -- (0.6,0);} \textbf{\EN{<<include/extend>>}}
+    \end{tabular}
+  };
+
+\end{tikzpicture}%
+}
