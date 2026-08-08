@@ -1,25 +1,53 @@
-% Sequence Diagram – faithful to original with improved formatting.
-% 9 Lifelines: User, Frontend, Supervisor, SQL Agent, RAG Agent, Analyst Agent, PostgreSQL, Qdrant, Audit Log.
+%==============================================================================
+% figures/tikz/usecase-sequence-vA.tex
+% Comprehensive Sequence Diagram (Version A) — All 8 Use Cases (UC-01..UC-08)
+% Bayan (بيان) — Arabic AI Assistant System
+%
+% Design summary:
+%   • 9 lifelines (RTL ordering: User → Frontend → Supervisor →
+%     SQL/RAG/Analyst agents → PostgreSQL/Qdrant → Audit Log)
+%   • 8 grouped UC blocks with distinct background tints per group
+%   • 3–5 KEY messages per UC + 1 universal audit-logging arrow at the
+%     bottom of each block (UC-07 uses a self-loop since the audit log
+%     is itself the target of the flow).
+%   • Header & footer boxes repeat lifeline labels for readability
+%   • Wrapped in \resizebox{\textwidth}{!}{...} for single A4 page fit
+%
+% Dependencies (defined in main.tex — do NOT build standalone):
+%   – Colors : kauprimary, kausecondary, kauaccent, kaulight, kaudark,
+%              dividerdim, dividersilver
+%   – Macro  : \EN{...} = \textenglish{\englishfont #1}
+%   – TikZ   : libraries calc, shapes.geometric, positioning (loaded in main)
+%
+% Actor mapping (the "المستخدم المؤسسي" lifeline hosts multiple actors):
+%   UC-01..UC-04 → Organizational User (موظف / مدير المؤسسة)
+%   UC-05..UC-07 → System Admin       (مسؤول النظام)
+%   UC-08        → Onboarding Operator (مشغل التهيئة)
+%==============================================================================
+
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
   font=\scriptsize,
   header/.style={
     draw=kauprimary!60, fill=kauprimary!12, line width=0.9pt,
     rounded corners=3pt, align=center, inner sep=4pt,
-    text=kaudark, font=\bfseries\scriptsize, minimum width=1.7cm, minimum height=0.7cm
+    text=kaudark, font=\bfseries\scriptsize,
+    minimum width=1.7cm, minimum height=0.7cm
   },
   lifeline/.style={draw=dividerdim, line width=0.6pt, dashed},
   msg/.style={-stealth, line width=0.7pt, draw=kaudark},
   reply/.style={-stealth, line width=0.7pt, draw=kaudark, dashed},
   mlabel/.style={font=\scriptsize, text=kaudark, fill=white, inner sep=1.5pt},
-  altbox/.style={draw=kauprimary!50, line width=0.8pt, rounded corners=0pt, fill=white},
-  altlabel/.style={fill=kauprimary!20, font=\bfseries\scriptsize, text=kaudark, inner sep=3pt},
-  extbar/.style={fill=kauprimary!25, draw=kauprimary!50, line width=0.8pt},
-  selfloop/.style={-stealth, line width=0.7pt, draw=kaudark},
-  auditbar/.style={fill=kauprimary!30, draw=kauprimary!60, line width=0.8pt}
+  ucblock/.style={draw=kauprimary!50, line width=0.8pt, rounded corners=2pt,
+                  fill=kauprimary!4},
+  uclabel/.style={fill=kauprimary!20, font=\bfseries\scriptsize, text=kaudark,
+                  inner sep=3pt, rounded corners=2pt},
+  selfloop/.style={-stealth, line width=0.7pt, draw=kaudark}
 ]
 
-  % ---- X positions for 9 lifelines (right to left for RTL feel) ----
+  %==========================================================================
+  %  LIFELINE X-POSITIONS  (9 columns, 2.6 units apart; RTL reading order)
+  %==========================================================================
   \def\xUser{0}
   \def\xFront{2.6}
   \def\xSup{5.2}
@@ -30,129 +58,163 @@
   \def\xQd{18.2}
   \def\xAudit{20.8}
 
-  % ---- Header boxes ----
-  \node[header] (hUser) at (\xUser, 0) {المستخدم المؤسسي};
-  \node[header] (hFront) at (\xFront, 0) {الواجهة الأمامية};
-  \node[header] (hSup) at (\xSup, 0) {الوكيل المشرف};
-  \node[header] (hSql) at (\xSql, 0) {وكيل \EN{SQL}};
-  \node[header] (hRag) at (\xRag, 0) {وكيل \EN{RAG}};
-  \node[header] (hAna) at (\xAna, 0) {وكيل المحلل};
-  \node[header] (hPg) at (\xPg, 0) {\EN{PostgreSQL}};
-  \node[header] (hQd) at (\xQd, 0) {\EN{Qdrant}};
-  \node[header] (hAudit) at (\xAudit, 0) {سجل التدقيق};
+  %==========================================================================
+  %  TOP HEADER BOXES
+  %==========================================================================
+  \node[header] (hUser)  at (\xUser,  0) {المستخدم المؤسسي\\\EN{(Actor)}};
+  \node[header] (hFront) at (\xFront, 0) {الواجهة الأمامية\\\EN{(Frontend)}};
+  \node[header] (hSup)   at (\xSup,   0) {الوكيل المشرف\\\EN{(Supervisor)}};
+  \node[header] (hSql)   at (\xSql,   0) {وكيل \EN{SQL}};
+  \node[header] (hRag)   at (\xRag,   0) {وكيل \EN{RAG}};
+  \node[header] (hAna)   at (\xAna,   0) {وكيل المحلل\\\EN{(Analyst)}};
+  \node[header] (hPg)    at (\xPg,    0) {\EN{PostgreSQL}};
+  \node[header] (hQd)    at (\xQd,    0) {\EN{Qdrant}};
+  \node[header] (hAudit) at (\xAudit, 0) {سجل التدقيق\\\EN{(Audit Log)}};
 
-  % ---- Lifelines ----
-  \def\yEnd{-32.5}
+  %==========================================================================
+  %  LIFELINES  (vertical dashed lines from header to just above footer)
+  %==========================================================================
+  \def\yEnd{-23.6}
   \foreach \x in {\xUser, \xFront, \xSup, \xSql, \xRag, \xAna, \xPg, \xQd, \xAudit} {
-    \draw[lifeline] (\x, -0.5) -- (\x, \yEnd);
+    \draw[lifeline] (\x, -0.45) -- (\x, \yEnd);
   }
 
-  % ---- Macros ----
-  \newcommand{\smsg}[4]{\draw[msg] (#1, #3) -- (#2, #3) node[midway, mlabel, above] {#4};}
+  %==========================================================================
+  %  MESSAGE MACROS
+  %    #1 = source x, #2 = target x, #3 = y-coordinate, #4 = label
+  %==========================================================================
+  \newcommand{\smsg}[4]{\draw[msg]   (#1, #3) -- (#2, #3) node[midway, mlabel, above] {#4};}
   \newcommand{\rmsg}[4]{\draw[reply] (#1, #3) -- (#2, #3) node[midway, mlabel, above] {#4};}
 
-  % ===========================================================================
-  %  PHASE 1: UC-01 Query Data (SQL path)
-  % ===========================================================================
+  %==========================================================================
+  %  UC-01: طرح استعلام عن البيانات   (block: y = -1.0 .. -4.0)
+  %    User → Frontend → Supervisor → SQL Agent → PostgreSQL → (return)
+  %==========================================================================
+  \draw[ucblock, fill=kauprimary!5] (-0.9, -1.0) rectangle (21.7, -4.0);
+  \node[uclabel, anchor=north west] at (-0.85, -1.05)
+    {\EN{UC-01:} طرح استعلام عن البيانات};
 
-  % User asks
-  \smsg{\xUser}{\xFront}{-1.2}{يكتب سؤالاً (مثال: «مبيعات الربع الأخير»)}
-  \smsg{\xFront}{\xSup}{-2.0}{يرسل السؤال مع سياق الجلسة}
+  \smsg{\xUser}{\xFront}{-1.65}{يكتب سؤالاً عن البيانات}
+  \smsg{\xSup}{\xSql}{-2.20}{توجيه (\EN{NL2SQL} + \EN{Smart Views})}
+  \smsg{\xSql}{\xPg}{-2.75}{تنفيذ \EN{SQL} (مع \EN{RBAC})}
+  \rmsg{\xSup}{\xUser}{-3.30}{إرجاع النتيجة المنسقة}
+  \smsg{\xSql}{\xAudit}{-3.85}{تسجيل التدقيق}
 
-  % Include: Intent Classification
-  \draw[extbar] (\xSup - 0.85, -2.6) rectangle (\xSup + 0.85, -3.4);
-  \node[font=\bfseries\tiny, text=kaudark] at (\xSup, -2.85)
-    {توجيه الاستعلام \EN{<<include>>}};
-  \node[font=\tiny, text=kaudark] at (\xSup, -3.15)
-    {تحليل النية \EN{(Intent Classification)}};
+  %==========================================================================
+  %  UC-02: البحث في المستندات   (block: y = -4.1 .. -7.1)
+  %    User → Frontend → Supervisor → RAG Agent → Qdrant → (return)
+  %==========================================================================
+  \draw[ucblock, fill=kauprimary!7] (-0.9, -4.1) rectangle (21.7, -7.1);
+  \node[uclabel, anchor=north west] at (-0.85, -4.15)
+    {\EN{UC-02:} البحث في المستندات};
 
-  % ALT box
-  \draw[altbox] (-0.9, -3.8) rectangle (21.7, -10.4);
-  \node[altlabel, anchor=north west] at (-0.9, -3.8) {\EN{alt}};
+  \smsg{\xUser}{\xFront}{-4.75}{يكتب سؤالاً وثائقياً}
+  \smsg{\xSup}{\xRag}{-5.30}{توجيه (\EN{Query Embedding})}
+  \smsg{\xRag}{\xQd}{-5.85}{استرجاع \EN{Top-K}}
+  \rmsg{\xSup}{\xUser}{-6.40}{إرجاع الإجابة + المصادر}
+  \smsg{\xRag}{\xAudit}{-6.95}{تسجيل التدقيق}
 
-  % SQL Path
-  \smsg{\xSup}{\xSql}{-4.4}{يوجه الطلب إلى وكيل \EN{SQL}}
+  %==========================================================================
+  %  UC-03: توليد تقرير مخصص   (block: y = -7.2 .. -10.2)
+  %    User → Frontend → Supervisor → Analyst ↔ SQL → (return + export)
+  %==========================================================================
+  \draw[ucblock, fill=kauprimary!9] (-0.9, -7.2) rectangle (21.7, -10.2);
+  \node[uclabel, anchor=north west] at (-0.85, -7.25)
+    {\EN{UC-03:} توليد تقرير مخصص};
 
-  % Self-loop on SQL agent
-  \draw[selfloop] (\xSql + 0.15, -5.0) -- (\xSql + 0.9, -5.0) -- (\xSql + 0.9, -5.5) -- (\xSql + 0.15, -5.5);
-  \node[mlabel, right] at (\xSql + 0.95, -5.25) {تحويل \EN{NL2SQL} + تطبيق \EN{Smart Views}};
+  \smsg{\xUser}{\xFront}{-7.85}{يطلب تقريراً تحليلياً}
+  \smsg{\xSup}{\xAna}{-8.40}{توجيه الطلب}
+  \smsg{\xAna}{\xSql}{-8.95}{جلب وتحليل البيانات}
+  \rmsg{\xSup}{\xUser}{-9.50}{إرجاع التقرير + تصدير}
+  \smsg{\xAna}{\xAudit}{-10.05}{تسجيل التدقيق}
 
-  \smsg{\xSql}{\xPg}{-6.1}{تنفيذ استعلام \EN{SQL} (مع \EN{RBAC})}
-  \rmsg{\xPg}{\xSql}{-6.8}{إرجاع النتيجة الخام}
-  \rmsg{\xSql}{\xSup}{-7.5}{إرجاع الإجابة المنسقة (جدول/نص)}
-  \rmsg{\xSup}{\xFront}{-8.2}{عرض النتيجة}
-  \rmsg{\xFront}{\xUser}{-8.9}{عرض النتيجة الأولية}
+  %==========================================================================
+  %  UC-04: عرض الإشعارات   (block: y = -10.3 .. -12.3)
+  %    User → Frontend → (Notifications list)
+  %==========================================================================
+  \draw[ucblock, fill=kaulight] (-0.9, -10.3) rectangle (21.7, -12.3);
+  \node[uclabel, anchor=north west] at (-0.85, -10.35)
+    {\EN{UC-04:} عرض الإشعارات};
 
-  % ---- Divider: <<extend>> UC-03 ----
-  \fill[extbar] (-0.9, -10.6) rectangle (21.7, -11.2);
-  \node[font=\bfseries\scriptsize, text=kaudark] at (10.4, -10.9)
-    {\EN{<<extend>>  UC-03} (توليد تقرير مخصص)};
+  \smsg{\xUser}{\xFront}{-10.95}{يطلب عرض الإشعارات}
+  \rmsg{\xFront}{\xUser}{-11.50}{عرض قائمة الإشعارات}
+  \smsg{\xFront}{\xAudit}{-12.05}{تسجيل التدقيق}
 
-  % UC-03 flow
-  \smsg{\xUser}{\xFront}{-11.8}{يطلب تحويل النتيجة إلى تقرير تحليلي}
-  \smsg{\xFront}{\xSup}{-12.5}{طلب إنشاء تقرير}
-  \smsg{\xSup}{\xAna}{-13.2}{يوجه الطلب إلى وكيل المحلل}
+  %==========================================================================
+  %  UC-05: إدارة المستخدمين والأدوار   (block: y = -12.4 .. -15.0)
+  %    System Admin → Frontend → PostgreSQL (RBAC update)
+  %==========================================================================
+  \draw[ucblock, fill=kausecondary!7] (-0.9, -12.4) rectangle (21.7, -15.0);
+  \node[uclabel, anchor=north west] at (-0.85, -12.45)
+    {\EN{UC-05:} إدارة المستخدمين والأدوار};
 
-  % Self-loop on Analyst
-  \draw[selfloop] (\xAna + 0.15, -13.8) -- (\xAna + 0.9, -13.8) -- (\xAna + 0.9, -14.3) -- (\xAna + 0.15, -14.3);
-  \node[mlabel, right] at (\xAna + 0.95, -14.05) {استخراج المؤشرات والاتجاهات};
+  \smsg{\xUser}{\xFront}{-13.05}{إنشاء/تعديل مستخدم أو دور}
+  \smsg{\xFront}{\xPg}{-13.60}{تحديث جدول \EN{RBAC}}
+  \rmsg{\xPg}{\xFront}{-14.15}{تأكيد التحديث}
+  \smsg{\xFront}{\xAudit}{-14.70}{تسجيل التدقيق}
 
-  \draw[selfloop] (\xAna + 0.15, -14.8) -- (\xAna + 0.9, -14.8) -- (\xAna + 0.9, -15.3) -- (\xAna + 0.15, -15.3);
-  \node[mlabel, right] at (\xAna + 0.95, -15.05) {تنسيق تقرير (نص/جدول/رسم بياني)};
+  %==========================================================================
+  %  UC-06: إدارة مصادر البيانات   (block: y = -15.1 .. -17.7)
+  %    System Admin → Frontend → Smart Views → PostgreSQL schema update
+  %==========================================================================
+  \draw[ucblock, fill=kausecondary!9] (-0.9, -15.1) rectangle (21.7, -17.7);
+  \node[uclabel, anchor=north west] at (-0.85, -15.15)
+    {\EN{UC-06:} إدارة مصادر البيانات};
 
-  \rmsg{\xAna}{\xSup}{-15.9}{إرجاع التقرير الجاهز}
-  \rmsg{\xSup}{\xFront}{-16.6}{عرض التقرير}
-  \rmsg{\xFront}{\xUser}{-17.3}{عرض التقرير مع خيارات التصدير}
+  \smsg{\xUser}{\xFront}{-15.75}{إضافة/تعديل مصدر بيانات}
+  \smsg{\xFront}{\xPg}{-16.30}{تحديث مخطط \EN{Smart Views}}
+  \rmsg{\xPg}{\xFront}{-16.85}{تأكيد + جاهزية}
+  \smsg{\xFront}{\xAudit}{-17.40}{تسجيل التدقيق}
 
-  % ===========================================================================
-  %  PHASE 2: UC-02 Search Documents (RAG path)
-  % ===========================================================================
+  %==========================================================================
+  %  UC-07: مراجعة سجل التدقيق   (block: y = -17.8 .. -20.4)
+  %    System Admin → Frontend → Audit Log (filter / export CSV)
+  %    The admin's access to the audit log is itself logged (self-loop).
+  %==========================================================================
+  \draw[ucblock, fill=dividersilver!15] (-0.9, -17.8) rectangle (21.7, -20.4);
+  \node[uclabel, anchor=north west] at (-0.85, -17.85)
+    {\EN{UC-07:} مراجعة سجل التدقيق};
 
-  % divider
-  \draw[dividerdim, line width=0.4pt, dashed] (-0.9, -18.0) -- (21.7, -18.0);
+  \smsg{\xUser}{\xFront}{-18.45}{يطلب مراجعة السجل + تصفية}
+  \smsg{\xFront}{\xAudit}{-19.00}{استعلام + تصفية}
+  \rmsg{\xAudit}{\xUser}{-19.55}{عرض + تصدير \EN{CSV}}
+  % Self-loop on the Audit Log lifeline: the admin's access is recorded
+  \draw[selfloop] (\xAudit - 0.15, -19.95)
+    -- (\xAudit - 0.85, -19.95)
+    -- (\xAudit - 0.85, -20.20)
+    -- (\xAudit - 0.15, -20.20);
+  \node[mlabel, left] at (\xAudit - 0.90, -20.07) {تسجيل وصول المسؤول};
 
-  \smsg{\xSup}{\xRag}{-18.8}{يوجه الطلب إلى وكيل \EN{RAG}}
+  %==========================================================================
+  %  UC-08: تشغيل التهيئة الذكية   (block: y = -20.5 .. -23.5)
+  %    Onboarding Operator → Frontend → Smart Views + Qdrant indexing
+  %    → readiness report
+  %==========================================================================
+  \draw[ucblock, fill=kauaccent!6] (-0.9, -20.5) rectangle (21.7, -23.5);
+  \node[uclabel, anchor=north west] at (-0.85, -20.55)
+    {\EN{UC-08:} تشغيل التهيئة الذكية};
 
-  % Self-loop on RAG
-  \draw[selfloop] (\xRag + 0.15, -19.4) -- (\xRag + 0.9, -19.4) -- (\xRag + 0.9, -19.9) -- (\xRag + 0.15, -19.9);
-  \node[mlabel, right] at (\xRag + 0.95, -19.65) {توليد متجه البحث \EN{(Query Embedding)}};
+  \smsg{\xUser}{\xFront}{-21.15}{بدء التهيئة الذكية}
+  \smsg{\xFront}{\xPg}{-21.70}{بناء \EN{Smart Views}}
+  \smsg{\xFront}{\xQd}{-22.25}{فهرسة المتجهات}
+  \rmsg{\xFront}{\xUser}{-22.80}{تقرير الجاهزية}
+  \smsg{\xFront}{\xAudit}{-23.35}{تسجيل التدقيق}
 
-  \smsg{\xRag}{\xQd}{-20.5}{استرجاع المقاطع الأقرب \EN{(Top-K)}};
-  \rmsg{\xQd}{\xRag}{-21.2}{إرجاع المقاطع + المصادر}
-
-  % Self-loop on RAG for answer generation
-  \draw[selfloop] (\xRag + 0.15, -21.8) -- (\xRag + 0.9, -21.8) -- (\xRag + 0.9, -22.3) -- (\xRag + 0.15, -22.3);
-  \node[mlabel, right] at (\xRag + 0.95, -22.05) {توليد الإجابة مع الاستشهاد};
-
-  \rmsg{\xRag}{\xSup}{-22.9}{إرجاع الإجابة مع المصادر}
-  \rmsg{\xSup}{\xFront}{-23.6}{عرض الإجابة}
-  \rmsg{\xFront}{\xUser}{-24.3}{عرض الإجابة (نص + رابط المصدر)}
-
-  % ===========================================================================
-  %  AUDIT LOGGING
-  % ===========================================================================
-
-  \fill[auditbar] (-0.9, -25.2) rectangle (21.7, -25.9);
-  \node[font=\bfseries\scriptsize, text=kaudark] at (10.4, -25.4)
-    {\EN{(Agent Trace)} يتم تسجيل كامل التتبع};
-  \node[font=\scriptsize, text=kaudark] at (10.4, -25.7)
-    {في سجل التدقيق لأغراض الرقابة};
-
-  \smsg{\xSup}{\xAudit}{-26.5}{تسجيل (المستخدم، السؤال، الوكيل، الإجابة، الزمن)}
-
-  % ---- Footer: repeated headers ----
+  %==========================================================================
+  %  FOOTER HEADER BOXES  (repeat lifeline labels for readability)
+  %==========================================================================
   \foreach \x/\lbl in {
-    \xUser/{المستخدم المؤسسي},
-    \xFront/{الواجهة الأمامية},
-    \xSup/{الوكيل المشرف},
+    \xUser/{المستخدم المؤسسي\\\EN{(Actor)}},
+    \xFront/{الواجهة الأمامية\\\EN{(Frontend)}},
+    \xSup/{الوكيل المشرف\\\EN{(Supervisor)}},
     \xSql/{وكيل \EN{SQL}},
     \xRag/{وكيل \EN{RAG}},
-    \xAna/{وكيل المحلل},
+    \xAna/{وكيل المحلل\\\EN{(Analyst)}},
     \xPg/{\EN{PostgreSQL}},
     \xQd/{\EN{Qdrant}},
-    \xAudit/{سجل التدقيق}%
+    \xAudit/{سجل التدقيق\\\EN{(Audit Log)}}%
   } {
-    \node[header] at (\x, \yEnd - 0.5) {\lbl};
+    \node[header] at (\x, -24.1) {\lbl};
   }
 
 \end{tikzpicture}%
