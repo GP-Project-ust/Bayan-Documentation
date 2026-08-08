@@ -175,53 +175,54 @@
     \def\kauDivOrdinal{\kauArabicOrdinal{\kauDivChapNum}}%
     \edef\kauDivPage{\thepage}%
     \def\kauDivPageNum{\kauToArabicIndic{\kauDivPage}}%
-    % --- White-themed chapter divider page (plain LaTeX text, RTL) ---
-    % Top padding so the block sits roughly in the upper-middle of the page.
-    \null\vspace*{0.10\textheight}%
-    \begingroup
-      % Centre each line horizontally. In RTL context, \centering keeps
-      % every line centred on the page; Arabic text flows right-to-left
-      % inside that centred line as expected.
-      \centering
-      % --- Top horizontal rule ---
-      {\color{dividersilver}\rule{0.85\textwidth}{0.5pt}\par}
-
-      \vspace{14pt}
-      % --- "الفصل" label (small, gray) ---
-      {\color{dividersilver}\large الفصل\par}
-
-      \vspace{8pt}
-      % --- Big Arabic ordinal (blue-gray, ~60pt, bold) ---
-      {\color{dividerdim}\fontsize{60pt}{72pt}\selectfont\bfseries\kauDivOrdinal\par}
-
-      \vspace{12pt}
-      % --- Chapter number caption (small, gray) ---
-      % English caption removed per supervisor feedback — Arabic only.
-      % {\color{dividersilver}\normalsize\textenglish{\englishfont Chapter \kauDivChapNum}}
-
-      \vspace{18pt}
-      % --- Middle horizontal rule ---
-      {\color{dividersilver}\rule{0.85\textwidth}{0.5pt}\par}
-
-      \vspace{24pt}
-      % --- Arabic chapter title (black, large, bold) ---
-      {\color{kaudark}\LARGE\bfseries\kauDivArTitle\par}
-
-      \vspace{10pt}
-      % --- English chapter title (small, gray, LTR inline) ---
-      \IfNoValueTF{#2}{}{%
-        {\color{dividersilver}\normalsize\textenglish{\englishfont \kauDivEnTitle}\par}%
-      }
-
-      \vspace{40pt}
-      % --- Three decorative diamonds:  filled - hollow - filled ---
-      %     \blacklozenge and \lozenge come from amssymb (already loaded).
-      {\color{dividerdim}\Large$\blacklozenge$}%
-      \hspace{18pt}%
-      {\color{dividersilver}\Large$\lozenge$}%
-      \hspace{18pt}%
-      {\color{dividerdim}\Large$\blacklozenge$}
-    \endgroup
+    % --- Modern Tech Chapter Divider Page ---
+    \begin{tikzpicture}[remember picture, overlay]
+      % 1. Giant Watermark Number (e.g., "04") in the background
+      \node[
+        text=dividersilver,
+        opacity=0.07,
+        font=\textenglish{\englishfont\fontsize{260pt}{260pt}\selectfont\bfseries},
+        anchor=center
+      ] at ($(current page.center) + (0, 1.5)$) {0\kauDivChapNum};
+      
+      % 2. Main Content Container
+      \node[anchor=center] at ($(current page.center) + (0, 1.5)$) {
+        \begin{minipage}{0.85\textwidth}
+          \centering
+          
+          % Elegant Badge for "الفصل"
+          \tikz{
+            \node[
+              fill=kaulight,
+              text=kauprimary,
+              rounded corners=8pt,
+              inner xsep=18pt,
+              inner ysep=8pt,
+              font=\large\bfseries
+            ] {الفصل};
+          }\par
+          \vspace{12pt}
+          
+          % Big Arabic Ordinal (الرابع, etc)
+          {\color{kauprimary}\fontsize{65pt}{72pt}\selectfont\bfseries\kauDivOrdinal\par}
+          \vspace{26pt}
+          
+          % Smart Divider with a Diamond
+          \tikz{
+            \draw[dividersilver!40, line width=1pt] (-3.5,0) -- (3.5,0);
+            \node[fill=white, text=kauprimary!60, inner sep=6pt] at (0,0) {\Large$\blacklozenge$};
+          }\par
+          \vspace{26pt}
+          
+          % Arabic Chapter Title
+          {\color{kaudark}\LARGE\bfseries\kauDivArTitle\par}
+          \IfNoValueTF{#2}{}{%
+            \vspace{10pt}
+            {\color{dividersilver}\normalsize\textenglish{\englishfont \kauDivEnTitle}\par}%
+          }
+        \end{minipage}
+      };
+    \end{tikzpicture}
     % --- Push the page number to the bottom of the page ---
     \vfill
     \begin{center}
