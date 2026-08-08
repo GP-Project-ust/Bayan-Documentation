@@ -184,15 +184,15 @@
       % inside that centred line as expected.
       \centering
       % --- Top horizontal rule ---
-      {\color{dividersilver}\rule{0.85\textwidth}{0.5pt}}
+      {\color{dividersilver}\rule{0.85\textwidth}{0.5pt}\par}
 
       \vspace{14pt}
       % --- "الفصل" label (small, gray) ---
-      {\color{dividersilver}\large الفصل}
+      {\color{dividersilver}\large الفصل\par}
 
       \vspace{8pt}
       % --- Big Arabic ordinal (blue-gray, ~60pt, bold) ---
-      {\color{dividerdim}\fontsize{60pt}{72pt}\bfseries\kauDivOrdinal}
+      {\color{dividerdim}\fontsize{60pt}{72pt}\selectfont\bfseries\kauDivOrdinal\par}
 
       \vspace{12pt}
       % --- Chapter number caption (small, gray) ---
@@ -201,16 +201,16 @@
 
       \vspace{18pt}
       % --- Middle horizontal rule ---
-      {\color{dividersilver}\rule{0.85\textwidth}{0.5pt}}
+      {\color{dividersilver}\rule{0.85\textwidth}{0.5pt}\par}
 
       \vspace{24pt}
       % --- Arabic chapter title (black, large, bold) ---
-      {\color{kaudark}\LARGE\bfseries\kauDivArTitle}
+      {\color{kaudark}\LARGE\bfseries\kauDivArTitle\par}
 
       \vspace{10pt}
       % --- English chapter title (small, gray, LTR inline) ---
       \IfNoValueTF{#2}{}{%
-        {\color{dividersilver}\normalsize\textenglish{\englishfont \kauDivEnTitle}}%
+        {\color{dividersilver}\normalsize\textenglish{\englishfont \kauDivEnTitle}\par}%
       }
 
       \vspace{40pt}
