@@ -1,6 +1,6 @@
-\%------------------------------------------------------------------------------
-\% 3.5 تحليل المخاطر
-\%------------------------------------------------------------------------------
+%------------------------------------------------------------------------------
+% 3.5 تحليل المخاطر
+%------------------------------------------------------------------------------
 \section{تحليل المخاطر}
 \label{sec:risk-analysis}
 
@@ -13,7 +13,7 @@
 
 \begin{table}[H]
 \centering
-\caption{مقياس تقييم المخاطر: الاحتمالات، فئات الأولوية، والإجراءات الإدارية.}
+\caption{مقياس تقييم المخاطر وفئات الأولوية.}
 \label{tab:risk-methodology}
 \small
 \renewcommand{\arraystretch}{1.35}
@@ -21,99 +21,95 @@
 \toprule
 \textbf{الدرجة} & \textbf{المستوى / الفئة} & \textbf{الوصف} & \textbf{الإجراء المطلوب} \\
 \midrule
-\multicolumn{4}{l}{\textbf{\textcolor{kauprimary}{أولاً: مقياس الاحتمال (Probability Scale)}}} \\
+\multicolumn{4}{l}{\textbf{\textcolor{kauprimary}{أولاً: مقياس الاحتمال \EN{(Probability Scale)}}}} \\
 \midrule
 1 & نادر \EN{(Rare)} & احتمال وقوعٍ ضئيل جداً (أقل من 5\%) & --- \\
-\midrule
 2 & غير محتمل \EN{(Unlikely)} & قد يحدث لكن غير متوقع قريباً (5\% -- 25\%) & --- \\
-\midrule
 3 & محتمل \EN{(Possible)} & قد يحدث أحياناً (26\% -- 50\%) & --- \\
-\midrule
 4 & مرجّح \EN{(Likely)} & سيحدث على الأرجح (51\% -- 75\%) & --- \\
-\midrule
 5 & شبه مؤكد \EN{(Almost Certain)} & متوقع شبه أكيد ومتكرر (أكثر من 75\%) & --- \\
 \midrule
-\multicolumn{4}{l}{\textbf{\textcolor{kauprimary}{ثانياً: فئات الأولوية (Priority Categories)}}} \\
+\multicolumn{4}{l}{\textbf{\textcolor{kauprimary}{ثانياً: فئات الأولوية \EN{(Priority Categories)}}}} \\
 \midrule
-20 -- 25 & حرجة \EN{(Critical)} & تهديدٌ جسيمٌ يستوجب تدخلاً فورياً & إيقاف العمل ورفع الأمر للإدارة العليا فوراً \\
-\midrule
-12 -- 19 & عالية \EN{(High)} & خطرٌ كبيرٌ يستوجب خطة استجابةٍ تفصيلية & وضع خطة استجابةٍ مكتوبةٍ مع مسؤولٍ محدد \\
-\midrule
-8 -- 11 & متوسطة-عالية \EN{(Medium-High)} & خطرٌ ملحوظٌ يستحق المتابعة الدورية & مراقبةٌ شهريةٌ مع إجراءاتٍ وقائيةٍ موثقة \\
-\midrule
+\rowcolor{red!25} 20 -- 25 & حرجة \EN{(Critical)} & تهديدٌ جسيمٌ يستوجب تدخلاً فورياً & إيقاف العمل ورفع الأمر للإدارة العليا فوراً \\
+\rowcolor{orange!30} 12 -- 19 & عالية \EN{(High)} & خطرٌ كبيرٌ يستوجب خطة استجابةٍ تفصيلية & وضع خطة استجابةٍ مكتوبةٍ مع مسؤولٍ محدد \\
+\rowcolor{yellow!40} 8 -- 11 & متوسطة-عالية \EN{(Medium-High)} & خطرٌ ملحوظٌ يستحق المتابعة الدورية & مراقبةٌ شهريةٌ مع إجراءاتٍ وقائيةٍ موثقة \\
 4 -- 7 & متوسطة \EN{(Medium)} & خطرٌ محتملٌ ضمن المستوى المقبول & مراقبةٌ ربع سنويةٍ مع جاهزية استجابة \\
-\midrule
 1 -- 3 & منخفضة \EN{(Low)} & خطرٌ طفيفٌ يمكن تجاهله أو قبوله & قبولٌ مع مراجعةٍ سنوية \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\noindent\textit{\small المصدر: مُعدّل من \EN{ISO 31000:2018} \cite{iso31000}، \EN{NIST SP 800-30 Rev.1} \cite{nist800-30}، و \EN{AS/NZS 4360} مع تعديلات الفريق.}
+\noindent\textit{\small المصدر: مُعدّل من \EN{ISO 31000:2018} \cite{iso31000} و \EN{NIST SP 800-30 Rev.1} \cite{nist800-30} مع تعديلات الفريق.}
 
 
 \subsection{سجل المخاطر الشامل (\EN{Risk Register})}
 \label{subsec:risk-register}
 
-يستعرض هذا الجزء سجل المخاطر الكامل للمشروع، والذي تم تطويره عبر جلسات عصفٍ ذهنيٍ مع فريق المشروع ومراجعةٍ منهجيةٍ للأدبيات العلمية الحديثة في مجال مخاطر الذكاء الاصطناعي \cite{nist-airmf}\cite{owasp-llm}\cite{schwarcz2024}. وقد تم تحديد اثنتين وعشرين (22) مخاطرةً محتملةً تنتمي إلى سبع فئاتٍ رئيسيةٍ: تقنية، أمنية، تشغيلية، اقتصادية، قانونية وامتثال، بيانات، ومشروعية. ويعرض الجدول \ref{tab:risk-register} لكل مخاطرةٍ: المُعرّف الفريد، والوصف التفصيلي، والفئة، ومستوى الاحتمال، ومستوى الأثر، والأولوية المحسوبة، واستراتيجية التخفيف المقترحة.
+يستعرض هذا الجزء سجل المخاطر الكامل للمشروع، والذي تم تطويره عبر جلسات عصفٍ ذهنيٍ مع فريق المشروع ومراجعةٍ منهجيةٍ للأدبيات العلمية الحديثة في مجال مخاطر الذكاء الاصطناعي \cite{nist-airmf}\cite{owasp-llm}\cite{schwarcz2024}. وقد تم تحديد اثنتين وعشرين (22) مخاطرةً محتملةً تنتمي إلى سبع فئاتٍ رئيسيةٍ: تقنية، أمنية، تشغيلية، اقتصادية، قانونية وامتثال، بيانات، ومشروعية. ويعرض الجدول \ref{tab:risk-register} لكل مخاطرةٍ: المُعرّف الفريد، والوصف، والفئة، ومستوى الاحتمال، ومستوى الأثر، والأولوية المحسوبة (مُلوَّنة حسب الخطورة)، واستراتيجية التخفيف المقترحة.
 
 \begin{table}[H]
 \centering
-\caption{سجل المخاطر الشامل لمشروع المساعد المؤسسي الذكي.}
+\caption{سجل المخاطر الشامل.}
 \label{tab:risk-register}
 \scriptsize
 \renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{0.9cm} X >{\raggedright\arraybackslash}p{2cm} >{\centering\arraybackslash}p{1.8cm} >{\centering\arraybackslash}p{1.4cm} >{\centering\arraybackslash}p{1.7cm} >{\raggedright\arraybackslash}p{3.5cm}}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{0.9cm} X >{\raggedright\arraybackslash}p{2cm} >{\centering\arraybackslash}p{1.8cm} >{\centering\arraybackslash}p{1.4cm} >{\centering\arraybackslash}p{1.9cm} >{\raggedright\arraybackslash}p{3.3cm}}
 \toprule
 \textbf{المُعرّف} & \textbf{الوصف} & \textbf{الفئة} & \textbf{الاحتمال} & \textbf{الأثر} & \textbf{الأولوية} & \textbf{استراتيجية التخفيف} \\
 \midrule
-R-01 & انقطاع خدمة واجهات \EN{LLM} الخارجية (\EN{OpenAI} / \EN{Jais}) مما يؤدي إلى تعطل المساعد & تقنية & شبه مؤكد (5) & متوسط (3) & عالية (15) & اعتماد متعدد لمزودي الخدمة \EN{(Multi-Provider)} مع نموذج احتياطي محلي \EN{(Fallback LLM)} \\
-\midrule
+R-01 & انقطاع خدمة واجهات \EN{LLM} الخارجية (\EN{OpenAI} / \EN{Jais}) مما يؤدي إلى تعطل المساعد & تقنية & شبه مؤكد (5) & متوسط (3) & \cellcolor{orange!30}عالية (15) & اعتماد متعدد لمزودي الخدمة \EN{(Multi-Provider)} مع نموذج احتياطي محلي \EN{(Fallback LLM)} \\
+\cmidrule{1-7}
 R-02 & زمن استجابةٍ مرتفعٍ عند الاستعلامات المعقدة بسبب حجم السياق المُمرَّر للنموذج & تقنية & مرجّح (4) & طفيف (2) & متوسطة (8) & تطبيق تقنية \EN{Context Window Optimization} و \EN{Chunking} مع \EN{Indexing} للـ \EN{Vector DB} \\
-\midrule
-R-03 & هلوسة النموذج \EN{(Hallucination)} وإصدار إجاباتٍ غير صحيحةٍ أو مُختلَقةٍ & تقنية & محتمل (3) & كبير (4) & عالية (12) & تطبيق تقنية \EN{RAG} مع \EN{Citation Verification} و \EN{Human-in-the-loop} للأسئلة الحرجة \\
-\midrule
-R-04 & فشل في استرجاع المستندات الصحيحة من قاعدة المعرفة \EN{(RAG Retrieval Failure)} & تقنية & مرجّح (4) & كبير (4) & عالية (16) & استخدام \EN{Hybrid Search (Keyword + Semantic)} مع \EN{Re-ranking} وتحسين الـ \EN{Embeddings} \\
-\midrule
+\cmidrule{1-7}
+R-03 & هلوسة النموذج \EN{(Hallucination)} وإصدار إجاباتٍ غير صحيحةٍ أو مُختلَقةٍ & تقنية & محتمل (3) & كبير (4) & \cellcolor{orange!30}عالية (12) & تطبيق تقنية \EN{RAG} مع \EN{Citation Verification} و \EN{Human-in-the-loop} للأسئلة الحرجة \\
+\cmidrule{1-7}
+R-04 & فشل في استرجاع المستندات الصحيحة من قاعدة المعرفة \EN{(RAG Retrieval Failure)} & تقنية & مرجّح (4) & كبير (4) & \cellcolor{orange!30}عالية (16) & استخدام \EN{Hybrid Search (Keyword + Semantic)} مع \EN{Re-ranking} وتحسين الـ \EN{Embeddings} \\
+\cmidrule{1-7}
 R-05 & انحراف أداء النموذج بمرور الوقت \EN{(Model Drift)} بسبب تغير طبيعة الاستعلامات & تقنية & مرجّح (4) & طفيف (2) & متوسطة (8) & مراقبة مستمرة لمؤشرات الجودة وإعادة ضبط الـ \EN{Prompts} دورياً مع \EN{Fine-tuning} عند الضرورة \\
-\midrule
+\cmidrule{1-7}
 R-06 & تعقيد التكامل بين مكونات \EN{LangGraph} و \EN{Vector DB} و \EN{APIs} المؤسسية & تقنية & شبه مؤكد (5) & طفيف (2) & متوسطة (10) & اعتماد بنية \EN{Microservices} واضحة مع \EN{Docker Compose} واختبارات تكاملية شاملة \\
-\midrule
-R-07 & هجمات \EN{Prompt Injection} لالتواء سلوك المساعد أو استخراج تعليمات النظام & أمنية & محتمل (3) & متوسط (3) & متوسطة-عالية (9) & تطبيق \EN{Input Sanitization} و \EN{Prompt Filtering} و \EN{System Prompt Isolation} و \EN{OWASP LLM} \\
-\midrule
-R-08 & تسريب بياناتٍ مؤسسيةٍ حساسةٍ عبر استجابات النموذج أو السجلات & أمنية & مرجّح (4) & متوسط (3) & عالية (12) & تطبيق \EN{Data Loss Prevention (DLP)} و \EN{Redaction} للحقول الحساسة وتشفير \EN{Transit/At-Rest} \\
-\midrule
-R-09 & وصولٌ غير مصرحٍ به للنظام من خلال ثغرات المصادقة أو إدارة الجلسات & أمنية & محتمل (3) & كبير (4) & عالية (12) & تطبيق \EN{Multi-Factor Authentication} و \EN{RBAC} و \EN{JWT} مع انتهاء صلاحيةٍ قصير ومراجعة دورية \\
-\midrule
+\cmidrule{1-7}
+R-07 & هجمات \EN{Prompt Injection} لالتواء سلوك المساعد أو استخراج تعليمات النظام & أمنية & محتمل (3) & متوسط (3) & \cellcolor{yellow!40}متوسطة-عالية (9) & تطبيق \EN{Input Sanitization} و \EN{Prompt Filtering} و \EN{System Prompt Isolation} و \EN{OWASP LLM} \\
+\cmidrule{1-7}
+R-08 & تسريب بياناتٍ مؤسسيةٍ حساسةٍ عبر استجابات النموذج أو السجلات & أمنية & مرجّح (4) & متوسط (3) & \cellcolor{orange!30}عالية (12) & تطبيق \EN{Data Loss Prevention (DLP)} و \EN{Redaction} للحقول الحساسة وتشفير \EN{Transit/At-Rest} \\
+\cmidrule{1-7}
+R-09 & وصولٌ غير مصرحٍ به للنظام من خلال ثغرات المصادقة أو إدارة الجلسات & أمنية & محتمل (3) & كبير (4) & \cellcolor{orange!30}عالية (12) & تطبيق \EN{Multi-Factor Authentication} و \EN{RBAC} و \EN{JWT} مع انتهاء صلاحيةٍ قصير ومراجعة دورية \\
+\cmidrule{1-7}
 R-10 & أخطاء المستخدمين في إدخال الاستعلامات تؤدي لإجاباتٍ مضللة & تشغيلية & شبه مؤكد (5) & طفيف (2) & متوسطة (10) & توفير واجهة \EN{UX} محسّنة مع أمثلة جاهزة \EN{(Prompt Templates)} وآلية تصحيحٍ تلقائية \\
-\midrule
+\cmidrule{1-7}
 R-11 & صعوبة تدريب الموظفين على استخدام النظام وميزاته المتقدمة & تشغيلية & محتمل (3) & طفيف (2) & منخفضة (6) & إعداد دليل استخدامٍ تفصيليٍ وجلسات تدريبيةٍ متدرجةٍ ومواد فيديو تعليمية \\
-\midrule
+\cmidrule{1-7}
 R-12 & محدودية قابلية التوسع \EN{(Scalability)} عند زيادة عدد المستخدمين المتزامنين & تشغيلية & غير محتمل (2) & متوسط (3) & متوسطة (6) & اعتماد \EN{Horizontal Scaling} عبر \EN{Kubernetes} مع \EN{Load Balancing} و \EN{Auto-scaling policies} \\
-\midrule
-R-13 & تجاوز تكاليف استهلاك \EN{API} للنماذج اللغوية للحدود الميزانية المقررة & اقتصادية & نادر (1) & كارثي (5) & حرجة (20) & تطبيق \EN{Rate Limiting} و \EN{Quota Management} و \EN{Token Budgeting} مع تنبيهاتٍ فوريةٍ للتجاوز \\
-\midrule
+\cmidrule{1-7}
+R-13 & تجاوز تكاليف استهلاك \EN{API} للنماذج اللغوية للحدود الميزانية المقررة & اقتصادية & نادر (1) & كارثي (5) & \cellcolor{red!25}حرجة (20) & تطبيق \EN{Rate Limiting} و \EN{Quota Management} و \EN{Token Budgeting} مع تنبيهاتٍ فوريةٍ للتجاوز \\
+\cmidrule{1-7}
 R-14 & ارتفاع تكاليف البنية التحتية السحابية \EN{(Storage + Compute)} بشكلٍ غير متوقع & اقتصادية & محتمل (3) & طفيف (2) & منخفضة (6) & استخدام \EN{Reserved Instances} و \EN{Resource Optimization} ومراقبة الفوترة اليومية \\
-\midrule
-R-15 & عدم الامتثال لقوانين حماية البيانات والخصوصية (محلياً ودولياً) & قانونية وامتثال & غير محتمل (2) & كارثي (5) & حرجة (10) & تطبيق \EN{Privacy by Design} و \EN{Data Minimization} و موافقة المستخدم وفق لوائح جهة الإشراف \\
-\midrule
+\cmidrule{1-7}
+R-15 & عدم الامتثال لقوانين حماية البيانات والخصوصية (محلياً ودولياً) & قانونية وامتثال & غير محتمل (2) & كارثي (5) & \cellcolor{red!25}حرجة (10) & تطبيق \EN{Privacy by Design} و \EN{Data Minimization} و موافقة المستخدم وفق لوائح جهة الإشراف \\
+\cmidrule{1-7}
 R-16 & انتهاك حقوق الملكية الفكرية عند استخدام محتوىً من مصادرَ خارجيةٍ & قانونية وامتثال & نادر (1) & متوسط (3) & منخفضة (3) & اعتماد سياسة استخدام المحتوى وترخيص المصادر ومراجعة قانونية قبل النشر \\
-\midrule
+\cmidrule{1-7}
 R-17 & غياب موافقةٍ قانونيةٍ على آلية معالجة البيانات الشخصية للطلاب والموظفين & قانونية وامتثال & نادر (1) & متوسط (3) & منخفضة (3) & إعداد إشعار خصوصيةٍ واضحٍ ونموذج موافقةٍ موقعٍ مع مراجعةٍ من المستشار القانوني \\
-\midrule
-R-18 & جودة بياناتٌ ضعيفةٌ في قاعدة المعرفة تؤدي لإجاباتٍ غير دقيقة & بيانات & غير محتمل (2) & كبير (4) & متوسطة-عالية (8) & تطبيق \EN{Data Quality Pipeline} مع \EN{Validation Rules} ومراجعة دورية للمحتوى \\
-\midrule
+\cmidrule{1-7}
+R-18 & جودة بياناتٌ ضعيفةٌ في قاعدة المعرفة تؤدي لإجاباتٍ غير دقيقة & بيانات & غير محتمل (2) & كبير (4) & \cellcolor{yellow!40}متوسطة-عالية (8) & تطبيق \EN{Data Quality Pipeline} مع \EN{Validation Rules} ومراجعة دورية للمحتوى \\
+\cmidrule{1-7}
 R-19 & تحيّز النموذج \EN{(Bias)} ضد فئاتٍ معينةٍ من المستخدمين بسبب بيانات التدريب & بيانات & نادر (1) & طفيف (2) & منخفضة (2) & تطبيق \EN{Bias Testing} و \EN{Fairness Metrics} واختباراتٌ على مجموعاتٍ متنوعةٍ \\
-\midrule
-R-20 & عدم كفاية البيانات التدريبية المتعلقة بالسياق المؤسسي المحلي \EN{(Yemen/Arabic)} & بيانات & محتمل (3) & كارثي (5) & حرجة (15) & تجميع \EN{dataset} محلي مع \EN{Fine-tuning} للنموذج \EN{Jais} العربي و \EN{Data Augmentation} \\
-\midrule
+\cmidrule{1-7}
+R-20 & عدم كفاية البيانات التدريبية المتعلقة بالسياق المؤسسي المحلي \EN{(Yemen/Arabic)} & بيانات & محتمل (3) & كارثي (5) & \cellcolor{red!25}حرجة (15) & تجميع \EN{dataset} محلي مع \EN{Fine-tuning} للنموذج \EN{Jais} العربي و \EN{Data Augmentation} \\
+\cmidrule{1-7}
 R-21 & تأخر تسليم المشروع عن الجدول الزمني المقرر بسبب تعقيد المتطلبات & مشروعية & نادر (1) & طفيف (2) & منخفضة (2) & تطبيق منهجية \EN{Agile} مع \EN{Sprint Planning} ومراجعةٍ أسبوعيةٍ للتقدم \\
-\midrule
+\cmidrule{1-7}
 R-22 & مغادرة أحد أعضاء فريق التطوير مما يؤثر على استمرارية العمل & مشروعية & شبه مؤكد (5) & ضئيل (1) & منخفضة (5) & توثيقٌ شاملٌ للكود والقرارات المعمارية مع \EN{Knowledge Sharing Sessions} أسبوعياً \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\noindent\textit{\small المصدر: إعداد فريق المشروع بالاستناد إلى \EN{ISO 31000:2018} \cite{iso31000}، \EN{NIST AI RMF 1.0} \cite{nist-airmf}، \EN{OWASP LLM Top 10} \cite{owasp-llm}.}
+\noindent\textit{\small المصدر: إعداد فريق المشروع بالاستناد إلى \EN{ISO 31000:2018} \cite{iso31000} و \EN{NIST AI RMF 1.0} \cite{nist-airmf}.}
+
+\medskip
+
+\noindent\textbf{ملخص السجل:} إجمالي المخاطر \textbf{22} موزعة كالتالي: \textcolor{red!70!black}{\textbf{3 حرجة}} \EN{(R-13, R-15, R-20)}، \textcolor{orange!80!black}{\textbf{7 عالية}} \EN{(R-01, R-03, R-04, R-06, R-08, R-09)}، \textbf{2 متوسطة-عالية} \EN{(R-07, R-18)}، \textbf{5 متوسطة}، و\textbf{6 منخفضة}.
 
 
 \subsection{مصفوفة المخاطر (\EN{Risk Matrix})}
@@ -162,26 +158,29 @@ R-22 & مغادرة أحد أعضاء فريق التطوير مما يؤثر ع
 \toprule
 \textbf{المُعرّف} & \textbf{الأولوية} & \textbf{الإجراء الوقائي} & \textbf{الإجراء التصحيحي} & \textbf{المسؤول} \\
 \midrule
-R-13 & حرجة (20) & تطبيق \EN{Token Budgeting} صارم مع \EN{Rate Limiting} و \EN{Semantic Caching}، وتوجيه الاستعلامات البسيطة لنماذج أصغر وأرخص. & عند بلوغ 80\% من الميزانية: تفعيل \EN{Economy Mode}؛ وعند 95\%: تعليق الخدمة للمستخدمين غير الأساسيين مع إشعار فوري. & قائد الفريق الفني + الإدارة المالية \\
-\midrule
-R-15 & حرجة (10) & تطبيق \EN{Privacy by Design} و \EN{Data Minimization} و \EN{Redaction} التلقائي و \EN{RBAC} وموافقة المستخدم الصريحة. & عند اكتشاف خرق: إيقاف المعالجة فوراً، عزل البيانات، إشعار الجهة القانونية خلال 72 ساعة، وتدقيق شامل. & مسؤول حماية البيانات + المستشار القانوني \\
-\midrule
-R-20 & حرجة (15) & تجميع \EN{dataset} محلي (وثائق إدارية وأكاديمية)، \EN{Fine-tuning} لنموذج \EN{Jais} العربي، \EN{Data Augmentation}، ونظام \EN{RAG} قوي. & عند ضعف الجودة: \EN{Gap Analysis} للمواضيع غير المُغطّاة، جمع بيانات مستهدفة، إعادة \EN{Fine-tuning}، وتقييم عبر \EN{Benchmark Set}. & قائد الفريق الفني + مسؤول قاعدة المعرفة \\
-\midrule
-R-03 & عالية (12) & تطبيق \EN{RAG} صارم مع \EN{Citation Verification} و \EN{System Prompt} واضح و \EN{Confidence Threshold} لرفض الإجابات منخفضة الثقة. & عند الإجابات المُختلَقة: إضافتها لـ \EN{Regression Test Set}، إعادة ضبط \EN{Prompts}، وإدراج \EN{Human-in-the-loop} للأسئلة الحرجة. & مهندس الذكاء الاصطناعي + مختبر الجودة \\
-\midrule
-R-04 & عالية (16) & اعتماد \EN{Hybrid Search (Semantic + Keyword)} مع \EN{Re-ranking} و \EN{Embeddings} عربية متخصصة (\EN{multilingual-e5-large}) و \EN{Chunking} مناسب. & عند انخفاض الدقة: تحليل \EN{Recall@K} و \EN{Precision@K}، ضبط أوزان \EN{Hybrid Search}، تجربة \EN{Embeddings} بديلة، و \EN{A/B Testing}. & مهندس \EN{RAG} + فريق قاعدة المعرفة \\
-\midrule
-R-09 & عالية (12) & تطبيق \EN{MFA} إلزامي، \EN{RBAC} دقيق، \EN{JWT} بصلاحية قصيرة (15 دقيقة)، \EN{Rate Limiting} لمحاولات الدخول، ومراجعة صلاحيات كل 90 يوماً. & عند الاشتباه: تعطيل الحساب فوراً، تحليل جنائي رقمي، استعادة كلمات المرور، وتعزيز المراقبة. & مهندس الأمن السيبراني \\
-\midrule
-R-08 & عالية (12) & تطبيق \EN{DLP} لفحص الاستجابات، \EN{Redaction} تلقائي، تشفير \EN{AES-256} و \EN{TLS 1.3}، \EN{Contextual Access Control}، وتدريب النموذج على رفض استخراج البيانات الحساسة. & عند التسريب: إيقاف النموذج فوراً، عزله عن قاعدة البيانات، تدقيق الاستجابات السابقة، وتحديث قواعد \EN{DLP}. & مسؤول أمن المعلومات \\
-\midrule
-R-07 & متوسطة-عالية (9) & تطبيق \EN{Input Sanitization} قوي، عزل \EN{System Prompt} بـ \EN{Boundary Markers}، \EN{Constitutional AI} و \EN{Self-Critique}، و \EN{Output Filtering}. & عند رصد \EN{Prompt Injection}: تسجيل النمط، حظر المستخدم، تحليل \EN{Prompt} لاستخلاص الأنماط، و \EN{Penetration Testing} دورية. & مهندس الأمن السيبراني + مطوّر \EN{Prompts} \\
-\midrule
-R-01 & عالية (15) & اعتماد \EN{Multi-Provider Strategy} (\EN{OpenAI} + \EN{Jais} + نموذج محلي)، \EN{Circuit Breaker Pattern}، \EN{Semantic Cache}، و \EN{Health Check} كل 30 ثانية. & عند انقطاع المزود الأساسي: \EN{Fallback} تلقائي خلال 3 ثوانٍ؛ عند انقطاع الكل: وضع الطوارئ بالـ \EN{Cache} المحلي. & مهندس البنية التحتية + فريق التشغيل \\
+R-13 & \cellcolor{red!25}حرجة (20) & تطبيق \EN{Token Budgeting} صارم مع \EN{Rate Limiting} و \EN{Semantic Caching}، وتوجيه الاستعلامات البسيطة لنماذج أصغر وأرخص. & عند بلوغ 80\% من الميزانية: تفعيل \EN{Economy Mode}؛ وعند 95\%: تعليق الخدمة للمستخدمين غير الأساسيين مع إشعار فوري. & قائد الفريق الفني + الإدارة المالية \\
+\cmidrule{1-5}
+R-15 & \cellcolor{red!25}حرجة (10) & تطبيق \EN{Privacy by Design} و \EN{Data Minimization} و \EN{Redaction} التلقائي و \EN{RBAC} وموافقة المستخدم الصريحة. & عند اكتشاف خرق: إيقاف المعالجة فوراً، عزل البيانات، إشعار الجهة القانونية خلال 72 ساعة، وتدقيق شامل. & مسؤول حماية البيانات + المستشار القانوني \\
+\cmidrule{1-5}
+R-20 & \cellcolor{red!25}حرجة (15) & تجميع \EN{dataset} محلي (وثائق إدارية وأكاديمية)، \EN{Fine-tuning} لنموذج \EN{Jais} العربي، \EN{Data Augmentation}، ونظام \EN{RAG} قوي. & عند ضعف الجودة: \EN{Gap Analysis} للمواضيع غير المُغطّاة، جمع بيانات مستهدفة، إعادة \EN{Fine-tuning}، وتقييم عبر \EN{Benchmark Set}. & قائد الفريق الفني + مسؤول قاعدة المعرفة \\
+\cmidrule{1-5}
+R-03 & \cellcolor{orange!30}عالية (12) & تطبيق \EN{RAG} صارم مع \EN{Citation Verification} و \EN{System Prompt} واضح و \EN{Confidence Threshold} لرفض الإجابات منخفضة الثقة. & عند الإجابات المُختلَقة: إضافتها لـ \EN{Regression Test Set}، إعادة ضبط \EN{Prompts}، وإدراج \EN{Human-in-the-loop} للأسئلة الحرجة. & مهندس الذكاء الاصطناعي + مختبر الجودة \\
+\cmidrule{1-5}
+R-04 & \cellcolor{orange!30}عالية (16) & اعتماد \EN{Hybrid Search (Semantic + Keyword)} مع \EN{Re-ranking} و \EN{Embeddings} عربية متخصصة (\EN{multilingual-e5-large}) و \EN{Chunking} مناسب. & عند انخفاض الدقة: تحليل \EN{Recall@K} و \EN{Precision@K}، ضبط أوزان \EN{Hybrid Search}، تجربة \EN{Embeddings} بديلة، و \EN{A/B Testing}. & مهندس \EN{RAG} + فريق قاعدة المعرفة \\
+\cmidrule{1-5}
+R-09 & \cellcolor{orange!30}عالية (12) & تطبيق \EN{MFA} إلزامي، \EN{RBAC} دقيق، \EN{JWT} بصلاحية قصيرة (15 دقيقة)، \EN{Rate Limiting} لمحاولات الدخول، ومراجعة صلاحيات كل 90 يوماً. & عند الاشتباه: تعطيل الحساب فوراً، تحليل جنائي رقمي، استعادة كلمات المرور، وتعزيز المراقبة. & مهندس الأمن السيبراني \\
+\cmidrule{1-5}
+R-08 & \cellcolor{orange!30}عالية (12) & تطبيق \EN{DLP} لفحص الاستجابات، \EN{Redaction} تلقائي، تشفير \EN{AES-256} و \EN{TLS 1.3}، \EN{Contextual Access Control}، وتدريب النموذج على رفض استخراج البيانات الحساسة. & عند التسريب: إيقاف النموذج فوراً، عزله عن قاعدة البيانات، تدقيق الاستجابات السابقة، وتحديث قواعد \EN{DLP}. & مسؤول أمن المعلومات \\
+\cmidrule{1-5}
+R-07 & \cellcolor{yellow!40}متوسطة-عالية (9) & تطبيق \EN{Input Sanitization} قوي، عزل \EN{System Prompt} بـ \EN{Boundary Markers}، \EN{Constitutional AI} و \EN{Self-Critique}، و \EN{Output Filtering}. & عند رصد \EN{Prompt Injection}: تسجيل النمط، حظر المستخدم، تحليل \EN{Prompt} لاستخلاص الأنماط، و \EN{Penetration Testing} دورية. & مهندس الأمن السيبراني + مطوّر \EN{Prompts} \\
+\cmidrule{1-5}
+R-01 & \cellcolor{orange!30}عالية (15) & اعتماد \EN{Multi-Provider Strategy} (\EN{OpenAI} + \EN{Jais} + نموذج محلي)، \EN{Circuit Breaker Pattern}، \EN{Semantic Cache}، و \EN{Health Check} كل 30 ثانية. & عند انقطاع المزود الأساسي: \EN{Fallback} تلقائي خلال 3 ثوانٍ؛ عند انقطاع الكل: وضع الطوارئ بالـ \EN{Cache} المحلي. & مهندس البنية التحتية + فريق التشغيل \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
 \noindent\textit{\small المصدر: إعداد فريق المشروع وفقاً لمعيار \EN{ISO 31000:2018} \cite{iso31000}.}
 
+\bigskip
+
+\noindent\textbf{خلاصة القسم:} تم في هذا القسم استعراض \textbf{22 مخاطرة} محتملة موزعة على سبع فئات، مع تصنيفها وفق منهجية كمية شبه موضوعية تستند إلى مصفوفة المخاطر 5×5. وقد كشف التحليل عن \textcolor{red!70!black}{\textbf{3 مخاطر حرجة}} و\textcolor{orange!80!black}{\textbf{7 مخاطر عالية}} تستوجب خطط استجابةٍ تفصيليةً، تم تقديمها في الجدول \ref{tab:risk-response-summary}. وتُكمل هذه الخطة الفصل التالي الذي يُقدّم التصميم المعماري التفصيلي للنظام مع مراعاة الضوابط الأمنية والتشغيلية المُقترَحة في هذا القسم.
