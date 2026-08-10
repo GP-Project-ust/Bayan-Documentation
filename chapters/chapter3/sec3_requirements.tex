@@ -29,7 +29,7 @@
 \label{tab:requirements-stakeholders}
 \small
 \renewcommand{\arraystretch}{1.5}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.4cm} >{\raggedright\arraybackslash}p{4.0cm} X}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{4.0cm}X|}
 \toprule
 \textbf{صاحب المصلحة} & \textbf{الدور} & \textbf{الاهتمامات الرئيسية} \\
 \midrule
@@ -74,7 +74,7 @@
   \label{fig:functional-priority}
 \end{figure}
 
-\begin{longtable}{>{\centering\arraybackslash}p{1.7cm} >{\raggedright\arraybackslash}p{10.2cm} >{\centering\arraybackslash}p{2.4cm}}
+\begin{longtable}{|>{\centering\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}p{10.2cm}|>{\centering\arraybackslash}p{2.4cm}|}
 \caption{المتطلبات الوظيفية لنظام «بيان».}\label{tab:functional-requirements}\\
 \toprule
 \textbf{المعرّف} & \textbf{وصف المتطلب} & \textbf{الأولوية} \\
@@ -145,7 +145,7 @@ FR-30 & إرسال إشعارات داخلية عبر لوحة التحكم لل
   \label{fig:nonfunctional-quality}
 \end{figure}
 
-\begin{longtable}{>{\centering\arraybackslash}p{1.7cm} >{\raggedright\arraybackslash}p{8.1cm} >{\raggedright\arraybackslash}p{4.1cm}}
+\begin{longtable}{|>{\centering\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}p{8.1cm}|>{\raggedright\arraybackslash}p{4.1cm}|}
 \caption{المتطلبات غير الوظيفية وطرق اختبارها.}\label{tab:nonfunctional-requirements}\\
 \toprule
 \textbf{المعرّف} & \textbf{وصف المتطلب} & \textbf{طريقة الاختبار} \\
@@ -199,7 +199,7 @@ NFR-20 & تبديل النموذج اللغوي دون تعديل الشفرة. 
 \caption{متطلبات الخادم المادية.}
 \label{tab:hardware-requirements}
 \small\renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3cm} >{\raggedright\arraybackslash}p{5cm} X}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{5cm}X|}
 \toprule\textbf{المكون} & \textbf{المواصفات} & \textbf{الغرض والاستخدام}\\\midrule
 المعالج & \EN{Intel Core i7} أو ما يعادله، 8 أنوية على الأقل & تشغيل خدمات الواجهة الخلفية وإدارة الطلبات المتزامنة.\\\midrule
 الذاكرة & 32 GB كحد أدنى & تشغيل \EN{PostgreSQL} و\EN{Qdrant} و\EN{Redis} والنموذج المحلي عند الحاجة.\\\midrule
@@ -214,7 +214,7 @@ NFR-20 & تبديل النموذج اللغوي دون تعديل الشفرة. 
 \caption{متطلبات بيئة التشغيل البرمجية.}
 \label{tab:software-requirements}
 \small\renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.1cm} >{\raggedright\arraybackslash}p{5.5cm} X}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}|>{\raggedright\arraybackslash}p{5.5cm}X|}
 \toprule\textbf{المكون} & \textbf{التقنية المعتمدة} & \textbf{الغرض والاستخدام}\\\midrule
 نظام التشغيل & \EN{Ubuntu 22.04 LTS} & الاستقرار والدعم طويل الأمد في الإنتاج.\\\midrule
 منصة الحاويات & \EN{Docker Compose} & تشغيل الخدمات في بيئة معزولة وموحدة.\\\midrule
@@ -246,7 +246,7 @@ NFR-20 & تبديل النموذج اللغوي دون تعديل الشفرة. 
 \caption{قيود ومحددات نظام «بيان».}
 \label{tab:system-constraints}
 \small\renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.3cm} X}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.3cm}X|}
 \toprule\textbf{نوع القيد} & \textbf{وصف القيد}\\\midrule
 اللغة & يدعم النظام العربية الفصحى والعامية، إلا أن دقة فهم اللهجات المحلية تعتمد على النموذج اللغوي وقد تتطلب إعادة صياغة السؤال.\\\midrule
 البيانات & تعتمد جودة الإجابات على جودة واكتمال بيانات \EN{Odoo}؛ ولا يصحح النظام أخطاء البيانات المصدرية.\\\midrule
@@ -269,7 +269,7 @@ NFR-20 & تبديل النموذج اللغوي دون تعديل الشفرة. 
 \caption{افتراضات نظام «بيان».}
 \label{tab:system-assumptions}
 \small\renewcommand{\arraystretch}{1.5}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.5cm} X}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}X|}
 \toprule\textbf{نوع الافتراض} & \textbf{الوصف}\\\midrule
 المستخدمون & يُفترض أن المستخدم قادر على صياغة أسئلة واضحة بالعربية ويمتلك معرفة أساسية بواجهات المحادثة.\\\midrule
 البيانات & يُفترض أن خادم \EN{Odoo} يعمل بكفاءة وأن بياناته سليمة ومحدثة؛ إذ يعتمد النظام عليها كما هي.\\\midrule
