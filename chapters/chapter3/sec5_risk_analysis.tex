@@ -48,16 +48,25 @@
 
 يستعرض هذا الجزء سجل المخاطر الكامل للمشروع، والذي تم تطويره عبر جلسات عصفٍ ذهنيٍ مع فريق المشروع ومراجعةٍ منهجيةٍ للأدبيات العلمية الحديثة في مجال مخاطر الذكاء الاصطناعي \cite{nist-airmf}\cite{owasp-llm}\cite{schwarcz2024}. وقد تم تحديد اثنتين وعشرين (22) مخاطرةً محتملةً تنتمي إلى سبع فئاتٍ رئيسيةٍ: تقنية، أمنية، تشغيلية، اقتصادية، قانونية وامتثال، بيانات، ومشروعية. ويعرض الجدول \ref{tab:risk-register} لكل مخاطرةٍ: المُعرّف الفريد، والوصف، والفئة، ومستوى الاحتمال، ومستوى الأثر، والأولوية المحسوبة (مُلوَّنة حسب الخطورة)، واستراتيجية التخفيف المقترحة.
 
-\begin{table}[H]
-\centering
-\caption{سجل المخاطر الشامل.}
-\label{tab:risk-register}
 \scriptsize
 \renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{0.9cm} X >{\raggedright\arraybackslash}p{2cm} >{\centering\arraybackslash}p{1.8cm} >{\centering\arraybackslash}p{1.4cm} >{\centering\arraybackslash}p{1.9cm} >{\raggedright\arraybackslash}p{3.3cm}}
+\begin{longtable}{>{\centering\arraybackslash}p{0.9cm} >{\raggedright\arraybackslash}p{4.2cm} >{\raggedright\arraybackslash}p{2cm} >{\centering\arraybackslash}p{1.8cm} >{\centering\arraybackslash}p{1.4cm} >{\centering\arraybackslash}p{1.9cm} >{\raggedright\arraybackslash}p{3.3cm}}
+\caption{سجل المخاطر الشامل.}
+\label{tab:risk-register} \\
 \toprule
 \textbf{المُعرّف} & \textbf{الوصف} & \textbf{الفئة} & \textbf{الاحتمال} & \textbf{الأثر} & \textbf{الأولوية} & \textbf{استراتيجية التخفيف} \\
 \midrule
+\endfirsthead
+\multicolumn{7}{c}{\textit{\small تابع جدول سجل المخاطر الشامل من الصفحة السابقة}} \\
+\toprule
+\textbf{المُعرّف} & \textbf{الوصف} & \textbf{الفئة} & \textbf{الاحتمال} & \textbf{الأثر} & \textbf{الأولوية} & \textbf{استراتيجية التخفيف} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{7}{r}{\textit{\small يتبع في الصفحة التالية}} \\
+\endfoot
+\bottomrule
+\endlastfoot
 R-01 & انقطاع خدمة واجهات \EN{LLM} الخارجية (\EN{OpenAI} / \EN{Jais}) مما يؤدي إلى تعطل المساعد & تقنية & شبه مؤكد (5) & متوسط (3) & \cellcolor{orange!30}عالية (15) & اعتماد متعدد لمزودي الخدمة \EN{(Multi-Provider)} مع نموذج احتياطي محلي \EN{(Fallback LLM)} \\
 \cmidrule{1-7}
 R-02 & زمن استجابةٍ مرتفعٍ عند الاستعلامات المعقدة بسبب حجم السياق المُمرَّر للنموذج & تقنية & مرجّح (4) & طفيف (2) & متوسطة (8) & تطبيق تقنية \EN{Context Window Optimization} و \EN{Chunking} مع \EN{Indexing} للـ \EN{Vector DB} \\
@@ -101,9 +110,7 @@ R-20 & عدم كفاية البيانات التدريبية المتعلقة ب
 R-21 & تأخر تسليم المشروع عن الجدول الزمني المقرر بسبب تعقيد المتطلبات & مشروعية & نادر (1) & طفيف (2) & منخفضة (2) & تطبيق منهجية \EN{Agile} مع \EN{Sprint Planning} ومراجعةٍ أسبوعيةٍ للتقدم \\
 \cmidrule{1-7}
 R-22 & مغادرة أحد أعضاء فريق التطوير مما يؤثر على استمرارية العمل & مشروعية & شبه مؤكد (5) & ضئيل (1) & منخفضة (5) & توثيقٌ شاملٌ للكود والقرارات المعمارية مع \EN{Knowledge Sharing Sessions} أسبوعياً \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\end{longtable}
 
 \noindent\textit{\small المصدر: إعداد فريق المشروع بالاستناد إلى \EN{ISO 31000:2018} \cite{iso31000} و \EN{NIST AI RMF 1.0} \cite{nist-airmf}.}
 
