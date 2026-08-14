@@ -52,7 +52,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             texlive-luatex \
-            texlive-luatex-extra \
             texlive-latex-recommended \
             texlive-latex-extra \
             texlive-fonts-recommended \
