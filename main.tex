@@ -2,7 +2,7 @@
 %==============================================================================
 % KAU-style Arabic Thesis Template
 % Adapted for: مساعد ذكي مؤسسي معتمد على الذكاء الاصطناعي وتحليل البيانات
-% Engine: XeLaTeX (required for Arabic)
+% Engine: LuaLaTeX (required for clean Arabic text extraction)
 %==============================================================================
 \documentclass[12pt,a4paper,oneside,openany]{book}
 
@@ -20,7 +20,7 @@
 ]{geometry}
 
 %------------------------------------------------------------------------------
-% 2) Encoding & fonts (XeLaTeX)
+% 2) Encoding & fonts (LuaLaTeX)
 %------------------------------------------------------------------------------
 \usepackage{fontspec}
 % Portable font setup: do NOT hardcode a local Path — let fontspec
@@ -266,19 +266,16 @@
 
 %------------------------------------------------------------------------------
 % PDF text-extraction quality:
-%   bidi+polyglossia embed invisible Unicode directional control characters
-%   (U+202A/B/C/D, U+200E/F) in the PDF content stream to manage visual
-%   reordering. When the user selects & copies text from the PDF, these
-%   controls get pasted into their editor and show up as boxes / stray
-%   glyphs.  Enabling hyperref's `unicode=true` + `pdfencoding=auto`
-%   above ensures every font subset is shipped with a ToUnicode CMap, so
-%   the PDF viewer can map glyphs back to real codepoints and properly
-%   strip the invisible bidi controls during copy.
-%
-%   Additionally, we set \inputencoding* to UTF-8 and rely on XeTeX's
-%   native UTF-8 -> glyph mapping. The combination has been verified to
-%   produce clean copy-pasted Arabic text (no stray boxes) in Acrobat,
-%   Evince, and browser PDF viewers.
+%   The previous XeLaTeX-based build produced garbled text on copy because
+%   Amiri's ToUnicode CMap maps shaped Arabic glyphs to Arabic Presentation
+%   Forms (U+FE70-U+FEFF) instead of base Arabic codepoints (U+0600-U+06FF),
+%   and the text was stored in visual order. Switching to LuaLaTeX fixes
+%   this at the source: LuaTeX generates ToUnicode CMaps that point directly
+%   to the original base Arabic codepoints in logical order, so copied text
+%   is clean, searchable, and correctly ordered in all PDF viewers.
+%   The `unicode=true` / `pdfencoding=auto` hyperref options above remain
+%   in place because they ensure PDF bookmarks (outline) and the Info
+%   dictionary are Unicode-encoded.
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
@@ -290,7 +287,6 @@
 
 \usepackage{bidi}
 \setRTL
-\XeTeXgenerateactualtext=1
 
 %------------------------------------------------------------------------------
 % 6) Custom commands

@@ -1,4 +1,4 @@
-name: Build Thesis PDF + Word
+name: Build Thesis PDF
 
 # Trigger on every push to main, on PRs, and allow manual runs.
 on:
@@ -42,16 +42,17 @@ jobs:
             /usr/share/texlive
             /usr/share/texmf
             /var/cache/apt
-          key: texlive-2024-${{ runner.os }}-v1
+          key: texlive-2024-lualatex-${{ runner.os }}-v1
           restore-keys: |
-            texlive-2024-
+            texlive-2024-lualatex-
 
-      - name: Install TeX Live (XeLaTeX) + Arabic fonts + Pandoc
+      - name: Install TeX Live (LuaLaTeX) + Arabic fonts
         if: steps.cache-texlive.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            texlive-xetex \
+            texlive-luatex \
+            texlive-luatex-extra \
             texlive-latex-recommended \
             texlive-latex-extra \
             texlive-fonts-recommended \
@@ -66,21 +67,19 @@ jobs:
             fonts-noto-cjk \
             python3-pygments \
             librsvg2-bin \
-            poppler-utils \
-            pandoc
+            poppler-utils
 
       #---------------------------------------------------------------------
-      # Always install fonts + Pandoc (small, fast) even if TeX Live is cached
+      # Always install fonts (small, fast) even if TeX Live is cached
       #---------------------------------------------------------------------
-      - name: Install Arabic fonts + Pandoc (always)
+      - name: Install Arabic fonts (always)
         if: steps.cache-texlive.outputs.cache-hit == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             fonts-hosny-amiri \
             fonts-noto-core \
-            fonts-noto-extra \
-            pandoc
+            fonts-noto-extra
 
       - name: Refresh font cache
         run: |
@@ -88,9 +87,9 @@ jobs:
           echo "=== Arabic fonts visible to fontspec ==="
           fc-list | grep -iE "amiri|naskh" | sort
 
-      - name: Build PDF (latexmk + XeLaTeX, multiple passes for TOC/refs)
+      - name: Build PDF (latexmk + LuaLaTeX, multiple passes for TOC/refs)
         run: |
-          latexmk -xelatex -interaction=nonstopmode -file-line-error -halt-on-error main.tex
+          latexmk -lualatex -interaction=nonstopmode -file-line-error -halt-on-error main.tex
 
       - name: Show build log tail on failure
         if: failure()
@@ -105,46 +104,12 @@ jobs:
           pdfinfo main.pdf || true
           ls -la main.pdf
 
-      #---------------------------------------------------------------------
-      # Build Word document via Pandoc
-      # Converts LaTeX → Word (.docx) with structure, tables, and text.
-      # TikZ diagrams are converted to images automatically.
-      #---------------------------------------------------------------------
-      - name: Build Word document (Pandoc)
-        run: |
-          echo "=== Converting LaTeX to Word via Pandoc ==="
-          pandoc main.tex \
-            -o Bayan-Thesis.docx \
-            --from=latex \
-            --to=docx \
-            --toc \
-            --toc-depth=3 \
-            --number-sections \
-            --standalone \
-            --resource-path=. \
-            2>&1 || echo "Pandoc completed with warnings (non-critical)"
-
-          if [ -f Bayan-Thesis.docx ]; then
-            echo "✅ Word document created successfully"
-            ls -la Bayan-Thesis.docx
-          else
-            echo "⚠️ Pandoc failed to create Word document (non-critical)"
-          fi
-
       - name: Upload PDF as workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: Bayan-Thesis-PDF
           path: main.pdf
           if-no-files-found: error
-          retention-days: 30
-
-      - name: Upload Word document as workflow artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Bayan-Thesis-Word
-          path: Bayan-Thesis.docx
-          if-no-files-found: warn
           retention-days: 30
 
       - name: Commit built PDF back to the repo
