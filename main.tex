@@ -281,11 +281,13 @@
 %------------------------------------------------------------------------------
 % 5) Languages & bidirectional text — MUST be loaded before biblatex
 %------------------------------------------------------------------------------
-\usepackage{polyglossia}
+% Use polyglossia's built-in bidi=basic (LuaTeX native node-level bidi)
+% instead of the standalone `bidi` package (which is XeTeX-only via
+% \RequireXeTeX). polyglossia still provides \setRTL / \setLTR under this mode.
+\usepackage[bidi=basic]{polyglossia}
 \setmainlanguage[numerals=maghrib]{arabic}
 \setotherlanguage{english}
 
-\usepackage{bidi}
 \setRTL
 
 %------------------------------------------------------------------------------
