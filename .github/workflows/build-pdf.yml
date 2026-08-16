@@ -89,19 +89,27 @@ jobs:
       #---------------------------------------------------------------------
       # Ubuntu's texlive-lang-arabic ships polyglossia v1.66 (2023/12/11)
       # which predates the `bidi=basic` option (added in v1.67+, late 2023).
-      # Update polyglossia (and bidi if available) from CTAN via tlmgr so
-      # that \usepackage[bidi=basic]{polyglossia} works under LuaLaTeX.
+      # Update polyglossia from CTAN via tlmgr in USER mode (Debian's tlmgr
+      # is locked to system mode by default). The user tree is placed in
+      # TEXMFHOME so it overrides the system copy at compile time.
       #---------------------------------------------------------------------
-      - name: Update polyglossia via tlmgr (apt version too old for bidi=basic)
+      - name: Update polyglossia via tlmgr user mode (apt version too old)
         run: |
-          # Initialise tlmgr user path (Ubuntu installs into /usr/share/texlive)
+          set -e
           export PATH=/usr/share/texlive/texmf-dist/bin/x86_64-linux:$PATH
-          which tlmgr || { echo "tlmgr not found"; exit 1; }
+          export TEXMFHOME="$HOME/texmf"
+          mkdir -p "$TEXMFHOME"
+          which tlmgr && tlmgr --version
+          # Initialise user tree for tlmgr (required by Debian's tlmgr)
+          tlmgr init-usertree
           tlmgr option repository https://mirror.ctan.org/systems/texlive/tlnet
-          tlmgr update --self
-          tlmgr update polyglossia
-          echo "=== polyglossia version after update ==="
-          tlmgr info --only-installed polyglossia | head -5
+          # Update in user mode (--usermode)
+          tlmgr --usermode update --self || true
+          tlmgr --usermode install polyglossia
+          echo "=== polyglossia files in user tree ==="
+          kpsewhich polyglossia.sty
+          echo "=== version ==="
+          grep -m1 'ProvidesPackage' "$(kpsewhich polyglossia.sty)" || true
 
       - name: Build PDF (latexmk + LuaLaTeX, multiple passes for TOC/refs)
         run: |
