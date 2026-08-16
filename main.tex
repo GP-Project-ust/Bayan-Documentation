@@ -340,6 +340,23 @@
 }
 \makeatother
 
+%------------------------------------------------------------------------------
+% TOC chapter prefix: prepend "الفصل الأول:", "الفصل الثاني:", ... to the
+% chapter title in the table of contents (matches the running header).
+% Without this, the TOC shows "1 المقدمة ... 1"; with it, it shows
+% "الفصل الأول: المقدمة ... 1".
+% Uses \titlecontents from the titlesec/titletoc package (already loaded).
+%------------------------------------------------------------------------------
+\newcommand{\kauArabicChapterOrdinal}[1]{%
+  \ifcase#1\or الأول\or الثاني\or الثالث\or الرابع\or الخامس\or السادس\or السابع\or الثامن\or التاسع\or العاشر\or الحاديَ عشر\or الثاني عشر\fi}
+
+\titlecontents{chapter}
+  [0pt]
+  {\vspace{6pt}\bfseries\color{kauprimary}\large}
+  {\kauArabicChapterOrdinal{\thecontentslabel}:\enskip}
+  {}
+  {\titlerule*[0.7em]{.}\contentspage}
+
 %==============================================================================
 \begin{document}
 %==============================================================================
