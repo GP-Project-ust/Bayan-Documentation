@@ -337,33 +337,33 @@
 مهام الفريق، قُسّمنا مخطط جانت إلى أربعة أجزاء تتابعية يعرض كلٌّ منها مرحلة
 زمنية محددة:
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.82\textwidth]{gantt-part1.jpg}
+  \includegraphics[width=0.78\textwidth]{gantt-part1.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الأول.}
   \label{fig:gantt1}
 \end{figure}
 \noindent\textbf{شرح الجزء الأول:} يعرض هذا الجزء المراحل الأولى من المشروع، والتي تشمل جمع المتطلبات، تحليل النظام، ومرحلة التصميم المعماري الأولي للوكلاء وقاعدة البيانات.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.82\textwidth]{gantt-part2.jpg}
+  \includegraphics[width=0.78\textwidth]{gantt-part2.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الثاني.}
   \label{fig:gantt2}
 \end{figure}
 \noindent\textbf{شرح الجزء الثاني:} يركز هذا الجزء على مرحلة التنفيذ الأساسية للواجهة الخلفية (Backend) وتطوير وكلاء الذكاء الاصطناعي (LangGraph) وربطهم بقاعدة البيانات.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.82\textwidth]{gantt-part3.jpg}
+  \includegraphics[width=0.78\textwidth]{gantt-part3.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الثالث.}
   \label{fig:gantt3}
 \end{figure}
 \noindent\textbf{شرح الجزء الثالث:} يغطي هذا الجزء تطوير الواجهة الأمامية (Frontend)، ودمجها مع الواجهة الخلفية، بالإضافة إلى مرحلة الاختبار الأولي للنظام وتصحيح الأخطاء.
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.82\textwidth]{gantt-part4.jpg}
+  \includegraphics[width=0.78\textwidth]{gantt-part4.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الرابع.}
   \label{fig:gantt4}
 \end{figure}
@@ -388,25 +388,25 @@
   \label{tab:hardware}
   \small
   \renewcommand{\arraystretch}{1.4}
-  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}p{4.4cm}|>{\raggedright\arraybackslash}X|}
-    \hline
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}X}
+    \toprule
     \textbf{الأداة} & \textbf{الكمية} & \textbf{الاستخدام} & \textbf{المواصفات} \\
-    \hline
+    \midrule
     اتصال بالإنترنت & --- & للبحث، وتصحيح الأخطاء، وتحميل النماذج والأدوات، والتواصل مع الفريق & سرعة مناسبة للبحث والعمل الجماعي وتحميل ملفات بحجم عدة جيجابايتات (مثل نماذج \EN{Ollama}). \\
-    \hline
+    \midrule
     لابتوب & 5 & لكل عضو جهاز للعمل على تطوير المشروع &
       \textbf{المعالج:} \EN{Core i7} أو ما يعادله (لتشغيل بيئة التطوير).\newline
       \textbf{الرام} (\EN{RAM}): 16 \EN{GB} كحد أدنى، ويفضل 32 \EN{GB} لتشغيل النماذج المحلية.\newline
       \textbf{مساحة التخزين:} 512 \EN{GB SSD} أو أكثر (لأنظمة التشغيل، قواعد البيانات، ونماذج الذكاء الاصطناعي). \\
-    \hline
+    \midrule
     خادم محلي أو حاسوب إضافي & 1 & تشغيل خدمات الخلفية الأساسية مثل قواعد البيانات (\EN{PostgreSQL}، \EN{Qdrant}، \EN{Redis}) ونماذج \EN{Ollama} محلياً &
       \textbf{المعالج:} \EN{Core i7} أو ما يعادله مع دعم لتسريع \EN{CUDA} (بطاقة رسوميات \EN{NVIDIA}).\newline
       \textbf{الرام} (\EN{RAM}): 32 \EN{GB} أو أكثر.\newline
       \textbf{مساحة التخزين:} 1 \EN{TB SSD} أو أكثر.\newline
       \textbf{نظام التشغيل:} \EN{Linux} (\EN{Ubuntu}) أو \EN{Windows} مع \EN{WSL2}. \\
-    \hline
+    \midrule
     ذاكرة فلاش (\EN{Flash memory}) & 2 & لعمل نسخ احتياطية للمشروع، وملفات التطوير، والبيانات الأولية & سعة 64 \EN{GB} أو أكثر، ويفضل أن تدعم \EN{USB 3.0} للسرعة. \\
-    \hline
+    \bottomrule
   \end{tabularx}
 \end{table}
 
@@ -416,50 +416,50 @@
 يستعرض الجدول~\ref{tab:software} الأدوات البرمجية الرئيسية المعتمدة في تطوير
 المشروع، مع ذكر الاستخدام المخصص لكل أداة.
 
-\begin{longtable}{|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}p{8cm}|}
-\hline
+\begin{longtable}{>{\raggedright\arraybackslash}p{5.5cm}>{\raggedright\arraybackslash}p{8cm}}
+\toprule
 \textbf{البرنامج (\EN{Software})} & \textbf{الاستخدام} \\
-\hline
+\midrule
 \endhead
 
 \EN{Windows 11} & نظام تشغيل لتشغيل النظام على حواسيب التطوير، مع دعم \EN{WSL2} لتشغيل بيئات \EN{Linux} على \EN{Windows}. \\
-\hline
+\midrule
 \EN{LaTeX} (\EN{TeX Live} + \EN{latexmk}) & لكتابة وتوثيق تقرير المشروع الأكاديمي. \\
-\hline
+\midrule
 \EN{Microsoft Project 2021} & لإعداد الجدول الزمني للمشروع ومخططات جانت. \\
-\hline
+\midrule
 \EN{Microsoft PowerPoint 2021} & لإعداد العرض التقديمي للمشروع. \\
-\hline
+\midrule
 \EN{Draw.io} & لإنشاء المخططات والنماذج الخاصة بالمشروع. \\
-\hline
+\midrule
 \EN{Figma} & لتصميم واجهات النظام (\EN{UI/UX}). \\
-\hline
+\midrule
 \EN{Visual Studio Code} & بيئة التطوير المتكاملة لكتابة كود المشروع (\EN{Python}، \EN{JavaScript}، \EN{TypeScript}). \\
-\hline
+\midrule
 \EN{Python 3.12+} & لغة البرمجة الأساسية لتطوير الواجهة الخلفية (\EN{FastAPI}) ووكلاء \EN{LangGraph}. \\
-\hline
+\midrule
 \EN{Node.js 18+} & لغة البرمجة لتطوير الواجهة الأمامية (\EN{Next.js}) وإدارة الحزم عبر \EN{npm}. \\
-\hline
+\midrule
 \EN{FastAPI} & إطار عمل لبناء الواجهة الخلفية (\EN{Backend API}) وخدمات الوكلاء. \\
-\hline
+\midrule
 \EN{Next.js} & إطار عمل لبناء الواجهة الأمامية (\EN{Frontend}) مع دعم \EN{RTL} للغة العربية. \\
-\hline
+\midrule
 \EN{LangChain} / \EN{LangGraph} & مكتبات لبناء وتنسيق الوكلاء المتعددين (\EN{Multi-Agent System}). \\
-\hline
+\midrule
 \EN{PostgreSQL} مع \EN{pgvector} & قاعدة بيانات علائقية لتخزين البيانات المؤسسية والمتجهات (لـ \EN{RAG}). \\
-\hline
+\midrule
 \EN{Qdrant} & قاعدة بيانات متجهة (\EN{Vector Database}) لتخزين واسترجاع تضمينات المستندات. \\
-\hline
+\midrule
 \EN{Redis} & تخزين مؤقت (\EN{Cache}) وطابور رسائل لتنسيق الوكلاء وإدارة الجلسات. \\
-\hline
+\midrule
 \EN{Ollama} & أداة لتشغيل النماذج اللغوية محلياً (مثل \EN{Qwen}، \EN{Gemma}، \EN{Llama}). \\
-\hline
+\midrule
 \EN{Docker Desktop} & منصة للحاويات لتشغيل جميع الخدمات (\EN{PostgreSQL}، \EN{Qdrant}، \EN{Redis}، \EN{Ollama}) بشكل موحد. \\
-\hline
+\midrule
 \EN{Git} / \EN{GitHub} & نظام التحكم في الإصدارات وإدارة المستودع البرمجي للمشروع. \\
-\hline
+\midrule
 \textbf{\EN{Postman / Insomnia}} & اختبار واجهات برمجة التطبيقات (\EN{APIs}) للواجهة الخلفية. \\
-\hline
+\midrule
 
 \caption{الأدوات البرمجية المعتمدة في تطوير مشروع بيان.}
 \label{tab:software}
