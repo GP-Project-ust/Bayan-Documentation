@@ -261,6 +261,7 @@
   pdfstartview=Fit,
   pdfencoding=auto,        % encode bookmark strings as Unicode
   unicode=true,            % Unicode PDF strings (toUnicode CMaps)
+  linktoc=all,             % make entire TOC entry clickable (title + page)
   pdftitle={مساعد ذكي مؤسسي معتمد على الذكاء الاصطناعي وتحليل البيانات},
   pdfauthor={وليد العنسي وآخرون}
 ]{hyperref}
@@ -354,7 +355,7 @@
 \titlecontents{chapter}
   [0pt]
   {\vspace{6pt}\bfseries\color{kauprimary}\large}
-  {\kauArabicChapterOrdinal{\thecontentslabel}:\enskip}
+  {الفصل \kauArabicChapterOrdinal{\thecontentslabel}:\enskip}
   {}
   {\titlerule*[0.7em]{.}\contentspage}
 
