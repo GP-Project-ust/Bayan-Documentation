@@ -29,7 +29,11 @@
 % as the `amiri` and `fonts-noto` packages are installed.
 \setmainfont{Amiri}[Ligatures=TeX]
 \newfontfamily\arabicfont[Script=Arabic]{Amiri}
-\newfontfamily\arabicfontfancy[Script=Arabic]{Noto Naskh Arabic}
+% NOTE: previously \arabicfontfancy pointed to "Noto Naskh Arabic", which is
+% not available in the xu-cheng/latex-action container. It is never used
+% elsewhere in the document, so we point it at Amiri to avoid the
+% fontspec lookup error at preamble-load time.
+\newfontfamily\arabicfontfancy[Script=Arabic]{Amiri}
 \newfontfamily\englishfont{Liberation Serif}
 \newfontfamily\monofont{DejaVu Sans Mono}[Scale=0.85]
 
