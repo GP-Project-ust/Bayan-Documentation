@@ -65,13 +65,13 @@ jobs:
           latexmk_use_xelatex: false
           latexmk_use_lualatex: true
           root_file: main.tex
-          extra_system_packages: |
-            fonts-hosny-amiri
-            fonts-noto-core
           pre_compile: |
             echo "=== polyglossia version ==="
             kpsewhich polyglossia.sty
             grep -m1 'ProvidesPackage' "$(kpsewhich polyglossia.sty)" || true
+            echo "=== Amiri font availability ==="
+            fc-list | grep -iE "amiri|naskh" | head -5 || true
+            kpsewhich amiri-Regular.otf || true
 
       - name: Show build log tail on failure
         if: failure()
