@@ -32,31 +32,9 @@ jobs:
           fetch-depth: 0
 
       #---------------------------------------------------------------------
-      # Install modern TeX Live via the official-ish action. We need
-      # polyglossia >= 1.67 for the `bidi=basic` option (added late 2023),
-      # but Ubuntu's texlive-lang-arabic ships v1.66 (TL 2023), and
-      # Debian's tlmgr cannot upgrade across TeX Live major versions.
-      # The teatimeguest action installs TeX Live 2024+ with working tlmgr.
+      # Install Arabic fonts at the OS level (fontspec reads via fontconfig).
       #---------------------------------------------------------------------
-      - name: Install TeX Live (full, modern via tlmgr)
-        uses: teatimeguest/setup-texlive-action@v3
-        with:
-          version: latest
-          package: |
-            scheme-full
-            collection-langarabic
-            collection-fontsrecommended
-            collection-fontsextra
-            collection-langeuropean
-            collection-latexrecommended
-            collection-latexextra
-            collection-mathscience
-            collection-luatex
-            collection-bibtexextra
-            collection-binextra
-            latexmk
-
-      - name: Install Arabic fonts (always)
+      - name: Install Arabic fonts
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
@@ -66,13 +44,34 @@ jobs:
           fc-cache -fv
           echo "=== Arabic fonts visible to fontspec ==="
           fc-list | grep -iE "amiri|naskh" | sort
-          echo "=== polyglossia version ==="
-          kpsewhich polyglossia.sty
-          grep -m1 'ProvidesPackage' "$(kpsewhich polyglossia.sty)" || true
 
-      - name: Build PDF (latexmk + LuaLaTeX, multiple passes for TOC/refs)
-        run: |
-          latexmk -lualatex -interaction=nonstopmode -file-line-error -halt-on-error main.tex
+      #---------------------------------------------------------------------
+      # Build PDF with xu-cheng/latex-action.
+      #
+      # Why a dedicated action instead of apt-installed TeX Live:
+      #   Ubuntu's texlive-lang-arabic (TL 2023) ships polyglossia v1.66,
+      #   which predates the `bidi=basic` option (added in v1.67+, late
+      #   2023). We need bidi=basic under LuaLaTeX to get clean Arabic
+      #   text extraction (no reversed letters, no Presentation Forms).
+      #   Debian's tlmgr cannot upgrade across TL major versions
+      #   (2023 -> 2026) to install a newer polyglossia.
+      #
+      #   xu-cheng/latex-action installs TeX Live latest with working
+      #   tlmgr and modern polyglossia (>= 1.67), and runs latexmk for us.
+      #---------------------------------------------------------------------
+      - name: Build PDF (LuaLaTeX via xu-cheng/latex-action)
+        uses: xu-cheng/latex-action@v4
+        with:
+          latexmk_use_xelatex: false
+          latexmk_use_lualatex: true
+          root_file: main.tex
+          extra_system_packages: |
+            fonts-hosny-amiri
+            fonts-noto-core
+          pre_compile: |
+            echo "=== polyglossia version ==="
+            kpsewhich polyglossia.sty
+            grep -m1 'ProvidesPackage' "$(kpsewhich polyglossia.sty)" || true
 
       - name: Show build log tail on failure
         if: failure()
