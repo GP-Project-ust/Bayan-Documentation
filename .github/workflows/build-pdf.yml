@@ -66,12 +66,15 @@ jobs:
           latexmk_use_lualatex: true
           root_file: main.tex
           pre_compile: |
+            # Install Liberation Serif + DejaVu Sans Mono (not in texlive-alpine default)
+            tlmgr install liberation dejavu
             echo "=== polyglossia version ==="
             kpsewhich polyglossia.sty
             grep -m1 'ProvidesPackage' "$(kpsewhich polyglossia.sty)" || true
-            echo "=== Amiri font availability ==="
-            fc-list | grep -iE "amiri|naskh" | head -5 || true
-            kpsewhich amiri-Regular.otf || true
+            echo "=== Liberation Serif availability ==="
+            fc-list | grep -iE "liberation|dejavu" | head -10 || true
+            kpsewhich liberationserif-Regular.otf || true
+            kpsewhich DejaVuSansMono.ttf || true
 
       - name: Show build log tail on failure
         if: failure()
