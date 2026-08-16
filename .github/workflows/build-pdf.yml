@@ -32,83 +32,42 @@ jobs:
           fetch-depth: 0
 
       #---------------------------------------------------------------------
-      # Cache TeX Live packages to speed up builds (saves ~4-5 minutes).
+      # Install modern TeX Live via the official-ish action. We need
+      # polyglossia >= 1.67 for the `bidi=basic` option (added late 2023),
+      # but Ubuntu's texlive-lang-arabic ships v1.66 (TL 2023), and
+      # Debian's tlmgr cannot upgrade across TeX Live major versions.
+      # The teatimeguest action installs TeX Live 2024+ with working tlmgr.
       #---------------------------------------------------------------------
-      - name: Cache TeX Live packages
-        id: cache-texlive
-        uses: actions/cache@v4
+      - name: Install TeX Live (full, modern via tlmgr)
+        uses: teatimeguest/setup-texlive-action@v3
         with:
-          path: |
-            /usr/share/texlive
-            /usr/share/texmf
-            /var/cache/apt
-          key: texlive-2024-lualatex-${{ runner.os }}-v2
-          restore-keys: |
-            texlive-2024-lualatex-
+          version: latest
+          package: |
+            scheme-full
+            collection-langarabic
+            collection-fontsrecommended
+            collection-fontsextra
+            collection-langeuropean
+            collection-latexrecommended
+            collection-latexextra
+            collection-mathscience
+            collection-luatex
+            collection-bibtexextra
+            collection-binextra
+            latexmk
 
-      - name: Install TeX Live (LuaLaTeX) + Arabic fonts
-        if: steps.cache-texlive.outputs.cache-hit != 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            texlive-luatex \
-            texlive-latex-recommended \
-            texlive-latex-extra \
-            texlive-fonts-recommended \
-            texlive-fonts-extra \
-            texlive-lang-arabic \
-            texlive-bibtex-extra \
-            texlive-science \
-            latexmk \
-            fonts-hosny-amiri \
-            fonts-noto-core \
-            fonts-noto-extra \
-            fonts-noto-cjk \
-            python3-pygments \
-            librsvg2-bin \
-            poppler-utils
-
-      #---------------------------------------------------------------------
-      # Always install fonts (small, fast) even if TeX Live is cached
-      #---------------------------------------------------------------------
       - name: Install Arabic fonts (always)
-        if: steps.cache-texlive.outputs.cache-hit == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             fonts-hosny-amiri \
             fonts-noto-core \
             fonts-noto-extra
-
-      - name: Refresh font cache
-        run: |
           fc-cache -fv
           echo "=== Arabic fonts visible to fontspec ==="
           fc-list | grep -iE "amiri|naskh" | sort
-
-      #---------------------------------------------------------------------
-      # Ubuntu's texlive-lang-arabic ships polyglossia v1.66 (2023/12/11)
-      # which predates the `bidi=basic` option (added in v1.67+, late 2023).
-      # Update polyglossia from CTAN via tlmgr in USER mode (Debian's tlmgr
-      # is locked to system mode by default). The user tree is placed in
-      # TEXMFHOME so it overrides the system copy at compile time.
-      #---------------------------------------------------------------------
-      - name: Update polyglossia via tlmgr user mode (apt version too old)
-        run: |
-          set -e
-          export PATH=/usr/share/texlive/texmf-dist/bin/x86_64-linux:$PATH
-          export TEXMFHOME="$HOME/texmf"
-          mkdir -p "$TEXMFHOME"
-          which tlmgr && tlmgr --version
-          # Initialise user tree for tlmgr (required by Debian's tlmgr)
-          tlmgr init-usertree
-          tlmgr option repository https://mirror.ctan.org/systems/texlive/tlnet
-          # Update in user mode (--usermode)
-          tlmgr --usermode update --self || true
-          tlmgr --usermode install polyglossia
-          echo "=== polyglossia files in user tree ==="
+          echo "=== polyglossia version ==="
           kpsewhich polyglossia.sty
-          echo "=== version ==="
           grep -m1 'ProvidesPackage' "$(kpsewhich polyglossia.sty)" || true
 
       - name: Build PDF (latexmk + LuaLaTeX, multiple passes for TOC/refs)
