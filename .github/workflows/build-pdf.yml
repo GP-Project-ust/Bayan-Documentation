@@ -1,4 +1,4 @@
-name: Build Thesis PDF + Word
+name: Build Thesis PDF
 
 # Trigger on every push to main, on PRs, and allow manual runs.
 on:
@@ -32,65 +32,49 @@ jobs:
           fetch-depth: 0
 
       #---------------------------------------------------------------------
-      # Cache TeX Live packages to speed up builds (saves ~4-5 minutes).
+      # Install Arabic fonts at the OS level (fontspec reads via fontconfig).
       #---------------------------------------------------------------------
-      - name: Cache TeX Live packages
-        id: cache-texlive
-        uses: actions/cache@v4
-        with:
-          path: |
-            /usr/share/texlive
-            /usr/share/texmf
-            /var/cache/apt
-          key: texlive-2024-${{ runner.os }}-v1
-          restore-keys: |
-            texlive-2024-
-
-      - name: Install TeX Live (XeLaTeX) + Arabic fonts + Pandoc
-        if: steps.cache-texlive.outputs.cache-hit != 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            texlive-xetex \
-            texlive-latex-recommended \
-            texlive-latex-extra \
-            texlive-fonts-recommended \
-            texlive-fonts-extra \
-            texlive-lang-arabic \
-            texlive-bibtex-extra \
-            texlive-science \
-            latexmk \
-            fonts-hosny-amiri \
-            fonts-noto-core \
-            fonts-noto-extra \
-            fonts-noto-cjk \
-            python3-pygments \
-            librsvg2-bin \
-            poppler-utils \
-            pandoc
-
-      #---------------------------------------------------------------------
-      # Always install fonts + Pandoc (small, fast) even if TeX Live is cached
-      #---------------------------------------------------------------------
-      - name: Install Arabic fonts + Pandoc (always)
-        if: steps.cache-texlive.outputs.cache-hit == 'true'
+      - name: Install Arabic fonts
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             fonts-hosny-amiri \
             fonts-noto-core \
-            fonts-noto-extra \
-            pandoc
-
-      - name: Refresh font cache
-        run: |
+            fonts-noto-extra
           fc-cache -fv
           echo "=== Arabic fonts visible to fontspec ==="
           fc-list | grep -iE "amiri|naskh" | sort
 
-      - name: Build PDF (latexmk + XeLaTeX, multiple passes for TOC/refs)
-        run: |
-          latexmk -xelatex -interaction=nonstopmode -file-line-error -halt-on-error main.tex
+      #---------------------------------------------------------------------
+      # Build PDF with xu-cheng/latex-action.
+      #
+      # Why a dedicated action instead of apt-installed TeX Live:
+      #   Ubuntu's texlive-lang-arabic (TL 2023) ships polyglossia v1.66,
+      #   which predates the `bidi=basic` option (added in v1.67+, late
+      #   2023). We need bidi=basic under LuaLaTeX to get clean Arabic
+      #   text extraction (no reversed letters, no Presentation Forms).
+      #   Debian's tlmgr cannot upgrade across TL major versions
+      #   (2023 -> 2026) to install a newer polyglossia.
+      #
+      #   xu-cheng/latex-action installs TeX Live latest with working
+      #   tlmgr and modern polyglossia (>= 1.67), and runs latexmk for us.
+      #---------------------------------------------------------------------
+      - name: Build PDF (LuaLaTeX via xu-cheng/latex-action)
+        uses: xu-cheng/latex-action@v4
+        with:
+          latexmk_use_xelatex: false
+          latexmk_use_lualatex: true
+          root_file: main.tex
+          pre_compile: |
+            # Install Liberation Serif + DejaVu Sans Mono (not in texlive-alpine default)
+            tlmgr install liberation dejavu
+            echo "=== polyglossia version ==="
+            kpsewhich polyglossia.sty
+            grep -m1 'ProvidesPackage' "$(kpsewhich polyglossia.sty)" || true
+            echo "=== Liberation Serif availability ==="
+            fc-list | grep -iE "liberation|dejavu" | head -10 || true
+            kpsewhich liberationserif-Regular.otf || true
+            kpsewhich DejaVuSansMono.ttf || true
 
       - name: Show build log tail on failure
         if: failure()
@@ -105,46 +89,12 @@ jobs:
           pdfinfo main.pdf || true
           ls -la main.pdf
 
-      #---------------------------------------------------------------------
-      # Build Word document via Pandoc
-      # Converts LaTeX → Word (.docx) with structure, tables, and text.
-      # TikZ diagrams are converted to images automatically.
-      #---------------------------------------------------------------------
-      - name: Build Word document (Pandoc)
-        run: |
-          echo "=== Converting LaTeX to Word via Pandoc ==="
-          pandoc main.tex \
-            -o Bayan-Thesis.docx \
-            --from=latex \
-            --to=docx \
-            --toc \
-            --toc-depth=3 \
-            --number-sections \
-            --standalone \
-            --resource-path=. \
-            2>&1 || echo "Pandoc completed with warnings (non-critical)"
-
-          if [ -f Bayan-Thesis.docx ]; then
-            echo "✅ Word document created successfully"
-            ls -la Bayan-Thesis.docx
-          else
-            echo "⚠️ Pandoc failed to create Word document (non-critical)"
-          fi
-
       - name: Upload PDF as workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: Bayan-Thesis-PDF
           path: main.pdf
           if-no-files-found: error
-          retention-days: 30
-
-      - name: Upload Word document as workflow artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Bayan-Thesis-Word
-          path: Bayan-Thesis.docx
-          if-no-files-found: warn
           retention-days: 30
 
       - name: Commit built PDF back to the repo
