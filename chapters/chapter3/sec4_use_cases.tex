@@ -121,37 +121,37 @@
 \label{tab:uc01}
 \small
 \renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}X|}
-\toprule
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}|X|}
+\hline
 \textbf{الحقل} & \textbf{الوصف} \\
-\midrule
+\hline
 المعرّف & \EN{UC-01} \\
-\midrule
+\hline
 اسم الحالة & \EN{Ask Data Query} \\
-\midrule
+\hline
 الوصف & تمكّن هذه الحالة موظف أو مدير المؤسسة من طرح استعلام بيانات باللغة العربية الطبيعية (فصحى أو عامية) والحصول على إجابة مستخلصة من قاعدة بيانات المؤسسة مع تطبيق قيود الأمان. \\
-\midrule
+\hline
 الفاعل الرئيسي & موظف المؤسسة / مدير المؤسسة. \\
-\midrule
+\hline
 الفاعلون المساعدون & الوكيل المشرف، ووكيل \EN{SQL}. \\
-\midrule
+\hline
 المحفز & كتابة المستخدم سؤالاً في نافذة المحادثة والضغط على زر الإرسال. \\
-\midrule
+\hline
 الشروط المسبقة & أن يكون المستخدم مسجَّل الدخول إلى النظام، وأن تكون بياناته مصنّفة ضمن مستوى أمان يتيح له الوصول للجدول المستهدف. \\
-\midrule
+\hline
 الشروط اللاحقة & عرض الإجابة على شكل نص أو جدول أو رسم بياني، مع تسجيل الاستعلام والإجابة وسجل التتبع في سجل التدقيق. \\
-\midrule
+\hline
 مسار الأحداث &
 1. يطرح المستخدم سؤالاً بالعربية (مثال: «كم عدد الطلاب المسجلين في كلية الهندسة؟»).\newline
 2. يوجّه الوكيل المشرف الاستعلام إلى وكيل \EN{SQL}.\newline
 3. يحوّل وكيل \EN{SQL} السؤال إلى استعلام \EN{SQL} عبر طبقة \EN{Smart Views}.\newline
 4. يُنفَّذ الاستعلام على قاعدة البيانات ضمن حدود صلاحية المستخدم \EN{(RBAC)}.\newline
 5. تُحوَّل النتيجة إلى إجابة نصية أو رسم بياني ويُعرض للمستخدم. \\
-\midrule
+\hline
 التدفق البديل &
 \textbf{أخطاء نحوية:} في حال تعذّر توليد استعلام \EN{SQL} صحيح، يعيد النظام المحاولة بتقنية \EN{Few-Shot}، وإذا فشل يعرض رسالة توضح غموض السؤال ويطلب من المستخدم إعادة صياغته.\newline
 \textbf{انتهاك الصلاحية:} إذا حاول الوصول لجدول محظور، يرفض النظام ويُسجّل المحاولة ويعرض رسالة تعذّر الوصول. \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -164,36 +164,36 @@
 \label{tab:uc02}
 \small
 \renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}X|}
-\toprule
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}|X|}
+\hline
 \textbf{الحقل} & \textbf{الوصف} \\
-\midrule
+\hline
 المعرّف & \EN{UC-02} \\
-\midrule
+\hline
 اسم الحالة & \EN{Search Documents} \\
-\midrule
+\hline
 الوصف & تمكّن هذه الحالة موظف أو مدير المؤسسة من طرح سؤال مرتبط بمستند أو لائحة مؤسسية غير مهيكلة، والحصول على إجابة موثّقة بالمصدر (اسم المستند ورقم الصفحة والمقطع المقتبس). \\
-\midrule
+\hline
 الفاعل الرئيسي & موظف المؤسسة / مدير المؤسسة. \\
-\midrule
+\hline
 الفاعلون المساعدون & الوكيل المشرف، ووكيل \EN{RAG}. \\
-\midrule
+\hline
 المحفز & طرح المستخدم سؤالاً متعلقاً بمحتوى وثائقي وليس ببيانات جدولية (مثال: «ما هي سياسة الإجازات؟»). \\
-\midrule
+\hline
 الشروط المسبقة & أن تكون المستندات المؤسسية ذات الصلة قد فُهرست مسبقاً ضمن قاعدة البيانات المتجهة \EN{(Qdrant)}. \\
-\midrule
+\hline
 الشروط اللاحقة & عرض إجابة نصية مرفقة باسم المستند المصدر ورقم الصفحة أو المقطع المستشهد به، وتحديث سجل التدقيق بمسار الاسترجاع. \\
-\midrule
+\hline
 مسار الأحداث &
 1. يطرح المستخدم سؤالاً نصياً.\newline
 2. يوجّه الوكيل المشرف الاستعلام إلى وكيل \EN{RAG}.\newline
 3. يسترجع وكيل \EN{RAG} أقرب المقاطع دلالياً من قاعدة المتجهات \EN{(Qdrant)}.\newline
 4. يولّد النموذج اللغوي إجابة معزَّزة بالمقاطع المسترجعة مع الاستشهاد بمصدرها.\newline
 5. يُعرض الجواب للمستخدم مع رابط أو إشارة للمستند الأصلي. \\
-\midrule
+\hline
 التدفق البديل &
 \textbf{نقص المعلومات:} في حال عدم العثور على مقاطع ذات صلة كافية (أقل من العتبة المحددة)، يُعلم النظام المستخدم بعدم توفر معلومات كافية بدلاً من توليد إجابة غير مدعومة \EN{(Hallucination)}. \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -206,36 +206,36 @@
 \label{tab:uc03}
 \small
 \renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}X|}
-\toprule
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}|X|}
+\hline
 \textbf{الحقل} & \textbf{الوصف} \\
-\midrule
+\hline
 المعرّف & \EN{UC-03} \\
-\midrule
+\hline
 اسم الحالة & \EN{Generate Report} \\
-\midrule
+\hline
 الوصف & تتيح هذه الحالة لمدير المؤسسة أو الموظف طلب تقرير تحليلي مخصص عن بيانات المؤسسة مع إمكانية تحديد نوع المخرجات واكتشاف القيم الشاذة وتصدير التقرير بصيغ متعددة (\EN{PDF, CSV, Excel}). \\
-\midrule
+\hline
 الفاعل الرئيسي & مدير المؤسسة / موظف المؤسسة. \\
-\midrule
+\hline
 الفاعلون المساعدون & الوكيل المشرف، ووكيل المحلل، ووكيل \EN{SQL}. \\
-\midrule
+\hline
 المحفز & يطلب المستخدم تقريراً تحليلياً بصيغة محددة من واجهة المحادثة. \\
-\midrule
+\hline
 الشروط المسبقة & توفر بيانات كافية ومحدثة في قاعدة البيانات لتلبية الطلب. \\
-\midrule
+\hline
 الشروط اللاحقة & عرض التقرير المنسق أو إتاحة تنزيله بالصيغة المطلوبة، وتسجيل عملية التصدير في سجل التدقيق. \\
-\midrule
+\hline
 مسار الأحداث &
 1. يطلب المستخدم تقريراً بالعربية.\newline
 2. يوجه الوكيل المشرف الطلب إلى وكيل المحلل.\newline
 3. يتعاون وكيل المحلل مع وكيل \EN{SQL} لاستخراج البيانات، ثم يقوم بتحليل المؤشرات واكتشاف الاتجاهات.\newline
 4. يُعرض التقرير المنسق مع خيارات التصدير.\newline
 5. يختار المستخدم الصيغة (\EN{PDF/CSV}) فيتم تحميل الملف. \\
-\midrule
+\hline
 التدفق البديل &
 \textbf{اكتشاف الشاذ:} في حال اكتشاف قيماً شاذة \EN{(Outliers)} أثناء التحليل، يدرج وكيل المحلل تنبيهاً خاصاً ضمن التقرير للتنويه. \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -248,33 +248,33 @@
 \label{tab:uc04}
 \small
 \renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}X|}
-\toprule
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}|X|}
+\hline
 \textbf{الحقل} & \textbf{الوصف} \\
-\midrule
+\hline
 المعرّف & \EN{UC-04} \\
-\midrule
+\hline
 اسم الحالة & \EN{View Notifications} \\
-\midrule
+\hline
 الوصف & تتيح للمستخدم استعراض التنبيهات والإشعارات الداخلية الصادرة عن النظام مثل تحديثات المستندات أو جاهزية التقارير. \\
-\midrule
+\hline
 الفاعل الرئيسي & موظف المؤسسة / مدير المؤسسة / مسؤول النظام. \\
-\midrule
+\hline
 الفاعلون المساعدون & نظام الإشعارات الداخلية. \\
-\midrule
+\hline
 المحفز & دخول المستخدم لوحة التحكم أو حدوث حدث يستدعي التنبيه. \\
-\midrule
+\hline
 الشروط المسبقة & أن يكون المستخدم مسجلاً لدخوله على النظام. \\
-\midrule
+\hline
 الشروط اللاحقة & تحديث حالة الإشعارات إلى (مقروءة) عند استعراضها. \\
-\midrule
+\hline
 مسار الأحداث &
 1. يستعرض المستخدم لوحة الإشعارات.\newline
 2. تظهر قائمة بالتنبيهات مرتبة حسب التاريخ والأهمية.\newline
 3. ينقر المستخدم على الإشعار للانتقال للتفاصيل المرتبطة. \\
-\midrule
+\hline
 التدفق البديل & لا يوجد تدفقات بديلة رئيسية. \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -287,35 +287,35 @@
 \label{tab:uc05}
 \small
 \renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}X|}
-\toprule
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}|X|}
+\hline
 \textbf{الحقل} & \textbf{الوصف} \\
-\midrule
+\hline
 المعرّف & \EN{UC-05} \\
-\midrule
+\hline
 اسم الحالة & \EN{Manage Users \& Roles} \\
-\midrule
+\hline
 الوصف & تمكّن هذه الحالة مسؤول النظام من إضافة المستخدمين وتعديل بياناتهم وتحديد أدوارهم (موظف، مدير) ومستوى الأمان المرتبط بهم ضمن سياسة \EN{RBAC}. \\
-\midrule
+\hline
 الفاعل الرئيسي & مسؤول النظام. \\
-\midrule
+\hline
 الفاعلون المساعدون & قاعدة بيانات النظام. \\
-\midrule
+\hline
 المحفز & الحاجة إلى إضافة مستخدم جديد أو تعديل صلاحيات مستخدم قائم. \\
-\midrule
+\hline
 الشروط المسبقة & أن يكون المسؤول مسجَّل الدخول بدور \EN{(System Admin)} عبر لوحة تحكم الويب. \\
-\midrule
+\hline
 الشروط اللاحقة & تحديث بيانات المستخدم أو دوره في قاعدة البيانات فوراً، وسريان الصلاحية الجديدة على الجلسات التالية. \\
-\midrule
+\hline
 مسار الأحداث &
 1. يفتح المسؤول لوحة إدارة المستخدمين.\newline
 2. يضيف مستخدماً جديداً أو يختار مستخدماً قائماً.\newline
 3. يحدد الدور (موظف/مدير) ومستوى الوصول للجداول والمستندات.\newline
 4. يحفظ التغييرات فيُحدَّث النظام فوراً. \\
-\midrule
+\hline
 التدفق البديل &
 في حال محاولة تعطيل حساب المسؤول الوحيد النشط، يمنع النظام العملية ويعرض تنبيهاً بضرورة وجود مسؤول واحد على الأقل. \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -328,35 +328,35 @@
 \label{tab:uc06}
 \small
 \renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}X|}
-\toprule
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}|X|}
+\hline
 \textbf{الحقل} & \textbf{الوصف} \\
-\midrule
+\hline
 المعرّف & \EN{UC-06} \\
-\midrule
+\hline
 اسم الحالة & \EN{Manage Data Sources} \\
-\midrule
+\hline
 الوصف & تمكّن مسؤول النظام من ربط قواعد بيانات جديدة أو مستودعات مستندات، وتحديد هيكلها وتصنيف جداولها أمنياً. \\
-\midrule
+\hline
 الفاعل الرئيسي & مسؤول النظام. \\
-\midrule
+\hline
 الفاعلون المساعدون & طبقة \EN{Smart Views}. \\
-\midrule
+\hline
 المحفز & ربط مؤسسة جديدة أو إضافة مستودع بيانات/مستندات حديث. \\
-\midrule
+\hline
 الشروط المسبقة & توفر بيانات اتصال صحيحة لمصدر البيانات المستهدف. \\
-\midrule
+\hline
 الشروط اللاحقة & تحديث طبقة \EN{Smart Views} وتأمين الاتصال بالمصدر الجديد. \\
-\midrule
+\hline
 مسار الأحداث &
 1. يدخل المسؤول لوحة «مصادر البيانات».\newline
 2. يختار نوع المصدر ويُدخل بيانات الاتصال.\newline
 3. يحدد الجداول ومستوى الأمان لكل منها.\newline
 4. يضغط «ربط» فيختبر النظام الاتصال ويُحدّث المخطط آلياً. \\
-\midrule
+\hline
 التدفق البديل &
 عند فشل الاتصال بمصدر البيانات، يظهر النظام رسالة تفصيلية بالسبب ويُتيح تعديل بيانات الاتصال. \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -369,34 +369,34 @@
 \label{tab:uc07}
 \small
 \renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}X|}
-\toprule
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}|X|}
+\hline
 \textbf{الحقل} & \textbf{الوصف} \\
-\midrule
+\hline
 المعرّف & \EN{UC-07} \\
-\midrule
+\hline
 اسم الحالة & \EN{View Audit Log} \\
-\midrule
+\hline
 الوصف & تتيح لمسؤول النظام الاطلاع على سجل مفصل لكافة العمليات التي تمت في النظام بما فيها الاستعلامات ومسار الوكلاء لأغراض الرقابة. \\
-\midrule
+\hline
 الفاعل الرئيسي & مسؤول النظام. \\
-\midrule
+\hline
 الفاعلون المساعدون & وحدة سجلات التدقيق \EN{(Audit Logger)}. \\
-\midrule
+\hline
 المحفز & طلب تدقيق أمني أو التحقق من سلوك مستخدم أو استكشاف خطأ. \\
-\midrule
+\hline
 الشروط المسبقة & تسجيل الدخول بصلاحيات المسؤول \EN{(System Admin)}. \\
-\midrule
+\hline
 الشروط اللاحقة & عرض السجلات المطلوبة أو تصديرها كملف خارجي. \\
-\midrule
+\hline
 مسار الأحداث &
 1. يفتح المسؤول لوحة «سجل التدقيق».\newline
 2. يصفّي السجلات حسب المستخدم، التاريخ، أو نوع العملية.\newline
 3. يختار سجلاً محدداً لعرض تفاصيله الكاملة (السؤال، الاستعلام، النتيجة، زمن الاستجابة). \\
-\midrule
+\hline
 التدفق البديل &
 \textbf{تصدير السجل:} يستطيع المسؤول اختيار تصدير البيانات المفلترة كملف \EN{CSV}. \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -409,36 +409,36 @@
 \label{tab:uc08}
 \small
 \renewcommand{\arraystretch}{1.45}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}X|}
-\toprule
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.1cm}|X|}
+\hline
 \textbf{الحقل} & \textbf{الوصف} \\
-\midrule
+\hline
 المعرّف & \EN{UC-08} \\
-\midrule
+\hline
 اسم الحالة & \EN{Run Smart Onboarding} \\
-\midrule
+\hline
 الوصف & تتيح لمشغل التهيئة أتمتة عملية ربط النظام بمؤسسة جديدة (ربط قاعدة \EN{Odoo}، اكتشاف الجداول، وفهرسة المستندات) خلال زمن قياسي. \\
-\midrule
+\hline
 الفاعل الرئيسي & مشغّل التهيئة \EN{(Onboarding Operator)}. \\
-\midrule
+\hline
 الفاعلون المساعدون & نظام التحليل الآلي للجداول، وأداة الفهرسة. \\
-\midrule
+\hline
 المحفز & الاشتراك الفعلي لمؤسسة جديدة في النظام. \\
-\midrule
+\hline
 الشروط المسبقة & توفر بيانات اعتماد الوصول لقاعدة \EN{Odoo} والمستندات الرقمية للمؤسسة. \\
-\midrule
+\hline
 الشروط اللاحقة & ربط قاعدة البيانات وفهرسة المستندات في \EN{Qdrant} وظهور تقرير جاهزية النظام. \\
-\midrule
+\hline
 مسار الأحداث &
 1. يدخل المشغل لوحة التهيئة.\newline
 2. يدخل بيانات اتصال \EN{Odoo} ويُرفع ملفات المستندات.\newline
 3. يضغط «بدء التهيئة».\newline
 4. يفحص النظام الاتصال، يبني \EN{Smart Views}، ويفهرس المستندات.\newline
 5. يظهر تقرير جاهزية بالنظام مع إحصائيات المعالجة. \\
-\midrule
+\hline
 التدفق البديل &
 \textbf{فشل الاتصال:} عند حدوث انقطاع شبوي أو خطأ بالصلاحيات، يعرض النظام تفاصيل الخطأ لتصحيح البيانات دون فقدان التقدّم المنجز. \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -454,24 +454,24 @@
 \small
 \renewcommand{\arraystretch}{1.45}
 \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1.3cm}|>{\raggedright\arraybackslash}p{4.3cm}|>{\raggedright\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{1.8cm}|}
-\toprule
+\hline
 \textbf{المعرّف} & \textbf{حالة الاستخدام} & \textbf{الفاعل الرئيسي} & \textbf{الأولوية} \\
-\midrule
+\hline
 UC-01 & طرح استعلام عن البيانات & موظف المؤسسة / مدير المؤسسة & عالية \\
-\midrule
+\hline
 UC-02 & البحث في المستندات واللوائح & موظف المؤسسة / مدير المؤسسة & عالية \\
-\midrule
+\hline
 UC-03 & توليد تقرير مخصص & مدير المؤسسة / موظف المؤسسة & عالية \\
-\midrule
+\hline
 UC-04 & عرض الإشعارات والتنبيهات & موظف المؤسسة / مدير المؤسسة / مسؤول النظام & منخفضة \\
-\midrule
+\hline
 UC-05 & إدارة المستخدمين والأدوار & مسؤول النظام & عالية \\
-\midrule
+\hline
 UC-06 & إدارة مصادر البيانات & مسؤول النظام & عالية \\
-\midrule
+\hline
 UC-07 & مراجعة سجل التدقيق & مسؤول النظام & عالية \\
-\midrule
+\hline
 UC-08 & تشغيل التهيئة الذكية & مشغل التهيئة & عالية \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}

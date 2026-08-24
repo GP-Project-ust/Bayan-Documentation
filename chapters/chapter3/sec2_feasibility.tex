@@ -23,19 +23,19 @@
 \small
 \renewcommand{\arraystretch}{1.45}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.1cm}|}
-\toprule
+\hline
 \textbf{البند} & \textbf{الكمية/المدة} & \textbf{التكلفة التقديرية} & \textbf{العملة} \\
-\midrule
+\hline
 اشتراك الإنترنت خلال فترة التطوير & 5 أشهر & 150 & دولار \\
-\midrule
+\hline
 أجهزة حاسوب محمولة لأعضاء فريق التطوير & 5 أجهزة & 3{,}000 & دولار \\
-\midrule
+\hline
 خادم محلي مزود بوحدة معالجة رسومية لتشغيل النماذج اللغوية & 1 & 1{,}500 & دولار \\
-\midrule
+\hline
 وسائط تخزين متنقلة \EN{(Flash Drives)} & 2 & 20 & دولار \\
-\midrule
+\hline
 \textbf{الإجمالي} & \multicolumn{2}{r}{\textbf{4{,}670}} & \textbf{دولار} \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -51,19 +51,19 @@
 \small
 \renewcommand{\arraystretch}{1.45}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.1cm}|}
-\toprule
+\hline
 \textbf{نوع التكلفة} & \textbf{الكمية} & \textbf{التكلفة الشهرية} & \textbf{العملة} \\
-\midrule
+\hline
 راتب مسؤول النظام أو مهندس الذكاء الاصطناعي & 1 & 500 & دولار \\
-\midrule
+\hline
 الصيانة والتطوير الدوري & -- & 150 & دولار \\
-\midrule
+\hline
 تشغيل الخادم المحلي من طاقة وبنية تحتية & -- & 150 & دولار \\
-\midrule
+\hline
 الاتصال والشبكة المحلية & -- & 50 & دولار \\
-\midrule
+\hline
 \textbf{الإجمالي الشهري} & \multicolumn{2}{r}{\textbf{850}} & \textbf{دولار} \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -127,15 +127,15 @@
 \small
 \renewcommand{\arraystretch}{1.45}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.5cm}|}
-\toprule
+\hline
 \textbf{مجال المسؤولية والمهارات} & \textbf{العدد} \\
-\midrule
+\hline
 الذكاء الاصطناعي، وهندسة الأوامر \EN{(Prompt Engineering)}، وبناء وكلاء \EN{LangGraph}. & 1 \\
-\midrule
+\hline
 تطوير الواجهة الخلفية، وقواعد البيانات، وإعداد طبقة الرؤى و\EN{Smart Views}. & 2 \\
-\midrule
+\hline
 تطوير الواجهة الأمامية، وتصميم تجربة المستخدم وواجهته \EN{(UI/UX)}. & 2 \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 
@@ -185,21 +185,21 @@
 \scriptsize
 \renewcommand{\arraystretch}{1.45}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.7cm}|>{\centering\arraybackslash}p{1.6cm}|>{\raggedright\arraybackslash}X|}
-\toprule
+\hline
 \textbf{الخطر} & \textbf{المستوى} & \textbf{آلية الحد والمعالجة} \\
-\midrule
+\hline
 ضعف دقة النموذج اللغوي في الأسئلة العربية أو الاستعلامات المعقدة & متوسط & استخدام طبقة الرؤى الذكية، وأمثلة \EN{Few-Shot}، والتحقق من الاستعلامات قبل تنفيذها، مع توفير آلية لإعادة الصياغة. \\
-\midrule
+\hline
 تسرب بيانات حساسة عند استخدام نموذج سحابي & عالٍ & تفضيل التشغيل المحلي للبيانات الحساسة، وتطبيق التصنيف الأمني، ومنع إرسال البيانات غير المصرح بها إلى الخدمات الخارجية. \\
-\midrule
+\hline
 ارتفاع استهلاك الموارد عند تشغيل النموذج محلياً & متوسط & مراقبة الذاكرة وزمن الاستجابة، واستخدام نماذج مناسبة للعتاد، وإتاحة التبديل إلى مزود سحابي عند الحاجة. \\
-\midrule
+\hline
 تأخر التكامل مع قاعدة بيانات المؤسسة أو تغير مخططها & متوسط & عزل طبقة التكامل، وتوثيق المخطط، واستخدام \EN{Smart Views} واختبارات توافق دورية. \\
-\midrule
+\hline
 مقاومة المستخدمين للتغيير أو ضعف التبني & منخفض & إشراك المستخدمين في التقييم، وتصميم واجهة عربية بسيطة، وتقديم تدريب عملي قصير ودليل استخدام. \\
-\midrule
+\hline
 تجاوز الميزانية التقديرية أو تغير أسعار العتاد & متوسط & اعتماد مراحل شراء تدريجية، وإعادة تقييم التكاليف دورياً، والاستفادة من البرمجيات مفتوحة المصدر والبنية الحالية للمؤسسة. \\
-\bottomrule
+\hline
 \end{tabularx}
 \end{table}
 

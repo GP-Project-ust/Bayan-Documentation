@@ -33,41 +33,41 @@
   \small
   \renewcommand{\arraystretch}{1.35}
   \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{4.1cm}|}
-    \toprule
+    \hline
     \textbf{المرحلة} & \textbf{أبرز الأنشطة} & \textbf{المخرج الرئيسي} \\
-    \midrule
+    \hline
     \textbf{التخطيط}\\[-2pt]\EN{Planning}
     & تحديد أهداف الدورة الحالية، وإعداد قائمة مهام الدورة \EN{Sprint Backlog}،
       ومراجعة المتطلبات الوظيفية وغير الوظيفية المرتبطة بالمكون المستهدف.
     & وثيقة نطاق الدورة وقائمة المهام المحددة. \\
-    \midrule
+    \hline
     \textbf{التصميم}\\[-2pt]\EN{Design}
     & نمذجة المعمارية الفنية للوكيل المستهدف، وتحديد هياكل البيانات والواجهات
       البرمجية \EN{APIs}، وإعداد التصميم الأولي لهندسة المطالبات \EN{Prompt Engineering}.
     & مخططات التدفق، وهياكل البيانات، ومخطط هندسة المطالبات. \\
-    \midrule
+    \hline
     \textbf{التطوير}\\[-2pt]\EN{Development}
     & كتابة الشفرة البرمجية باستخدام \EN{Python} و\EN{FastAPI} و\EN{LangGraph}
       للواجهة الخلفية، أو \EN{Next.js} للواجهة الأمامية، وربط الوكلاء بمصادر
       البيانات \EN{PostgreSQL} و\EN{Qdrant}.
     & مكون برمجي جاهز يعمل بصورة مستقلة، مثل وكيل متخصص أو واجهة النظام. \\
-    \midrule
+    \hline
     \textbf{الاختبار}\\[-2pt]\EN{Testing}
     & تنفيذ اختبارات الوحدة \EN{Unit Testing} واختبارات التكامل
       \EN{Integration Testing}، ومعايرة دقة الاستعلامات، والحد من الهلوسة،
       وقياس مؤشرات الأداء المعتمدة.
     & تقرير اختبارات موثق يوضح نسب الدقة وزمن الاستجابة. \\
-    \midrule
+    \hline
     \textbf{الإطلاق والدمج}\\[-2pt]\EN{Deployment}
     & بناء المكونات البرمجية وحزمها داخل حاويات \EN{Docker Compose}، ودمجها
       في البيئة الموحدة، والتحقق من توافقها مع بقية الوكلاء.
     & نسخة محدثة من النظام، مدمجة ومجربة في بيئة التطوير. \\
-    \midrule
+    \hline
     \textbf{المراجعة والتقييم}\\[-2pt]\EN{Review}
     & تقديم عرض توضيحي للمخرجات أمام مشرف المشروع، وتوثيق الدروس المستفادة،
       وتحديث الأولويات وقائمة مهام الدورة التالية.
     & قائمة تحسينات وتعديلات معتمدة للدورة المباشرة التالية. \\
-    \bottomrule
+    \hline
   \end{tabularx}
 \end{table}
 
@@ -155,26 +155,26 @@
   \footnotesize
   \renewcommand{\arraystretch}{1.55}
   \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.8cm}|}
-    \toprule
+    \hline
     \textbf{الدورة} & \textbf{المكون المستهدف} & \textbf{الأنشطة والأدوات الرئيسية} & \textbf{المخرج النهائي المباشر} \\
-    \midrule
+    \hline
     \EN{Sprint 1} & وكيل \EN{SQL} وطبقة \EN{Smart Views}
     & \EN{PostgreSQL}، و\EN{FastAPI}، ومحرك \EN{NL2SQL}، وطبقة الرؤى الذكية.
     & وكيل \EN{SQL} آمن ومستقل لاسترجاع البيانات المهيكلة. \\
-    \midrule
+    \hline
     \EN{Sprint 2} & وكيل \EN{RAG} والبحث في المستندات
     & قاعدة \EN{Qdrant} المتجهة، والمتجهات الدلالية العربية، وتجزئة المستندات.
     & وكيل \EN{RAG} يجيب استناداً إلى السياسات واللوائح مع توثيق المصدر. \\
-    \midrule
+    \hline
     \EN{Sprint 3} & دمج الوكلاء والواجهة الأمامية
     & الوكيل المشرف \EN{LangGraph}، و\EN{Next.js}، و\EN{Tailwind CSS}.
     & نظام هجين موحد يعمل عبر واجهة ويب عربية حوارية. \\
-    \midrule
+    \hline
     \EN{Sprint 4} & الاختبار والتحسين والنشر
     & \EN{Docker Compose}، و\EN{Ollama (Qwen 2.5 14B)}، واختبارات
       \EN{End-to-End}.
     & نسخة تشغيلية محزمة وجاهزة للتقييم والتطبيق التجريبي. \\
-    \bottomrule
+    \hline
   \end{tabularx}
 \end{table}
 

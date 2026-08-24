@@ -90,17 +90,17 @@
   \small
   \renewcommand{\arraystretch}{1.45}
   \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{1.8cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}X|}
-    \toprule
+    \hline
     \textbf{النموذج} & \textbf{الحجم} & \textbf{دعم العربية} & \textbf{الترخيص} & \textbf{الاستخدام المقترح} \\
-    \midrule
+    \hline
     \textbf{\EN{Qwen 2.5 (14B)}} & 14B & جيد & \EN{Apache 2.0} & \textbf{النموذج الرئيسي} — تشغيل محلي افتراضي. \\
-    \midrule
+    \hline
     \EN{Jais (13B)} & 13B & ممتاز & مفتوح & بديل للنصوص العربية المعقدة. \\
-    \midrule
+    \hline
     \EN{Llama 3.1 (8B)} & 8B & متوسط & \EN{Llama 3 License} & للأجهزة محدودة الموارد. \\
-    \midrule
+    \hline
     \EN{GPT-4o} & غير معلن & جيد & تجاري & خيار سحابي عند توفّر الميزانية. \\
-    \bottomrule
+    \hline
   \end{tabularx}
 \end{table}
 
@@ -454,29 +454,29 @@ Education} التي تركز على المساعدة الأكاديمية للط
   \small
   \renewcommand{\arraystretch}{1.45}
   \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}p{1.6cm}|>{\raggedright\arraybackslash}p{1.8cm}|}
-    \toprule
+    \hline
     \textbf{النظام/الإطار} & \textbf{التقنيات المستخدمة} & \textbf{اللغة} & \textbf{البيئة التطبيقية} & \textbf{دقة \EN{NL2SQL}} & \textbf{دقة \EN{RAG}} & \textbf{البنية} \\
-    \midrule
+    \hline
     \EN{Vanna.ai} \cite{vanna2024} (2024) & \EN{NL2SQL + RAG} & إنجليزية & تجارية & 80\% & غير مذكورة & أحادية \\
-    \midrule
+    \hline
     \EN{Arctic-Text2SQL} \cite{snowflake2025arctic} (2025) & \EN{NL2SQL + RL} & إنجليزية & تجارية & 71.83\% (\EN{BIRD}) & --- & أحادية \\
-    \midrule
+    \hline
     \EN{LangChain} \cite{langchain2023} (2023) & \EN{RAG + LLM} & متعددة & عامة & --- & عالية & أحادية \\
-    \midrule
+    \hline
     \EN{LlamaIndex} \cite{llamaindex2023} (2023) & \EN{RAG + LLM} & متعددة & عامة & --- & عالية & أحادية \\
-    \midrule
+    \hline
     \EN{AutoGen} \cite{wu2023autogen} (2023) & \EN{Multi-Agent} & إنجليزية & عامة & --- & --- & متعددة \\
-    \midrule
+    \hline
     \EN{CrewAI} \cite{crewai2024} (2024) & \EN{Multi-Agent} & إنجليزية & عامة & --- & --- & متعددة \\
-    \midrule
+    \hline
     \EN{MetaGPT} \cite{hong2023metagpt} (2024) & \EN{Multi-Agent} & إنجليزية & تطوير برمجي & --- & --- & متعددة \\
-    \midrule
+    \hline
     \EN{ChatGPT Edu} (2024) & \EN{LLM + RAG} & متعددة & تعليم عالٍ & --- & جيدة & أحادية \\
-    \midrule
+    \hline
     \EN{Qdrant} \cite{qdrant2024} (2024) & \EN{Vector DB} & متعددة & عامة & --- & عالية & --- \\
-    \midrule
+    \hline
     \textbf{مشروع بيان (المقترح)} & \EN{NL2SQL + RAG + Multi-Agent} & عربية (فصحى وعامية) & جامعي (يمني) & $\geq$ 85\% (مستهدف) & $\geq$ 80\% (مستهدف) & متعددة (\EN{LangGraph}) \\
-    \bottomrule
+    \hline
   \end{tabularx}
 \end{table}
 
@@ -553,19 +553,19 @@ Systems}، \EN{Arabic NLP}) في إطار موحد ومحلي الاستضافة
   \small
   \renewcommand{\arraystretch}{1.45}
   \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
-    \toprule
+    \hline
     \textbf{المحور} & \textbf{الفجوة المحددة} & \textbf{مساهمة مشروع بيان} \\
-    \midrule
+    \hline
     تقنية & غياب الدمج بين \EN{NL2SQL} و \EN{RAG} و \EN{Multi-Agent} & دمج التقنيات الأربع في إطار موحد \\
-    \midrule
+    \hline
     لغوية & ضعف دعم العربية واللهجات & دعم فصحى وعامية في واجهة \EN{RTL} \\
-    \midrule
+    \hline
     تطبيقية & فصل الاستعلام عن البيانات عن البحث في المستندات & نظام موحد يجمع الجانبين \\
-    \midrule
+    \hline
     سياقية & غياب حلول مخصصة للبيئة المؤسسية والمحلية & تخصيص كامل للبيئة المؤسسية مع بيئة محاكاة لأكثر من نوع من قواعد البيانات \\
-    \midrule
+    \hline
     ابتكارية & غياب طبقة تجريدية مبسطة فوق قواعد البيانات & ابتكار طبقة \EN{Views} ذكية \\
-    \bottomrule
+    \hline
   \end{tabularx}
 \end{table}
 
