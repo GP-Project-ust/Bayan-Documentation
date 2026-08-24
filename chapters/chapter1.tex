@@ -388,25 +388,25 @@
   \label{tab:hardware}
   \small
   \renewcommand{\arraystretch}{1.4}
-  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}X}
-    \toprule
+  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}p{4.4cm}|>{\raggedright\arraybackslash}X|}
+    \hline
     \textbf{الأداة} & \textbf{الكمية} & \textbf{الاستخدام} & \textbf{المواصفات} \\
-    \midrule
+    \hline
     اتصال بالإنترنت & --- & للبحث، وتصحيح الأخطاء، وتحميل النماذج والأدوات، والتواصل مع الفريق & سرعة مناسبة للبحث والعمل الجماعي وتحميل ملفات بحجم عدة جيجابايتات (مثل نماذج \EN{Ollama}). \\
-    \midrule
+    \hline
     لابتوب & 5 & لكل عضو جهاز للعمل على تطوير المشروع &
       \textbf{المعالج:} \EN{Core i7} أو ما يعادله (لتشغيل بيئة التطوير).\newline
       \textbf{الرام} (\EN{RAM}): 16 \EN{GB} كحد أدنى، ويفضل 32 \EN{GB} لتشغيل النماذج المحلية.\newline
       \textbf{مساحة التخزين:} 512 \EN{GB SSD} أو أكثر (لأنظمة التشغيل، قواعد البيانات، ونماذج الذكاء الاصطناعي). \\
-    \midrule
+    \hline
     خادم محلي أو حاسوب إضافي & 1 & تشغيل خدمات الخلفية الأساسية مثل قواعد البيانات (\EN{PostgreSQL}، \EN{Qdrant}، \EN{Redis}) ونماذج \EN{Ollama} محلياً &
       \textbf{المعالج:} \EN{Core i7} أو ما يعادله مع دعم لتسريع \EN{CUDA} (بطاقة رسوميات \EN{NVIDIA}).\newline
       \textbf{الرام} (\EN{RAM}): 32 \EN{GB} أو أكثر.\newline
       \textbf{مساحة التخزين:} 1 \EN{TB SSD} أو أكثر.\newline
       \textbf{نظام التشغيل:} \EN{Linux} (\EN{Ubuntu}) أو \EN{Windows} مع \EN{WSL2}. \\
-    \midrule
+    \hline
     ذاكرة فلاش (\EN{Flash memory}) & 2 & لعمل نسخ احتياطية للمشروع، وملفات التطوير، والبيانات الأولية & سعة 64 \EN{GB} أو أكثر، ويفضل أن تدعم \EN{USB 3.0} للسرعة. \\
-    \bottomrule
+    \hline
   \end{tabularx}
 \end{table}
 
@@ -416,50 +416,50 @@
 يستعرض الجدول~\ref{tab:software} الأدوات البرمجية الرئيسية المعتمدة في تطوير
 المشروع، مع ذكر الاستخدام المخصص لكل أداة.
 
-\begin{longtable}{>{\raggedright\arraybackslash}p{5.5cm}>{\raggedright\arraybackslash}p{8cm}}
-\toprule
+\begin{longtable}{|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}p{8cm}|}
+\hline
 \textbf{البرنامج (\EN{Software})} & \textbf{الاستخدام} \\
-\midrule
+\hline
 \endhead
 
 \EN{Windows 11} & نظام تشغيل لتشغيل النظام على حواسيب التطوير، مع دعم \EN{WSL2} لتشغيل بيئات \EN{Linux} على \EN{Windows}. \\
-\midrule
+\hline
 \EN{LaTeX} (\EN{TeX Live} + \EN{latexmk}) & لكتابة وتوثيق تقرير المشروع الأكاديمي. \\
-\midrule
+\hline
 \EN{Microsoft Project 2021} & لإعداد الجدول الزمني للمشروع ومخططات جانت. \\
-\midrule
+\hline
 \EN{Microsoft PowerPoint 2021} & لإعداد العرض التقديمي للمشروع. \\
-\midrule
+\hline
 \EN{Draw.io} & لإنشاء المخططات والنماذج الخاصة بالمشروع. \\
-\midrule
+\hline
 \EN{Figma} & لتصميم واجهات النظام (\EN{UI/UX}). \\
-\midrule
+\hline
 \EN{Visual Studio Code} & بيئة التطوير المتكاملة لكتابة كود المشروع (\EN{Python}، \EN{JavaScript}، \EN{TypeScript}). \\
-\midrule
+\hline
 \EN{Python 3.12+} & لغة البرمجة الأساسية لتطوير الواجهة الخلفية (\EN{FastAPI}) ووكلاء \EN{LangGraph}. \\
-\midrule
+\hline
 \EN{Node.js 18+} & لغة البرمجة لتطوير الواجهة الأمامية (\EN{Next.js}) وإدارة الحزم عبر \EN{npm}. \\
-\midrule
+\hline
 \EN{FastAPI} & إطار عمل لبناء الواجهة الخلفية (\EN{Backend API}) وخدمات الوكلاء. \\
-\midrule
+\hline
 \EN{Next.js} & إطار عمل لبناء الواجهة الأمامية (\EN{Frontend}) مع دعم \EN{RTL} للغة العربية. \\
-\midrule
+\hline
 \EN{LangChain} / \EN{LangGraph} & مكتبات لبناء وتنسيق الوكلاء المتعددين (\EN{Multi-Agent System}). \\
-\midrule
+\hline
 \EN{PostgreSQL} مع \EN{pgvector} & قاعدة بيانات علائقية لتخزين البيانات المؤسسية والمتجهات (لـ \EN{RAG}). \\
-\midrule
+\hline
 \EN{Qdrant} & قاعدة بيانات متجهة (\EN{Vector Database}) لتخزين واسترجاع تضمينات المستندات. \\
-\midrule
+\hline
 \EN{Redis} & تخزين مؤقت (\EN{Cache}) وطابور رسائل لتنسيق الوكلاء وإدارة الجلسات. \\
-\midrule
+\hline
 \EN{Ollama} & أداة لتشغيل النماذج اللغوية محلياً (مثل \EN{Qwen}، \EN{Gemma}، \EN{Llama}). \\
-\midrule
+\hline
 \EN{Docker Desktop} & منصة للحاويات لتشغيل جميع الخدمات (\EN{PostgreSQL}، \EN{Qdrant}، \EN{Redis}، \EN{Ollama}) بشكل موحد. \\
-\midrule
+\hline
 \EN{Git} / \EN{GitHub} & نظام التحكم في الإصدارات وإدارة المستودع البرمجي للمشروع. \\
-\midrule
+\hline
 \textbf{\EN{Postman / Insomnia}} & اختبار واجهات برمجة التطبيقات (\EN{APIs}) للواجهة الخلفية. \\
-\midrule
+\hline
 
 \caption{الأدوات البرمجية المعتمدة في تطوير مشروع بيان.}
 \label{tab:software}
