@@ -1,9 +1,14 @@
 %------------------------------------------------------------------------------
 % 3.5 تحليل المخاطر
+% Font conventions applied per academic standards:
+%   - Body text:    14pt  (\fontsize{14pt}{17pt}\selectfont)
+%   - Tables:       12-14pt (table-level \small ≈ 12.6pt or \normalsize = 14pt)
+%   - Footnotes/source captions: 10-12pt (\footnotesize ≈ 11.2pt)
 %------------------------------------------------------------------------------
 \section{تحليل المخاطر}
 \label{sec:risk-analysis}
 
+\fontsize{14pt}{17pt}\selectfont
 يُعدّ تحليل المخاطر ركيزةً أساسية في دورة حياة أي مشروع برمجي يعتمد على تقنيات الذكاء الاصطناعي، نظراً لما تتسم به هذه التقنيات من تعقيدٍ عالٍ وعدم يقينٍ جوهري في سلوك النماذج اللغوية الكبيرة \EN{(LLMs)}. ويسعى هذا القسم إلى استعراض المخاطر المحتملة التي قد تواجه مشروع «بيان» خلال مراحل التصميم والتطوير والتشغيل، وتقييمها من حيث احتمالية الوقوع وحجم الأثر المتوقع. وقد جرى بناء هذا التحليل وفقاً لمعيار \EN{ISO 31000:2018} \cite{iso31000}، وإطار \EN{NIST SP 800-30 Rev.1} \cite{nist800-30}، و \EN{PMBOK® Guide} الإصدار السابع \cite{pmbok7}، مع الاسترشاد بإطار \EN{NIST AI RMF 1.0} \cite{nist-airmf} و \EN{OWASP Top 10 for LLM Applications} \cite{owasp-llm} لخصوصية أنظمة الذكاء الاصطناعي التوليدي.
 
 \subsection{منهجية تحليل المخاطر}
@@ -15,7 +20,7 @@
 \centering
 \caption{مقياس تقييم المخاطر وفئات الأولوية.}
 \label{tab:risk-methodology}
-\small
+\fontsize{12pt}{14.4pt}\selectfont
 \renewcommand{\arraystretch}{1.35}
 \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}X|}
 \hline
@@ -40,15 +45,16 @@
 \end{tabularx}
 \end{table}
 
-\noindent\textit{\small المصدر: مُعدّل من \EN{ISO 31000:2018} \cite{iso31000} و \EN{NIST SP 800-30 Rev.1} \cite{nist800-30} مع تعديلات الفريق.}
+{\fontsize{11pt}{13pt}\selectfont\noindent\textit{المصدر: مُعدّل من \EN{ISO 31000:2018} \cite{iso31000} و \EN{NIST SP 800-30 Rev.1} \cite{nist800-30} مع تعديلات الفريق.}\par}
 
 
 \subsection{سجل المخاطر الشامل}
 \label{subsec:risk-register}
 
+\fontsize{14pt}{17pt}\selectfont
 يستعرض هذا الجزء سجل المخاطر الكامل للمشروع، والذي تم تطويره عبر جلسات عصفٍ ذهنيٍ مع فريق المشروع ومراجعةٍ منهجيةٍ للأدبيات العلمية الحديثة في مجال مخاطر الذكاء الاصطناعي \cite{nist-airmf}\cite{owasp-llm}\cite{schwarcz2024}. وقد تم تحديد اثنتين وعشرين (22) مخاطرةً محتملةً تنتمي إلى سبع فئاتٍ رئيسيةٍ: تقنية، أمنية، تشغيلية، اقتصادية، قانونية وامتثال، بيانات، ومشروعية. ويعرض الجدول \ref{tab:risk-register} لكل مخاطرةٍ: المُعرّف الفريد، والوصف، والفئة، ومستوى الاحتمال، ومستوى الأثر، والأولوية المحسوبة (مُلوَّنة حسب الخطورة)، واستراتيجية التخفيف المقترحة.
 
-\scriptsize
+\fontsize{12pt}{14pt}\selectfont
 \renewcommand{\arraystretch}{1.4}
 \begin{longtable}{|>{\centering\arraybackslash}p{0.8cm}|>{\raggedright\arraybackslash}p{3.8cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{1.4cm}|>{\centering\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}p{3.2cm}|}
 \caption{سجل المخاطر الشامل.}
@@ -57,13 +63,13 @@
 \textbf{المُعرّف} & \textbf{الوصف} & \textbf{الفئة} & \textbf{الاحتمال} & \textbf{الأثر} & \textbf{الأولوية} & \textbf{استراتيجية التخفيف} \\
 \hline
 \endfirsthead
-\multicolumn{7}{p{15.5cm}}{\textit{\small تابع جدول سجل المخاطر الشامل من الصفحة السابقة}} \\
+\multicolumn{7}{p{15.5cm}}{\textit{\fontsize{11pt}{13pt}\selectfont تابع جدول سجل المخاطر الشامل من الصفحة السابقة}} \\
 \hline
 \textbf{المُعرّف} & \textbf{الوصف} & \textbf{الفئة} & \textbf{الاحتمال} & \textbf{الأثر} & \textbf{الأولوية} & \textbf{استراتيجية التخفيف} \\
 \hline
 \endhead
 \hline
-\multicolumn{7}{p{15.5cm}}{\textit{\small \hfill يتبع في الصفحة التالية}} \\
+\multicolumn{7}{p{15.5cm}}{\textit{\fontsize{11pt}{13pt}\selectfont \hfill يتبع في الصفحة التالية}} \\
 \endfoot
 \hline
 \endlastfoot
@@ -112,16 +118,18 @@ R-21 & تأخر تسليم المشروع عن الجدول الزمني الم�
 R-22 & مغادرة أحد أعضاء فريق التطوير مما يؤثر على استمرارية العمل & مشروعية & شبه مؤكد (5) & ضئيل (1) & منخفضة (5) & توثيقٌ شاملٌ للكود والقرارات المعمارية مع جلسات مشاركة المعرفة أسبوعياً \\
 \end{longtable}
 
-\noindent\textit{\small المصدر: إعداد فريق المشروع بالاستناد إلى \EN{ISO 31000:2018} \cite{iso31000} و \EN{NIST AI RMF 1.0} \cite{nist-airmf}.}
+{\fontsize{11pt}{13pt}\selectfont\noindent\textit{المصدر: إعداد فريق المشروع بالاستناد إلى \EN{ISO 31000:2018} \cite{iso31000} و \EN{NIST AI RMF 1.0} \cite{nist-airmf}.}\par}
 
 \medskip
 
+\fontsize{14pt}{17pt}\selectfont
 \noindent\textbf{ملخص السجل:} إجمالي المخاطر \textbf{22} موزعة كالتالي: \textcolor{red!70!black}{\textbf{3 حرجة}} (\EN{R-13, R-15, R-20})، \textcolor{orange!80!black}{\textbf{7 عالية}} (\EN{R-01, R-03, R-04, R-06, R-08, R-09})، \textbf{2 متوسطة-عالية} (\EN{R-07, R-18})، \textbf{5 متوسطة}، و\textbf{6 منخفضة}.
 
 
 \subsection{مصفوفة المخاطر}
 \label{subsec:risk-matrix}
 
+\fontsize{14pt}{17pt}\selectfont
 تُمثّل مصفوفة المخاطر أداةً بصريةً تساعد على فهم التوزيع النسبي للمخاطر وفقاً للاحتمال والأثر، وهي تُسهّل اتخاذ القرار بشأن المخاطر التي تستوجب الأولوية في المعالجة. ويُظهر الشكل \ref{fig:risk-matrix} مصفوفة المخاطر 5×5 الخاصة بالمشروع، حيث تم وضع كل مخاطرةٍ من المخاطر الاثنتين والعشرين في الخلية المناسبة لها بناءً على تقييم الاحتمال والأثر. وتُلوَّن الخلايا وفقاً لمستوى الأولوية: الأخضر للمخاطر المنخفضة، الأصفر للمتوسطة، البرتقالي للمتوسطة-عالية، الأحمر للعالية، والأحمر الداكن للحرجة.
 
 \begin{figure}[H]
@@ -132,6 +140,7 @@ R-22 & مغادرة أحد أعضاء فريق التطوير مما يؤثر ع
   \label{fig:risk-matrix}
 \end{figure}
 
+\fontsize{14pt}{17pt}\selectfont
 يتبيّن من مصفوفة المخاطر أن هناك خمس مخاطر تقع في النطاق الحرجة (الدرجة 20--25)، وهي مخاطر تجاوز ميزانية الـ \EN{API} (\EN{R-13}) ومخاطر عدم الامتثال للخصوصية (\EN{R-15}) وعدم كفاية البيانات المحلية (\EN{R-20}) فضلاً عن مخاطر هلوسة النموذج (\EN{R-03}) وفشل استرجاع \EN{RAG} (\EN{R-04}) التي وصلت للنطاق العالي. كما تظهر ثلاث مخاطر إضافية في النطاق العالي (\EN{R-09} انقطاع الخدمة، \EN{R-08} تسريب البيانات، \EN{R-07} حقن الأوامر) مما يعكس الحاجة إلى تركيزٍ خاصٍ على الجوانب الأمنية والاقتصادية في خطة إدارة المخاطر. ويُلخّص الشكلان \ref{fig:risk-priority-distribution} و \ref{fig:risk-category-distribution} توزيع المخاطر حسب الأولوية وحسب الفئة على التوالي.
 
 \begin{figure}[H]
@@ -150,15 +159,17 @@ R-22 & مغادرة أحد أعضاء فريق التطوير مما يؤثر ع
   \label{fig:risk-category-distribution}
 \end{figure}
 
+\fontsize{14pt}{17pt}\selectfont
 يُلاحظ من الشكل \ref{fig:risk-priority-distribution} أن المخاطر تتوزع بشكلٍ متوازنٍ نسبياً عبر مستويات الأولوية، مع وجود 8 مخاطر في النطاقين العالي والحرج (36\% من إجمالي المخاطر) وهي نسبةٌ تستدعي تطوير خطط استجابةٍ تفصيليةٍ لها. كما يُظهر الشكل \ref{fig:risk-category-distribution} أن الفئة التقنية تستحوذ على العدد الأكبر من المخاطر (6 مخاطر) وهو أمرٌ متوقعٌ نظراً لطبيعة المشروع المعتمد على تقنياتٍ حديثةٍ وغير ناضجةٍ تماماً، تليها الفئات الأمنية والتشغيلية والقانونية والبيانات بـ 3 مخاطر لكلٍ منها.
 
 
 \subsection{خطة الاستجابة للمخاطر عالية الأولوية والحرجة}
 \label{subsec:risk-response-plans}
 
+\fontsize{14pt}{17pt}\selectfont
 تُقدّم هذه الفقرة خطط استجابةٍ مختصرةً للمخاطر التي تُصنَّف ضمن فئتي الأولوية «العالية» أو «الحرجة»، وذلك وفقاً لمعيار \EN{ISO 31000:2018} \cite{iso31000}. وتتضمن كل خطةٍ: الإجراء الوقائي والإجراء التصحيحي والمسؤول عن التنفيذ. ويُلخّص الجدول \ref{tab:risk-response-summary} خطط الاستجابة للمخاطر التسع الأكثر أولويةً.
 
-\scriptsize
+\fontsize{12pt}{14pt}\selectfont
 \renewcommand{\arraystretch}{1.4}
 \begin{longtable}{|>{\centering\arraybackslash}p{0.8cm}|>{\centering\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{2.7cm}|}
 \caption{خطط الاستجابة للمخاطر عالية الأولوية والحرجة.}
@@ -167,13 +178,13 @@ R-22 & مغادرة أحد أعضاء فريق التطوير مما يؤثر ع
 \textbf{المُعرّف} & \textbf{الأولوية} & \textbf{الإجراء الوقائي} & \textbf{الإجراء التصحيحي} & \textbf{المسؤول} \\
 \hline
 \endfirsthead
-\multicolumn{5}{p{15.5cm}}{\textit{\small تابع جدول خطط الاستجابة من الصفحة السابقة}} \\
+\multicolumn{5}{p{15.5cm}}{\textit{\fontsize{11pt}{13pt}\selectfont تابع جدول خطط الاستجابة من الصفحة السابقة}} \\
 \hline
 \textbf{المُعرّف} & \textbf{الأولوية} & \textbf{الإجراء الوقائي} & \textbf{الإجراء التصحيحي} & \textbf{المسؤول} \\
 \hline
 \endhead
 \hline
-\multicolumn{5}{p{15.5cm}}{\textit{\small \hfill يتبع في الصفحة التالية}} \\
+\multicolumn{5}{p{15.5cm}}{\textit{\fontsize{11pt}{13pt}\selectfont \hfill يتبع في الصفحة التالية}} \\
 \endfoot
 \hline
 \endlastfoot
@@ -196,10 +207,9 @@ R-07 & \cellcolor{yellow!40}متوسطة-عالية (9) & تطبيق تعقيم 
 R-01 & \cellcolor{orange!30}عالية (15) & اعتماد استراتيجية متعددة المزودين (\EN{OpenAI} + \EN{Jais} + نموذج محلي)، نمط قاطع الدائرة، ذاكرة دلالية، وفحص صحة كل 30 ثانية. & عند انقطاع المزود الأساسي: تحويل تلقائي خلال 3 ثوانٍ؛ عند انقطاع الكل: وضع الطوارئ بالذاكرة المحلية. & مهندس البنية التحتية + فريق التشغيل \\
 \end{longtable}
 
-\noindent\textit{\small المصدر: إعداد فريق المشروع وفقاً لمعيار \EN{ISO 31000:2018} \cite{iso31000}.}
+{\fontsize{11pt}{13pt}\selectfont\noindent\textit{المصدر: إعداد فريق المشروع وفقاً لمعيار \EN{ISO 31000:2018} \cite{iso31000}.}\par}
 
 \bigskip
 
-{\large
-\noindent\textbf{خلاصة القسم:} تم في هذا القسم استعراض \textbf{22 مخاطرة} محتملة موزعة على سبع فئات، مع تصنيفها وفق منهجية كمية شبه موضوعية تستند إلى مصفوفة المخاطر 5×5. وقد كشف التحليل عن \textcolor{red!70!black}{\textbf{3 مخاطر حرجة}} و\textcolor{orange!80!black}{\textbf{7 مخاطر عالية}} تستوجب خطط استجابةٍ تفصيليةً، تم تقديمها في الجدول \ref{tab:risk-response-summary}. وتُكمل هذه الخطة الفصل التالي الذي يُقدّم التصميم المعماري التفصيلي للنظام مع مراعاة الضوابط الأمنية والتشغيلية المُقترَحة في هذا القسم.
-}
+{\fontsize{14pt}{17pt}\selectfont
+\noindent\textbf{خلاصة القسم:} تم في هذا القسم استعراض \textbf{22 مخاطرة} محتملة موزعة على سبع فئات، مع تصنيفها وفق منهجية كمية شبه موضوعية تستند إلى مصفوفة المخاطر 5×5. وقد كشف التحليل عن \textcolor{red!70!black}{\textbf{3 مخاطر حرجة}} و\textcolor{orange!80!black}{\textbf{7 مخاطر عالية}} تستوجب خطط استجابةٍ تفصيليةً، تم تقديمها في الجدول \ref{tab:risk-response-summary}. وتُكمل هذه الخطة الفصل التالي الذي يُقدّم التصميم المعماري التفصيلي للنظام مع مراعاة الضوابط الأمنية والتشغيلية المُقترَحة في هذا القسم.\par}
