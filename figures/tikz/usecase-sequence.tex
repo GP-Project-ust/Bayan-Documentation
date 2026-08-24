@@ -27,36 +27,37 @@
 
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
-  font=\scriptsize,
+  font=\small,
   header/.style={
     draw=kauprimary!60, fill=kauprimary!12, line width=0.9pt,
     rounded corners=3pt, align=center, inner sep=4pt,
-    text=kaudark, font=\bfseries\scriptsize,
+    text=kaudark, font=\bfseries\small,
     minimum width=1.7cm, minimum height=0.7cm
   },
   lifeline/.style={draw=dividerdim, line width=0.6pt, dashed},
   msg/.style={-stealth, line width=0.7pt, draw=kaudark},
   reply/.style={-stealth, line width=0.7pt, draw=kaudark, dashed},
-  mlabel/.style={font=\scriptsize, text=kaudark, fill=white, inner sep=1.5pt},
+  mlabel/.style={font=\small, text=kaudark, fill=white, inner sep=1.5pt},
   ucblock/.style={draw=kauprimary!50, line width=0.8pt, rounded corners=2pt,
                   fill=kauprimary!4},
-  uclabel/.style={fill=kauprimary!20, font=\bfseries\scriptsize, text=kaudark,
+  uclabel/.style={fill=kauprimary!20, font=\bfseries\small, text=kaudark,
                   inner sep=3pt, rounded corners=2pt},
   selfloop/.style={-stealth, line width=0.7pt, draw=kaudark}
 ]
 
   %==========================================================================
-  %  LIFELINE X-POSITIONS  (9 columns, 2.6 units apart; RTL reading order)
+  %  LIFELINE X-POSITIONS  (9 columns, 2.3 units apart — tightened to reduce
+  %  the scaling factor so the \small font survives \resizebox better)
   %==========================================================================
   \def\xUser{0}
-  \def\xFront{2.6}
-  \def\xSup{5.2}
-  \def\xSql{7.8}
-  \def\xRag{10.4}
-  \def\xAna{13.0}
-  \def\xPg{15.6}
-  \def\xQd{18.2}
-  \def\xAudit{20.8}
+  \def\xFront{2.3}
+  \def\xSup{4.6}
+  \def\xSql{6.9}
+  \def\xRag{9.2}
+  \def\xAna{11.5}
+  \def\xPg{13.8}
+  \def\xQd{16.1}
+  \def\xAudit{18.4}
 
   %==========================================================================
   %  TOP HEADER BOXES
@@ -90,7 +91,7 @@
   %  UC-01: طرح استعلام عن البيانات   (block: y = -1.0 .. -4.0)
   %    User → Frontend → Supervisor → SQL Agent → PostgreSQL → (return)
   %==========================================================================
-  \draw[ucblock, fill=kauprimary!5] (-0.9, -1.0) rectangle (21.7, -4.0);
+  \draw[ucblock, fill=kauprimary!5] (-0.9, -1.0) rectangle (19.3, -4.0);
   \node[uclabel, anchor=north west] at (-0.85, -1.05)
     {\EN{UC-01:} طرح استعلام عن البيانات};
 
@@ -104,7 +105,7 @@
   %  UC-02: البحث في المستندات   (block: y = -4.1 .. -7.1)
   %    User → Frontend → Supervisor → RAG Agent → Qdrant → (return)
   %==========================================================================
-  \draw[ucblock, fill=kauprimary!7] (-0.9, -4.1) rectangle (21.7, -7.1);
+  \draw[ucblock, fill=kauprimary!7] (-0.9, -4.1) rectangle (19.3, -7.1);
   \node[uclabel, anchor=north west] at (-0.85, -4.15)
     {\EN{UC-02:} البحث في المستندات};
 
@@ -118,7 +119,7 @@
   %  UC-03: توليد تقرير مخصص   (block: y = -7.2 .. -10.2)
   %    User → Frontend → Supervisor → Analyst ↔ SQL → (return + export)
   %==========================================================================
-  \draw[ucblock, fill=kauprimary!9] (-0.9, -7.2) rectangle (21.7, -10.2);
+  \draw[ucblock, fill=kauprimary!9] (-0.9, -7.2) rectangle (19.3, -10.2);
   \node[uclabel, anchor=north west] at (-0.85, -7.25)
     {\EN{UC-03:} توليد تقرير مخصص};
 
@@ -132,7 +133,7 @@
   %  UC-04: عرض الإشعارات   (block: y = -10.3 .. -12.3)
   %    User → Frontend → (Notifications list)
   %==========================================================================
-  \draw[ucblock, fill=kaulight] (-0.9, -10.3) rectangle (21.7, -12.3);
+  \draw[ucblock, fill=kaulight] (-0.9, -10.3) rectangle (19.3, -12.3);
   \node[uclabel, anchor=north west] at (-0.85, -10.35)
     {\EN{UC-04:} عرض الإشعارات};
 
@@ -144,7 +145,7 @@
   %  UC-05: إدارة المستخدمين والأدوار   (block: y = -12.4 .. -15.0)
   %    System Admin → Frontend → PostgreSQL (RBAC update)
   %==========================================================================
-  \draw[ucblock, fill=kausecondary!7] (-0.9, -12.4) rectangle (21.7, -15.0);
+  \draw[ucblock, fill=kausecondary!7] (-0.9, -12.4) rectangle (19.3, -15.0);
   \node[uclabel, anchor=north west] at (-0.85, -12.45)
     {\EN{UC-05:} إدارة المستخدمين والأدوار};
 
@@ -157,7 +158,7 @@
   %  UC-06: إدارة مصادر البيانات   (block: y = -15.1 .. -17.7)
   %    System Admin → Frontend → Smart Views → PostgreSQL schema update
   %==========================================================================
-  \draw[ucblock, fill=kausecondary!9] (-0.9, -15.1) rectangle (21.7, -17.7);
+  \draw[ucblock, fill=kausecondary!9] (-0.9, -15.1) rectangle (19.3, -17.7);
   \node[uclabel, anchor=north west] at (-0.85, -15.15)
     {\EN{UC-06:} إدارة مصادر البيانات};
 
@@ -171,7 +172,7 @@
   %    System Admin → Frontend → Audit Log (filter / export CSV)
   %    The admin's access to the audit log is itself logged (self-loop).
   %==========================================================================
-  \draw[ucblock, fill=dividersilver!15] (-0.9, -17.8) rectangle (21.7, -20.4);
+  \draw[ucblock, fill=dividersilver!15] (-0.9, -17.8) rectangle (19.3, -20.4);
   \node[uclabel, anchor=north west] at (-0.85, -17.85)
     {\EN{UC-07:} مراجعة سجل التدقيق};
 
@@ -190,7 +191,7 @@
   %    Onboarding Operator → Frontend → Smart Views + Qdrant indexing
   %    → readiness report
   %==========================================================================
-  \draw[ucblock, fill=kauaccent!6] (-0.9, -20.5) rectangle (21.7, -23.5);
+  \draw[ucblock, fill=kauaccent!6] (-0.9, -20.5) rectangle (19.3, -23.5);
   \node[uclabel, anchor=north west] at (-0.85, -20.55)
     {\EN{UC-08:} تشغيل التهيئة الذكية};
 

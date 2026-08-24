@@ -18,7 +18,7 @@
   title/.style={font=\large\bfseries, kauprimary},
   axistitle/.style={font=\small\bfseries, kauprimary},
   catlabel/.style={font=\footnotesize, kaudark, align=right, anchor=east},
-  countlabel/.style={font=\small\bfseries, kaudark, anchor=west},
+  countlabel/.style={font=\normalsize\bfseries, kaudark, anchor=west},
   ticknum/.style={font=\scriptsize, kaudark},
 ]
 
@@ -35,27 +35,27 @@
 % حرجة (Critical) = 3
 \filldraw[fill=red!85!black, draw=kaudark, thin] (0,4.2) rectangle (3,4.8);
 \node[countlabel] at (3.12,4.5) {3};
-\node[catlabel]  at (-0.15,4.5) {حرجة (\EN{Critical})};
+\node[catlabel]  at (-0.15,4.5) {حرجة};
 
 % عالية (High) = 7
 \filldraw[fill=red!60, draw=kaudark, thin] (0,3.2) rectangle (7,3.8);
 \node[countlabel] at (7.12,3.5) {7};
-\node[catlabel]  at (-0.15,3.5) {عالية (\EN{High})};
+\node[catlabel]  at (-0.15,3.5) {عالية};
 
 % متوسطة-عالية (Medium-High) = 1
 \filldraw[fill=orange!60, draw=kaudark, thin] (0,2.2) rectangle (1,2.8);
 \node[countlabel] at (1.12,2.5) {1};
-\node[catlabel]  at (-0.15,2.5) {متوسطة-عالية (\EN{Medium-High})};
+\node[catlabel]  at (-0.15,2.5) {متوسطة-عالية};
 
 % متوسطة (Medium) = 5
 \filldraw[fill=yellow!50, draw=kaudark, thin] (0,1.2) rectangle (5,1.8);
 \node[countlabel] at (5.12,1.5) {5};
-\node[catlabel]  at (-0.15,1.5) {متوسطة (\EN{Medium})};
+\node[catlabel]  at (-0.15,1.5) {متوسطة};
 
 % منخفضة (Low) = 6
 \filldraw[fill=green!30, draw=kaudark, thin] (0,0.2) rectangle (6,0.8);
 \node[countlabel] at (6.12,0.5) {6};
-\node[catlabel]  at (-0.15,0.5) {منخفضة (\EN{Low})};
+\node[catlabel]  at (-0.15,0.5) {منخفضة};
 
 % ---- Category (y) axis line ----
 \draw[kaudark, thick] (0,0.1) -- (0,5.0);
