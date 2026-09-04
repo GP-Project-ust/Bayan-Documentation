@@ -2,11 +2,11 @@
 % figures/tikz/risk-priority-distribution.tex
 % Horizontal bar chart: number of risks per priority level — Thesis §3.5.
 % Data (from the risk-register summary table):
-%   حرجة (Critical)      = 3
-%   عالية (High)         = 7
-%   متوسطة-عالية (Med-High) = 1
-%   متوسطة (Medium)      = 5
-%   منخفضة (Low)         = 6
+%   عالية (High)            = 6
+%   متوسطة-عالية (Med-High) = 7
+%   متوسطة (Medium)         = 5
+%   منخفضة (Low)            = 4
+%   حرجة (Critical)         = 0
 %   (total = 22)
 % Bar colours mirror the 5×5 risk-matrix shading.
 % Depends on main.tex: kauprimary/kauaccent/kaudark/dividersilver + \EN macro.
@@ -32,19 +32,18 @@
 
 % ---- Bars: top → bottom  حرجة, عالية, متوسطة-عالية, متوسطة, منخفضة ----
 
-% حرجة (Critical) = 3
-\filldraw[fill=red!85!black, draw=kaudark, thin] (0,4.2) rectangle (3,4.8);
-\node[countlabel] at (3.12,4.5) {3};
+% حرجة (Critical) = 0
+\node[countlabel] at (0.12,4.5) {0};
 \node[catlabel]  at (-0.15,4.5) {حرجة};
 
-% عالية (High) = 7
-\filldraw[fill=red!60, draw=kaudark, thin] (0,3.2) rectangle (7,3.8);
-\node[countlabel] at (7.12,3.5) {7};
+% عالية (High) = 6
+\filldraw[fill=red!60, draw=kaudark, thin] (0,3.2) rectangle (6,3.8);
+\node[countlabel] at (6.12,3.5) {6};
 \node[catlabel]  at (-0.15,3.5) {عالية};
 
-% متوسطة-عالية (Medium-High) = 1
-\filldraw[fill=orange!60, draw=kaudark, thin] (0,2.2) rectangle (1,2.8);
-\node[countlabel] at (1.12,2.5) {1};
+% متوسطة-عالية (Medium-High) = 7
+\filldraw[fill=orange!60, draw=kaudark, thin] (0,2.2) rectangle (7,2.8);
+\node[countlabel] at (7.12,2.5) {7};
 \node[catlabel]  at (-0.15,2.5) {متوسطة-عالية};
 
 % متوسطة (Medium) = 5
@@ -52,9 +51,9 @@
 \node[countlabel] at (5.12,1.5) {5};
 \node[catlabel]  at (-0.15,1.5) {متوسطة};
 
-% منخفضة (Low) = 6
-\filldraw[fill=green!30, draw=kaudark, thin] (0,0.2) rectangle (6,0.8);
-\node[countlabel] at (6.12,0.5) {6};
+% منخفضة (Low) = 4
+\filldraw[fill=green!30, draw=kaudark, thin] (0,0.2) rectangle (4,0.8);
+\node[countlabel] at (4.12,0.5) {4};
 \node[catlabel]  at (-0.15,0.5) {منخفضة};
 
 % ---- Category (y) axis line ----
