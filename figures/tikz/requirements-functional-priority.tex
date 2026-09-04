@@ -1,5 +1,5 @@
 % Professional MoSCoW priority distribution for Figure 3-1.
-% Counts: Must Have = 21, Should Have = 7, Could Have = 2 (30 total).
+% Counts: Must Have = 20, Should Have = 8, Could Have = 2 (30 total).
 % Improved: larger fonts, wider third segment, clearer labels.
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
@@ -15,23 +15,23 @@
   \node[font=\footnotesize, text=dividerdim] at (0,1.85)
     {إجمالي المتطلبات الوظيفية: 30 متطلباً};
 
-  % Proportional bar: 70%, 23.3%, and 6.7% — widened third segment for readability.
-  \fill[kauprimary, rounded corners=3pt] (-8.5,0.85) rectangle (3.0,1.45);
-  \fill[kausecondary] (3.0,0.85) rectangle (6.5,1.45);
-  \fill[dividerdim, rounded corners=3pt] (6.5,0.85) rectangle (8.5,1.45);
-  \node[text=white, font=\bfseries\small] at (-2.75,1.15) {70\%};
-  \node[text=white, font=\bfseries\small] at (4.75,1.15) {23.3\%};
-  \node[text=white, font=\bfseries\small] at (7.5,1.15) {6.7\%};
+  % Proportional bar: 66.7%, 26.7%, and 6.7% — widened third segment for readability.
+  \fill[kauprimary, rounded corners=3pt] (-8.5,0.85) rectangle (2.8,1.45);
+  \fill[kausecondary] (2.8,0.85) rectangle (7.3,1.45);
+  \fill[dividerdim, rounded corners=3pt] (7.3,0.85) rectangle (8.5,1.45);
+  \node[text=white, font=\bfseries\small] at (-2.85,1.15) {66.7\%};
+  \node[text=white, font=\bfseries\small] at (5.05,1.15) {26.7\%};
+  \node[text=white, font=\bfseries\small] at (7.9,1.15) {6.7\%};
 
   % Three explanatory cards arranged in reading order from right to left.
   \node[statcard, draw=kauprimary, fill=kauprimary!6, text width=4.6cm] (must) at (5.45,-0.55)
     {\textcolor{kauprimary}{\bfseries عالية}\quad\EN{Must Have}\par
-     \textcolor{kauprimary}{\fontsize{24}{26}\selectfont\bfseries 21}\par
+     \textcolor{kauprimary}{\fontsize{24}{26}\selectfont\bfseries 20}\par
      \footnotesize وظائف أساسية للإصدار الحالي};
 
   \node[statcard, draw=kausecondary, fill=kausecondary!7, text width=4.6cm] (should) at (0,-0.55)
     {\textcolor{kausecondary}{\bfseries متوسطة}\quad\EN{Should Have}\par
-     \textcolor{kausecondary}{\fontsize{24}{26}\selectfont\bfseries 7}\par
+     \textcolor{kausecondary}{\fontsize{24}{26}\selectfont\bfseries 8}\par
      \footnotesize وظائف مهمة قابلة للتأجيل};
 
   \node[statcard, draw=dividerdim, fill=kaulight, text width=4.6cm] (could) at (-5.45,-0.55)
