@@ -308,37 +308,53 @@
 مهام الفريق، قُسّمنا مخطط جانت إلى أربعة أجزاء تتابعية يعرض كلٌّ منها مرحلة
 زمنية محددة:
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.78\textwidth]{gantt-part1.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الأول.}
   \label{fig:gantt1}
+  \par\vspace{4pt}
+  \begin{minipage}{\textwidth}
+    \setlength{\leftskip}{0pt}\setlength{\rightskip}{0pt}
+    \textbf{شرح الجزء الأول:} يعرض هذا الجزء المراحل الأولى من المشروع، والتي تشمل جمع المتطلبات، تحليل النظام، ومرحلة التصميم المعماري الأولي للوكلاء وقاعدة البيانات.
+  \end{minipage}
 \end{figure}
-\noindent\textbf{شرح الجزء الأول:} يعرض هذا الجزء المراحل الأولى من المشروع، والتي تشمل جمع المتطلبات، تحليل النظام، ومرحلة التصميم المعماري الأولي للوكلاء وقاعدة البيانات.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.78\textwidth]{gantt-part2.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الثاني.}
   \label{fig:gantt2}
+  \par\vspace{4pt}
+  \begin{minipage}{\textwidth}
+    \setlength{\leftskip}{0pt}\setlength{\rightskip}{0pt}
+    \textbf{شرح الجزء الثاني:} يركز هذا الجزء على مرحلة التنفيذ الأساسية للواجهة الخلفية (\EN{Backend}) وتطوير وكلاء الذكاء الاصطناعي (\EN{LangGraph}) وربطهم بقاعدة البيانات.
+  \end{minipage}
 \end{figure}
-\noindent\textbf{شرح الجزء الثاني:} يركز هذا الجزء على مرحلة التنفيذ الأساسية للواجهة الخلفية (Backend) وتطوير وكلاء الذكاء الاصطناعي (LangGraph) وربطهم بقاعدة البيانات.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.78\textwidth]{gantt-part3.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الثالث.}
   \label{fig:gantt3}
+  \par\vspace{4pt}
+  \begin{minipage}{\textwidth}
+    \setlength{\leftskip}{0pt}\setlength{\rightskip}{0pt}
+    \textbf{شرح الجزء الثالث:} يغطي هذا الجزء تطوير الواجهة الأمامية (\EN{Frontend})، ودمجها مع الواجهة الخلفية، بالإضافة إلى مرحلة الاختبار الأولي للنظام وتصحيح الأخطاء.
+  \end{minipage}
 \end{figure}
-\noindent\textbf{شرح الجزء الثالث:} يغطي هذا الجزء تطوير الواجهة الأمامية (Frontend)، ودمجها مع الواجهة الخلفية، بالإضافة إلى مرحلة الاختبار الأولي للنظام وتصحيح الأخطاء.
 
-\begin{figure}[!htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.78\textwidth]{gantt-part4.jpg}
   \caption{مخطط جانت لمراحل المشروع — الجزء الرابع.}
   \label{fig:gantt4}
+  \par\vspace{4pt}
+  \begin{minipage}{\textwidth}
+    \setlength{\leftskip}{0pt}\setlength{\rightskip}{0pt}
+    \textbf{شرح الجزء الرابع:} يختتم هذا الجزء مراحل المشروع باختبارات الأداء وتقييم النتائج، يليه توثيق الأطروحة وإعداد العرض التقديمي للمناقشة.
+  \end{minipage}
 \end{figure}
-\noindent\textbf{شرح الجزء الرابع:} يختتم هذا الجزء مراحل المشروع باختبارات الأداء وتقييم النتائج، يليه توثيق الأطروحة وإعداد العرض التقديمي للمناقشة.
 
 %------------------------------------------------------------------------------
 \section{متطلبات الأدوات (\EN{Required Tools})}
@@ -353,7 +369,7 @@
 يوضح الجدول~\ref{tab:hardware} المواصفات المادية المطلوبة لكل عضو في فريق
 التطوير، إلى جانب الأجهزة اللازمة لتشغيل بيئة الخوادم.
 
-\begin{table}[!htbp]
+\begin{table}[H]
   \centering
   \caption{الأدوات المادية المطلوبة للمشروع.}
   \label{tab:hardware}
@@ -388,6 +404,13 @@
 المشروع، مع ذكر الاستخدام المخصص لكل أداة.
 
 \begin{longtable}{|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}p{8cm}|}
+\caption{الأدوات البرمجية المعتمدة في تطوير مشروع بيان.}
+\label{tab:software}\\
+\hline
+\textbf{البرنامج (\EN{Software})} & \textbf{الاستخدام} \\
+\hline
+\endfirsthead
+\multicolumn{2}{c}{جدول~\thetable{} — تابع}\\
 \hline
 \textbf{البرنامج (\EN{Software})} & \textbf{الاستخدام} \\
 \hline
@@ -432,8 +455,6 @@
 \EN{Postman / Insomnia} & اختبار واجهات برمجة التطبيقات (\EN{APIs}) للواجهة الخلفية. \\
 \hline
 
-\caption{الأدوات البرمجية المعتمدة في تطوير مشروع بيان.}
-\label{tab:software}
 \end{longtable}
 
 %------------------------------------------------------------------------------
