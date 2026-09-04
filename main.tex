@@ -292,6 +292,29 @@
 
 \usepackage{bidi}
 \setRTL
+
+%------------------------------------------------------------------------------
+% FIX (longtable caption): the combination caption + ltcaption + bidi has a
+% clash inside \LT@makecaption that typesets a stray "LT" line above the
+% caption whenever a longtable does NOT start at the top of a page.
+% We override \LT@makecaption (after bidi has loaded its final definition)
+% with bidi's plain RTL variant, plus \small + bold label so that longtable
+% captions match the caption-package styling (font=small,labelfont=bf) used
+% by every other caption in this thesis.
+%------------------------------------------------------------------------------
+\makeatletter
+\setlength\LTcapwidth{\textwidth}
+\long\def\LT@makecaption#1#2#3{%
+  \LT@mcol\LT@cols c{\hbox to\z@{\hss\parbox[t]\LTcapwidth{%
+    \sbox\@tempboxa{\small\if@RTL\beginR\fi#1{\textbf{#2: }}#3\if@RTL\endR\fi}%
+    \ifdim\wd\@tempboxa>\hsize
+      \small#1{\textbf{#2: }}#3%
+    \else
+      \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+    \fi
+    \endgraf\vskip\baselineskip}%
+  \hss}}}
+\makeatother
 \XeTeXgenerateactualtext=1
 
 %------------------------------------------------------------------------------
