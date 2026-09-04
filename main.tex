@@ -41,30 +41,6 @@
 \graphicspath{{./figures/}}
 \usepackage{tikz}
 \usetikzlibrary{calc,shapes.geometric,positioning}
-%------------------------------------------------------------------------------
-% pgfgantt — native Gantt charts for the project schedule (chapter 1).
-% Loaded BEFORE bidi (bidi must remain the last package). Defaults below
-% bind the charts to the thesis identity colors (kauprimary family).
-%------------------------------------------------------------------------------
-\usepackage{pgfgantt}
-\ganttset{
-  time slot format=isodate,
-  title/.append style={draw=kauprimary!45, fill=kauprimary!8},
-  title label font=\scriptsize,
-  bar/.append style={fill=kausecondary!60, draw=kauprimary!75!black},
-  bar height=0.55, bar top shift=0.225,
-  bar label font=\scriptsize,
-  group/.append style={fill=kauprimary!85, draw=kauprimary},
-  group height=0.45, group top shift=0.275,
-  group label font=\scriptsize\bfseries,
-  milestone/.append style={fill=kauaccent!85, draw=kauaccent!80!black},
-  milestone height=0.55, milestone top shift=0.225,
-  milestone label font=\scriptsize\bfseries,
-  hgrid={draw=gray!35},
-  vgrid={*{6}{draw=none}, *{1}{draw=gray!45}},
-  y unit chart=0.62cm,
-  y unit title=0.62cm,
-}
 \usepackage{amssymb}
 \PassOptionsToPackage{table}{xcolor}
 \usepackage{xcolor}
