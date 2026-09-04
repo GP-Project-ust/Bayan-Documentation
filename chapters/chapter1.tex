@@ -335,8 +335,10 @@
 مستوى الملخص التنفيذي الذي يجسده خط الأساس الزمني المُلخَّص للحزم
 الأحد عشرة وسجل المعالم الرسمية الأربعة عشر (القسم الفرعي~\ref{subsec:wbs})،
 ومستوى التنفيذ التفصيلي الذي يجسده مخططا جانت الشاملان بكامل المهام
-الثمانين والثلاثة موزعةً على صفوفهما، مع تلوين كل مهمة وفق المسؤول عنها
-من أعضاء الفريق (القسم الفرعي~\ref{subsec:gantt})؛ فلا يتكرر عرض أي
+الثمانين والثلاثة موزعةً على صفوفهما على نمط لوحة العرض المعتمد في برامج
+إدارة المشاريع الاحترافية: لوحة بيانات جانبية لكل صف تثبت رمز المهمة
+ومددتها وتاريخَيها ومسؤولها بجوار شريطها الزمني الملوَّن وفق المسؤول عنها
+(القسم الفرعي~\ref{subsec:gantt})؛ فلا يتكرر عرض أي
 معلومة في المستويين، ويظل الجدول الملخص مرجع الحوكمة الزمنية العليا
 بينما يظل المخططان مرجع المتابعة الأسبوعية التفصيلية.
 
@@ -534,36 +536,27 @@
 موزعةً على صفوف حزمها الخمس، بينما يعرض الشكل~\ref{fig:ganttP2} المرحلة
 الثانية (أكتوبر 2026 -- يناير 2027) بمهامها التسع والثلاثين موزعةً على
 صفوف حزمها الست، بعد أن كانت الفترة الانتقالية بين المرحلتين موثقةً في
-الجدول~\ref{tab:wbs}. ويعرض كل مخطط عناصر الخطة الثلاثة معاً في لوحة
-بصرية واحدة: أشرطة الحزم المجمّعة الداكنة التي تجسد خط الأساس المعتمد في
-الجدول~\ref{tab:wbs}، وأشرطة المهام التفصيلية الملونة وفق المسؤول عنها
-من تخصصات الفريق الأربعة (ما يعوِّض عمود المسؤول في الجداول الملخصة
-بتمثيلٍ بصري مباشر)، ومعينات المعالم الرسمية الحمراء المُضمَّنة في صفوف
-المهام التي تُنجز عندها، وأسهم التبعية التي تربط عناصر المسار الحرج.
+الجدول~\ref{tab:wbs}. وقد صُمِّم المخططان على نمط لوحة العرض المعتمد في
+برامج إدارة المشاريع الاحترافية (مثل \EN{MS Project}): لوحة واحدة مُكوَّنة
+من جزأين متجاورين يُقرآن معاً في المسح البصري نفسه: لوحة بيانات المهام
+على يسار المخطط وجدولها الزمني الرسومي على يمينه، بحيث يحمل كل صف مهمةً
+واحدة تظهر بياناتها الكاملة بجوار شريطها الزمني مباشرة.
 
-وتُقرأ المخططين وفق دليل قراءة موحَّد: تتقدم تقويمياً كل مهمة ميلادية
-اليوم من يسار المحور إلى يمينه، مع ترويسة شهرية مسبوقة بأسابيع مرقمة
-على مدار المرحلة، وشبكة عمودية أسبوعية خفيفة وشبكة أفقية فاصلة بين صفوف
-المهام تيسّران تتبع التقدم ومقارنة المخطط بالإنجاز الفعلي في اجتماعات
-المتابعة الأسبوعية. أما لون شريط المهمة فيحدد المسؤول عنها مباشرةً وفق
-مفتاح الرموز أسفل كل مخطط: الأزرق المخضرّ لمهام أخصائي الذكاء الاصطناعي،
-والأزرق لمهام مطوّري الواجهة الخلفية وقواعد البيانات، والبنفسجي لمهام
-مطوّري الواجهة الأمامية وتجربة المستخدم، والرمادي لمهام الفريق كاملاً؛
-بينما تحتفظ أشرطة إعداد العرض التقديمي والمحاكاة الداخلية بلونها الأحمر
-الفاتح المميز لنوافذ ما قبل المناقشة، ويُبرز الشريط الأحمر الغامق أسبوع
-المناقشة النهائية بوصفه بوابة الجودة الختامية لكل مرحلة. وتُثبَّت المعالم الواقعة ضمن النطاق الزمني
-لكل مخطط بمعيناتها عند تواريخها الرسمية المفصلة في
-الجدول~\ref{tab:milestones} (فيما يظل المعلمان \EN{M7} و\EN{M14} خارج
-نطاق المخططين لوقوعهما في الفترتين الانتقالية والختامية)، وتجسد الأسهم
-الزرقاء تسلسل المسار الحرج الذي لا يحتمل التأخير.
-
-ويعكس المخطط الثاني بنية المرحلة الثانية الأجايلية بوضوح؛ إذ تظهر الدورات
-التطويرية الأربع (\EN{Sprint 1}--\EN{Sprint 4}) متتابعةً في مقاطع زمنية
-مستقلة تنتهي كل منها بمراجعة اعتماد المخرج مع المشرف، بينما تمتد الأشرطة
-الموازية (وكلاء التحليل والتقارير، والتهيئة الذكية، وسجل التدقيق،
-والاختبارات المستمرة) على امتداد نافذة التطوير كاملة لتجسيد مبدأ العمل
-المتوازي الذي تتيحه المنهجية الرشيقة، وهو ما يمنح الفريق قدرة أكبر على
-امتصاص أي انحراف جزئي دون المساس بمواعيد البوابات الرسمية الثابتة.
+تضم لوحة بيانات المهام ستة أعمدة مثبتة لكل صف: رمز المهمة في هيكل تجزئة
+العمل (\EN{WBS})، واسمها التنفيذي، ومدتها بالأيام التقويمية، وتاريخَي
+بدايتها ونهايتها بصيغة اليوم/الشهر، والمسؤول عنها برمز تخصصه
+(\EN{AI} للذكاء الاصطناعي، و\EN{BE} للواجهة الخلفية وقواعد البيانات،
+و\EN{FE} للواجهة الأمامية وتجربة المستخدم، و\EN{TM} للفريق كاملاً)، مع
+صفوف الحزم المظللة التي تحمل رؤوساً بارزة تُجمِّع مهامها وتثبت حدود
+الحزمة في خط الأساس المعتمد في الجدول~\ref{tab:wbs}. أما الجدول الزمني
+الرسومي فيعرض أشرطة المهام الملوَّنة وفق المسؤول عنها، وأشرطة الحزم
+الملخَّصة الرفيعة الداكنة التي تجسد حدود كل حزمة من أول مهمة فيها إلى
+آخرها، ومعينات المعالم الرسمية الحمراء المُضمَّنة في صفوف المهام التي
+تُنجز عندها ملحقةً بتاريخها الرسمي، وأسهم التبعية التي تربط عناصر المسار
+الحرج. وتُظلَّل خلايا الجمعة والسبت بظلٍّ رمادي يميز عطلة نهاية الأسبوع، بينما
+تتقدم تقويمياً كل مهمة ميلادية اليوم من يسار المحور إلى يمينه تحت ترويسة
+شهرية وأسابيع مرقمة تبدأ بيوم الأحد، مع خط عمودي رفيع عند بداية كل أسبوع
+ييسّر تتبع التقدم ومقارنة المخطط بالإنجاز الفعلي في اجتماعات المتابعة.
 
 \definecolor{ownerAI}{HTML}{0E7490}%
 \definecolor{ownerBE}{HTML}{2E75B6}%
@@ -572,75 +565,232 @@
 
 \begin{figure}[H]
   \centering
-\newsavebox\bgA\sbox\bgA{\scriptsize\textarabic{١.١ حزمة التهيئة والتخطيط (١١ يوماً)}}%
-\newsavebox\bgB\sbox\bgB{\scriptsize\textarabic{١.٢ حزمة الفصل الأول — التأطير والمقدمة (٣٠ يوماً)}}%
-\newsavebox\bgC\sbox\bgC{\scriptsize\textarabic{١.٣ حزمة الفصل الثاني — مراجعة الأدبيات (٢١ يوماً)}}%
-\newsavebox\bgD\sbox\bgD{\scriptsize\textarabic{١.٤ حزمة الفصل الثالث — المنهجية والتحليل (٢٤ يوماً)}}%
-\newsavebox\bgE\sbox\bgE{\scriptsize\textarabic{١.٥ حزمة الإصدار الأول والتسليم (٢٧ يوماً)}}%
-\newsavebox\bTA\sbox\bTA{\scriptsize\textarabic{١.١.١ تشكيل الفريق وتوزيع الأدوار}}%
-\newsavebox\bTB\sbox\bTB{\scriptsize\textarabic{١.١.٢ الاجتماع التأسيسي وآلية المراجعات}}%
-\newsavebox\bTC\sbox\bTC{\scriptsize\textarabic{١.١.٣ مساحة العمل الرقمية والمستودعات}}%
-\newsavebox\bTD\sbox\bTD{\scriptsize\textarabic{١.١.٤ أدوات الإدارة والتوثيق والتصميم}}%
-\newsavebox\bTE\sbox\bTE{\scriptsize\textarabic{١.١.٥ مسودة النطاق وحدود المشروع}}%
-\newsavebox\bTF\sbox\bTF{\scriptsize\textarabic{١.٢.١ جمع التقارير المرجعية وتحليلها}}%
-\newsavebox\bTG\sbox\bTG{\scriptsize\textarabic{١.٢.٢ دراسة السياق المؤسسي المحلي}}%
-\newsavebox\bTH\sbox\bTH{\scriptsize\textarabic{١.٢.٣ صياغة بيان المشكلة ومظاهرها}}%
-\newsavebox\bTI\sbox\bTI{\scriptsize\textarabic{١.٢.٤ تحديد الأهداف السبعة للمشروع}}%
-\newsavebox\bTJ\sbox\bTJ{\scriptsize\textarabic{١.٢.٥ صياغة أهمية المشروع}}%
-\newsavebox\bTK\sbox\bTK{\scriptsize\textarabic{١.٢.٦ توثيق مساهمات المشروع الأربع}}%
-\newsavebox\bTL\sbox\bTL{\scriptsize\textarabic{١.٢.٧ النطاق وأصحاب المصلحة والقيود}}%
-\newsavebox\bTM\sbox\bTM{\scriptsize\textarabic{١.٢.٨ مراجعة الفصل الأول واعتماده}}%
-\newsavebox\bTN\sbox\bTN{\scriptsize\textarabic{١.٣.١ خطة البحث الأدبي وقائمة المراجع}}%
-\newsavebox\bTO\sbox\bTO{\scriptsize\textarabic{١.٣.٢ النماذج اللغوية الكبيرة ودعم العربية}}%
-\newsavebox\bTP\sbox\bTP{\scriptsize\textarabic{١.٣.٣ دراسة تقنيات التحويل إلى استعلامات}}%
-\newsavebox\bTQ\sbox\bTQ{\scriptsize\textarabic{١.٣.٤ معمارية الاسترجاع المعزز وقواعد المتجهات}}%
-\newsavebox\bTR\sbox\bTR{\scriptsize\textarabic{١.٣.٥ الأنظمة متعددة الوكلاء وأطر التنسيق}}%
-\newsavebox\bTS\sbox\bTS{\scriptsize\textarabic{١.٣.٦ تحديات معالجة اللغة العربية}}%
-\newsavebox\bTT\sbox\bTT{\scriptsize\textarabic{١.٣.٧ الأنظمة السابقة ومساعدات التعليم العالي}}%
-\newsavebox\bTU\sbox\bTU{\scriptsize\textarabic{١.٣.٨ الجدول المقارن التحليلي}}%
-\newsavebox\bTV\sbox\bTV{\scriptsize\textarabic{١.٣.٩ الفجوة البحثية والتطبيقية}}%
-\newsavebox\bTW\sbox\bTW{\scriptsize\textarabic{١.٣.١٠ معايير تقييم النظام المسبقة}}%
-\newsavebox\bTX\sbox\bTX{\scriptsize\textarabic{١.٣.١١ مراجعة الفصل الثاني واعتماده}}%
-\newsavebox\bTY\sbox\bTY{\scriptsize\textarabic{١.٤.١ اختيار المنهجية الرشيقة وتبريرها}}%
-\newsavebox\bTZ\sbox\bTZ{\scriptsize\textarabic{١.٤.٢ خارطة الدورات التنفيذية الأربع}}%
-\newsavebox\bUA\sbox\bUA{\scriptsize\textarabic{١.٤.٣ دراسة الجدوى الاقتصادية}}%
-\newsavebox\bUB\sbox\bUB{\scriptsize\textarabic{١.٤.٤ الجدوى التقنية والتشغيلية والقانونية}}%
-\newsavebox\bUC\sbox\bUC{\scriptsize\textarabic{١.٤.٥ جمع المتطلبات من أصحاب المصلحة}}%
-\newsavebox\bUD\sbox\bUD{\scriptsize\textarabic{١.٤.٦ توثيق المتطلبات الوظيفية الثلاثين}}%
-\newsavebox\bUE\sbox\bUE{\scriptsize\textarabic{١.٤.٧ توثيق المتطلبات غير الوظيفية العشرين}}%
-\newsavebox\bUF\sbox\bUF{\scriptsize\textarabic{١.٤.٨ بيئة التشغيل والقيود والافتراضات}}%
-\newsavebox\bUG\sbox\bUG{\scriptsize\textarabic{١.٤.٩ الفاعلون ومخطط حالات الاستخدام}}%
-\newsavebox\bUH\sbox\bUH{\scriptsize\textarabic{١.٤.١٠ أوصاف حالات الاستخدام الثماني}}%
-\newsavebox\bUI\sbox\bUI{\scriptsize\textarabic{١.٤.١١ مخطط التسلسل الشامل}}%
-\newsavebox\bUJ\sbox\bUJ{\scriptsize\textarabic{١.٤.١٢ منهجية تحليل المخاطر الكمية}}%
-\newsavebox\bUK\sbox\bUK{\scriptsize\textarabic{١.٤.١٣ سجل المخاطر ومصفوفتها}}%
-\newsavebox\bUL\sbox\bUL{\scriptsize\textarabic{١.٤.١٤ خطط الاستجابة واعتماد الفصل}}%
-\newsavebox\bUM\sbox\bUM{\scriptsize\textarabic{١.٥.١ التدقيق اللغوي والفني المتقاطع}}%
-\newsavebox\bUN\sbox\bUN{\scriptsize\textarabic{١.٥.٢ ضبط التنسيق وبناء النسخة النهائية}}%
-\newsavebox\bUO\sbox\bUO{\scriptsize\textarabic{١.٥.٣ تسليم نسختي الوثيقة إلى الكلية}}%
-\newsavebox\bUP\sbox\bUP{\scriptsize\textarabic{١.٥.٤ إعداد عرض المناقشة الأولى}}%
-\newsavebox\bUQ\sbox\bUQ{\scriptsize\textarabic{١.٥.٥ المحاكاة الداخلية للمناقشة}}%
-\newsavebox\bUR\sbox\bUR{\scriptsize\textarabic{١.٥.٦ المناقشة النهائية — بوابة الجودة الأولى}}%
+\newsavebox\bHA\sbox\bHA{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{kauprimary!55}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!22}\hline
+\textbf{\textarabic{الرمز}} & \rule{0pt}{10.5pt}\textbf{\textarabic{المهمة}} & \textbf{\textarabic{الأيام}} & \textbf{\textarabic{البداية}} & \textbf{\textarabic{النهاية}} & \textbf{\textarabic{المسؤول}}\\
+\hline
+\end{tabular}}}%
+\newsavebox\bgA\sbox\bgA{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{١.١} & \textbf{\textarabic{حزمة التهيئة والتخطيط}} & \textarabic{١١} & \EN{01/07} & \EN{11/07} & \textarabic{الفريق}\\\hline
+\end{tabular}}}%
+\newsavebox\bgB\sbox\bgB{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{١.٢} & \textbf{\textarabic{حزمة الفصل الأول — التأطير والمقدمة}} & \textarabic{٣٠} & \EN{01/07} & \EN{30/07} & \textarabic{الفريق}\\\hline
+\end{tabular}}}%
+\newsavebox\bgC\sbox\bgC{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{١.٣} & \textbf{\textarabic{حزمة الفصل الثاني — مراجعة الأدبيات}} & \textarabic{٢١} & \EN{31/07} & \EN{20/08} & \textarabic{الفريق}\\\hline
+\end{tabular}}}%
+\newsavebox\bgD\sbox\bgD{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{١.٤} & \textbf{\textarabic{حزمة الفصل الثالث — المنهجية والتحليل}} & \textarabic{٢٤} & \EN{21/08} & \EN{13/09} & \textarabic{الفريق}\\\hline
+\end{tabular}}}%
+\newsavebox\bgE\sbox\bgE{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{١.٥} & \textbf{\textarabic{حزمة الإصدار الأول والتسليم}} & \textarabic{٢٧} & \EN{01/09} & \EN{27/09} & \textarabic{الفريق}\\\hline
+\end{tabular}}}%
+\newsavebox\bTA\sbox\bTA{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.١.١} & \textarabic{تشكيل الفريق وتوزيع الأدوار} & \textarabic{٣} & \EN{01/07} & \EN{03/07} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTB\sbox\bTB{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.١.٢} & \textarabic{الاجتماع التأسيسي وآلية المراجعات} & \textarabic{٢} & \EN{04/07} & \EN{05/07} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTC\sbox\bTC{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.١.٣} & \textarabic{مساحة العمل الرقمية والمستودعات} & \textarabic{٤} & \EN{05/07} & \EN{08/07} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bTD\sbox\bTD{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.١.٤} & \textarabic{أدوات الإدارة والتوثيق والتصميم} & \textarabic{٣} & \EN{08/07} & \EN{10/07} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTE\sbox\bTE{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.١.٥} & \textarabic{مسودة النطاق وحدود المشروع} & \textarabic{٢} & \EN{10/07} & \EN{11/07} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTF\sbox\bTF{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٢.١} & \textarabic{جمع التقارير المرجعية وتحليلها} & \textarabic{١٠} & \EN{01/07} & \EN{10/07} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bTG\sbox\bTG{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٢.٢} & \textarabic{دراسة السياق المؤسسي المحلي} & \textarabic{٨} & \EN{08/07} & \EN{15/07} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bTH\sbox\bTH{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٢.٣} & \textarabic{صياغة بيان المشكلة ومظاهرها} & \textarabic{٤} & \EN{15/07} & \EN{18/07} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTI\sbox\bTI{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٢.٤} & \textarabic{تحديد الأهداف السبعة للمشروع} & \textarabic{٤} & \EN{18/07} & \EN{21/07} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTJ\sbox\bTJ{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٢.٥} & \textarabic{صياغة أهمية المشروع} & \textarabic{٣} & \EN{21/07} & \EN{23/07} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bTK\sbox\bTK{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٢.٦} & \textarabic{توثيق مساهمات المشروع الأربع} & \textarabic{٣} & \EN{23/07} & \EN{25/07} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bTL\sbox\bTL{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٢.٧} & \textarabic{النطاق وأصحاب المصلحة والقيود} & \textarabic{٤} & \EN{25/07} & \EN{28/07} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTM\sbox\bTM{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٢.٨} & \textarabic{مراجعة الفصل الأول واعتماده} & \textarabic{٣} & \EN{28/07} & \EN{30/07} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTN\sbox\bTN{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.١} & \textarabic{خطة البحث الأدبي وقائمة المراجع} & \textarabic{٣} & \EN{31/07} & \EN{02/08} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bTO\sbox\bTO{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.٢} & \textarabic{النماذج اللغوية الكبيرة ودعم العربية} & \textarabic{٣} & \EN{03/08} & \EN{05/08} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bTP\sbox\bTP{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.٣} & \textarabic{دراسة تقنيات التحويل إلى استعلامات} & \textarabic{٤} & \EN{05/08} & \EN{08/08} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bTQ\sbox\bTQ{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.٤} & \textarabic{معمارية الاسترجاع المعزز وقواعد المتجهات} & \textarabic{٣} & \EN{08/08} & \EN{10/08} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bTR\sbox\bTR{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.٥} & \textarabic{الأنظمة متعددة الوكلاء وأطر التنسيق} & \textarabic{٣} & \EN{10/08} & \EN{12/08} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bTS\sbox\bTS{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.٦} & \textarabic{تحديات معالجة اللغة العربية} & \textarabic{٣} & \EN{12/08} & \EN{14/08} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bTT\sbox\bTT{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.٧} & \textarabic{الأنظمة السابقة ومساعدات التعليم العالي} & \textarabic{٤} & \EN{13/08} & \EN{16/08} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bTU\sbox\bTU{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.٨} & \textarabic{الجدول المقارن التحليلي} & \textarabic{٢} & \EN{16/08} & \EN{17/08} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTV\sbox\bTV{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.٩} & \textarabic{الفجوة البحثية والتطبيقية} & \textarabic{٢} & \EN{17/08} & \EN{18/08} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bTW\sbox\bTW{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.١٠} & \textarabic{معايير تقييم النظام المسبقة} & \textarabic{٢} & \EN{18/08} & \EN{19/08} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bTX\sbox\bTX{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٣.١١} & \textarabic{مراجعة الفصل الثاني واعتماده} & \textarabic{٢} & \EN{19/08} & \EN{20/08} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTY\sbox\bTY{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.١} & \textarabic{اختيار المنهجية الرشيقة وتبريرها} & \textarabic{٣} & \EN{21/08} & \EN{23/08} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bTZ\sbox\bTZ{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.٢} & \textarabic{خارطة الدورات التنفيذية الأربع} & \textarabic{٢} & \EN{23/08} & \EN{24/08} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bUA\sbox\bUA{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.٣} & \textarabic{دراسة الجدوى الاقتصادية} & \textarabic{٤} & \EN{24/08} & \EN{27/08} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bUB\sbox\bUB{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.٤} & \textarabic{الجدوى التقنية والتشغيلية والقانونية} & \textarabic{٤} & \EN{27/08} & \EN{30/08} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bUC\sbox\bUC{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.٥} & \textarabic{جمع المتطلبات من أصحاب المصلحة} & \textarabic{٣} & \EN{30/08} & \EN{01/09} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bUD\sbox\bUD{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.٦} & \textarabic{توثيق المتطلبات الوظيفية الثلاثين} & \textarabic{٣} & \EN{01/09} & \EN{03/09} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bUE\sbox\bUE{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.٧} & \textarabic{توثيق المتطلبات غير الوظيفية العشرين} & \textarabic{٣} & \EN{03/09} & \EN{05/09} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bUF\sbox\bUF{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.٨} & \textarabic{بيئة التشغيل والقيود والافتراضات} & \textarabic{٢} & \EN{05/09} & \EN{06/09} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bUG\sbox\bUG{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.٩} & \textarabic{الفاعلون ومخطط حالات الاستخدام} & \textarabic{٣} & \EN{06/09} & \EN{08/09} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bUH\sbox\bUH{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.١٠} & \textarabic{أوصاف حالات الاستخدام الثماني} & \textarabic{٣} & \EN{08/09} & \EN{10/09} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bUI\sbox\bUI{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.١١} & \textarabic{مخطط التسلسل الشامل} & \textarabic{٢} & \EN{10/09} & \EN{11/09} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bUJ\sbox\bUJ{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.١٢} & \textarabic{منهجية تحليل المخاطر الكمية} & \textarabic{٢} & \EN{11/09} & \EN{12/09} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bUK\sbox\bUK{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.١٣} & \textarabic{سجل المخاطر ومصفوفتها} & \textarabic{٢} & \EN{12/09} & \EN{13/09} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bUL\sbox\bUL{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٤.١٤} & \textarabic{خطط الاستجابة واعتماد الفصل} & \textarabic{٢} & \EN{12/09} & \EN{13/09} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bUM\sbox\bUM{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٥.١} & \textarabic{التدقيق اللغوي والفني المتقاطع} & \textarabic{٦} & \EN{01/09} & \EN{06/09} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bUN\sbox\bUN{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٥.٢} & \textarabic{ضبط التنسيق وبناء النسخة النهائية} & \textarabic{٦} & \EN{05/09} & \EN{10/09} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bUO\sbox\bUO{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٥.٣} & \textarabic{تسليم نسختي الوثيقة إلى الكلية} & \textarabic{٣} & \EN{11/09} & \EN{13/09} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bUP\sbox\bUP{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٥.٤} & \textarabic{إعداد عرض المناقشة الأولى} & \textarabic{٣} & \EN{14/09} & \EN{16/09} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bUQ\sbox\bUQ{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٥.٥} & \textarabic{المحاكاة الداخلية للمناقشة} & \textarabic{٣} & \EN{17/09} & \EN{19/09} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bUR\sbox\bUR{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{١.٥.٦} & \textarabic{المناقشة النهائية — بوابة الجودة الأولى} & \textarabic{٨} & \EN{20/09} & \EN{27/09} & \EN{TM}\\\hline
+\end{tabular}}}%
 
 \begin{LTR}
 \begin{ganttchart}[
-  x unit=3.1pt,
-  y unit chart=0.38cm,
-  y unit title=0.45cm,
+  x unit=2.39pt,
+  y unit chart=0.36cm,
+  y unit title=0.41cm,
+  vgrid={*1{draw=none},*1{draw=none},*1{gray!40, line width=4.78pt},*1{draw=gray!45},*1{draw=none},*1{draw=none},*1{draw=none}},
+  bar/.append style={rounded corners=0pt},
+  group/.append style={fill=kaudark!90, draw=kaudark!90},
+  group height=0.22, group top shift=0.4,
   milestone/.append style={shape=diamond, inner sep=2.6pt},
   milestone inline label anchor=east,
   milestone inline label node/.append style={anchor=west, font=\tiny\bfseries},
 ]{2026-07-01}{2026-09-27}
 \gantttitle{\textarabic{المرحلة الأولى — مشروع التخرج 1: التأسيس والتحليل والتوثيق}}{89} \\
 \gantttitle{\textarabic{يوليو 2026}}{31}\gantttitle{\textarabic{أغسطس}}{31}\gantttitle{\textarabic{سبتمبر}}{27} \\
-\gantttitlelist{1,...,12}{7}\gantttitle{13}{5} \\
+\gantttitle{}{4} \gantttitle{1}{7} \gantttitle{2}{7} \gantttitle{3}{7} \gantttitle{4}{7} \gantttitle{5}{7} \gantttitle{6}{7} \gantttitle{7}{7} \gantttitle{8}{7} \gantttitle{9}{7} \gantttitle{10}{7} \gantttitle{11}{7} \gantttitle{12}{7} \gantttitle{13}{1} \\
+\ganttbar[bar/.append style={draw=none, fill=none}]{\usebox\bHA}{2026-07-01}{2026-07-01} \\
 \ganttgroup[name=gA]{\usebox\bgA}{2026-07-01}{2026-07-11} \\
 \ganttbar[name=TA, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTA}{2026-07-01}{2026-07-03}
  \\
 \ganttbar[name=TB, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTB}{2026-07-04}{2026-07-05}
-\ganttmilestone[inline]{M1}{2026-07-06} \\
+\ganttmilestone[inline]{M1 06/07}{2026-07-06} \\
 \ganttbar[name=TC, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bTC}{2026-07-05}{2026-07-08}
-\ganttmilestone[inline]{M2}{2026-07-11} \\
+\ganttmilestone[inline]{M2 11/07}{2026-07-11} \\
 \ganttbar[name=TD, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTD}{2026-07-08}{2026-07-10}
  \\
 \ganttbar[name=TE, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTE}{2026-07-10}{2026-07-11}
@@ -661,7 +811,7 @@
 \ganttbar[name=TL, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTL}{2026-07-25}{2026-07-28}
  \\
 \ganttbar[name=TM, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTM}{2026-07-28}{2026-07-30}
-\ganttmilestone[inline]{M3}{2026-07-30} \\
+\ganttmilestone[inline]{M3 30/07}{2026-07-30} \\
 \ganttgroup[name=gC]{\usebox\bgC}{2026-07-31}{2026-08-20} \\
 \ganttbar[name=TN, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTN}{2026-07-31}{2026-08-02}
  \\
@@ -684,7 +834,7 @@
 \ganttbar[name=TW, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTW}{2026-08-18}{2026-08-19}
  \\
 \ganttbar[name=TX, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTX}{2026-08-19}{2026-08-20}
-\ganttmilestone[inline]{M4}{2026-08-20} \\
+\ganttmilestone[inline]{M4 20/08}{2026-08-20} \\
 \ganttgroup[name=gD]{\usebox\bgD}{2026-08-21}{2026-09-13} \\
 \ganttbar[name=TY, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTY}{2026-08-21}{2026-08-23}
  \\
@@ -713,7 +863,7 @@
 \ganttbar[name=UK, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bUK}{2026-09-12}{2026-09-13}
  \\
 \ganttbar[name=UL, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bUL}{2026-09-12}{2026-09-13}
-\ganttmilestone[inline]{M5}{2026-09-13} \\
+\ganttmilestone[inline, milestone inline label anchor=north, milestone inline label node/.append style={anchor=south}]{M5 13/09}{2026-09-13} \\
 \ganttgroup[name=gE]{\usebox\bgE}{2026-09-01}{2026-09-27} \\
 \ganttbar[name=UM, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bUM}{2026-09-01}{2026-09-06}
  \\
@@ -724,7 +874,7 @@
 \ganttbar[name=UP, bar/.append style={fill=kauaccent!35, draw=kauaccent!70!black}]{\usebox\bUP}{2026-09-14}{2026-09-16}
  \\
 \ganttbar[name=UQ, bar/.append style={fill=kauaccent!35, draw=kauaccent!70!black}]{\usebox\bUQ}{2026-09-17}{2026-09-19}
-\ganttmilestone[inline]{M6}{2026-09-20} \\
+\ganttmilestone[inline, milestone inline label anchor=north, milestone inline label node/.append style={anchor=south}]{M6 20/09}{2026-09-20} \\
 \ganttbar[name=UR, bar/.append style={fill=kauaccent!75, draw=kauaccent!80!black}]{\usebox\bUR}{2026-09-20}{2026-09-27}
  \\
 \ganttlink[link mid]{gB}{gC}
@@ -733,89 +883,236 @@
 \end{ganttchart}
 \end{LTR}
 
-  \vspace{1.5mm}
 \begin{center}
 \scriptsize
-\renewcommand{\arraystretch}{1.15}
-\begin{tabular}{c@{\hspace{3pt}}l@{\hspace{9pt}}c@{\hspace{3pt}}l@{\hspace{9pt}}c@{\hspace{3pt}}l}
-  \tikz\fill[ownerAI!55,draw=ownerAI] (0,0) rectangle (0.28,0.14); & مهام الذكاء الاصطناعي &
-  \tikz\fill[ownerBE!55,draw=ownerBE] (0,0) rectangle (0.28,0.14); & مهام الخلفية وقواعد البيانات &
-  \tikz\fill[ownerFE!45,draw=ownerFE] (0,0) rectangle (0.28,0.14); & مهام الواجهة وتجربة المستخدم \\[4pt]
-  \tikz\fill[ownerTM!50,draw=ownerTM] (0,0) rectangle (0.28,0.14); & مهام الفريق كاملاً &
-  \tikz\fill[kauprimary!85,draw=kauprimary] (0,0) rectangle (0.28,0.14); & حزمة عمل (مستوى الملخص) &
-  \tikz{\fill[kauaccent,draw=kauaccent!50!black] (0.13,0.26) -- (0.26,0.13) -- (0.13,0) -- (0,0.13) -- cycle;} & معلم رسمي \EN{M1--M14} \\[4pt]
+\renewcommand{\arraystretch}{1.0}
+\begin{tabular}{c@{\hspace{3pt}}l@{\hspace{7pt}}c@{\hspace{3pt}}l@{\hspace{7pt}}c@{\hspace{3pt}}l}
+  \tikz\fill[ownerAI!55,draw=ownerAI] (0,0) rectangle (0.28,0.14); & الذكاء الاصطناعي (\EN{AI}) &
+  \tikz\fill[ownerBE!55,draw=ownerBE] (0,0) rectangle (0.28,0.14); & الخلفية وقواعد البيانات (\EN{BE}) &
+  \tikz\fill[ownerFE!45,draw=ownerFE] (0,0) rectangle (0.28,0.14); & الواجهة وتجربة المستخدم (\EN{FE}) \\[3pt]
+  \tikz\fill[ownerTM!50,draw=ownerTM] (0,0) rectangle (0.28,0.14); & الفريق كاملاً (\EN{TM}) &
+  \tikz\fill[kaudark!90,draw=kaudark!90] (0,0.05) rectangle (0.4,0.11); & شريط الحزمة (الملخص) &
+  \tikz{\fill[kauaccent,draw=kauaccent!50!black] (0.13,0.26) -- (0.26,0.13) -- (0.13,0) -- (0,0.13) -- cycle;} & معلم رسمي \EN{M1--M14} بتاريخه \\[3pt]
   \tikz\fill[kauaccent!35,draw=kauaccent!70!black] (0,0) rectangle (0.28,0.14); & إعداد العرض والمحاكاة &
   \tikz\fill[kauaccent!75,draw=kauaccent!80!black] (0,0) rectangle (0.28,0.14); & أسبوع المناقشة النهائية &
-  \tikz{\draw[-stealth,thick,kauprimary] (0,0.07) -- (0.4,0.07);} & سهم تبعية (المسار الحرج) \\
+  \tikz{\draw[-stealth,thick,kauprimary] (0,0.07) -- (0.4,0.07);} & سهم تبعية (المسار الحرج) \\[3pt]
+  \tikz\fill[gray!40] (0,0.02) rectangle (0.3,0.13); & ظل عطلة نهاية الأسبوع &
+  \tikz{\draw[gray!45] (0.02,0) -- (0.02,0.16);} & بداية الأسبوع (الأحد) &
+  \tikz\fill[kauprimary!22,draw=kauprimary!55] (0,0) rectangle (0.3,0.14); & ترويسة لوحة البيانات \\
 \end{tabular}
 \end{center}
-  \caption{مخطط جانت التنفيذي للمرحلة الأولى — مشروع التخرج 1 (يوليو -- سبتمبر 2026): جميع المهام الـ44 موزعة على الحزم الخمس مع المعالم الرسمية \EN{M1}--\EN{M6} وأسهم المسار الحرج.}
+  \caption{مخطط جانت التنفيذي للمرحلة الأولى — مشروع التخرج 1 (يوليو -- سبتمبر 2026): المهام الـ44 في لوحة بيانات بأسلوب برامج إدارة المشاريع مع المعالم \EN{M1}--\EN{M6} وأسهم المسار الحرج.}
   \label{fig:ganttP1}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-\newsavebox\bgF\sbox\bgF{\scriptsize\textarabic{٢.١ حزمة التهيئة التقنية (٦ أيام)}}%
-\newsavebox\bgG\sbox\bgG{\scriptsize\textarabic{٢.٢ حزمة الفصل الرابع — تصميم النظام (٢٣ يوماً)}}%
-\newsavebox\bgH\sbox\bgH{\scriptsize\textarabic{٢.٣ حزمة الفصل الخامس — التنفيذ والتطوير (٣٠ يوماً)}}%
-\newsavebox\bgI\sbox\bgI{\scriptsize\textarabic{٢.٤ حزمة الفصل السادس — الاختبار والنتائج (٢٩ يوماً)}}%
-\newsavebox\bgJ\sbox\bgJ{\scriptsize\textarabic{٢.٥ حزمة الفصل السابع — الخاتمة (١٢ يوماً)}}%
-\newsavebox\bgK\sbox\bgK{\scriptsize\textarabic{٢.٦ حزمة الإصدار النهائي والتسليم (٢٣ يوماً)}}%
-\newsavebox\bXA\sbox\bXA{\scriptsize\textarabic{٢.١.١ استيعاب ملاحظات المناقشة الأولى}}%
-\newsavebox\bXB\sbox\bXB{\scriptsize\textarabic{٢.١.٢ بيئة الحاويات الموحدة للخدمات}}%
-\newsavebox\bXC\sbox\bXC{\scriptsize\textarabic{٢.١.٣ مستودع الشفرة ومعايير الجودة}}%
-\newsavebox\bXD\sbox\bXD{\scriptsize\textarabic{٢.١.٤ تنزيل النماذج واختبار ملاءمتها}}%
-\newsavebox\bXE\sbox\bXE{\scriptsize\textarabic{٢.١.٥ بيئة التطبيق والبيانات الاصطناعية}}%
-\newsavebox\bXF\sbox\bXF{\scriptsize\textarabic{٢.٢.١ المعمارية العامة متعددة الوكلاء}}%
-\newsavebox\bXG\sbox\bXG{\scriptsize\textarabic{٢.٢.٢ قواعد البيانات العلائقية والمتجهية}}%
-\newsavebox\bXH\sbox\bXH{\scriptsize\textarabic{٢.٢.٣ الواجهات ولوحة التحكم الإدارية}}%
-\newsavebox\bXI\sbox\bXI{\scriptsize\textarabic{٢.٢.٤ مخططات التدفق والتتابع والكيانات}}%
-\newsavebox\bXJ\sbox\bXJ{\scriptsize\textarabic{٢.٢.٥ واجهات برمجة التطبيقات ومواصفاتها}}%
-\newsavebox\bXK\sbox\bXK{\scriptsize\textarabic{٢.٢.٦ إطار الأمان والصلاحيات}}%
-\newsavebox\bXL\sbox\bXL{\scriptsize\textarabic{٢.٢.٧ مراجعة الفصل الرابع واعتماده}}%
-\newsavebox\bXM\sbox\bXM{\scriptsize\textarabic{٢.٣.١ د١: بناء وكيل استعلام قواعد البيانات}}%
-\newsavebox\bXN\sbox\bXN{\scriptsize\textarabic{٢.٣.٢ د٢: بناء وكيل البحث في المستندات واللوائح}}%
-\newsavebox\bXO\sbox\bXO{\scriptsize\textarabic{٢.٣.٣ د٣: دمج الوكلاء وبناء الواجهة الأمامية}}%
-\newsavebox\bXP\sbox\bXP{\scriptsize\textarabic{٢.٣.٤ وكلاء التحليل والتقارير — موازٍ}}%
-\newsavebox\bXQ\sbox\bXQ{\scriptsize\textarabic{٢.٣.٥ التهيئة الذكية للربط والفهرسة — موازٍ}}%
-\newsavebox\bXR\sbox\bXR{\scriptsize\textarabic{٢.٣.٦ سجل التدقيق والإشعارات — موازٍ}}%
-\newsavebox\bXS\sbox\bXS{\scriptsize\textarabic{٢.٣.٧ اختبارات الوحدة والتكامل المستمرة}}%
-\newsavebox\bXT\sbox\bXT{\scriptsize\textarabic{٢.٣.٨ د٤: الاختبار الشامل وضبط الأداء والنشر}}%
-\newsavebox\bXU\sbox\bXU{\scriptsize\textarabic{٢.٣.٩ مراجعة الفصل الخامس واعتماده}}%
-\newsavebox\bXV\sbox\bXV{\scriptsize\textarabic{٢.٤.١ اختبار دقة التحويل وزمن الاستجابة}}%
-\newsavebox\bXW\sbox\bXW{\scriptsize\textarabic{٢.٤.٢ جودة الاسترجاع والإسناد بالمقاييس}}%
-\newsavebox\bXX\sbox\bXX{\scriptsize\textarabic{٢.٤.٣ اختبار الحمل والتحمل}}%
-\newsavebox\bXY\sbox\bXY{\scriptsize\textarabic{٢.٤.٤ اختبار الأمان والصلاحيات}}%
-\newsavebox\bXZ\sbox\bXZ{\scriptsize\textarabic{٢.٤.٥ اختبار قبول المستخدمين}}%
-\newsavebox\bYA\sbox\bYA{\scriptsize\textarabic{٢.٤.٦ تجميع النتائج وصياغة الفصل السادس}}%
-\newsavebox\bYB\sbox\bYB{\scriptsize\textarabic{٢.٤.٧ مراجعة الفصل السادس واعتماده}}%
-\newsavebox\bYC\sbox\bYC{\scriptsize\textarabic{٢.٥.١ الخاتمة وملخص تحقيق الأهداف}}%
-\newsavebox\bYD\sbox\bYD{\scriptsize\textarabic{٢.٥.٢ المساهمات والقيود التنفيذية}}%
-\newsavebox\bYE\sbox\bYE{\scriptsize\textarabic{٢.٥.٣ التوصيات والأعمال المستقبلية}}%
-\newsavebox\bYF\sbox\bYF{\scriptsize\textarabic{٢.٥.٤ مراجعة الفصل السابع واعتماده}}%
-\newsavebox\bYG\sbox\bYG{\scriptsize\textarabic{٢.٦.١ التدقيق الشامل للوثيقة النهائية}}%
-\newsavebox\bYH\sbox\bYH{\scriptsize\textarabic{٢.٦.٢ إعداد البوستر العلمي}}%
-\newsavebox\bYI\sbox\bYI{\scriptsize\textarabic{٢.٦.٣ إنتاج الفيديو التسويقي}}%
-\newsavebox\bYJ\sbox\bYJ{\scriptsize\textarabic{٢.٦.٤ التسليم النهائي الشامل للكلية}}%
-\newsavebox\bYK\sbox\bYK{\scriptsize\textarabic{٢.٦.٥ العرض التقديمي النهائي والمحاكاة}}%
-\newsavebox\bYL\sbox\bYL{\scriptsize\textarabic{٢.٦.٦ المناقشة النهائية — بوابة الجودة الثانية}}%
-\newsavebox\bYM\sbox\bYM{\scriptsize\textarabic{٢.٦.٧ الأرشفة الختامية للمشروع}}%
+\newsavebox\bHB\sbox\bHB{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{kauprimary!55}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!22}\hline
+\textbf{\textarabic{الرمز}} & \rule{0pt}{10.5pt}\textbf{\textarabic{المهمة}} & \textbf{\textarabic{الأيام}} & \textbf{\textarabic{البداية}} & \textbf{\textarabic{النهاية}} & \textbf{\textarabic{المسؤول}}\\
+\hline
+\end{tabular}}}%
+\newsavebox\bgF\sbox\bgF{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{٢.١} & \textbf{\textarabic{حزمة التهيئة التقنية}} & \textarabic{٦} & \EN{17/10} & \EN{22/10} & \textarabic{الفريق}\\\hline
+\end{tabular}}}%
+\newsavebox\bgG\sbox\bgG{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{٢.٢} & \textbf{\textarabic{حزمة الفصل الرابع — تصميم النظام}} & \textarabic{٢٣} & \EN{23/10} & \EN{14/11} & \textarabic{متعدد}\\\hline
+\end{tabular}}}%
+\newsavebox\bgH\sbox\bgH{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{٢.٣} & \textbf{\textarabic{حزمة الفصل الخامس — التنفيذ والتطوير}} & \textarabic{٣٠} & \EN{15/11} & \EN{14/12} & \textarabic{متعدد}\\\hline
+\end{tabular}}}%
+\newsavebox\bgI\sbox\bgI{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{٢.٤} & \textbf{\textarabic{حزمة الفصل السادس — الاختبار والنتائج}} & \textarabic{٢٩} & \EN{15/12} & \EN{12/01} & \textarabic{متعدد}\\\hline
+\end{tabular}}}%
+\newsavebox\bgJ\sbox\bgJ{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{٢.٥} & \textbf{\textarabic{حزمة الفصل السابع — الخاتمة}} & \textarabic{١٢} & \EN{01/01} & \EN{12/01} & \textarabic{الفريق}\\\hline
+\end{tabular}}}%
+\newsavebox\bgK\sbox\bgK{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\rowcolor{kauprimary!10}\hline
+\textarabic{٢.٦} & \textbf{\textarabic{حزمة الإصدار النهائي والتسليم}} & \textarabic{٢٣} & \EN{01/01} & \EN{23/01} & \textarabic{الفريق}\\\hline
+\end{tabular}}}%
+\newsavebox\bXA\sbox\bXA{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.١.١} & \textarabic{استيعاب ملاحظات المناقشة الأولى} & \textarabic{٢} & \EN{17/10} & \EN{18/10} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bXB\sbox\bXB{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.١.٢} & \textarabic{بيئة الحاويات الموحدة للخدمات} & \textarabic{٤} & \EN{17/10} & \EN{20/10} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXC\sbox\bXC{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.١.٣} & \textarabic{مستودع الشفرة ومعايير الجودة} & \textarabic{٣} & \EN{19/10} & \EN{21/10} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXD\sbox\bXD{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.١.٤} & \textarabic{تنزيل النماذج واختبار ملاءمتها} & \textarabic{٣} & \EN{20/10} & \EN{22/10} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bXE\sbox\bXE{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.١.٥} & \textarabic{بيئة التطبيق والبيانات الاصطناعية} & \textarabic{٢} & \EN{21/10} & \EN{22/10} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXF\sbox\bXF{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٢.١} & \textarabic{المعمارية العامة متعددة الوكلاء} & \textarabic{٥} & \EN{23/10} & \EN{27/10} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bXG\sbox\bXG{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٢.٢} & \textarabic{قواعد البيانات العلائقية والمتجهية} & \textarabic{٥} & \EN{27/10} & \EN{31/10} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXH\sbox\bXH{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٢.٣} & \textarabic{الواجهات ولوحة التحكم الإدارية} & \textarabic{٥} & \EN{31/10} & \EN{04/11} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXI\sbox\bXI{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٢.٤} & \textarabic{مخططات التدفق والتتابع والكيانات} & \textarabic{٥} & \EN{03/11} & \EN{07/11} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bXJ\sbox\bXJ{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٢.٥} & \textarabic{واجهات برمجة التطبيقات ومواصفاتها} & \textarabic{٤} & \EN{06/11} & \EN{09/11} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXK\sbox\bXK{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٢.٦} & \textarabic{إطار الأمان والصلاحيات} & \textarabic{٤} & \EN{09/11} & \EN{12/11} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXL\sbox\bXL{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٢.٧} & \textarabic{مراجعة الفصل الرابع واعتماده} & \textarabic{٣} & \EN{12/11} & \EN{14/11} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bXM\sbox\bXM{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٣.١} & \textarabic{د١: بناء وكيل استعلام قواعد البيانات} & \textarabic{٨} & \EN{15/11} & \EN{22/11} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bXN\sbox\bXN{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٣.٢} & \textarabic{د٢: بناء وكيل البحث في المستندات واللوائح} & \textarabic{٨} & \EN{23/11} & \EN{30/11} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bXO\sbox\bXO{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٣.٣} & \textarabic{د٣: دمج الوكلاء وبناء الواجهة الأمامية} & \textarabic{٨} & \EN{01/12} & \EN{08/12} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXP\sbox\bXP{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٣.٤} & \textarabic{وكلاء التحليل والتقارير — موازٍ} & \textarabic{١٨} & \EN{15/11} & \EN{02/12} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXQ\sbox\bXQ{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٣.٥} & \textarabic{التهيئة الذكية للربط والفهرسة — موازٍ} & \textarabic{١٥} & \EN{24/11} & \EN{08/12} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXR\sbox\bXR{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٣.٦} & \textarabic{سجل التدقيق والإشعارات — موازٍ} & \textarabic{١٤} & \EN{01/12} & \EN{14/12} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXS\sbox\bXS{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٣.٧} & \textarabic{اختبارات الوحدة والتكامل المستمرة} & \textarabic{٣٠} & \EN{15/11} & \EN{14/12} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXT\sbox\bXT{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٣.٨} & \textarabic{د٤: الاختبار الشامل وضبط الأداء والنشر} & \textarabic{٦} & \EN{09/12} & \EN{14/12} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXU\sbox\bXU{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٣.٩} & \textarabic{مراجعة الفصل الخامس واعتماده} & \textarabic{٣} & \EN{12/12} & \EN{14/12} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bXV\sbox\bXV{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٤.١} & \textarabic{اختبار دقة التحويل وزمن الاستجابة} & \textarabic{٧} & \EN{15/12} & \EN{21/12} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bXW\sbox\bXW{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٤.٢} & \textarabic{جودة الاسترجاع والإسناد بالمقاييس} & \textarabic{٧} & \EN{22/12} & \EN{28/12} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bXX\sbox\bXX{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٤.٣} & \textarabic{اختبار الحمل والتحمل} & \textarabic{٦} & \EN{29/12} & \EN{03/01} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXY\sbox\bXY{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٤.٤} & \textarabic{اختبار الأمان والصلاحيات} & \textarabic{٧} & \EN{30/12} & \EN{05/01} & \EN{BE}\\\hline
+\end{tabular}}}%
+\newsavebox\bXZ\sbox\bXZ{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٤.٥} & \textarabic{اختبار قبول المستخدمين} & \textarabic{٥} & \EN{04/01} & \EN{08/01} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bYA\sbox\bYA{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٤.٦} & \textarabic{تجميع النتائج وصياغة الفصل السادس} & \textarabic{٦} & \EN{05/01} & \EN{10/01} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bYB\sbox\bYB{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٤.٧} & \textarabic{مراجعة الفصل السادس واعتماده} & \textarabic{٣} & \EN{10/01} & \EN{12/01} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bYC\sbox\bYC{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٥.١} & \textarabic{الخاتمة وملخص تحقيق الأهداف} & \textarabic{٤} & \EN{01/01} & \EN{04/01} & \EN{AI}\\\hline
+\end{tabular}}}%
+\newsavebox\bYD\sbox\bYD{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٥.٢} & \textarabic{المساهمات والقيود التنفيذية} & \textarabic{٣} & \EN{04/01} & \EN{06/01} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bYE\sbox\bYE{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٥.٣} & \textarabic{التوصيات والأعمال المستقبلية} & \textarabic{٣} & \EN{06/01} & \EN{08/01} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bYF\sbox\bYF{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٥.٤} & \textarabic{مراجعة الفصل السابع واعتماده} & \textarabic{٣} & \EN{10/01} & \EN{12/01} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bYG\sbox\bYG{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٦.١} & \textarabic{التدقيق الشامل للوثيقة النهائية} & \textarabic{٥} & \EN{01/01} & \EN{05/01} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bYH\sbox\bYH{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٦.٢} & \textarabic{إعداد البوستر العلمي} & \textarabic{٤} & \EN{04/01} & \EN{07/01} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bYI\sbox\bYI{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٦.٣} & \textarabic{إنتاج الفيديو التسويقي} & \textarabic{٤} & \EN{06/01} & \EN{09/01} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bYJ\sbox\bYJ{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٦.٤} & \textarabic{التسليم النهائي الشامل للكلية} & \textarabic{٢} & \EN{08/01} & \EN{09/01} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bYK\sbox\bYK{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٦.٥} & \textarabic{العرض التقديمي النهائي والمحاكاة} & \textarabic{٦} & \EN{10/01} & \EN{15/01} & \EN{FE}\\\hline
+\end{tabular}}}%
+\newsavebox\bYL\sbox\bYL{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٦.٦} & \textarabic{المناقشة النهائية — بوابة الجودة الثانية} & \textarabic{٨} & \EN{16/01} & \EN{23/01} & \EN{TM}\\\hline
+\end{tabular}}}%
+\newsavebox\bYM\sbox\bYM{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{gray!35}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
+\hline
+\textarabic{٢.٦.٧} & \textarabic{الأرشفة الختامية للمشروع} & \textarabic{٤} & \EN{20/01} & \EN{23/01} & \EN{TM}\\\hline
+\end{tabular}}}%
 
 \begin{LTR}
 \begin{ganttchart}[
-  x unit=2.85pt,
-  y unit chart=0.38cm,
-  y unit title=0.45cm,
+  x unit=2.15pt,
+  y unit chart=0.36cm,
+  y unit title=0.41cm,
+  vgrid={*1{draw=gray!45},*1{draw=none},*1{draw=none},*1{draw=none},*1{draw=none},*1{draw=none},*1{gray!40, line width=4.30pt}},
+  bar/.append style={rounded corners=0pt},
+  group/.append style={fill=kaudark!90, draw=kaudark!90},
+  group height=0.22, group top shift=0.4,
   milestone/.append style={shape=diamond, inner sep=2.6pt},
   milestone inline label anchor=east,
   milestone inline label node/.append style={anchor=west, font=\tiny\bfseries},
 ]{2026-10-17}{2027-01-23}
 \gantttitle{\textarabic{المرحلة الثانية — مشروع التخرج 2: التنفيذ والاختبار والتسليم النهائي}}{99} \\
 \gantttitle{\textarabic{أكتوبر 2026}}{15}\gantttitle{\textarabic{نوفمبر}}{30}\gantttitle{\textarabic{ديسمبر}}{31}\gantttitle{\textarabic{يناير 2027}}{23} \\
-\gantttitlelist{1,...,14}{7}\gantttitle{15}{1} \\
+\gantttitle{}{1} \gantttitle{1}{7} \gantttitle{2}{7} \gantttitle{3}{7} \gantttitle{4}{7} \gantttitle{5}{7} \gantttitle{6}{7} \gantttitle{7}{7} \gantttitle{8}{7} \gantttitle{9}{7} \gantttitle{10}{7} \gantttitle{11}{7} \gantttitle{12}{7} \gantttitle{13}{7} \gantttitle{14}{7} \\
+\ganttbar[bar/.append style={draw=none, fill=none}]{\usebox\bHB}{2026-10-17}{2026-10-17} \\
 \ganttgroup[name=gF]{\usebox\bgF}{2026-10-17}{2026-10-22} \\
 \ganttbar[name=XA, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bXA}{2026-10-17}{2026-10-18}
-\ganttmilestone[inline]{M8}{2026-10-20} \\
+\ganttmilestone[inline]{M8 20/10}{2026-10-20} \\
 \ganttbar[name=XB, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXB}{2026-10-17}{2026-10-20}
  \\
 \ganttbar[name=XC, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXC}{2026-10-19}{2026-10-21}
@@ -838,7 +1135,7 @@
 \ganttbar[name=XK, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXK}{2026-11-09}{2026-11-12}
  \\
 \ganttbar[name=XL, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bXL}{2026-11-12}{2026-11-14}
-\ganttmilestone[inline]{M9}{2026-11-14} \\
+\ganttmilestone[inline]{M9 14/11}{2026-11-14} \\
 \ganttgroup[name=gH]{\usebox\bgH}{2026-11-15}{2026-12-14} \\
 \ganttbar[name=XM, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bXM}{2026-11-15}{2026-11-22}
  \\
@@ -857,7 +1154,7 @@
 \ganttbar[name=XT, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXT}{2026-12-09}{2026-12-14}
  \\
 \ganttbar[name=XU, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bXU}{2026-12-12}{2026-12-14}
-\ganttmilestone[inline]{M10}{2026-12-14} \\
+\ganttmilestone[inline]{M10 14/12}{2026-12-14} \\
 \ganttgroup[name=gI]{\usebox\bgI}{2026-12-15}{2027-01-12} \\
 \ganttbar[name=XV, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bXV}{2026-12-15}{2026-12-21}
  \\
@@ -872,7 +1169,7 @@
 \ganttbar[name=YA, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bYA}{2027-01-05}{2027-01-10}
  \\
 \ganttbar[name=YB, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bYB}{2027-01-10}{2027-01-12}
-\ganttmilestone[inline]{M12}{2027-01-12} \\
+\ganttmilestone[inline, milestone inline label anchor=north, milestone inline label node/.append style={anchor=south}]{M12 12/01}{2027-01-12} \\
 \ganttgroup[name=gJ]{\usebox\bgJ}{2027-01-01}{2027-01-12} \\
 \ganttbar[name=YC, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bYC}{2027-01-01}{2027-01-04}
  \\
@@ -888,11 +1185,11 @@
 \ganttbar[name=YH, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bYH}{2027-01-04}{2027-01-07}
  \\
 \ganttbar[name=YI, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bYI}{2027-01-06}{2027-01-09}
-\ganttmilestone[inline]{M11}{2027-01-09} \\
+\ganttmilestone[inline, milestone inline label anchor=north, milestone inline label node/.append style={anchor=south}]{M11 09/01}{2027-01-09} \\
 \ganttbar[name=YJ, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bYJ}{2027-01-08}{2027-01-09}
  \\
 \ganttbar[name=YK, bar/.append style={fill=kauaccent!35, draw=kauaccent!70!black}]{\usebox\bYK}{2027-01-10}{2027-01-15}
-\ganttmilestone[inline]{M13}{2027-01-16} \\
+\ganttmilestone[inline, milestone inline label anchor=north, milestone inline label node/.append style={anchor=south}]{M13 16/01}{2027-01-16} \\
 \ganttbar[name=YL, bar/.append style={fill=kauaccent!75, draw=kauaccent!80!black}]{\usebox\bYL}{2027-01-16}{2027-01-23}
  \\
 \ganttbar[name=YM, bar/.append style={fill=kauaccent!75, draw=kauaccent!80!black}]{\usebox\bYM}{2027-01-20}{2027-01-23}
@@ -906,25 +1203,45 @@
 \end{ganttchart}
 \end{LTR}
 
-  \vspace{1.5mm}
 \begin{center}
 \scriptsize
-\renewcommand{\arraystretch}{1.15}
-\begin{tabular}{c@{\hspace{3pt}}l@{\hspace{9pt}}c@{\hspace{3pt}}l@{\hspace{9pt}}c@{\hspace{3pt}}l}
-  \tikz\fill[ownerAI!55,draw=ownerAI] (0,0) rectangle (0.28,0.14); & مهام الذكاء الاصطناعي &
-  \tikz\fill[ownerBE!55,draw=ownerBE] (0,0) rectangle (0.28,0.14); & مهام الخلفية وقواعد البيانات &
-  \tikz\fill[ownerFE!45,draw=ownerFE] (0,0) rectangle (0.28,0.14); & مهام الواجهة وتجربة المستخدم \\[4pt]
-  \tikz\fill[ownerTM!50,draw=ownerTM] (0,0) rectangle (0.28,0.14); & مهام الفريق كاملاً &
-  \tikz\fill[kauprimary!85,draw=kauprimary] (0,0) rectangle (0.28,0.14); & حزمة عمل (مستوى الملخص) &
-  \tikz{\fill[kauaccent,draw=kauaccent!50!black] (0.13,0.26) -- (0.26,0.13) -- (0.13,0) -- (0,0.13) -- cycle;} & معلم رسمي \EN{M1--M14} \\[4pt]
+\renewcommand{\arraystretch}{1.0}
+\begin{tabular}{c@{\hspace{3pt}}l@{\hspace{7pt}}c@{\hspace{3pt}}l@{\hspace{7pt}}c@{\hspace{3pt}}l}
+  \tikz\fill[ownerAI!55,draw=ownerAI] (0,0) rectangle (0.28,0.14); & الذكاء الاصطناعي (\EN{AI}) &
+  \tikz\fill[ownerBE!55,draw=ownerBE] (0,0) rectangle (0.28,0.14); & الخلفية وقواعد البيانات (\EN{BE}) &
+  \tikz\fill[ownerFE!45,draw=ownerFE] (0,0) rectangle (0.28,0.14); & الواجهة وتجربة المستخدم (\EN{FE}) \\[3pt]
+  \tikz\fill[ownerTM!50,draw=ownerTM] (0,0) rectangle (0.28,0.14); & الفريق كاملاً (\EN{TM}) &
+  \tikz\fill[kaudark!90,draw=kaudark!90] (0,0.05) rectangle (0.4,0.11); & شريط الحزمة (الملخص) &
+  \tikz{\fill[kauaccent,draw=kauaccent!50!black] (0.13,0.26) -- (0.26,0.13) -- (0.13,0) -- (0,0.13) -- cycle;} & معلم رسمي \EN{M1--M14} بتاريخه \\[3pt]
   \tikz\fill[kauaccent!35,draw=kauaccent!70!black] (0,0) rectangle (0.28,0.14); & إعداد العرض والمحاكاة &
   \tikz\fill[kauaccent!75,draw=kauaccent!80!black] (0,0) rectangle (0.28,0.14); & أسبوع المناقشة النهائية &
-  \tikz{\draw[-stealth,thick,kauprimary] (0,0.07) -- (0.4,0.07);} & سهم تبعية (المسار الحرج) \\
+  \tikz{\draw[-stealth,thick,kauprimary] (0,0.07) -- (0.4,0.07);} & سهم تبعية (المسار الحرج) \\[3pt]
+  \tikz\fill[gray!40] (0,0.02) rectangle (0.3,0.13); & ظل عطلة نهاية الأسبوع &
+  \tikz{\draw[gray!45] (0.02,0) -- (0.02,0.16);} & بداية الأسبوع (الأحد) &
+  \tikz\fill[kauprimary!22,draw=kauprimary!55] (0,0) rectangle (0.3,0.14); & ترويسة لوحة البيانات \\
 \end{tabular}
 \end{center}
-  \caption{مخطط جانت التنفيذي للمرحلة الثانية — مشروع التخرج 2 (أكتوبر 2026 -- يناير 2027): جميع المهام الـ39 موزعة على الحزم الست مع الدورات التطويرية الأربع والمعالم \EN{M8}--\EN{M13} وأسهم المسار الحرج.}
+  \caption{مخطط جانت التنفيذي للمرحلة الثانية — مشروع التخرج 2 (أكتوبر 2026 -- يناير 2027): المهام الـ39 في لوحة بيانات مع الدورات الأربع والمعالم \EN{M8}--\EN{M13}.}
   \label{fig:ganttP2}
 \end{figure}
+
+ويُقرأ لون شريط المهمة وفق مفتاح الرموز أسفل كل مخطط: الأزرق المخضرّ
+للذكاء الاصطناعي، والأزرق للواجهة الخلفية وقواعد البيانات، والبنفسجي
+للواجهة الأمامية وتجربة المستخدم، والرمادي للفريق كاملاً؛ بينما تحتفظ أشرطة إعداد العرض
+التقديمي والمحاكاة الداخلية بلونها الأحمر الفاتح المميز لنوافذ ما قبل
+المناقشة، ويُبرز الشريط الأحمر الغامق أسبوع المناقشة النهائية بوصفه بوابة
+الجودة الختامية لكل مرحلة. وتُثبَّت المعالم الواقعة ضمن النطاق الزمني لكل
+مخطط بمعيناتها عند تواريخها الرسمية المفصلة في الجدول~\ref{tab:milestones}
+(فيما يقع المعلمان \EN{M7} و\EN{M14} خارج نطاق المخططين)، وتجسد الأسهم
+الزرقاء تسلسل المسار الحرج الذي لا يحتمل التأخير.
+
+ويعكس المخطط الثاني بنية المرحلة الثانية الأجايلية بوضوح؛ إذ تظهر الدورات
+التطويرية الأربع (\EN{Sprint 1}--\EN{Sprint 4}) متتابعةً في مقاطع زمنية
+مستقلة تنتهي كل منها بمراجعة اعتماد المخرج مع المشرف، بينما تمتد الأشرطة
+الموازية (وكلاء التحليل والتقارير، والتهيئة الذكية، وسجل التدقيق،
+والاختبارات المستمرة) على امتداد نافذة التطوير كاملة لتجسيد مبدأ العمل
+المتوازي الذي تتيحه المنهجية الرشيقة، وهو ما يمنح الفريق قدرة أكبر على
+امتصاص أي انحراف جزئي دون المساس بمواعيد البوابات الرسمية الثابتة.
 
 %------------------------------------------------------------------------------
 \section{متطلبات الأدوات (\EN{Required Tools})}
