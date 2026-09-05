@@ -1,59 +1,133 @@
-% Actor classification – faithful to original image with improved formatting.
-% Two rows: top row = human actors on gold background, bottom row = AI agents.
-\resizebox{0.88\textwidth}{!}{%
+% Actor classification — redesigned v2 (2026-09).
+% Card-grid design: two tinted bands (external human actors on top,
+% internal AI agents below), each actor in a white card with icon,
+% Arabic + English names and a one-line role. Every Arabic label is
+% wrapped in \textarabic{} inside bidi's LTR environment (same fix
+% as the Gantt charts) so word order renders correctly.
+% Card order runs right-to-left to match Arabic reading; numbered
+% badges (1-8) match the actors table in section 3.4.1.
+\newsavebox{\ActorsBox}%
+\begin{lrbox}{\ActorsBox}%
+\begin{LTR}%
 \begin{tikzpicture}[
   font=\small,
   stickman/.pic={
-    \draw[line width=1.2pt, #1] (0, 0.45) circle (0.22);       % head
-    \draw[line width=1.2pt, #1] (0, 0.23) -- (0, -0.35);       % body
-    \draw[line width=1.2pt, #1] (-0.35, 0.1) -- (0, -0.05) -- (0.35, 0.1); % arms
-    \draw[line width=1.2pt, #1] (0, -0.35) -- (-0.25, -0.85);  % left leg
-    \draw[line width=1.2pt, #1] (0, -0.35) -- (0.25, -0.85);   % right leg
+    \draw[line width=1.1pt, #1] (0,0.4) circle (0.2);
+    \draw[line width=1.1pt, #1] (0,0.2) -- (0,-0.3);
+    \draw[line width=1.1pt, #1] (-0.3,0.06) -- (0,-0.06) -- (0.3,0.06);
+    \draw[line width=1.1pt, #1] (0,-0.3) -- (-0.22,-0.75);
+    \draw[line width=1.1pt, #1] (0,-0.3) -- (0.22,-0.75);
   },
-  actorlabel/.style={
-    align=center, font=\bfseries\footnotesize, text=kaudark
+  robot/.pic={
+    \draw[line width=1pt, #1] (0,0.44) -- (0,0.58);
+    \fill[#1] (0,0.65) circle (0.05);
+    \draw[line width=1pt, #1, rounded corners=2.5pt] (-0.24,0.14) rectangle (0.24,0.44);
+    \fill[#1] (-0.11,0.29) circle (0.045);
+    \fill[#1] (0.11,0.29) circle (0.045);
+    \draw[line width=1pt, #1, rounded corners=3pt] (-0.3,-0.44) rectangle (0.3,0.08);
+    \draw[line width=1pt, #1] (0,-0.18) circle (0.1);
+    \fill[#1] (0,-0.18) circle (0.035);
+  },
+  actorcard/.style={
+    rounded corners=6pt, draw=#1!75, fill=white, line width=0.9pt,
+    minimum width=3.7cm, minimum height=3.05cm
   },
   actornum/.style={
-    align=center, font=\bfseries\scriptsize, text=kaudark
+    circle, fill=#1, text=white, font=\bfseries\scriptsize,
+    inner sep=0pt, minimum size=0.42cm
+  },
+  actorname/.style={
+    align=center, font=\bfseries\scriptsize, text=kaudark,
+    inner sep=0pt
+  },
+  actoreng/.style={
+    align=center, font=\tiny, text=kaudark!70, inner sep=0pt
+  },
+  actordesc/.style={
+    align=center, font=\tiny, text=kaudark!85, inner sep=0pt,
+    text width=3.25cm
+  },
+  bandpill/.style={
+    rounded corners=4pt, fill=#1, text=white, inner sep=5pt,
+    font=\bfseries\scriptsize
   }
 ]
 
-  % ---- Gold background box for human actors ----
-  \fill[kauprimary!25, rounded corners=10pt] (-1.0, 1.6) rectangle (12.0, -1.6);
+  % ================= Band 1: external human actors =================
+  \fill[kauprimary!6, rounded corners=10pt] (0.15,0.62) rectangle (15.85,-3.95);
+  \node[bandpill=kauprimary] at (8.0,0.55)
+    {\textarabic{الفاعلون الخارجيون (البشريون) — أربعة}};
 
-  % ---- Human Actors (Row 1) ----
-  \pic at (1.0, 0.3) {stickman={kaudark}};
-  \node[actorlabel, below] at (1.0, -0.75) {1. موظف المؤسسة\\\scriptsize\EN{Institutional User}};
+  % Card 1 (rightmost): Enterprise Employee
+  \draw[actorcard=kauprimary] (12.1,-0.55) rectangle (15.8,-3.6);
+  \pic at (13.95,-1.35) {stickman={kaudark}};
+  \node[actornum=kauprimary] at (15.45,-0.85) {\EN{1}};
+  \node[actorname] at (13.95,-2.28) {\textarabic{موظف المؤسسة}};
+  \node[actoreng]  at (13.95,-2.62) {\EN{Enterprise Employee}};
+  \node[actordesc] at (13.95,-3.05) {\textarabic{إدخال الاستعلامات الأساسية والبحث في اللوائح والسياسات}};
 
-  \pic at (3.75, 0.3) {stickman={kaudark}};
-  \node[actorlabel, below] at (3.75, -0.75) {2. مدير المؤسسة\\\scriptsize\EN{Institution Manager}};
+  % Card 2: Enterprise Manager
+  \draw[actorcard=kauprimary] (8.15,-0.55) rectangle (11.85,-3.6);
+  \pic at (10.0,-1.35) {stickman={kaudark}};
+  \node[actornum=kauprimary] at (11.5,-0.85) {\EN{2}};
+  \node[actorname] at (10.0,-2.28) {\textarabic{مدير المؤسسة}};
+  \node[actoreng]  at (10.0,-2.62) {\EN{Enterprise Manager}};
+  \node[actordesc] at (10.0,-3.05) {\textarabic{الاطلاع على التقارير المتقدمة ومتابعة المؤشرات التشغيلية}};
 
-  \pic at (6.5, 0.3) {stickman={kaudark}};
-  \node[actorlabel, below] at (6.5, -0.75) {3. مسؤول النظام\\\scriptsize\EN{System Administrator}};
+  % Card 3: System Administrator
+  \draw[actorcard=kauprimary] (4.2,-0.55) rectangle (7.9,-3.6);
+  \pic at (6.05,-1.35) {stickman={kaudark}};
+  \node[actornum=kauprimary] at (7.55,-0.85) {\EN{3}};
+  \node[actorname] at (6.05,-2.28) {\textarabic{مسؤول النظام}};
+  \node[actoreng]  at (6.05,-2.62) {\EN{System Administrator}};
+  \node[actordesc] at (6.05,-3.05) {\textarabic{إدارة المستخدمين والأدوار وضبط الصلاحيات وسجلات التدقيق}};
 
-  \pic at (9.25, 0.3) {stickman={kaudark}};
-  \node[actorlabel, below] at (9.25, -0.75) {4. مشغل التهيئة\\\scriptsize\EN{Onboarding Operator}};
+  % Card 4: Onboarding Operator
+  \draw[actorcard=kauprimary] (0.25,-0.55) rectangle (3.95,-3.6);
+  \pic at (2.1,-1.35) {stickman={kaudark}};
+  \node[actornum=kauprimary] at (3.6,-0.85) {\EN{4}};
+  \node[actorname] at (2.1,-2.28) {\textarabic{مشغل التهيئة}};
+  \node[actoreng]  at (2.1,-2.62) {\EN{Onboarding Operator}};
+  \node[actordesc] at (2.1,-3.05) {\textarabic{ربط النظام بالمؤسسات الجديدة وتهيئة البيانات لأول مرة}};
 
-  % ---- Separator ----
+  % ================= Band 2: internal AI agents =================
+  \fill[kausecondary!6, rounded corners=10pt] (0.15,-4.35) rectangle (15.85,-8.92);
+  \node[bandpill=kausecondary] at (8.0,-4.42)
+    {\textarabic{الفاعلون الداخليون (وكلاء الذكاء الاصطناعي) — أربعة}};
 
-  % ---- AI Agents (Row 2, no background) ----
-  \pic at (1.0, -2.75) {stickman={kaudark!70}};
-  \node[actorlabel, below] at (1.0, -3.8) {5. الوكيل المشرف\\\scriptsize\EN{Supervisor Agent}};
+  % Card 5 (rightmost): Supervisor Agent — unified entry point
+  \draw[actorcard=kausecondary] (12.1,-5.52) rectangle (15.8,-8.57);
+  \pic at (13.95,-6.32) {robot={kausecondary!90!black}};
+  \node[actornum=kausecondary] at (15.45,-5.82) {\EN{5}};
+  \node[actorname] at (13.95,-7.25) {\textarabic{الوكيل المشرف}};
+  \node[actoreng]  at (13.95,-7.59) {\EN{Supervisor Agent}};
+  \node[actordesc] at (13.95,-8.02) {\textarabic{نقطة الدخول الموحدة: تحليل النية وتوجيه الطلب للوكيل المختص}};
 
-  \pic at (3.75, -2.75) {stickman={kaudark!70}};
-  \node[actorlabel, below] at (3.75, -3.8) {6. وكيل \EN{SQL}\\\scriptsize\EN{SQL Agent}};
+  % Card 6: SQL Agent
+  \draw[actorcard=kausecondary] (8.15,-5.52) rectangle (11.85,-8.57);
+  \pic at (10.0,-6.32) {robot={kausecondary!90!black}};
+  \node[actornum=kausecondary] at (11.5,-5.82) {\EN{6}};
+  \node[actorname] at (10.0,-7.25) {\textarabic{وكيل قواعد البيانات}};
+  \node[actoreng]  at (10.0,-7.59) {\EN{SQL Agent}};
+  \node[actordesc] at (10.0,-8.02) {\textarabic{تحويل الأسئلة العربية إلى استعلامات ومعالجتها}};
 
-  \pic at (6.5, -2.75) {stickman={kaudark!70}};
-  \node[actorlabel, below] at (6.5, -3.8) {7. وكيل \EN{RAG}\\\scriptsize\EN{RAG Agent}};
+  % Card 7: RAG Agent
+  \draw[actorcard=kausecondary] (4.2,-5.52) rectangle (7.9,-8.57);
+  \pic at (6.05,-6.32) {robot={kausecondary!90!black}};
+  \node[actornum=kausecondary] at (7.55,-5.82) {\EN{7}};
+  \node[actorname] at (6.05,-7.25) {\textarabic{وكيل الاسترجاع}};
+  \node[actoreng]  at (6.05,-7.59) {\EN{RAG Agent}};
+  \node[actordesc] at (6.05,-8.02) {\textarabic{استرجاع المقاطع والدلائل النصية من المستندات واللوائح}};
 
-  \pic at (9.25, -2.75) {stickman={kaudark!70}};
-  \node[actorlabel, below] at (9.25, -3.8) {8. الوكيل المحلل\\\scriptsize\EN{Analyst Agent}};
-
-  % ---- Bottom title ----
-  \node[fill=kaudark, text=white, rounded corners=5pt,
-        font=\bfseries\footnotesize, inner sep=7pt,
-        minimum width=8cm] at (5.5, -5.4)
-    {تصنيف الفاعلين إلى فاعلين بشريين ووكلاء ذكاء اصطناعي};
+  % Card 8: Analyst Agent
+  \draw[actorcard=kausecondary] (0.25,-5.52) rectangle (3.95,-8.57);
+  \pic at (2.1,-6.32) {robot={kausecondary!90!black}};
+  \node[actornum=kausecondary] at (3.6,-5.82) {\EN{8}};
+  \node[actorname] at (2.1,-7.25) {\textarabic{وكيل التحليل}};
+  \node[actoreng]  at (2.1,-7.59) {\EN{Analyst Agent}};
+  \node[actordesc] at (2.1,-8.02) {\textarabic{المعالجة الإحصائية واكتشاف الانحرافات وتوليد التقارير}};
 
 \end{tikzpicture}%
-}
+\end{LTR}%
+\end{lrbox}%
+\resizebox{\textwidth}{!}{\usebox{\ActorsBox}}%
