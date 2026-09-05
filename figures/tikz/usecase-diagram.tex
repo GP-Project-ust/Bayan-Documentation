@@ -2,11 +2,12 @@
 % Fixes Arabic word reversal by wrapping the picture in bidi's LTR
 % environment and every Arabic label in \textarabic{} (same proven
 % pattern as the chapter-1 Gantt charts).
-% Layout: human actors on the RIGHT (matches section 3.4.2 prose),
-% AI agents on the LEFT, 8 use cases in a single central column
+% Layout: human actors (KIND 1 — external) on the RIGHT, five AI
+% agent actors (KIND 2 — internal: Supervisor + SQL + RAG +
+% Analyst + Reporter) on the LEFT, 8 use cases in a single central column
 % split into two tinted zones (user services / administration).
 % The internal "Route Query" hub connects to the supervisor agent
-% (execution line), which delegates to the three specialist agents
+% (execution line), which delegates to the four specialist agents
 % through a vertical delegation bus. include/extend relations are
 % routed through the empty side corridors so no line crosses any
 % shape, and every label sits clear of lines and edges.
@@ -107,22 +108,26 @@
   \node[humanchip, below=3pt] at (14.35,-13.37)
     {\textarabic{مشغل التهيئة}\\[1pt]{\tiny\EN{Onboarding Operator}}};
 
-  % ---- AI AGENT ACTORS (left side) ----
+  % ---- AI AGENT ACTORS (left side — 5 types) ----
   \pic at (1.45,-1.75) {robot={kausecondary!90!black}};
   \node[agentchip, below=3pt] at (1.45,-2.72)
     {\textarabic{الوكيل المشرف}\\[1pt]{\tiny\EN{Supervisor Agent}}};
 
-  \pic at (1.45,-4.30) {robot={kausecondary!90!black}};
-  \node[agentchip, below=3pt] at (1.45,-5.27)
+  \pic at (1.45,-4.05) {robot={kausecondary!90!black}};
+  \node[agentchip, below=3pt] at (1.45,-5.02)
     {\textarabic{وكيل قواعد البيانات}\\[1pt]{\tiny\EN{SQL Agent}}};
 
-  \pic at (1.45,-6.90) {robot={kausecondary!90!black}};
-  \node[agentchip, below=3pt] at (1.45,-7.87)
+  \pic at (1.45,-6.35) {robot={kausecondary!90!black}};
+  \node[agentchip, below=3pt] at (1.45,-7.32)
     {\textarabic{وكيل الاسترجاع}\\[1pt]{\tiny\EN{RAG Agent}}};
 
-  \pic at (1.45,-9.40) {robot={kausecondary!90!black}};
-  \node[agentchip, below=3pt] at (1.45,-10.37)
+  \pic at (1.45,-8.65) {robot={kausecondary!90!black}};
+  \node[agentchip, below=3pt] at (1.45,-9.62)
     {\textarabic{وكيل التحليل}\\[1pt]{\tiny\EN{Analyst Agent}}};
+
+  \pic at (1.45,-10.95) {robot={kausecondary!90!black}};
+  \node[agentchip, below=3pt] at (1.45,-11.92)
+    {\textarabic{وكيل التقارير}\\[1pt]{\tiny\EN{Reporter Agent}}};
 
   % ---- Associations: employee (UC-01..04) ----
   \draw[assoc] (14.0,-3.45) -- (uc1.east);
@@ -164,19 +169,20 @@
          inner sep=1.5pt] {\textarabic{تنفيذ}};
 
   % ---- Delegation bus: supervisor -> specialist agents ----
-  \draw[deleg] (2.90,-1.75) -- (2.90,-9.40);
+  \draw[deleg] (2.90,-1.75) -- (2.90,-10.95);
   \draw[deleg] (2.90,-1.75) -- (1.80,-1.75);
-  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-4.30) -- (1.85,-4.30);
-  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-6.90) -- (1.85,-6.90);
-  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-9.40) -- (1.85,-9.40);
+  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-4.05) -- (1.85,-4.05);
+  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-6.35) -- (1.85,-6.35);
+  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-8.65) -- (1.85,-8.65);
+  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-10.95) -- (1.85,-10.95);
 
   % ---- Legend ----
   \node[draw=dividerdim!80, fill=white, rounded corners=3pt, inner sep=6pt,
-        anchor=north west, font=\tiny, text=kaudark] at (0.10,-11.30)
+        anchor=north west, font=\tiny, text=kaudark] at (0.10,-12.55)
   {%
     \begin{tabular}{@{}c@{\hspace{5pt}}r@{}}
       \tikz{\pic[scale=0.62, yshift=0.02] {stickman={kaudark}};} & \textarabic{فاعل بشري خارجي} \\[3pt]
-      \tikz{\pic[scale=0.62] {robot={kausecondary!90!black}};} & \textarabic{وكيل ذكاء اصطناعي} \\[3pt]
+      \tikz{\pic[scale=0.62] {robot={kausecondary!90!black}};} & \textarabic{فاعل داخلي: وكيل ذكاء اصطناعي} \\[3pt]
       \tikz{\fill[kauprimary!14, draw=kauprimary!70] (0.2,0.1) ellipse [x radius=0.17, y radius=0.095];} & \textarabic{حالة استخدام} \\[3pt]
       \tikz{\draw[assoc] (0,0.1) -- (0.42,0.1);} & \textarabic{ارتباط فاعل بحالة} \\[3pt]
       \tikz{\draw[dep] (0,0.1) -- (0.42,0.1);} & \textarabic{علاقة تضمين أو توسيع} \\[3pt]

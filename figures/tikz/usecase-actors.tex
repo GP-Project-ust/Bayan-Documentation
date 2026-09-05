@@ -1,11 +1,11 @@
-% Actor classification — redesigned v2 (2026-09).
-% Card-grid design: two tinted bands (external human actors on top,
-% internal AI agents below), each actor in a white card with icon,
-% Arabic + English names and a one-line role. Every Arabic label is
-% wrapped in \textarabic{} inside bidi's LTR environment (same fix
-% as the Gantt charts) so word order renders correctly.
-% Card order runs right-to-left to match Arabic reading; numbered
-% badges (1-8) match the actors table in section 3.4.1.
+% Actor classification — v3 (2026-09): two-level actor taxonomy.
+% Level 1 = actor KIND (pattern): external human actor (top band,
+% 4 types) vs internal AI-agent actor (bottom band, 5 types —
+% Reporter Agent added for full consistency with ch1/ch2/arch).
+% Every Arabic label is wrapped in \textarabic{} inside bidi's LTR
+% environment (same proven fix as the Gantt charts) so word order
+% renders correctly. Card order runs right-to-left to match Arabic
+% reading; numbered badges (1-9) match the actors table in 3.4.1.
 \newsavebox{\ActorsBox}%
 \begin{lrbox}{\ActorsBox}%
 \begin{LTR}%
@@ -47,18 +47,22 @@
     align=center, font=\tiny, text=kaudark!85, inner sep=0pt,
     text width=3.25cm
   },
+  actordescn/.style={
+    align=center, font=\tiny, text=kaudark!85, inner sep=0pt,
+    text width=2.5cm
+  },
   bandpill/.style={
     rounded corners=4pt, fill=#1, text=white, inner sep=5pt,
     font=\bfseries\scriptsize
   }
 ]
 
-  % ================= Band 1: external human actors =================
+  % ================= KIND 1: external human actor (4 types) =================
   \fill[kauprimary!6, rounded corners=10pt] (0.15,0.62) rectangle (15.85,-3.95);
   \node[bandpill=kauprimary] at (8.0,0.55)
-    {\textarabic{الفاعلون الخارجيون (البشريون) — أربعة}};
+    {\textarabic{النمط الأول: الفاعل البشري الخارجي — أربعة أنواع}};
 
-  % Card 1 (rightmost): Enterprise Employee
+  % Type 1 (rightmost): Enterprise Employee
   \draw[actorcard=kauprimary] (12.1,-0.55) rectangle (15.8,-3.6);
   \pic at (13.95,-1.35) {stickman={kaudark}};
   \node[actornum=kauprimary] at (15.45,-0.85) {\EN{1}};
@@ -66,7 +70,7 @@
   \node[actoreng]  at (13.95,-2.62) {\EN{Enterprise Employee}};
   \node[actordesc] at (13.95,-3.05) {\textarabic{إدخال الاستعلامات الأساسية والبحث في اللوائح والسياسات}};
 
-  % Card 2: Enterprise Manager
+  % Type 2: Enterprise Manager
   \draw[actorcard=kauprimary] (8.15,-0.55) rectangle (11.85,-3.6);
   \pic at (10.0,-1.35) {stickman={kaudark}};
   \node[actornum=kauprimary] at (11.5,-0.85) {\EN{2}};
@@ -74,7 +78,7 @@
   \node[actoreng]  at (10.0,-2.62) {\EN{Enterprise Manager}};
   \node[actordesc] at (10.0,-3.05) {\textarabic{الاطلاع على التقارير المتقدمة ومتابعة المؤشرات التشغيلية}};
 
-  % Card 3: System Administrator
+  % Type 3: System Administrator
   \draw[actorcard=kauprimary] (4.2,-0.55) rectangle (7.9,-3.6);
   \pic at (6.05,-1.35) {stickman={kaudark}};
   \node[actornum=kauprimary] at (7.55,-0.85) {\EN{3}};
@@ -82,7 +86,7 @@
   \node[actoreng]  at (6.05,-2.62) {\EN{System Administrator}};
   \node[actordesc] at (6.05,-3.05) {\textarabic{إدارة المستخدمين والأدوار وضبط الصلاحيات وسجلات التدقيق}};
 
-  % Card 4: Onboarding Operator
+  % Type 4: Onboarding Operator
   \draw[actorcard=kauprimary] (0.25,-0.55) rectangle (3.95,-3.6);
   \pic at (2.1,-1.35) {stickman={kaudark}};
   \node[actornum=kauprimary] at (3.6,-0.85) {\EN{4}};
@@ -90,42 +94,50 @@
   \node[actoreng]  at (2.1,-2.62) {\EN{Onboarding Operator}};
   \node[actordesc] at (2.1,-3.05) {\textarabic{ربط النظام بالمؤسسات الجديدة وتهيئة البيانات لأول مرة}};
 
-  % ================= Band 2: internal AI agents =================
+  % ============ KIND 2: internal AI-agent actor (5 types) ============
   \fill[kausecondary!6, rounded corners=10pt] (0.15,-4.35) rectangle (15.85,-8.92);
   \node[bandpill=kausecondary] at (8.0,-4.42)
-    {\textarabic{الفاعلون الداخليون (وكلاء الذكاء الاصطناعي) — أربعة}};
+    {\textarabic{النمط الثاني: الفاعل الداخلي وكيل الذكاء الاصطناعي — خمسة أنواع}};
 
-  % Card 5 (rightmost): Supervisor Agent — unified entry point
-  \draw[actorcard=kausecondary] (12.1,-5.52) rectangle (15.8,-8.57);
-  \pic at (13.95,-6.32) {robot={kausecondary!90!black}};
+  % Type 5 (rightmost): Supervisor Agent — unified entry point
+  \draw[actorcard=kausecondary] (12.88,-5.52) rectangle (15.8,-8.57);
+  \pic at (14.34,-6.32) {robot={kausecondary!90!black}};
   \node[actornum=kausecondary] at (15.45,-5.82) {\EN{5}};
-  \node[actorname] at (13.95,-7.25) {\textarabic{الوكيل المشرف}};
-  \node[actoreng]  at (13.95,-7.59) {\EN{Supervisor Agent}};
-  \node[actordesc] at (13.95,-8.02) {\textarabic{نقطة الدخول الموحدة: تحليل النية وتوجيه الطلب للوكيل المختص}};
+  \node[actorname] at (14.34,-7.25) {\textarabic{الوكيل المشرف}};
+  \node[actoreng]  at (14.34,-7.59) {\EN{Supervisor Agent}};
+  \node[actordescn] at (14.34,-8.02) {\textarabic{نقطة الدخول الموحدة وتحليل النية وتوجيه الطلبات}};
 
-  % Card 6: SQL Agent
-  \draw[actorcard=kausecondary] (8.15,-5.52) rectangle (11.85,-8.57);
-  \pic at (10.0,-6.32) {robot={kausecondary!90!black}};
-  \node[actornum=kausecondary] at (11.5,-5.82) {\EN{6}};
-  \node[actorname] at (10.0,-7.25) {\textarabic{وكيل قواعد البيانات}};
-  \node[actoreng]  at (10.0,-7.59) {\EN{SQL Agent}};
-  \node[actordesc] at (10.0,-8.02) {\textarabic{تحويل الأسئلة العربية إلى استعلامات ومعالجتها}};
+  % Type 6: SQL Agent
+  \draw[actorcard=kausecondary] (9.71,-5.52) rectangle (12.63,-8.57);
+  \pic at (11.17,-6.32) {robot={kausecondary!90!black}};
+  \node[actornum=kausecondary] at (12.28,-5.82) {\EN{6}};
+  \node[actorname] at (11.17,-7.25) {\textarabic{وكيل قواعد البيانات}};
+  \node[actoreng]  at (11.17,-7.59) {\EN{SQL Agent}};
+  \node[actordescn] at (11.17,-8.02) {\textarabic{تحويل الأسئلة العربية إلى استعلامات قواعد البيانات}};
 
-  % Card 7: RAG Agent
-  \draw[actorcard=kausecondary] (4.2,-5.52) rectangle (7.9,-8.57);
-  \pic at (6.05,-6.32) {robot={kausecondary!90!black}};
-  \node[actornum=kausecondary] at (7.55,-5.82) {\EN{7}};
-  \node[actorname] at (6.05,-7.25) {\textarabic{وكيل الاسترجاع}};
-  \node[actoreng]  at (6.05,-7.59) {\EN{RAG Agent}};
-  \node[actordesc] at (6.05,-8.02) {\textarabic{استرجاع المقاطع والدلائل النصية من المستندات واللوائح}};
+  % Type 7: RAG Agent
+  \draw[actorcard=kausecondary] (6.54,-5.52) rectangle (9.46,-8.57);
+  \pic at (8.0,-6.32) {robot={kausecondary!90!black}};
+  \node[actornum=kausecondary] at (9.11,-5.82) {\EN{7}};
+  \node[actorname] at (8.0,-7.25) {\textarabic{وكيل الاسترجاع}};
+  \node[actoreng]  at (8.0,-7.59) {\EN{RAG Agent}};
+  \node[actordescn] at (8.0,-8.02) {\textarabic{استرجاع المقاطع النصية من المستندات واللوائح}};
 
-  % Card 8: Analyst Agent
-  \draw[actorcard=kausecondary] (0.25,-5.52) rectangle (3.95,-8.57);
-  \pic at (2.1,-6.32) {robot={kausecondary!90!black}};
-  \node[actornum=kausecondary] at (3.6,-5.82) {\EN{8}};
-  \node[actorname] at (2.1,-7.25) {\textarabic{وكيل التحليل}};
-  \node[actoreng]  at (2.1,-7.59) {\EN{Analyst Agent}};
-  \node[actordesc] at (2.1,-8.02) {\textarabic{المعالجة الإحصائية واكتشاف الانحرافات وتوليد التقارير}};
+  % Type 8: Analyst Agent
+  \draw[actorcard=kausecondary] (3.37,-5.52) rectangle (6.29,-8.57);
+  \pic at (4.83,-6.32) {robot={kausecondary!90!black}};
+  \node[actornum=kausecondary] at (5.94,-5.82) {\EN{8}};
+  \node[actorname] at (4.83,-7.25) {\textarabic{وكيل التحليل}};
+  \node[actoreng]  at (4.83,-7.59) {\EN{Analyst Agent}};
+  \node[actordescn] at (4.83,-8.02) {\textarabic{التحليل الإحصائي واكتشاف الانحرافات والقيم الشاذة}};
+
+  % Type 9: Reporter Agent
+  \draw[actorcard=kausecondary] (0.2,-5.52) rectangle (3.12,-8.57);
+  \pic at (1.66,-6.32) {robot={kausecondary!90!black}};
+  \node[actornum=kausecondary] at (2.77,-5.82) {\EN{9}};
+  \node[actorname] at (1.66,-7.25) {\textarabic{وكيل التقارير}};
+  \node[actoreng]  at (1.66,-7.59) {\EN{Reporter Agent}};
+  \node[actordescn] at (1.66,-8.02) {\textarabic{تنسيق المخرجات وتوليد التقارير المنسقة للتصدير}};
 
 \end{tikzpicture}%
 \end{LTR}%
