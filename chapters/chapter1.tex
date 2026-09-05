@@ -539,7 +539,7 @@
 الجدول~\ref{tab:wbs}. وقد صُمِّم المخططان على نمط لوحة العرض المعتمد في
 برامج إدارة المشاريع الاحترافية (مثل \EN{MS Project}): لوحة واحدة مُكوَّنة
 من جزأين متجاورين يُقرآن معاً في المسح البصري نفسه: لوحة بيانات المهام
-على يسار المخطط وجدولها الزمني الرسومي على يمينه، بحيث يحمل كل صف مهمةً
+على يمين المخطط وجدوله الزمني الرسومي على يساره، بحيث يحمل كل صف مهمةً
 واحدة تظهر بياناتها الكاملة بجوار شريطها الزمني مباشرة.
 
 تضم لوحة بيانات المهام ستة أعمدة مثبتة لكل صف: رمز المهمة في هيكل تجزئة
@@ -558,13 +558,12 @@
 شهرية وأسابيع مرقمة تبدأ بيوم الأحد، مع خط عمودي رفيع عند بداية كل أسبوع
 ييسّر تتبع التقدم ومقارنة المخطط بالإنجاز الفعلي في اجتماعات المتابعة.
 
+\begin{figure}[H]
+  \centering
 \definecolor{ownerAI}{HTML}{0E7490}%
 \definecolor{ownerBE}{HTML}{2E75B6}%
 \definecolor{ownerFE}{HTML}{6D28D9}%
 \definecolor{ownerTM}{HTML}{64748B}%
-
-\begin{figure}[H]
-  \centering
 \newsavebox\bHA\sbox\bHA{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{kauprimary!55}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
 \rowcolor{kauprimary!22}\hline
 \textbf{\textarabic{الرمز}} & \rule{0pt}{10.5pt}\textbf{\textarabic{المهمة}} & \textbf{\textarabic{الأيام}} & \textbf{\textarabic{البداية}} & \textbf{\textarabic{النهاية}} & \textbf{\textarabic{المسؤول}}\\
@@ -766,13 +765,14 @@
 \hline
 \textarabic{١.٥.٦} & \textarabic{المناقشة النهائية — بوابة الجودة الأولى} & \textarabic{٨} & \EN{20/09} & \EN{27/09} & \EN{TM}\\\hline
 \end{tabular}}}%
-
+\newsavebox\gCBA
+\begin{lrbox}{\gCBA}%
 \begin{LTR}
 \begin{ganttchart}[
-  x unit=2.39pt,
+  x unit=3.223pt,
   y unit chart=0.36cm,
   y unit title=0.41cm,
-  vgrid={*1{draw=none},*1{draw=none},*1{gray!40, line width=4.78pt},*1{draw=gray!45},*1{draw=none},*1{draw=none},*1{draw=none}},
+  vgrid={*1{draw=none},*1{draw=none},*1{gray!40, line width=6.45pt},*1{draw=gray!45},*1{draw=none},*1{draw=none},*1{draw=none}},
   bar/.append style={rounded corners=0pt},
   group/.append style={fill=kaudark!90, draw=kaudark!90},
   group height=0.22, group top shift=0.4,
@@ -783,106 +783,162 @@
 \gantttitle{\textarabic{المرحلة الأولى — مشروع التخرج 1: التأسيس والتحليل والتوثيق}}{89} \\
 \gantttitle{\textarabic{يوليو 2026}}{31}\gantttitle{\textarabic{أغسطس}}{31}\gantttitle{\textarabic{سبتمبر}}{27} \\
 \gantttitle{}{4} \gantttitle{1}{7} \gantttitle{2}{7} \gantttitle{3}{7} \gantttitle{4}{7} \gantttitle{5}{7} \gantttitle{6}{7} \gantttitle{7}{7} \gantttitle{8}{7} \gantttitle{9}{7} \gantttitle{10}{7} \gantttitle{11}{7} \gantttitle{12}{7} \gantttitle{13}{1} \\
-\ganttbar[bar/.append style={draw=none, fill=none}]{\usebox\bHA}{2026-07-01}{2026-07-01} \\
-\ganttgroup[name=gA]{\usebox\bgA}{2026-07-01}{2026-07-11} \\
-\ganttbar[name=TA, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTA}{2026-07-01}{2026-07-03}
+\ganttbar[name=span, bar/.append style={draw=none, fill=none}]{}{2026-07-01}{2026-09-27} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- span.center) {\usebox\bHA};
+\ganttgroup[name=gA]{}{2026-07-01}{2026-07-11}%
+\ganttbar[name=rA, inline, bar/.append style={draw=none, fill=none}]{}{2026-07-01}{2026-07-11} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rA.center) {\usebox\bgA};
+\ganttbar[name=TA, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-07-01}{2026-07-03}
  \\
-\ganttbar[name=TB, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTB}{2026-07-04}{2026-07-05}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TA.center) {\usebox\bTA};
+\ganttbar[name=TB, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-07-04}{2026-07-05}
 \ganttmilestone[inline]{M1 06/07}{2026-07-06} \\
-\ganttbar[name=TC, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bTC}{2026-07-05}{2026-07-08}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TB.center) {\usebox\bTB};
+\ganttbar[name=TC, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-07-05}{2026-07-08}
 \ganttmilestone[inline]{M2 11/07}{2026-07-11} \\
-\ganttbar[name=TD, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTD}{2026-07-08}{2026-07-10}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TC.center) {\usebox\bTC};
+\ganttbar[name=TD, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-07-08}{2026-07-10}
  \\
-\ganttbar[name=TE, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTE}{2026-07-10}{2026-07-11}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TD.center) {\usebox\bTD};
+\ganttbar[name=TE, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-07-10}{2026-07-11}
  \\
-\ganttgroup[name=gB]{\usebox\bgB}{2026-07-01}{2026-07-30} \\
-\ganttbar[name=TF, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTF}{2026-07-01}{2026-07-10}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TE.center) {\usebox\bTE};
+\ganttgroup[name=gB]{}{2026-07-01}{2026-07-30}%
+\ganttbar[name=rB, inline, bar/.append style={draw=none, fill=none}]{}{2026-07-01}{2026-07-30} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rB.center) {\usebox\bgB};
+\ganttbar[name=TF, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-07-01}{2026-07-10}
  \\
-\ganttbar[name=TG, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bTG}{2026-07-08}{2026-07-15}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TF.center) {\usebox\bTF};
+\ganttbar[name=TG, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-07-08}{2026-07-15}
  \\
-\ganttbar[name=TH, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTH}{2026-07-15}{2026-07-18}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TG.center) {\usebox\bTG};
+\ganttbar[name=TH, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-07-15}{2026-07-18}
  \\
-\ganttbar[name=TI, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTI}{2026-07-18}{2026-07-21}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TH.center) {\usebox\bTH};
+\ganttbar[name=TI, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-07-18}{2026-07-21}
  \\
-\ganttbar[name=TJ, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bTJ}{2026-07-21}{2026-07-23}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TI.center) {\usebox\bTI};
+\ganttbar[name=TJ, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{}{2026-07-21}{2026-07-23}
  \\
-\ganttbar[name=TK, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTK}{2026-07-23}{2026-07-25}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TJ.center) {\usebox\bTJ};
+\ganttbar[name=TK, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-07-23}{2026-07-25}
  \\
-\ganttbar[name=TL, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTL}{2026-07-25}{2026-07-28}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TK.center) {\usebox\bTK};
+\ganttbar[name=TL, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-07-25}{2026-07-28}
  \\
-\ganttbar[name=TM, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTM}{2026-07-28}{2026-07-30}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TL.center) {\usebox\bTL};
+\ganttbar[name=TM, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-07-28}{2026-07-30}
 \ganttmilestone[inline]{M3 30/07}{2026-07-30} \\
-\ganttgroup[name=gC]{\usebox\bgC}{2026-07-31}{2026-08-20} \\
-\ganttbar[name=TN, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTN}{2026-07-31}{2026-08-02}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TM.center) {\usebox\bTM};
+\ganttgroup[name=gC]{}{2026-07-31}{2026-08-20}%
+\ganttbar[name=rC, inline, bar/.append style={draw=none, fill=none}]{}{2026-07-31}{2026-08-20} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rC.center) {\usebox\bgC};
+\ganttbar[name=TN, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-07-31}{2026-08-02}
  \\
-\ganttbar[name=TO, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTO}{2026-08-03}{2026-08-05}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TN.center) {\usebox\bTN};
+\ganttbar[name=TO, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-08-03}{2026-08-05}
  \\
-\ganttbar[name=TP, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bTP}{2026-08-05}{2026-08-08}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TO.center) {\usebox\bTO};
+\ganttbar[name=TP, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-08-05}{2026-08-08}
  \\
-\ganttbar[name=TQ, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTQ}{2026-08-08}{2026-08-10}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TP.center) {\usebox\bTP};
+\ganttbar[name=TQ, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-08-08}{2026-08-10}
  \\
-\ganttbar[name=TR, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTR}{2026-08-10}{2026-08-12}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TQ.center) {\usebox\bTQ};
+\ganttbar[name=TR, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-08-10}{2026-08-12}
  \\
-\ganttbar[name=TS, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTS}{2026-08-12}{2026-08-14}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TR.center) {\usebox\bTR};
+\ganttbar[name=TS, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-08-12}{2026-08-14}
  \\
-\ganttbar[name=TT, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bTT}{2026-08-13}{2026-08-16}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TS.center) {\usebox\bTS};
+\ganttbar[name=TT, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{}{2026-08-13}{2026-08-16}
  \\
-\ganttbar[name=TU, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTU}{2026-08-16}{2026-08-17}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TT.center) {\usebox\bTT};
+\ganttbar[name=TU, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-08-16}{2026-08-17}
  \\
-\ganttbar[name=TV, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTV}{2026-08-17}{2026-08-18}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TU.center) {\usebox\bTU};
+\ganttbar[name=TV, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-08-17}{2026-08-18}
  \\
-\ganttbar[name=TW, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bTW}{2026-08-18}{2026-08-19}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TV.center) {\usebox\bTV};
+\ganttbar[name=TW, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-08-18}{2026-08-19}
  \\
-\ganttbar[name=TX, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTX}{2026-08-19}{2026-08-20}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TW.center) {\usebox\bTW};
+\ganttbar[name=TX, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-08-19}{2026-08-20}
 \ganttmilestone[inline]{M4 20/08}{2026-08-20} \\
-\ganttgroup[name=gD]{\usebox\bgD}{2026-08-21}{2026-09-13} \\
-\ganttbar[name=TY, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTY}{2026-08-21}{2026-08-23}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TX.center) {\usebox\bTX};
+\ganttgroup[name=gD]{}{2026-08-21}{2026-09-13}%
+\ganttbar[name=rD, inline, bar/.append style={draw=none, fill=none}]{}{2026-08-21}{2026-09-13} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rD.center) {\usebox\bgD};
+\ganttbar[name=TY, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-08-21}{2026-08-23}
  \\
-\ganttbar[name=TZ, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bTZ}{2026-08-23}{2026-08-24}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TY.center) {\usebox\bTY};
+\ganttbar[name=TZ, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-08-23}{2026-08-24}
  \\
-\ganttbar[name=UA, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bUA}{2026-08-24}{2026-08-27}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- TZ.center) {\usebox\bTZ};
+\ganttbar[name=UA, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-08-24}{2026-08-27}
  \\
-\ganttbar[name=UB, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bUB}{2026-08-27}{2026-08-30}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UA.center) {\usebox\bUA};
+\ganttbar[name=UB, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-08-27}{2026-08-30}
  \\
-\ganttbar[name=UC, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bUC}{2026-08-30}{2026-09-01}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UB.center) {\usebox\bUB};
+\ganttbar[name=UC, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-08-30}{2026-09-01}
  \\
-\ganttbar[name=UD, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bUD}{2026-09-01}{2026-09-03}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UC.center) {\usebox\bUC};
+\ganttbar[name=UD, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-09-01}{2026-09-03}
  \\
-\ganttbar[name=UE, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bUE}{2026-09-03}{2026-09-05}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UD.center) {\usebox\bUD};
+\ganttbar[name=UE, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-09-03}{2026-09-05}
  \\
-\ganttbar[name=UF, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bUF}{2026-09-05}{2026-09-06}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UE.center) {\usebox\bUE};
+\ganttbar[name=UF, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-09-05}{2026-09-06}
  \\
-\ganttbar[name=UG, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bUG}{2026-09-06}{2026-09-08}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UF.center) {\usebox\bUF};
+\ganttbar[name=UG, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{}{2026-09-06}{2026-09-08}
  \\
-\ganttbar[name=UH, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bUH}{2026-09-08}{2026-09-10}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UG.center) {\usebox\bUG};
+\ganttbar[name=UH, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{}{2026-09-08}{2026-09-10}
  \\
-\ganttbar[name=UI, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bUI}{2026-09-10}{2026-09-11}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UH.center) {\usebox\bUH};
+\ganttbar[name=UI, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-09-10}{2026-09-11}
  \\
-\ganttbar[name=UJ, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bUJ}{2026-09-11}{2026-09-12}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UI.center) {\usebox\bUI};
+\ganttbar[name=UJ, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-09-11}{2026-09-12}
  \\
-\ganttbar[name=UK, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bUK}{2026-09-12}{2026-09-13}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UJ.center) {\usebox\bUJ};
+\ganttbar[name=UK, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-09-12}{2026-09-13}
  \\
-\ganttbar[name=UL, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bUL}{2026-09-12}{2026-09-13}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UK.center) {\usebox\bUK};
+\ganttbar[name=UL, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-09-12}{2026-09-13}
 \ganttmilestone[inline, milestone inline label anchor=north, milestone inline label node/.append style={anchor=south}]{M5 13/09}{2026-09-13} \\
-\ganttgroup[name=gE]{\usebox\bgE}{2026-09-01}{2026-09-27} \\
-\ganttbar[name=UM, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bUM}{2026-09-01}{2026-09-06}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UL.center) {\usebox\bUL};
+\ganttgroup[name=gE]{}{2026-09-01}{2026-09-27}%
+\ganttbar[name=rE, inline, bar/.append style={draw=none, fill=none}]{}{2026-09-01}{2026-09-27} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rE.center) {\usebox\bgE};
+\ganttbar[name=UM, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-09-01}{2026-09-06}
  \\
-\ganttbar[name=UN, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bUN}{2026-09-05}{2026-09-10}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UM.center) {\usebox\bUM};
+\ganttbar[name=UN, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-09-05}{2026-09-10}
  \\
-\ganttbar[name=UO, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bUO}{2026-09-11}{2026-09-13}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UN.center) {\usebox\bUN};
+\ganttbar[name=UO, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-09-11}{2026-09-13}
  \\
-\ganttbar[name=UP, bar/.append style={fill=kauaccent!35, draw=kauaccent!70!black}]{\usebox\bUP}{2026-09-14}{2026-09-16}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UO.center) {\usebox\bUO};
+\ganttbar[name=UP, bar/.append style={fill=kauaccent!35, draw=kauaccent!70!black}]{}{2026-09-14}{2026-09-16}
  \\
-\ganttbar[name=UQ, bar/.append style={fill=kauaccent!35, draw=kauaccent!70!black}]{\usebox\bUQ}{2026-09-17}{2026-09-19}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UP.center) {\usebox\bUP};
+\ganttbar[name=UQ, bar/.append style={fill=kauaccent!35, draw=kauaccent!70!black}]{}{2026-09-17}{2026-09-19}
 \ganttmilestone[inline, milestone inline label anchor=north, milestone inline label node/.append style={anchor=south}]{M6 20/09}{2026-09-20} \\
-\ganttbar[name=UR, bar/.append style={fill=kauaccent!75, draw=kauaccent!80!black}]{\usebox\bUR}{2026-09-20}{2026-09-27}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UQ.center) {\usebox\bUQ};
+\ganttbar[name=UR, bar/.append style={fill=kauaccent!75, draw=kauaccent!80!black}]{}{2026-09-20}{2026-09-27}
  \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- UR.center) {\usebox\bUR};
 \ganttlink[link mid]{gB}{gC}
 \ganttlink[link mid]{gC}{gD}
 \ganttlink[link mid]{gD}{gE}
 \end{ganttchart}
 \end{LTR}
-
+\end{lrbox}
+\noindent\makebox[\textwidth][c]{\usebox\gCBA}%
 \begin{center}
 \scriptsize
 \renewcommand{\arraystretch}{1.0}
@@ -907,6 +963,10 @@
 
 \begin{figure}[H]
   \centering
+\definecolor{ownerAI}{HTML}{0E7490}%
+\definecolor{ownerBE}{HTML}{2E75B6}%
+\definecolor{ownerFE}{HTML}{6D28D9}%
+\definecolor{ownerTM}{HTML}{64748B}%
 \newsavebox\bHB\sbox\bHB{{\tiny\setlength{\tabcolsep}{1pt}\arrayrulecolor{kauprimary!55}\begin{tabular}{|>{\centering\arraybackslash}p{20pt}|>{\scriptsize\centering\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{16pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{18pt}|>{\centering\arraybackslash}p{19pt}|}
 \rowcolor{kauprimary!22}\hline
 \textbf{\textarabic{الرمز}} & \rule{0pt}{10.5pt}\textbf{\textarabic{المهمة}} & \textbf{\textarabic{الأيام}} & \textbf{\textarabic{البداية}} & \textbf{\textarabic{النهاية}} & \textbf{\textarabic{المسؤول}}\\
@@ -1092,13 +1152,14 @@
 \hline
 \textarabic{٢.٦.٧} & \textarabic{الأرشفة الختامية للمشروع} & \textarabic{٤} & \EN{20/01} & \EN{23/01} & \EN{TM}\\\hline
 \end{tabular}}}%
-
+\newsavebox\gCBB
+\begin{lrbox}{\gCBB}%
 \begin{LTR}
 \begin{ganttchart}[
-  x unit=2.15pt,
+  x unit=2.897pt,
   y unit chart=0.36cm,
   y unit title=0.41cm,
-  vgrid={*1{draw=gray!45},*1{draw=none},*1{draw=none},*1{draw=none},*1{draw=none},*1{draw=none},*1{gray!40, line width=4.30pt}},
+  vgrid={*1{draw=gray!45},*1{draw=none},*1{draw=none},*1{draw=none},*1{draw=none},*1{draw=none},*1{gray!40, line width=5.79pt}},
   bar/.append style={rounded corners=0pt},
   group/.append style={fill=kaudark!90, draw=kaudark!90},
   group height=0.22, group top shift=0.4,
@@ -1109,91 +1170,143 @@
 \gantttitle{\textarabic{المرحلة الثانية — مشروع التخرج 2: التنفيذ والاختبار والتسليم النهائي}}{99} \\
 \gantttitle{\textarabic{أكتوبر 2026}}{15}\gantttitle{\textarabic{نوفمبر}}{30}\gantttitle{\textarabic{ديسمبر}}{31}\gantttitle{\textarabic{يناير 2027}}{23} \\
 \gantttitle{}{1} \gantttitle{1}{7} \gantttitle{2}{7} \gantttitle{3}{7} \gantttitle{4}{7} \gantttitle{5}{7} \gantttitle{6}{7} \gantttitle{7}{7} \gantttitle{8}{7} \gantttitle{9}{7} \gantttitle{10}{7} \gantttitle{11}{7} \gantttitle{12}{7} \gantttitle{13}{7} \gantttitle{14}{7} \\
-\ganttbar[bar/.append style={draw=none, fill=none}]{\usebox\bHB}{2026-10-17}{2026-10-17} \\
-\ganttgroup[name=gF]{\usebox\bgF}{2026-10-17}{2026-10-22} \\
-\ganttbar[name=XA, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bXA}{2026-10-17}{2026-10-18}
+\ganttbar[name=span, bar/.append style={draw=none, fill=none}]{}{2026-10-17}{2027-01-23} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- span.center) {\usebox\bHB};
+\ganttgroup[name=gF]{}{2026-10-17}{2026-10-22}%
+\ganttbar[name=rF, inline, bar/.append style={draw=none, fill=none}]{}{2026-10-17}{2026-10-22} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rF.center) {\usebox\bgF};
+\ganttbar[name=XA, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-10-17}{2026-10-18}
 \ganttmilestone[inline]{M8 20/10}{2026-10-20} \\
-\ganttbar[name=XB, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXB}{2026-10-17}{2026-10-20}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XA.center) {\usebox\bXA};
+\ganttbar[name=XB, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-10-17}{2026-10-20}
  \\
-\ganttbar[name=XC, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXC}{2026-10-19}{2026-10-21}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XB.center) {\usebox\bXB};
+\ganttbar[name=XC, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-10-19}{2026-10-21}
  \\
-\ganttbar[name=XD, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bXD}{2026-10-20}{2026-10-22}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XC.center) {\usebox\bXC};
+\ganttbar[name=XD, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-10-20}{2026-10-22}
  \\
-\ganttbar[name=XE, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXE}{2026-10-21}{2026-10-22}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XD.center) {\usebox\bXD};
+\ganttbar[name=XE, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-10-21}{2026-10-22}
  \\
-\ganttgroup[name=gG]{\usebox\bgG}{2026-10-23}{2026-11-14} \\
-\ganttbar[name=XF, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bXF}{2026-10-23}{2026-10-27}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XE.center) {\usebox\bXE};
+\ganttgroup[name=gG]{}{2026-10-23}{2026-11-14}%
+\ganttbar[name=rG, inline, bar/.append style={draw=none, fill=none}]{}{2026-10-23}{2026-11-14} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rG.center) {\usebox\bgG};
+\ganttbar[name=XF, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-10-23}{2026-10-27}
  \\
-\ganttbar[name=XG, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXG}{2026-10-27}{2026-10-31}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XF.center) {\usebox\bXF};
+\ganttbar[name=XG, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-10-27}{2026-10-31}
  \\
-\ganttbar[name=XH, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bXH}{2026-10-31}{2026-11-04}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XG.center) {\usebox\bXG};
+\ganttbar[name=XH, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{}{2026-10-31}{2026-11-04}
  \\
-\ganttbar[name=XI, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bXI}{2026-11-03}{2026-11-07}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XH.center) {\usebox\bXH};
+\ganttbar[name=XI, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-11-03}{2026-11-07}
  \\
-\ganttbar[name=XJ, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXJ}{2026-11-06}{2026-11-09}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XI.center) {\usebox\bXI};
+\ganttbar[name=XJ, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-11-06}{2026-11-09}
  \\
-\ganttbar[name=XK, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXK}{2026-11-09}{2026-11-12}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XJ.center) {\usebox\bXJ};
+\ganttbar[name=XK, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-11-09}{2026-11-12}
  \\
-\ganttbar[name=XL, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bXL}{2026-11-12}{2026-11-14}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XK.center) {\usebox\bXK};
+\ganttbar[name=XL, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-11-12}{2026-11-14}
 \ganttmilestone[inline]{M9 14/11}{2026-11-14} \\
-\ganttgroup[name=gH]{\usebox\bgH}{2026-11-15}{2026-12-14} \\
-\ganttbar[name=XM, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bXM}{2026-11-15}{2026-11-22}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XL.center) {\usebox\bXL};
+\ganttgroup[name=gH]{}{2026-11-15}{2026-12-14}%
+\ganttbar[name=rH, inline, bar/.append style={draw=none, fill=none}]{}{2026-11-15}{2026-12-14} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rH.center) {\usebox\bgH};
+\ganttbar[name=XM, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-11-15}{2026-11-22}
  \\
-\ganttbar[name=XN, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bXN}{2026-11-23}{2026-11-30}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XM.center) {\usebox\bXM};
+\ganttbar[name=XN, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-11-23}{2026-11-30}
  \\
-\ganttbar[name=XO, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bXO}{2026-12-01}{2026-12-08}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XN.center) {\usebox\bXN};
+\ganttbar[name=XO, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{}{2026-12-01}{2026-12-08}
  \\
-\ganttbar[name=XP, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXP}{2026-11-15}{2026-12-02}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XO.center) {\usebox\bXO};
+\ganttbar[name=XP, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-11-15}{2026-12-02}
  \\
-\ganttbar[name=XQ, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXQ}{2026-11-24}{2026-12-08}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XP.center) {\usebox\bXP};
+\ganttbar[name=XQ, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-11-24}{2026-12-08}
  \\
-\ganttbar[name=XR, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXR}{2026-12-01}{2026-12-14}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XQ.center) {\usebox\bXQ};
+\ganttbar[name=XR, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-12-01}{2026-12-14}
  \\
-\ganttbar[name=XS, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXS}{2026-11-15}{2026-12-14}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XR.center) {\usebox\bXR};
+\ganttbar[name=XS, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-11-15}{2026-12-14}
  \\
-\ganttbar[name=XT, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXT}{2026-12-09}{2026-12-14}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XS.center) {\usebox\bXS};
+\ganttbar[name=XT, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-12-09}{2026-12-14}
  \\
-\ganttbar[name=XU, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bXU}{2026-12-12}{2026-12-14}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XT.center) {\usebox\bXT};
+\ganttbar[name=XU, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2026-12-12}{2026-12-14}
 \ganttmilestone[inline]{M10 14/12}{2026-12-14} \\
-\ganttgroup[name=gI]{\usebox\bgI}{2026-12-15}{2027-01-12} \\
-\ganttbar[name=XV, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bXV}{2026-12-15}{2026-12-21}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XU.center) {\usebox\bXU};
+\ganttgroup[name=gI]{}{2026-12-15}{2027-01-12}%
+\ganttbar[name=rI, inline, bar/.append style={draw=none, fill=none}]{}{2026-12-15}{2027-01-12} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rI.center) {\usebox\bgI};
+\ganttbar[name=XV, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-12-15}{2026-12-21}
  \\
-\ganttbar[name=XW, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bXW}{2026-12-22}{2026-12-28}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XV.center) {\usebox\bXV};
+\ganttbar[name=XW, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2026-12-22}{2026-12-28}
  \\
-\ganttbar[name=XX, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXX}{2026-12-29}{2027-01-03}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XW.center) {\usebox\bXW};
+\ganttbar[name=XX, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-12-29}{2027-01-03}
  \\
-\ganttbar[name=XY, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{\usebox\bXY}{2026-12-30}{2027-01-05}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XX.center) {\usebox\bXX};
+\ganttbar[name=XY, bar/.append style={fill=ownerBE!55, draw=ownerBE}]{}{2026-12-30}{2027-01-05}
  \\
-\ganttbar[name=XZ, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bXZ}{2027-01-04}{2027-01-08}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XY.center) {\usebox\bXY};
+\ganttbar[name=XZ, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{}{2027-01-04}{2027-01-08}
  \\
-\ganttbar[name=YA, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bYA}{2027-01-05}{2027-01-10}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- XZ.center) {\usebox\bXZ};
+\ganttbar[name=YA, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2027-01-05}{2027-01-10}
  \\
-\ganttbar[name=YB, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bYB}{2027-01-10}{2027-01-12}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YA.center) {\usebox\bYA};
+\ganttbar[name=YB, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2027-01-10}{2027-01-12}
 \ganttmilestone[inline, milestone inline label anchor=north, milestone inline label node/.append style={anchor=south}]{M12 12/01}{2027-01-12} \\
-\ganttgroup[name=gJ]{\usebox\bgJ}{2027-01-01}{2027-01-12} \\
-\ganttbar[name=YC, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{\usebox\bYC}{2027-01-01}{2027-01-04}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YB.center) {\usebox\bYB};
+\ganttgroup[name=gJ]{}{2027-01-01}{2027-01-12}%
+\ganttbar[name=rJ, inline, bar/.append style={draw=none, fill=none}]{}{2027-01-01}{2027-01-12} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rJ.center) {\usebox\bgJ};
+\ganttbar[name=YC, bar/.append style={fill=ownerAI!55, draw=ownerAI}]{}{2027-01-01}{2027-01-04}
  \\
-\ganttbar[name=YD, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bYD}{2027-01-04}{2027-01-06}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YC.center) {\usebox\bYC};
+\ganttbar[name=YD, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2027-01-04}{2027-01-06}
  \\
-\ganttbar[name=YE, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bYE}{2027-01-06}{2027-01-08}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YD.center) {\usebox\bYD};
+\ganttbar[name=YE, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2027-01-06}{2027-01-08}
  \\
-\ganttbar[name=YF, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bYF}{2027-01-10}{2027-01-12}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YE.center) {\usebox\bYE};
+\ganttbar[name=YF, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2027-01-10}{2027-01-12}
  \\
-\ganttgroup[name=gK]{\usebox\bgK}{2027-01-01}{2027-01-23} \\
-\ganttbar[name=YG, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bYG}{2027-01-01}{2027-01-05}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YF.center) {\usebox\bYF};
+\ganttgroup[name=gK]{}{2027-01-01}{2027-01-23}%
+\ganttbar[name=rK, inline, bar/.append style={draw=none, fill=none}]{}{2027-01-01}{2027-01-23} \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- rK.center) {\usebox\bgK};
+\ganttbar[name=YG, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2027-01-01}{2027-01-05}
  \\
-\ganttbar[name=YH, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bYH}{2027-01-04}{2027-01-07}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YG.center) {\usebox\bYG};
+\ganttbar[name=YH, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{}{2027-01-04}{2027-01-07}
  \\
-\ganttbar[name=YI, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{\usebox\bYI}{2027-01-06}{2027-01-09}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YH.center) {\usebox\bYH};
+\ganttbar[name=YI, bar/.append style={fill=ownerFE!45, draw=ownerFE}]{}{2027-01-06}{2027-01-09}
 \ganttmilestone[inline, milestone inline label anchor=north, milestone inline label node/.append style={anchor=south}]{M11 09/01}{2027-01-09} \\
-\ganttbar[name=YJ, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{\usebox\bYJ}{2027-01-08}{2027-01-09}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YI.center) {\usebox\bYI};
+\ganttbar[name=YJ, bar/.append style={fill=ownerTM!50, draw=ownerTM}]{}{2027-01-08}{2027-01-09}
  \\
-\ganttbar[name=YK, bar/.append style={fill=kauaccent!35, draw=kauaccent!70!black}]{\usebox\bYK}{2027-01-10}{2027-01-15}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YJ.center) {\usebox\bYJ};
+\ganttbar[name=YK, bar/.append style={fill=kauaccent!35, draw=kauaccent!70!black}]{}{2027-01-10}{2027-01-15}
 \ganttmilestone[inline, milestone inline label anchor=north, milestone inline label node/.append style={anchor=south}]{M13 16/01}{2027-01-16} \\
-\ganttbar[name=YL, bar/.append style={fill=kauaccent!75, draw=kauaccent!80!black}]{\usebox\bYL}{2027-01-16}{2027-01-23}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YK.center) {\usebox\bYK};
+\ganttbar[name=YL, bar/.append style={fill=kauaccent!75, draw=kauaccent!80!black}]{}{2027-01-16}{2027-01-23}
  \\
-\ganttbar[name=YM, bar/.append style={fill=kauaccent!75, draw=kauaccent!80!black}]{\usebox\bYM}{2027-01-20}{2027-01-23}
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YL.center) {\usebox\bYL};
+\ganttbar[name=YM, bar/.append style={fill=kauaccent!75, draw=kauaccent!80!black}]{}{2027-01-20}{2027-01-23}
  \\
+\node[anchor=west, inner sep=0pt] at ([xshift=5.0pt]span.east |- YM.center) {\usebox\bYM};
 \ganttlink[link mid]{gG}{XM}
 \ganttlink[link mid]{XM}{XN}
 \ganttlink[link mid]{XN}{XO}
@@ -1202,7 +1315,8 @@
 \ganttlink[link mid]{gI}{YL}
 \end{ganttchart}
 \end{LTR}
-
+\end{lrbox}
+\noindent\makebox[\textwidth][c]{\usebox\gCBB}%
 \begin{center}
 \scriptsize
 \renewcommand{\arraystretch}{1.0}
