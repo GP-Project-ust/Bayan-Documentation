@@ -9,11 +9,15 @@
 %------------------------------------------------------------------------------
 % 1) Page geometry
 %------------------------------------------------------------------------------
+% Margins per Ministry guide: 2.5cm on all sides, 3cm on the binding edge.
+% NOTE: Arabic (RTL) books bind on the RIGHT edge and the bidi package does
+% NOT mirror the physical text block, so the 3cm binding margin must be set
+% explicitly on the `right` key (verified empirically).
 \usepackage[
   top=2.5cm,
   bottom=2.5cm,
-  inner=2.5cm,
-  outer=2.5cm,
+  left=2.5cm,
+  right=3cm,
   headheight=14pt,
   headsep=1cm,
   footskip=1.2cm
@@ -113,7 +117,11 @@
 %------------------------------------------------------------------------------
 % secnumdepth and tocdepth are set after titlesec loads (see below).
 
-\usepackage[font=small,labelfont=bf,format=plain]{caption}
+% Captions per Ministry guide: size 10 bold, centered. Table captions sit
+% above the table and figure captions below the figure (placement is already
+% correct in the chapter sources: \caption precedes tabulars and follows
+% graphics). \footnotesize = exactly 10pt at the 12pt base font.
+\usepackage[font={footnotesize,bf},format=plain,justification=centering]{caption}
 
 \usepackage{titlesec}
 \usepackage{titletoc}
@@ -121,18 +129,20 @@
 % NOTE: \chapter is fully overridden below by \kauChapterDivider; titlesec
 %       settings here only affect \chapter* (unnumbered) calls and the
 %       \section / \subsection / \subsubsection styling.
+% Heading sizes per Ministry guide: chapter titles 16pt bold, level-1
+% sections 14pt bold, level-2 sections 12pt bold (body text stays 12pt).
 \titleformat{\chapter}[display]
-  {\normalfont\huge\bfseries\color{kauprimary}}
-  {\filleft\Large\color{kausecondary} الفصل \thechapter}
+  {\normalfont\fontsize{16}{19.2}\selectfont\bfseries\color{kauprimary}}
+  {\filleft\fontsize{16}{19.2}\selectfont\color{kausecondary} الفصل \thechapter}
   {10pt}
-  {\titlerule[1.2pt]\vspace{8pt}\Huge\filleft}
+  {\titlerule[1.2pt]\vspace{8pt}\fontsize{16}{19.2}\selectfont\filleft}
 \titlespacing*{\chapter}{0pt}{-20pt}{30pt}
 
 \titleformat{\section}
-  {\normalfont\large\bfseries\color{kauprimary}}
+  {\normalfont\fontsize{14}{16.8}\selectfont\bfseries\color{kauprimary}}
   {\thesection}{8pt}{}
 \titleformat{\subsection}
-  {\normalfont\normalsize\bfseries\color{kaudark}}
+  {\normalfont\fontsize{12}{14.4}\selectfont\bfseries\color{kaudark}}
   {\thesubsection}{6pt}{}
 \titleformat*{\subsubsection}
   {\normalfont\normalsize\bfseries\color{kauprimary}}
@@ -234,9 +244,10 @@
           }\par
           \vspace{12pt}
           
-          % Big Arabic Ordinal (الرابع, etc)
-          {\color{kauprimary}\fontsize{65pt}{72pt}\selectfont\bfseries\kauDivOrdinal\par}
-          \vspace{26pt}
+          % Big Arabic Ordinal (الرابع, etc) — decorative design element,
+          % scaled so the 16pt chapter title below reads as the heading.
+          {\color{kauprimary}\fontsize{36pt}{43pt}\selectfont\bfseries\kauDivOrdinal\par}
+          \vspace{22pt}
           
           % Smart Divider with a Diamond
           \tikz{
@@ -245,8 +256,8 @@
           }\par
           \vspace{26pt}
           
-          % Arabic Chapter Title
-          {\color{kaudark}\LARGE\bfseries\kauDivArTitle\par}
+          % Arabic Chapter Title — 16pt bold per Ministry guide
+          {\color{kaudark}\fontsize{16}{19.2}\selectfont\bfseries\kauDivArTitle\par}
           \IfNoValueTF{#2}{}{%
             \vspace{10pt}
             {\color{dividersilver}\normalsize\textenglish{\englishfont \kauDivEnTitle}\par}%
@@ -327,16 +338,16 @@
 % caption whenever a longtable does NOT start at the top of a page.
 % We override \LT@makecaption (after bidi has loaded its final definition)
 % with bidi's plain RTL variant, plus \small + bold label so that longtable
-% captions match the caption-package styling (font=small,labelfont=bf) used
+% captions match the caption-package styling (font=footnotesize+bf) used
 % by every other caption in this thesis.
 %------------------------------------------------------------------------------
 \makeatletter
 \setlength\LTcapwidth{\textwidth}
 \long\def\LT@makecaption#1#2#3{%
   \LT@mcol\LT@cols c{\hbox to\z@{\hss\parbox[t]\LTcapwidth{%
-    \sbox\@tempboxa{\small\if@RTL\beginR\fi#1{\textbf{#2: }}#3\if@RTL\endR\fi}%
+    \sbox\@tempboxa{\footnotesize\bfseries\if@RTL\beginR\fi#1{\textbf{#2: }}#3\if@RTL\endR\fi}%
     \ifdim\wd\@tempboxa>\hsize
-      \small#1{\textbf{#2: }}#3%
+      \centering\footnotesize\bfseries#1{\textbf{#2: }}#3%
     \else
       \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
     \fi
@@ -410,39 +421,70 @@
   {}
   {\titlerule*[0.7em]{.}\contentspage}
 
+%------------------------------------------------------------------------------
+% Lists of figures/tables with TOC entries — the book class does not add
+% \listoffigures / \listoftables to جدول المحتويات, but the Ministry guide
+% expects قائمة الأشكال and قائمة الجداول to appear in the TOC. We follow the
+% same \chapter* + \addcontentsline pattern used by the other front-matter
+% pages so the TOC page numbers stay correct.
+%------------------------------------------------------------------------------
+\makeatletter
+\newcommand{\kauListOfFigures}{%
+  \chapter*{\listfigurename}%
+  \addcontentsline{toc}{chapter}{\listfigurename}%
+  \markboth{\listfigurename}{\listfigurename}%
+  \@starttoc{lof}%
+}
+\newcommand{\kauListOfTables}{%
+  \chapter*{\listtablename}%
+  \addcontentsline{toc}{chapter}{\listtablename}%
+  \markboth{\listtablename}{\listtablename}%
+  \@starttoc{lot}%
+}
+\makeatother
+
 %==============================================================================
 \begin{document}
 %==============================================================================
 
 % Front matter ------------------------------------------------------------
 \frontmatter
-\pagenumbering{roman}
+% Roman numerals (I, II, III, ...) for the preliminary pages, from الخلاصة
+% through قائمة المختصرات per Ministry guide (the cover itself is unnumbered).
+\pagenumbering{Roman}
 
 %------------------------------------------------------------------------------
-% Front matter — order per Ministry of Higher Education guide (2022):
-%   1. Cover
-%   2. Abstract (Summary) — Arabic + English
-%   3. Authorization (English)
-%   4. Dedication
-%   5. Acknowledgment
-%   6. Student Declaration + Supervisor Certification
-%   7. Examination Committee
-%   8. Table of Contents
-%   9. List of Figures
-%  10. List of Tables
-%  11. List of Abbreviations
+% Front matter — order per Ministry of Higher Education guide:
+%   1. Cover (صفحة العنوان)
+%   2. Summary (الخلاصة)
+%   3. Dedication (إهداء)
+%   4. Acknowledgment (شكر وتقدير)
+%   5. Supervisor Certification (إقرار المشرف)
+%   6. Examination Committee (لجنة الحكم والمناقشة)
+%   7. Table of Contents (جدول المحتويات)
+%   8. List of Figures (قائمة الأشكال)
+%   9. List of Tables (قائمة الجداول)
+%  10. List of Abbreviations (قائمة المختصرات)
+% Removed per the Ministry guide: student declaration (تصريح الطلاب),
+% confirmation (تأكيد) and the English authorization page.
 %------------------------------------------------------------------------------
 \input{frontmatter/cover}
 \input{frontmatter/abstract}
-\input{frontmatter/authorization}
 \input{frontmatter/dedication}
 \input{frontmatter/acknowledgment}
 \input{frontmatter/declaration}
 \input{frontmatter/examination_committee}
 
+% Front-matter list titles — polyglossia re-applies its caption names
+% AFTER \begin{document}, so an \AtBeginDocument renewal loses; renewing
+% here in the body right before the lists is the reliable place (verified).
+\renewcommand{\contentsname}{جدول المحتويات}
+\renewcommand{\listfigurename}{قائمة الأشكال}
+\renewcommand{\listtablename}{قائمة الجداول}
+
 \tableofcontents
-\listoffigures
-\listoftables
+\kauListOfFigures
+\kauListOfTables
 \input{frontmatter/abbreviations}
 
 % Main matter -------------------------------------------------------------
