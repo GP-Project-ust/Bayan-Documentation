@@ -1,31 +1,78 @@
 %==============================================================================
-% References (IEEE-style bibliography)
-% Used by Chapter 2 — citations are numbered automatically by biblatex
+% references.bib — IEEE-style bibliography for the Bayan thesis
+% Generated and verified against Crossref / arXiv / ACL Anthology / publisher
+% pages (session: September 2026). Entries are typeset by IEEEtran.bst and
+% numbered automatically in citation order by BibTeX.
+%
+% Verification notes:
+%  - DOIs 10.1145/3571730, 10.1561/1500000031, 10.1016/j.jksuci.2019.02.006,
+%    10.6028/NIST.SP.800-30r1 and 10.6028/NIST.AI.100-1 resolve via Crossref.
+%  - arXiv IDs 2303.08774, 2308.08155, 2308.00352->ICLR 2024, 2308.16149,
+%    2304.11015, 2505.20315 and 2509.04066 verified against arXiv metadata.
+%  - Spider: EMNLP 2018, pp. 3911-3921 (ACL Anthology D18-1425).
+%  - UN EGDI 2024: Yemen rank 185/193, score 0.2318 (egovkb).
+%  - McKinsey report is dated June 2023 (not 2024); headline figure
+%    $2.6-4.4T annually, ~75% across four business functions.
+%  - IDC "Data Age 2025" white paper is dated November 2018.
 %==============================================================================
 
-@misc{un2024egd,
-  author       = {{United Nations}},
-  title        = {E-Government Survey 2024: Accelerating Digital Transformation for Sustainable Development},
-  year         = {2024},
-  howpublished = {United Nations Department of Economic and Social Affairs},
-  note         = {Available at \url{https://publicadministration.un.org/egovkb/}}
+% ---------- Chapter 1: economic context -------------------------------------
+
+@electronic{manyika2023genai,
+  author       = {{McKinsey \& Company}},
+  title        = {The Economic Potential of Generative {AI}: The Next Productivity Frontier},
+  year         = {2023},
+  month        = jun,
+  organization = {McKinsey Global Institute},
+  url          = {https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier}
 }
 
-@misc{vanna2024,
-  author       = {{Vanna.ai}},
-  title        = {Vanna: Open-Source Python RAG Framework for SQL Generation},
-  year         = {2024},
-  howpublished = {\url{https://vanna.ai}}
+@techreport{reinsel2018idc,
+  author      = {Reinsel, David and Gantz, John and Rydning, John},
+  title       = {The Digitization of the World --- From Edge to Core},
+  institution = {International Data Corporation (IDC)},
+  type        = {White Paper},
+  number      = {US44413318},
+  year        = {2018},
+  month       = nov,
+  address     = {Framingham, MA}
 }
 
-@misc{snowflake2025arctic,
-  author       = {{Snowflake AI Research Team}},
-  title        = {Arctic-Text2SQL-R1: A Reinforcement-Learned Text-to-SQL Model},
-  year         = {2025},
-  howpublished = {\url{https://github.com/Snowflake-Labs/arctic}}
+@techreport{un2024egd,
+  author      = {{United Nations}},
+  title       = {E-Government Survey 2024: Accelerating Digital Transformation for Sustainable Development},
+  institution = {United Nations Department of Economic and Social Affairs},
+  year        = {2024},
+  address     = {New York, NY},
+  url         = {https://publicadministration.un.org/egovkb/}
 }
 
-@inproceedings{yu2023spider,
+% ---------- Chapter 2: LLMs, Arabic NLP, NL2SQL, RAG, agents ----------------
+
+@misc{openai2023gpt4,
+  author       = {{OpenAI}},
+  title        = {{GPT-4} Technical Report},
+  year         = {2023},
+  howpublished = {arXiv preprint arXiv:2303.08774}
+}
+
+@misc{sengupta2023jais,
+  author       = {Sengupta, Neha and Sahu, Sunil Kumar and Jia, Bokang and Katipomu, Satheesh and Li, Haonan and Koto, Fajri and Marshall, William and Gosal, Gurpreet and others},
+  title        = {Jais and Jais-chat: Arabic-Centric Foundation and Instruction-Tuned Open Generative Large Language Models},
+  year         = {2023},
+  howpublished = {arXiv preprint arXiv:2308.16149}
+}
+
+@inproceedings{vaswani2017attention,
+  author    = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, {\L}ukasz and Polosukhin, Illia},
+  title     = {Attention Is All You Need},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  year      = {2017},
+  pages     = {5998--6008}
+}
+
+@inproceedings{yu2018spider,
   author    = {Yu, Tao and Zhang, Rui and Yang, Kai and Yasunaga, Michihiro and Wang, Dongxu and Li, Zifan and Ma, James and Li, Irene and Yao, Qingning and Yu, Shunyu and Zhang, Tao and Radev, Dragomir},
   title     = {Spider: A Large-Scale Human-Labeled Dataset for Complex and Cross-Domain Semantic Parsing and Text-to-SQL Task},
   booktitle = {Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
@@ -33,49 +80,90 @@
   pages     = {3911--3921}
 }
 
+@article{guellil2021arabic,
+  author  = {Guellil, Imane and Sa{\^a}dane, Houda and Azouaou, Faical and Gueni, Billel and Nouvel, Damien},
+  title   = {Arabic Natural Language Processing: An Overview},
+  journal = {Journal of King Saud University -- Computer and Information Sciences},
+  volume  = {33},
+  number  = {5},
+  pages   = {497--507},
+  year    = {2021}
+}
+
+@article{darwish2014arabicir,
+  author  = {Darwish, Kareem and Magdy, Walid},
+  title   = {Arabic Information Retrieval},
+  journal = {Foundations and Trends in Information Retrieval},
+  volume  = {7},
+  number  = {4},
+  pages   = {239--342},
+  year    = {2014}
+}
+
+@misc{bourhil2025arabic,
+  author       = {Bourhil, Hicham and {El Younoussi}, Yacine},
+  title        = {Arabic Chatbot Technologies in Education: An Overview},
+  year         = {2025},
+  howpublished = {arXiv preprint arXiv:2509.04066}
+}
+
+@misc{arctic2025text2sql,
+  author       = {Yao, Zhewei and Sun, Guoheng and Borchmann, Lukasz and Nuti, Gaurav and Shen, Zheyu and Deng, Minghang and Zhai, Bohan and Zhang, Hao and others},
+  title        = {Arctic-Text2SQL-R1: Simple Rewards, Strong Reasoning in Text-to-SQL},
+  year         = {2025},
+  howpublished = {arXiv preprint arXiv:2505.20315}
+}
+
+@inproceedings{pourreza2023dinsql,
+  author    = {Pourreza, Mohammadreza and Rafiei, Davood},
+  title     = {{DIN-SQL}: Decomposed In-Context Learning of Text-to-SQL with Self-Correction},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {36},
+  year      = {2023}
+}
+
 @inproceedings{lewis2020rag,
-  author    = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and Küttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rockt{\"a}schel, Tim and Riedel, Sebastian and Kiela, Douwe},
+  author    = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and K{\"u}ttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rockt{\"a}schel, Tim and Riedel, Sebastian and Kiela, Douwe},
   title     = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
   booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
-  year      = {2020},
   volume    = {33},
+  year      = {2020},
   pages     = {9459--9474}
 }
 
-@misc{elhaij2023arabic,
-  author       = {El-Haj, Mahmoud},
-  title        = {Arabic Natural Language Processing: Challenges and Opportunities},
-  year         = {2023},
-  howpublished = {arXiv preprint arXiv:2307.10543},
-  note         = {Survey covering Arabic NLP resources, models, and benchmark gaps}
-}
-
-@misc{langgraph2024,
-  author       = {{LangChain}},
-  title        = {LangGraph: Building Stateful Multi-Actor Applications with {LLMs}},
+@electronic{vanna2024,
+  author       = {{Vanna.ai}},
+  title        = {Vanna: Open-Source Python {RAG} Framework for {SQL} Generation},
   year         = {2024},
-  howpublished = {\url{https://github.com/langchain-ai/langgraph}}
+  url          = {https://vanna.ai}
 }
 
-@misc{qdrant2024,
-  author       = {{Qdrant Team}},
-  title        = {Qdrant: Vector Similarity Search Engine},
-  year         = {2024},
-  howpublished = {\url{https://qdrant.tech}}
-}
-
-@misc{langchain2023,
+@electronic{langchain2023,
   author       = {{LangChain}},
   title        = {LangChain: Building Applications with {LLMs} through Composability},
   year         = {2023},
-  howpublished = {\url{https://github.com/langchain-ai/langchain}}
+  url          = {https://github.com/langchain-ai/langchain}
 }
 
-@misc{llamaindex2023,
+@electronic{llamaindex2023,
   author       = {{LlamaIndex}},
   title        = {LlamaIndex: Data Framework for {LLM} Applications},
   year         = {2023},
-  howpublished = {\url{https://www.llamaindex.ai}}
+  url          = {https://www.llamaindex.ai}
+}
+
+@electronic{qdrant2024,
+  author       = {{Qdrant}},
+  title        = {Qdrant: Vector Similarity Search Engine},
+  year         = {2024},
+  url          = {https://qdrant.tech}
+}
+
+@electronic{langgraph2024,
+  author       = {{LangChain}},
+  title        = {LangGraph: Building Stateful Multi-Actor Applications with {LLMs}},
+  year         = {2024},
+  url          = {https://github.com/langchain-ai/langgraph}
 }
 
 @misc{wu2023autogen,
@@ -85,40 +173,107 @@
   howpublished = {arXiv preprint arXiv:2308.08155}
 }
 
-@misc{crewai2024,
-  author       = {{CrewAI Inc.}},
+@electronic{crewai2024,
+  author       = {{CrewAI}},
   title        = {CrewAI: Framework for Orchestrating Role-Playing Autonomous {AI} Agents},
   year         = {2024},
-  howpublished = {\url{https://github.com/joaomdmoura/crewAI}}
+  url          = {https://github.com/joaomdmoura/crewAI}
 }
 
-@misc{hong2023metagpt,
-  author       = {Hong, Sirui and Zhuge, Mingchen and Chen, Jonathan and Zheng, Xiawu and Cheng, Yuheng and Zhang, Ceyao and Wang, Jinlin and Wang, Zili and Yau, Steven Ka Shing and Lin, Zijuan and others},
-  title        = {{MetaGPT}: Meta Programming for A Multi-Agent Collaborative Framework},
+@inproceedings{hong2024metagpt,
+  author    = {Hong, Sirui and Zhuge, Mingchen and Chen, Jonathan and Zheng, Xiawu and Cheng, Yuheng and Zhang, Ceyao and Wang, Jinlin and Wang, Zili and Yau, Steven Ka Shing and Lin, Zijuan and others},
+  title     = {{MetaGPT}: Meta Programming for a Multi-Agent Collaborative Framework},
+  booktitle = {Proceedings of the International Conference on Learning Representations (ICLR)},
+  year      = {2024}
+}
+
+@article{ji2023hallucination,
+  author  = {Ji, Ziwei and Lee, Nayeon and Frieske, Rita and Yu, Tiezheng and Su, Dan and Xu, Yan and Ishii, Etsuko and Bang, Ye Jin and Madotto, Andrea and Fung, Pascale},
+  title   = {Survey of Hallucination in Natural Language Generation},
+  journal = {ACM Computing Surveys},
+  volume  = {55},
+  number  = {12},
+  pages   = {1--38},
+  year    = {2023}
+}
+
+% ---------- Chapter 3: methodology, requirements, risk management -----------
+
+@electronic{schwaber2020scrum,
+  author       = {Schwaber, Ken and Sutherland, Jeff},
+  title        = {The Scrum Guide: The Definitive Guide to Scrum: The Rules of the Game},
+  year         = {2020},
+  organization = {Scrum.org},
+  url          = {https://scrumguides.org}
+}
+
+@standard{ieee29148,
+  author       = {{ISO/IEC/IEEE}},
+  title        = {Systems and Software Engineering --- Life Cycle Processes --- Requirements Engineering},
+  number       = {ISO/IEC/IEEE 29148:2018},
+  year         = {2018},
+  organization = {International Organization for Standardization}
+}
+
+@standard{iso25010,
+  author       = {{ISO/IEC}},
+  title        = {Systems and Software Engineering --- Systems and Software Quality Requirements and Evaluation (SQuaRE) --- Product Quality Model},
+  number       = {ISO/IEC 25010:2023},
   year         = {2023},
-  howpublished = {arXiv preprint arXiv:2308.00352}
+  organization = {International Organization for Standardization}
 }
 
-@misc{alkhalifa2023,
-  author       = {Al-Khalifa, Hend S. and Al-Razgan, Muna},
-  title        = {Arabic Educational Chatbots: A Review of Current Status and Future Directions},
+@book{clegg1994moscow,
+  author    = {Clegg, Dai and Barker, Richard},
+  title     = {Case Method Fast-Track: A {RAD} Approach},
+  publisher = {Addison-Wesley},
+  address   = {Boston, MA},
+  year      = {1994}
+}
+
+@standard{iso31000,
+  author       = {{ISO}},
+  title        = {Risk Management --- Guidelines},
+  number       = {ISO 31000:2018},
+  year         = {2018},
+  organization = {International Organization for Standardization},
+  url          = {https://www.iso.org/standard/65694.html}
+}
+
+@techreport{nist800-30,
+  author      = {{National Institute of Standards and Technology}},
+  title       = {Guide for Conducting Risk Assessments},
+  institution = {National Institute of Standards and Technology},
+  type        = {NIST Special Publication},
+  number      = {800-30 Rev. 1},
+  year        = {2012},
+  address     = {Gaithersburg, MD},
+  url         = {https://doi.org/10.6028/NIST.SP.800-30r1}
+}
+
+@book{pmbok7,
+  author    = {{Project Management Institute}},
+  title     = {A Guide to the Project Management Body of Knowledge ({PMBOK} Guide) --- Seventh Edition},
+  publisher = {Project Management Institute},
+  address   = {Newtown Square, PA},
+  year      = {2021}
+}
+
+@techreport{nist-airmf,
+  author      = {{National Institute of Standards and Technology}},
+  title       = {Artificial Intelligence Risk Management Framework ({AI} {RMF} 1.0)},
+  institution = {National Institute of Standards and Technology},
+  type        = {NIST AI},
+  number      = {100-1},
+  year        = {2023},
+  address     = {Gaithersburg, MD},
+  url         = {https://doi.org/10.6028/NIST.AI.100-1}
+}
+
+@electronic{owasp-llm,
+  author       = {{OWASP Foundation}},
+  title        = {{OWASP} Top 10 for Large Language Model Applications},
   year         = {2023},
-  howpublished = {Journal of Educational Technology \& Society, vol. 26, no. 2}
-}
-
-@article{magdy2024arabicir,
-  author  = {Magdy, Walid and Darwish, Kareem and others},
-  title   = {Arabic Information Retrieval: A Survey of the State of the Art},
-  journal = {ACM Transactions on Asian and Low-Resource Language Information Processing},
-  year    = {2024},
-  volume  = {23},
-  number  = {3},
-  pages   = {1--38}
-}
-
-@misc{openai2023gpt4,
-  author       = {{OpenAI}},
-  title        = {{GPT-4} Technical Report},
-  year         = {2023},
-  howpublished = {arXiv preprint arXiv:2303.08774}
+  organization = {OWASP Foundation},
+  url          = {https://owasp.org/www-project-top-10-for-large-language-model-applications/}
 }

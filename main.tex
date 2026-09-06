@@ -506,11 +506,24 @@
 \input{frontmatter/appendices}
 
 % References --------------------------------------------------------------
+% Bibliography is generated automatically from references.bib by BibTeX
+% using the official IEEEtran style (IEEEtran.bst, v1.14, committed to the
+% repo root so both tectonic and latexmk/CI resolve it locally).
+% Citation order numbering: BibTeX numbers entries in the order they are
+% first cited, per IEEE numeric style.
 \backmatter
 \chapter*{المراجع}
 \addcontentsline{toc}{chapter}{المراجع}
 \markboth{المراجع}{المراجع}
 
-\input{references_manual}
+% The reference list itself is English → typeset LTR, single-spaced, 10pt,
+% with hanging indents (IEEE / Ministry guide conventions). The LTR wrapper
+% comes from bidi and keeps the whole thebibliography block left-aligned.
+\begin{LTR}
+\singlespacing
+\small
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{LTR}
 
 \end{document}

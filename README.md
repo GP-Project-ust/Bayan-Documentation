@@ -10,8 +10,9 @@
 kau_thesis/
 ├── main.tex                  ← الملف الرئيسي (إعدادات + ترتيب الفصول)
 ├── .latexmkrc                ← إعداد مترجم xelatex
-├── references.bib            ← قاعدة بيانات BibTeX (احتياطية، غير مستخدمة)
-├── references_manual.tex     ← المراجع بصيغة thebibliography (تُستخدم حالياً)
+├── references.bib            ← قاعدة بيانات BibTeX (31 مرجعاً موثقاً، مصدر المراجع)
+├── IEEEtran.bst              ← نمط المراجع الرسمي IEEE (v1.14، يعمل محلياً وفي CI)
+├── ieee.csl                  ← نمط IEEE لتحويل pandoc إلى Word (citeproc)
 ├── CONTRIBUTING.md           ← دليل المساهمة والإضافة (مهم لكل عضو)
 ├── chapters/
 │   ├── chapter1.tex          ← الفصل الأول: المقدمة (مكتمل)
@@ -105,9 +106,8 @@ tectonic main.tex
 - **قائمة الطلاب:** عدّل `frontmatter/declaration.tex` و `frontmatter/cover.tex`.
 - **إضافة فصول جديدة:** أنشئ `chapters/chapter3.tex` ثم أضف `\input{chapters/chapter3}`
   في `main.tex` بعد الفصل الثاني.
-- **تبديل المراجع لـ BibLaTeX+biber:** استبدل `\input{references_manual}` في نهاية
-  `main.tex` بـ `\printbibliography`، وأضف `\usepackage[backend=biber,style=ieee]{biblatex}`
-  + `\addbibresource{references.bib}` في الـ preamble. (يتطلب تثبيت biber).
+- **تبديل المراجع لـ BibLaTeX+biber:** تم التبديل فعلياً إلى BibTeX الكلاسيكي مع
+  `IEEEtran.bst` — المراجع تتولد آلياً من `references.bib` (راجع نهاية `main.tex`).
 
 ## ملاحظات
 

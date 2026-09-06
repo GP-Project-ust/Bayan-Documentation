@@ -109,6 +109,8 @@ jobs:
       # Build Word document via Pandoc
       # Converts LaTeX → Word (.docx) with structure, tables, and text.
       # TikZ diagrams are converted to images automatically.
+      # --citeproc --csl=ieee.csl renders \cite{} as IEEE numeric citations
+      # [N] and generates the numbered reference list from references.bib.
       #---------------------------------------------------------------------
       - name: Build Word document (Pandoc)
         run: |
@@ -122,6 +124,9 @@ jobs:
             --number-sections \
             --standalone \
             --resource-path=. \
+            --bibliography=references.bib \
+            --citeproc \
+            --csl=ieee.csl \
             2>&1 || echo "Pandoc completed with warnings (non-critical)"
 
           if [ -f Bayan-Thesis.docx ]; then

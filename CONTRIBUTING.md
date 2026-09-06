@@ -58,8 +58,8 @@ Bayan-Documentation/
 │   ├── gantt-part4.jpg           ← مخطط جانت الجزء الرابع
 │   ├── rag-flow.png              ← مخطط تدفق RAG
 │   └── multi-agent-arch.png      ← معمارية Multi-Agent
-├── references_manual.tex         ← قائمة المراجع بصيغة thebibliography
-├── references.bib                ← قاعدة بيانات BibTeX (احتياطية، غير مستخدمة)
+├── references.bib                ← قاعدة بيانات المراجع BibTeX (المصدر الوحيد)
+├── IEEEtran.bst                  ← نمط المراجع الرسمي IEEE (يُستخدم مع BibTeX)
 ├── scripts/
 │   └── strip-bidi.py             ← سكربت لتنظيف النص المنسوخ من PDF
 └── .github/workflows/
@@ -497,74 +497,72 @@ print(greet("Bayan"))
 
 ## إضافة مرجع
 
-### الطريقة 1: قائمة المراجع اليدوية (الحالية)
+### الطريقة: BibTeX + IEEEtran (المعمول بها)
 
-افتح `references_manual.tex` وأضف مُدخلاً جديداً:
+المراجع تتولد آلياً من `references.bib` عبر BibTeX بنمط `IEEEtran.bst`
+(الملف ملتزم في جذر المستودع فيجده bibtex محلياً وفي CI بلا تثبيت إضافي)،
+والترقيم يتبع ترتيب أول استشهاد في النص وفق نمط IEEE الرقمي.
+لإضافة مرجع جديد أضف مُدخلاً في `references.bib`:
 
-```latex
-\bibitem{key2024}
-\textenglish{Author Name, ``Paper Title,'' \textit{Journal Name}, vol.~X, no.~Y, pp.~1--10, 2024. [Online]. Available: \url{https://example.com}}
+**أنواع المراجع الشائعة:**
+
+**ورقة بحثية (مؤتمر/مجلة):**
+```bibtex
+@inproceedings{vaswani2017attention,
+  author    = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and others},
+  title     = {Attention Is All You Need},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  year      = {2017},
+  pages     = {5998--6008}
+}
+```
+
+**كتاب:**
+```bibtex
+@book{russell2020ai,
+  author    = {Russell, Stuart and Norvig, Peter},
+  title     = {Artificial Intelligence: A Modern Approach},
+  edition   = {4},
+  publisher = {Pearson},
+  year      = {2020}
+}
+```
+
+**صفحة ويب / أداة مفتوحة المصدر:**
+```bibtex
+@electronic{langchain2023,
+  author       = {{LangChain}},
+  title        = {LangChain: Building Applications with {LLMs} through Composability},
+  year         = {2023},
+  url          = {https://github.com/langchain-ai/langchain}
+}
+```
+
+**ورقة arXiv:**
+```bibtex
+@misc{wu2023autogen,
+  author       = {Wu, Qingyun and Bansal, Gagan and others},
+  title        = {AutoGen: Enabling Next-Gen {LLM} Applications via Multi-Agent Conversation},
+  year         = {2023},
+  howpublished = {arXiv preprint arXiv:2308.08155}
+}
 ```
 
 ثم استشهد به في النص:
 
 ```latex
-كما ذكر \EN{Author}~\cite{key2024}، فإن...
+كما ذكر \EN{Vaswani}~\cite{vaswani2017attention}، فإن...
 ```
 
-**أنواع المراجع الشائعة:**
-
-**ورقة بحثية:**
-```latex
-\bibitem{vaswani2017attention}
-\textenglish{A. Vaswani, N. Shazeer, et al., ``Attention Is All You Need,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~30, 2017, pp.~5998--6008.}
+وأعد البناء (tectonic يشغّل bibtex تلقائياً):
+```bash
+tectonic main.tex
 ```
 
-**كتاب:**
-```latex
-\bibitem{russell2020ai}
-\textenglish{S. Russell and P. Norvig, \textit{Artificial Intelligence: A Modern Approach}, 4th ed. Pearson, 2020.}
-```
-
-**صفحة ويب:**
-```latex
-\bibitem{langchain2023}
-\textenglish{LangChain, ``LangChain: Building Applications with LLMs through Composability,'' 2023. [Online]. Available: \url{https://github.com/langchain-ai/langchain}}
-```
-
-**رسالة ماجستير/دكتوراه:**
-```latex
-\bibitem{althani2023thesis}
-\textenglish{M. Al-Thani, ``Arabic Natural Language Processing for Chatbots,'' Ph.D. dissertation, University of Qatar, 2023.}
-```
-
-### الطريقة 2: BibLaTeX + biber (متقدمة)
-
-لتفعيلها:
-1. في `main.tex`، أضف في الـ preamble:
-   ```latex
-   \usepackage[backend=biber, style=ieee, sorting=none]{biblatex}
-   \addbibresource{references.bib}
-   ```
-2. استبدل `\input{references_manual}` بـ `\printbibliography` في نهاية المستند.
-3. أضف المراجع في `references.bib` بصيغة BibTeX:
-   ```bibtex
-   @article{vaswani2017attention,
-     author  = {Vaswani, Ashish and Shazeer, Noam and others},
-     title   = {Attention Is All You Need},
-     journal = {Advances in Neural Information Processing Systems},
-     volume  = {30},
-     pages   = {5998--6008},
-     year    = {2017}
-   }
-   ```
-4. رُم بـ:
-   ```bash
-   xelatex main.tex
-   biber main
-   xelatex main.tex
-   xelatex main.tex
-   ```
+> **تنبيهات:** استخدم قوسين مزدوجين `{{...}}` حول أسماء الجهات المؤسسية
+> (مثل `{{United Nations}}`) كي لا تُفسَّر كاسم/لقب. تحقق من المُدخل
+> (العنوان والسنة وDOI) قبل إضافته من المصدر الرسمي مباشرة.
 
 ---
 
