@@ -1,5 +1,9 @@
-% Professional ISO/IEC 25010 quality tree for Figure 3-2.
-% The diagram uses the thesis palette and remains self-contained when input from a figure.
+% Professional ISO/IEC 25010 quality tree for Figure 3-3.
+% RTL fix (2026-09): every Arabic label is wrapped in \textarabic{} (correct
+% RTL word order inside TikZ nodes) and the five characteristic boxes are
+% mirrored so the Arabic reading order (right to left) matches the order in
+% which the text and Table 3-9 list them: performance (rightmost) ->
+% security -> reliability -> usability -> maintainability (leftmost).
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
   font=\small,
@@ -22,24 +26,24 @@
 ]
   % Root of the quality model.
   \node[qualitytitle, minimum width=5.2cm] (root)
-    {خصائص الجودة\;\EN{ISO/IEC 25010}};
+    {\textarabic{خصائص الجودة\;\EN{ISO/IEC 25010}}};
 
   % Five selected quality characteristics and their measurable requirements.
-  \node[quality, below left=1.25cm and 4.85cm of root, text width=2.75cm] (performance)
-    {\textcolor{kauprimary}{\bfseries الأداء}\par\scriptsize
-     زمن الاستجابة\par دعم المستخدمين\par كفاءة الموارد};
-  \node[quality, below left=1.25cm and 1.62cm of root, text width=2.75cm] (security)
-    {\textcolor{kauprimary}{\bfseries الأمان}\par\scriptsize
-     التحكم بالصلاحيات\par سجل التدقيق\par حماية البيانات};
+  \node[quality, below right=1.25cm and 4.85cm of root, text width=2.75cm] (performance)
+    {\textcolor{kauprimary}{\bfseries\textarabic{الأداء}}\par\scriptsize
+     \textarabic{زمن الاستجابة}\par \textarabic{دعم المستخدمين}\par \textarabic{كفاءة الموارد}};
+  \node[quality, below right=1.25cm and 1.62cm of root, text width=2.75cm] (security)
+    {\textcolor{kauprimary}{\bfseries\textarabic{الأمان}}\par\scriptsize
+     \textarabic{التحكم بالصلاحيات}\par \textarabic{سجل التدقيق}\par \textarabic{حماية البيانات}};
   \node[quality, below=1.25cm of root, text width=2.75cm] (reliability)
-    {\textcolor{kauprimary}{\bfseries الموثوقية}\par\scriptsize
-     التوفر\par التعافي من الأعطال\par استمرارية المحادثة};
-  \node[quality, below right=1.25cm and 1.62cm of root, text width=2.75cm] (usability)
-    {\textcolor{kauprimary}{\bfseries قابلية الاستخدام}\par\scriptsize
-     سهولة التعلم\par دعم العربية و\EN{RTL}\par إنجاز المهام};
-  \node[quality, below right=1.25cm and 4.85cm of root, text width=2.75cm] (maintainability)
-    {\textcolor{kauprimary}{\bfseries الصيانة والنقل}\par\scriptsize
-     توثيق الشفرة\par قابلية النشر\par توافق البيئات};
+    {\textcolor{kauprimary}{\bfseries\textarabic{الموثوقية}}\par\scriptsize
+     \textarabic{التوفر}\par \textarabic{التعافي من الأعطال}\par \textarabic{استمرارية المحادثة}};
+  \node[quality, below left=1.25cm and 1.62cm of root, text width=2.75cm] (usability)
+    {\textcolor{kauprimary}{\bfseries\textarabic{قابلية الاستخدام}}\par\scriptsize
+     \textarabic{سهولة التعلم}\par \textarabic{دعم العربية و\EN{RTL}}\par \textarabic{إنجاز المهام}};
+  \node[quality, below left=1.25cm and 4.85cm of root, text width=2.75cm] (maintainability)
+    {\textcolor{kauprimary}{\bfseries\textarabic{الصيانة والنقل}}\par\scriptsize
+     \textarabic{توثيق الشفرة}\par \textarabic{قابلية النشر}\par \textarabic{توافق البيئات}};
 
   % Requirement counts, kept separate for visual clarity.
   \node[qualitycount, above right=-0.12cm and -0.12cm of performance] {4};
@@ -52,6 +56,6 @@
     \draw[qualityline] (root.south) -- (\target.north);
 
   \node[below=0.34cm of reliability, text=dividerdim, font=\scriptsize]
-    {20 متطلباً غير وظيفيّاً قابلاً للقياس};
+    {\textarabic{20 متطلباً غير وظيفيّاً قابلاً للقياس}};
 \end{tikzpicture}%
 }

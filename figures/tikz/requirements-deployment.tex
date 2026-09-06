@@ -1,5 +1,8 @@
 % Professional Docker Compose deployment architecture for Figure 3-4.
-% Fixed: text overlap, user box position, arrow routing, vertical labels.
+% RTL fix (2026-09): every Arabic label is wrapped in \textarabic{} so word
+% order renders correctly inside TikZ's LTR nodes (proven fix). The geometry
+% is unchanged: the request flow already reads right-to-left (user at the
+% right edge, agents at the left), which suits the Arabic reading direction.
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
   font=\small,
@@ -31,7 +34,7 @@
   % Host boundary (production server)
   \node[draw=dividerdim, fill=kaulight!35, rounded corners=7pt,
         line width=0.8pt, minimum width=17.5cm, minimum height=7.8cm,
-        label={[text=dividerdim,font=\bfseries\scriptsize,inner sep=3pt]above:خادم الإنتاج \EN{Ubuntu 22.04 LTS}}] (host) at (0,0) {};
+        label={[text=dividerdim,font=\bfseries\scriptsize,inner sep=3pt]above:\textarabic{خادم الإنتاج \EN{Ubuntu 22.04 LTS}}}] (host) at (0,0) {};
 
   % Docker Compose Network boundary (inside host)
   \node[draw=kauprimary, dashed, rounded corners=6pt,
@@ -40,43 +43,43 @@
 
   % ---- Top Row: Frontend + Backend + Agents (inside Docker) ----
   \node[service, fill=kauprimary!7] (agents) at (-5.0,1.8)
-    {\textcolor{kauprimary}{\bfseries منظومة الوكلاء}\\[2pt]\scriptsize\EN{LangGraph Multi-Agent}};
+    {\textcolor{kauprimary}{\bfseries\textarabic{منظومة الوكلاء}}\\[2pt]\scriptsize\EN{LangGraph Multi-Agent}};
   \node[service, fill=kauprimary!7] (backend) at (-1.0,1.8)
-    {\textcolor{kauprimary}{\bfseries الواجهة الخلفية}\\[2pt]\scriptsize\EN{FastAPI / REST API}};
+    {\textcolor{kauprimary}{\bfseries\textarabic{الواجهة الخلفية}}\\[2pt]\scriptsize\EN{FastAPI / REST API}};
   \node[service, fill=kauprimary!7] (frontend) at (3.0,1.8)
-    {\textcolor{kauprimary}{\bfseries واجهة الويب}\\[2pt]\scriptsize\EN{Next.js 18+} — محادثة ولوحة تحكم};
+    {\textcolor{kauprimary}{\bfseries\textarabic{واجهة الويب}}\\[2pt]\scriptsize\textarabic{\EN{Next.js 18+} — محادثة ولوحة تحكم}};
 
   % ---- Middle Row: Data stores (inside Docker) ----
   \node[datastore] (qdrant) at (-5.0,-1.3)
-    {\textcolor{kausecondary}{\bfseries مخزن المتجهات}\\[2pt]\scriptsize\EN{Qdrant}};
+    {\textcolor{kausecondary}{\bfseries\textarabic{مخزن المتجهات}}\\[2pt]\scriptsize\EN{Qdrant}};
   \node[datastore] (redis) at (-1.0,-1.3)
-    {\textcolor{kausecondary}{\bfseries الجلسات والتنسيق}\\[2pt]\scriptsize\EN{Redis}};
+    {\textcolor{kausecondary}{\bfseries\textarabic{الجلسات والتنسيق}}\\[2pt]\scriptsize\EN{Redis}};
   \node[datastore] (postgres) at (3.0,-1.3)
-    {\textcolor{kausecondary}{\bfseries قاعدة البيانات}\\[2pt]\scriptsize\EN{PostgreSQL 16 + pgvector}};
+    {\textcolor{kausecondary}{\bfseries\textarabic{قاعدة البيانات}}\\[2pt]\scriptsize\EN{PostgreSQL 16 + pgvector}};
 
   % ---- Bottom Row: Model providers (inside Docker, switchable) ----
   \node[external] (ollama) at (-3.0,-3.2)
-    {\bfseries نموذج محلي\\[2pt]\scriptsize\EN{Ollama}};
+    {\bfseries\textarabic{نموذج محلي}\\[2pt]\scriptsize\EN{Ollama}};
   \node[external] (cloud) at (1.0,-3.2)
-    {\bfseries نموذج سحابي\\[2pt]\scriptsize\EN{DeepSeek / GPT-4o API}};
+    {\bfseries\textarabic{نموذج سحابي}\\[2pt]\scriptsize\EN{DeepSeek / GPT-4o API}};
 
   % ---- User (OUTSIDE Docker, OUTSIDE Host) ----
   \node[userbox] (user) at (7.5,1.8)
-    {\bfseries المستخدم\\[2pt]\scriptsize متصفح ويب};
+    {\bfseries\textarabic{المستخدم}\\[2pt]\scriptsize\textarabic{متصفح ويب}};
 
-  % ---- Arrows: User → Frontend ----
+  % ---- Arrows: User -> Frontend ----
   \draw[flow] (user.west) -- node[above,font=\tiny,text=kauprimary] {\EN{HTTPS}} (frontend.east);
 
-  % ---- Arrows: Frontend → Backend → Agents ----
+  % ---- Arrows: Frontend -> Backend -> Agents ----
   \draw[flow] (frontend.west) -- node[above,font=\tiny,text=kauprimary] {\EN{REST}} (backend.east);
-  \draw[flow] (backend.west) -- node[above,font=\tiny,text=kauprimary] {توجيه الطلب} (agents.east);
+  \draw[flow] (backend.west) -- node[above,font=\tiny,text=kauprimary] {\textarabic{توجيه الطلب}} (agents.east);
 
-  % ---- Arrows: Backend → Data stores (clean routing) ----
+  % ---- Arrows: Backend -> Data stores (clean routing) ----
   \draw[dataflow] (backend.south) -- (redis.north);
   \draw[dataflow] (backend.south west) to[out=-90,in=0] (qdrant.north east);
   \draw[dataflow] (backend.south east) to[out=-90,in=180] (postgres.north west);
 
-  % ---- Arrows: Agents → Qdrant + Redis ----
+  % ---- Arrows: Agents -> Qdrant + Redis ----
   \draw[dataflow] (agents.south) -- (qdrant.north);
   \draw[dataflow] (agents.south east) to[out=-90,in=180] (redis.north west);
 
@@ -85,12 +88,12 @@
   \draw[optional] (backend.south east) to[out=-90,in=0] (cloud.east);
 
   % ---- Layer labels (vertical, properly oriented) ----
-  \node[text=dividerdim, font=\tiny\bfseries, rotate=90, anchor=south] at (5.5,0.3) {طبقة العرض والتطبيق};
-  \node[text=dividerdim, font=\tiny\bfseries, rotate=90, anchor=south] at (5.5,-2.2) {طبقة البيانات};
+  \node[text=dividerdim, font=\tiny\bfseries, rotate=90, anchor=south] at (5.5,0.3) {\textarabic{طبقة العرض والتطبيق}};
+  \node[text=dividerdim, font=\tiny\bfseries, rotate=90, anchor=south] at (5.5,-2.2) {\textarabic{طبقة البيانات}};
 
   % ---- Bottom note ----
   \node[text=dividerdim, font=\tiny, align=center] at (-1.0,-4.0)
-    {اختيار مزوّد النموذج من الإعدادات دون تعديل الشفرة};
+    {\textarabic{اختيار مزوّد النموذج من الإعدادات دون تعديل الشفرة}};
 
 \end{tikzpicture}%
 }

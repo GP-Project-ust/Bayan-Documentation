@@ -1,6 +1,10 @@
-% Professional MoSCoW priority distribution for Figure 3-1.
+% Professional MoSCoW priority distribution for Figure 3-2.
 % Counts: Must Have = 20, Should Have = 8, Could Have = 2 (30 total).
-% Improved: larger fonts, wider third segment, clearer labels.
+% RTL fix (2026-09): every Arabic label is wrapped in \textarabic{} so it
+% typesets with correct RTL word order inside TikZ's LTR nodes (same proven
+% fix as the Gantt charts / use-case diagrams). The proportional bar now
+% reads right-to-left: Must (rightmost) -> Should -> Could, matching the
+% Arabic reading order of the three cards below it.
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
   font=\normalsize,
@@ -11,37 +15,37 @@
 ]
   % Header and summary.
   \node[font=\bfseries\large, text=kauprimary] at (0,2.35)
-    {توزيع الأولويات وفق منهجية \EN{MoSCoW}};
+    {\textarabic{توزيع الأولويات وفق منهجية \EN{MoSCoW}}};
   \node[font=\footnotesize, text=dividerdim] at (0,1.85)
-    {إجمالي المتطلبات الوظيفية: 30 متطلباً};
+    {\textarabic{إجمالي المتطلبات الوظيفية: 30 متطلباً}};
 
-  % Proportional bar: 66.7%, 26.7%, and 6.7% — widened third segment for readability.
-  \fill[kauprimary, rounded corners=3pt] (-8.5,0.85) rectangle (2.8,1.45);
-  \fill[kausecondary] (2.8,0.85) rectangle (7.3,1.45);
-  \fill[dividerdim, rounded corners=3pt] (7.3,0.85) rectangle (8.5,1.45);
-  \node[text=white, font=\bfseries\small] at (-2.85,1.15) {66.7\%};
-  \node[text=white, font=\bfseries\small] at (5.05,1.15) {26.7\%};
-  \node[text=white, font=\bfseries\small] at (7.9,1.15) {6.7\%};
+  % Proportional bar (66.7%, 26.7%, 6.7%) — Must starts at the RIGHT edge.
+  \fill[kauprimary, rounded corners=3pt] (-2.8,0.85) rectangle (8.5,1.45);
+  \fill[kausecondary] (-7.3,0.85) rectangle (-2.8,1.45);
+  \fill[dividerdim, rounded corners=3pt] (-8.5,0.85) rectangle (-7.3,1.45);
+  \node[text=white, font=\bfseries\small] at (2.85,1.15) {66.7\%};
+  \node[text=white, font=\bfseries\small] at (-5.05,1.15) {26.7\%};
+  \node[text=white, font=\bfseries\small] at (-7.9,1.15) {6.7\%};
 
   % Three explanatory cards arranged in reading order from right to left.
   \node[statcard, draw=kauprimary, fill=kauprimary!6, text width=4.6cm] (must) at (5.45,-0.55)
-    {\textcolor{kauprimary}{\bfseries عالية}\quad\EN{Must Have}\par
+    {\textcolor{kauprimary}{\bfseries\textarabic{عالية\quad\EN{Must Have}}}\par
      \textcolor{kauprimary}{\fontsize{24}{26}\selectfont\bfseries 20}\par
-     \footnotesize وظائف أساسية للإصدار الحالي};
+     \footnotesize\textarabic{وظائف أساسية للإصدار الحالي}};
 
   \node[statcard, draw=kausecondary, fill=kausecondary!7, text width=4.6cm] (should) at (0,-0.55)
-    {\textcolor{kausecondary}{\bfseries متوسطة}\quad\EN{Should Have}\par
+    {\textcolor{kausecondary}{\bfseries\textarabic{متوسطة\quad\EN{Should Have}}}\par
      \textcolor{kausecondary}{\fontsize{24}{26}\selectfont\bfseries 8}\par
-     \footnotesize وظائف مهمة قابلة للتأجيل};
+     \footnotesize\textarabic{وظائف مهمة قابلة للتأجيل}};
 
   \node[statcard, draw=dividerdim, fill=kaulight, text width=4.6cm] (could) at (-5.45,-0.55)
-    {\textcolor{dividerdim}{\bfseries منخفضة}\quad\EN{Could Have}\par
+    {\textcolor{dividerdim}{\bfseries\textarabic{منخفضة\quad\EN{Could Have}}}\par
      \textcolor{dividerdim}{\fontsize{24}{26}\selectfont\bfseries 2}\par
-     \footnotesize تحسينات اختيارية مستقبلية};
+     \footnotesize\textarabic{تحسينات اختيارية مستقبلية}};
 
   % Compact legend line reinforces the release focus.
   \draw[draw=dividersilver, line width=0.6pt] (-8.5,-1.85) -- (8.5,-1.85);
   \node[text=dividerdim, font=\footnotesize] at (0,-2.20)
-    {تركّز الخطة الحالية على الوظائف الأساسية ذات الأولوية العالية};
+    {\textarabic{تركّز الخطة الحالية على الوظائف الأساسية ذات الأولوية العالية}};
 \end{tikzpicture}%
 }
