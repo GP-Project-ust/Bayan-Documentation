@@ -1,6 +1,19 @@
 %==============================================================================
 % figures/tikz/rag-flow.tex
-% RAG Pipeline Flow Diagram for Bayan System (v2 - cleaned up)
+% RAG Pipeline Flow Diagram for Bayan System (v3 - RTL reading order)
+%==============================================================================
+% RTL fix (2026-09):
+%   1) Every Arabic label is wrapped in \textarabic{} so it typesets with
+%      correct RTL word order inside TikZ's LTR nodes (same proven fix as
+%      Figures 3-2/3-3/3-4 and the Gantt/use-case diagrams).
+%   2) The side data stores now sit in a stacked sidebar on the LEFT (read
+%      last in RTL order): Odoo documents (top) are indexed downward into
+%      the Qdrant vector store, and the search arrow points leftward from
+%      the embedding node. This also removes the original layout defect
+%      where the dashed Index arrow crossed straight through the embed box.
+%   3) The main pipeline remains vertical (top-to-bottom), which is
+%      direction-neutral for Arabic readers; phase labels annotate from the
+%      right (the first-read side in an RTL document).
 %==============================================================================
 
 \begin{tikzpicture}[
@@ -62,43 +75,45 @@
 
   % 1. User Question
   \node[process] (question) at (0, 0)
-    {\RL{سؤال المستخدم}\\\footnotesize\EN{User Question}};
+    {\textarabic{سؤال المستخدم}\\\footnotesize\EN{User Question}};
 
   % 2. RAG Agent
   \node[phase1, below=0.8cm of question] (ragagent)
-    {\RL{وكيل \EN{RAG}}};
+    {\textarabic{وكيل \EN{RAG}}};
 
   % 3. Embedding Model
   \node[phase1, below=0.8cm of ragagent] (embed)
-    {\RL{نموذج التضمين}\\\footnotesize\EN{multilingual-e5-large}};
+    {\textarabic{نموذج التضمين}\\\footnotesize\EN{multilingual-e5-large}};
 
   % 4. Retrieved Context
   \node[phase1, below=0.8cm of embed] (context)
-    {\RL{المستندات المسترجعة}\\\footnotesize\EN{Top-K Chunks}};
+    {\textarabic{المستندات المسترجعة}\\\footnotesize\EN{Top-K Chunks}};
 
   % 5. LLM
   \node[phase2, below=0.8cm of context] (llm)
-    {\RL{النموذج اللغوي}\\\footnotesize\EN{DeepSeek / GPT-4o}};
+    {\textarabic{النموذج اللغوي}\\\footnotesize\EN{DeepSeek / GPT-4o}};
 
   % 6. Augmented Prompt
   \node[phase2, below=0.8cm of llm] (prompt)
-    {\RL{توليد الإجابة المعززة}};
+    {\textarabic{توليد الإجابة المعززة}};
 
   % 7. Final Answer
   \node[output, below=0.8cm of prompt] (answer)
-    {\RL{الإجابة + الاستشهادات + مسار التنفيذ}};
+    {\textarabic{الإجابة + الاستشهادات + مسار التنفيذ}};
 
   %------------------------------------------------------------------------
-  % Side elements (data stores)
+  % Side data stores (stacked sidebar on the LEFT — read last in RTL).
+  % Qdrant sits beside the embedding node; Odoo documents sit above it so
+  % the indexing arrow flows downward into the vector store.
   %------------------------------------------------------------------------
 
-  % Document Store (left of embedding)
-  \node[datastore, left=2.2cm of embed] (docs)
-    {\RL{مستندات \EN{Odoo}}};
+  % Vector Database (left of embedding)
+  \node[datastore, left=2.2cm of embed] (qdrant)
+    {\EN{Qdrant}\\\textarabic{(متجهات)}};
 
-  % Vector Database (right of embedding)
-  \node[datastore, right=2.2cm of embed] (qdrant)
-    {\RL{\EN{Qdrant}}\\\RL{(متجهات)}};
+  % Document Store (above Qdrant)
+  \node[datastore, above=0.35cm of qdrant] (docs)
+    {\textarabic{مستندات \EN{Odoo}}};
 
   %------------------------------------------------------------------------
   % Arrows (main flow)
@@ -117,24 +132,24 @@
     node[arlabel, midway, right=2pt] {\EN{6. Output}};
 
   %------------------------------------------------------------------------
-  % Side arrows (search & index)
+  % Side arrows (search & index) — no crossings
   %------------------------------------------------------------------------
 
-  % Embed → Qdrant (search)
-  \draw[arrow] (embed.east) -- (qdrant.west)
+  % Embed → Qdrant (search, pointing leftward = RTL natural)
+  \draw[arrow] (embed.west) -- (qdrant.east)
     node[arlabel, midway, above] {\EN{2. Search}};
 
-  % Docs → Qdrant (indexing, dashed)
-  \draw[arrowDash] (docs.east) -- (qdrant.west)
-    node[arlabel, midway, below] {\EN{Index}};
+  % Docs → Qdrant (indexing, dashed, flowing downward into the store)
+  \draw[arrowDash] (docs.south) -- (qdrant.north)
+    node[arlabel, midway, right=2pt] {\EN{Index}};
 
   %------------------------------------------------------------------------
-  % Phase labels (far right)
+  % Phase labels (right side — first-read side in an RTL document)
   %------------------------------------------------------------------------
   \node[font=\small\bfseries\color{kauprimary}, rotate=90]
-    at (3.5, -1.8) {\RL{الاسترجاع}};
+    at (3.7, -1.8) {\textarabic{الاسترجاع}};
 
   \node[font=\small\bfseries\color{kauaccent}, rotate=90]
-    at (3.5, -4.2) {\RL{التوليد}};
+    at (3.7, -4.2) {\textarabic{التوليد}};
 
 \end{tikzpicture}

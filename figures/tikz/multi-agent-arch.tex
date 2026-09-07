@@ -1,6 +1,21 @@
 %==============================================================================
 % figures/tikz/multi-agent-arch.tex
-% Multi-Agent System Architecture for Bayan (v3 - final clean version)
+% Multi-Agent System Architecture for Bayan (v4 - RTL reading order)
+%==============================================================================
+% RTL fix (2026-09):
+%   1) Every Arabic label is wrapped in \textarabic{} so it typesets with
+%      correct RTL word order inside TikZ's LTR nodes (same proven fix as
+%      Figures 3-2/3-3/3-4 and the Gantt/use-case diagrams).
+%   2) The whole diagram is mirrored horizontally so the Arabic reading
+%      order (right to left) matches the order in which the section text
+%      lists the agents: SQL (rightmost) -> RAG -> Analyst -> Reporter
+%      (leftmost). The shared LLM API moves to the far LEFT, so it is read
+%      last (it serves all agents rather than starting the flow).
+%   3) Geometry defects fixed: the LangGraph dashed container previously
+%      crossed through the supervisor box and the reporter agent box; the
+%      supervisor is now raised clear of the container and the container
+%      fully encloses the four agents, with its LangGraph title chip
+%      sitting on the top-right (first-read) corner.
 %==============================================================================
 
 \begin{tikzpicture}[
@@ -68,70 +83,75 @@
   %==========================================================================
   % LAYER 1: User + Chat (top)
   %==========================================================================
-  \node[user] (user) at (0, 0) {\RL{المستخدم}};
-  \node[interface, below=0.5cm of user] (chat) {\RL{واجهة المحادثة (\EN{RTL})}};
+  \node[user] (user) at (0, 0) {\textarabic{المستخدم}};
+  \node[interface, below=0.5cm of user] (chat) {\textarabic{واجهة المحادثة (\EN{RTL})}};
   \draw[<->, >=stealth, line width=1pt, draw=kaudark] (user) -- (chat);
 
   %==========================================================================
-  % LAYER 2: Supervisor
+  % LAYER 2: Supervisor (raised clear of the LangGraph container)
   %==========================================================================
-  \node[supervisor, below=0.6cm of chat] (supervisor)
-    {\RL{الوكيل المشرف (\EN{Supervisor})}};
+  \node[supervisor, below=0.3cm of chat] (supervisor)
+    {\textarabic{الوكيل المشرف (\EN{Supervisor})}};
   \draw[arrowS] (chat) -- (supervisor);
 
   %==========================================================================
   % LAYER 3: Four Agents (inside LangGraph container)
+  % Reading order right-to-left: SQL -> RAG -> Analyst -> Reporter,
+  % matching the listing order in the section text.
   %==========================================================================
-  \node[agent] (sql) at (-4.5, -3.5) {\RL{وكيل \EN{SQL}}\\\EN{SQL Agent}};
-  \node[agent] (rag) at (-1.5, -3.5) {\RL{وكيل \EN{RAG}}\\\EN{RAG Agent}};
-  \node[agent] (analyst) at (1.5, -3.5) {\RL{وكيل التحليل}\\\EN{Analyst}};
-  \node[agent] (reporter) at (4.5, -3.5) {\RL{وكيل التقارير}\\\EN{Reporter}};
+  \node[agent] (sql) at (4.5, -3.5) {\textarabic{وكيل \EN{SQL}}\\\EN{SQL Agent}};
+  \node[agent] (rag) at (1.5, -3.5) {\textarabic{وكيل \EN{RAG}}\\\EN{RAG Agent}};
+  \node[agent] (analyst) at (-1.5, -3.5) {\textarabic{وكيل التحليل}\\\EN{Analyst}};
+  \node[agent] (reporter) at (-4.5, -3.5) {\textarabic{وكيل التقارير}\\\EN{Reporter}};
 
-  % Supervisor → Agents
+  % Supervisor → Agents (fan dispatches into the container)
   \draw[arrowA] (supervisor.south) -- (sql.north);
   \draw[arrowA] (supervisor.south) -- (rag.north);
   \draw[arrowA] (supervisor.south) -- (analyst.north);
   \draw[arrowA] (supervisor.south) -- (reporter.north);
 
   %==========================================================================
-  % LAYER 4: Data Sources
+  % LAYER 4: Data Sources (under the SQL and RAG agents)
   %==========================================================================
-  \node[views] (views) at (-4.5, -4.7) {\RL{طبقة \EN{Views}}};
-  \node[datasource] (postgres) at (-4.5, -5.7) {\RL{\EN{PostgreSQL}}};
-  \node[datasource] (qdrant) at (-1.5, -5.7) {\RL{\EN{Qdrant}}};
+  \node[views] (views) at (4.5, -4.7) {\textarabic{طبقة \EN{Views}}};
+  \node[datasource] (postgres) at (4.5, -5.7) {\EN{PostgreSQL}};
+  \node[datasource] (qdrant) at (1.5, -5.7) {\EN{Qdrant}};
 
   \draw[arrowA] (sql.south) -- (views.north);
   \draw[arrowA] (views.south) -- (postgres.north);
   \draw[arrowA] (rag.south) -- (qdrant.north);
 
   %==========================================================================
-  % LAYER 5: LLM API (far right, clearly outside container)
+  % LAYER 5: LLM API (far left, clearly outside container — read last)
   %==========================================================================
-  \node[llm] (llm) at (7.5, -3.5)
-    {\RL{النموذج اللغوي}\\\EN{LLM API}\\\scriptsize\EN{DeepSeek/GPT-4o}};
+  \node[llm] (llm) at (-7.5, -3.5)
+    {\textarabic{النموذج اللغوي}\\\EN{LLM API}\\\scriptsize\EN{DeepSeek/GPT-4o}};
 
   % Single clean line: Reporter → LLM (representing all agents)
-  \draw[arrowL] (reporter.east) -- (llm.west)
+  \draw[arrowL] (reporter.west) -- (llm.east)
     node[lbl, midway, above] {\EN{LLM calls}};
 
   %==========================================================================
-  % LAYER 6: Logs (bottom)
+  % LAYER 6: Logs (bottom) — audit (right) with the data stores,
+  % trace (left) with the analyst/reporter agents
   %==========================================================================
-  \node[log] (audit) at (-2, -7.2) {\RL{سجل التدقيق (\EN{Audit Log})}};
-  \node[log] (trace) at (2.5, -7.2) {\RL{تتبع التنفيذ (\EN{Agent Trace})}};
+  \node[log] (audit) at (2, -7.2) {\textarabic{سجل التدقيق (\EN{Audit Log})}};
+  \node[log] (trace) at (-2.5, -7.2) {\textarabic{تتبع التنفيذ (\EN{Agent Trace})}};
 
-  \draw[arrowD] (postgres.south) -- ++(0, -0.3) -| (audit.west);
-  \draw[arrowD] (qdrant.south) -- ++(0, -0.3) -| (audit.east);
-  \draw[arrowD] (analyst.south) -- ++(0, -0.8) -| (trace.west);
-  \draw[arrowD] (reporter.south) -- ++(0, -0.8) -| (trace.east);
+  \draw[arrowD] (postgres.south) -- ++(0, -0.3) -| (audit.east);
+  \draw[arrowD] (qdrant.south) -- ++(0, -0.3) -| (audit.west);
+  \draw[arrowD] (analyst.south) -- ++(0, -0.8) -| (trace.east);
+  \draw[arrowD] (reporter.south) -- ++(0, -0.8) -| (trace.west);
 
   %==========================================================================
-  % LangGraph Container (label in top-left corner, inside)
+  % LangGraph Container (fully encloses the four agents; title chip on the
+  % top-right corner — the first-read corner in an RTL document)
   %==========================================================================
   \draw[dashed, line width=1pt, draw=kauprimary!50, rounded corners=8pt]
-    (-5.8, -2.8) rectangle (5.5, -4.3);
+    (-5.8, -2.9) rectangle (5.8, -4.1);
 
-  \node[font=\scriptsize\bfseries\color{kauprimary}]
-    at (-4.5, -3.0) {\EN{LangGraph}};
+  \node[font=\scriptsize\bfseries\color{kauprimary},
+        fill=white, inner sep=2pt]
+    at (4.55, -2.9) {\EN{LangGraph}};
 
 \end{tikzpicture}
