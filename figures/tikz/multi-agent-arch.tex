@@ -16,6 +16,15 @@
 %      supervisor is now raised clear of the container and the container
 %      fully encloses the four agents, with its LangGraph title chip
 %      sitting on the top-right (first-read) corner.
+%   4) Geometry polish (2nd pass, verified at pixel level): the title chip
+%      previously sat at (4.55, -2.9), where its white fill hid the
+%      supervisor dispatch arrow to the SQL agent and erased ~70% of the
+%      SQL box top border; it is now at (4.9, -2.7) — flush on top of the
+%      border, clear of every arrow and box. The shared LLM node moved
+%      from x = -7.5 to x = -8.6 so the "LLM calls" white label fits in
+%      the gap without touching the LLM box, the Reporter box, or the
+%      container border (it previously erased parts of all three borders
+%      and the dashed border crossed through its text).
 %==============================================================================
 
 \begin{tikzpicture}[
@@ -124,7 +133,9 @@
   %==========================================================================
   % LAYER 5: LLM API (far left, clearly outside container — read last)
   %==========================================================================
-  \node[llm] (llm) at (-7.5, -3.5)
+  % LLM API moved further left (x = -8.6) so the "LLM calls" label fits
+  % between llm.east and reporter.west with clearance on all sides.
+  \node[llm] (llm) at (-8.6, -3.5)
     {\textarabic{النموذج اللغوي}\\\EN{LLM API}\\\scriptsize\EN{DeepSeek/GPT-4o}};
 
   % Single clean line: Reporter → LLM (representing all agents)
@@ -152,6 +163,6 @@
 
   \node[font=\scriptsize\bfseries\color{kauprimary},
         fill=white, inner sep=2pt]
-    at (4.55, -2.9) {\EN{LangGraph}};
+    at (4.9, -2.7) {\EN{LangGraph}};
 
 \end{tikzpicture}
