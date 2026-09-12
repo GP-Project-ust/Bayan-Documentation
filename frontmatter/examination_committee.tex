@@ -50,12 +50,18 @@
 
 \vspace{36pt}
 
-\begin{flushleft}
-\noindent\textbf{رئيس القسم:} \dotfill
+% Department-head signature block — name line, a dedicated signature line
+% (added per team request) and a realistic date line: fixed-width dotted
+% lines (NOT full-width \dotfill) with vertical room for handwriting, and
+% three blank date fields (day / month / year) instead of the academic-year
+% range. Plain \noindent RTL paragraphs start from the right margin, matching
+% the rest of the front matter (the old flushleft wrapper is unnecessary).
+\noindent\textbf{رئيس القسم:} \makebox[8cm]{\dotfill}
 
-\vspace{12pt}
+\vspace{36pt}
+\noindent\textbf{التوقيع:} \makebox[8cm]{\dotfill}
 
-\noindent\textbf{التاريخ:} \dotfill\ / \dotfill\ / \thesisYearAR
-\end{flushleft}
+\vspace{30pt}
+\noindent\textbf{التاريخ:} \makebox[2.2cm]{\dotfill}\ /\ \makebox[2.2cm]{\dotfill}\ /\ \makebox[2.2cm]{\dotfill}
 
 \clearpage
