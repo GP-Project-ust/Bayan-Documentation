@@ -26,10 +26,7 @@ Thumbs.db
 # Python (for scripts)
 __pycache__/
 *.pyc
-tectonic-bin/tectonic.exe
-docs/word/منهجية التطوير.docx
-docs/word/Chapter3_Bayan_Final_Modified (1).docx
-docs/word/القسم 2.docx
-docs/word/المستند (30).docx
-main.pdf
-docs/word/_extracted_30.txt
+
+# NOTE: main.pdf IS tracked intentionally — the CI workflow rebuilds and
+# pushes it back to the repo on every change to sources. Do not re-add it
+# here (a tracked file stays tracked even if ignored).
