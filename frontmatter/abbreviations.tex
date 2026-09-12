@@ -1,7 +1,14 @@
 %==============================================================================
 % List of Abbreviations
 %==============================================================================
-\chapter*{قائمة المختصرات}
+% FIX (bidi + longtable interaction): when a longtable starts on the same
+% page as this \chapter*, the title line's node order gets reversed
+% (TeX--XeT RTL line), which lands the title flush LEFT. Wrapping the title
+% in \hbox to \hsize{...\hss} restores flush-RIGHT geometry under that
+% state (verified pixel-wise: title x560-710 like the other front-matter
+% chapter* pages). Keep this wrap together with the longtable below —
+% without the table the wrap would flip the title left.
+\chapter*{\hbox to \hsize{قائمة المختصرات\hss}}
 \addcontentsline{toc}{chapter}{قائمة المختصرات}
 \markboth{قائمة المختصرات}{قائمة المختصرات}
 

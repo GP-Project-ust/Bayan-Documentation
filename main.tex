@@ -422,6 +422,28 @@
   {\titlerule*[0.7em]{.}\contentspage}
 
 %------------------------------------------------------------------------------
+% TOC hierarchy — sections & subsections (matching the thesis palette).
+% Levels: chapter (bold dark-blue, above) > section (bold medium-blue,
+% indented ~1cm) > subsection (regular dark-gray, deeper indent, bold page
+% number). \contentsmargin is inherited per-level via the [left] argument.
+% In RTL/bidi the visual right indent is the left argument of titlecontents
+% after bidi's mirroring — verified visually below.
+%------------------------------------------------------------------------------
+\titlecontents{section}
+  [1.4em]
+  {\vspace{3pt}\bfseries\color{kausecondary}}
+  {\thecontentslabel\enskip}
+  {}
+  {\hspace{0.5em}\titlerule*[0.6em]{.}\contentspage}
+
+\titlecontents{subsection}
+  [3.2em]
+  {\vspace{2pt}\normalfont\color{dividerdim}}
+  {\thecontentslabel\enskip}
+  {}
+  {\hspace{0.5em}\titlerule*[0.6em]{.}\bfseries\color{kaudark}\contentspage}
+
+%------------------------------------------------------------------------------
 % Lists of figures/tables with TOC entries — the book class does not add
 % \listoffigures / \listoftables to جدول المحتويات, but the Ministry guide
 % expects قائمة الأشكال and قائمة الجداول to appear in the TOC. We follow the
@@ -441,6 +463,27 @@
   \markboth{\listtablename}{\listtablename}%
   \@starttoc{lot}%
 }
+
+%------------------------------------------------------------------------------
+% Designed LoF/LoT entries (thesis palette) via titletoc.
+%   The figure/table NUMBER arrives inside #1 as "شكل 1-1: title"; we restyle
+%   the whole line: medium-size, dark text, dotted leader with balanced
+%   spacing, and bold page number. Extra \vspace gives breathing room.
+%------------------------------------------------------------------------------
+\titlecontents{figure}
+  [0em]
+  {\vspace{4pt}\fontsize{10.5}{13}\selectfont\color{kaudark}}
+  {\thecontentslabel\enskip}
+  {}
+  {\hspace{0.4em}\titlerule*[0.55em]{.}\bfseries\color{kauprimary}\contentspage}
+
+\titlecontents{table}
+  [0em]
+  {\vspace{4pt}\fontsize{10.5}{13}\selectfont\color{kaudark}}
+  {\thecontentslabel\enskip}
+  {}
+  {\hspace{0.4em}\titlerule*[0.55em]{.}\bfseries\color{kauprimary}\contentspage}
+
 \makeatother
 
 %==============================================================================
