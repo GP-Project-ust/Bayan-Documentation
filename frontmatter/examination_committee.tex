@@ -18,7 +18,11 @@
 
 \vspace{12pt}
 
-\noindent\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{4.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
+% Column spec note (bidi/RTL): the FIRST column in code renders on the RIGHT
+% visually. Order right-to-left: م, الاسم, الصفة, التوقيع.
+% \raggedleft (NOT \raggedright) gives Arabic text its natural flush-RIGHT
+% alignment inside the name/role cells.
+\noindent\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1cm}|>{\raggedleft\arraybackslash}X|>{\raggedleft\arraybackslash}p{4.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
 \hline
 \textbf{م} & \textbf{الاسم} & \textbf{الصفة} & \textbf{التوقيع} \\
 \hline
@@ -32,7 +36,7 @@
 
 \vspace{12pt}
 
-\noindent\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{4.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
+\noindent\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1cm}|>{\raggedleft\arraybackslash}X|>{\raggedleft\arraybackslash}p{4.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
 \hline
 \textbf{م} & \textbf{الاسم} & \textbf{الصفة} & \textbf{التوقيع} \\
 \hline
