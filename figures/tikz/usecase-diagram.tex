@@ -1,16 +1,23 @@
-% Use Case Diagram — redesigned v2 (2026-09).
-% Fixes Arabic word reversal by wrapping the picture in bidi's LTR
-% environment and every Arabic label in \textarabic{} (same proven
-% pattern as the chapter-1 Gantt charts).
-% Layout: human actors (KIND 1 — external) on the RIGHT, five AI
-% agent actors (KIND 2 — internal: Supervisor + SQL + RAG +
-% Analyst + Reporter) on the LEFT, 8 use cases in a single central column
-% split into two tinted zones (user services / administration).
-% The internal "Route Query" hub connects to the supervisor agent
-% (execution line), which delegates to the four specialist agents
-% through a vertical delegation bus. include/extend relations are
-% routed through the empty side corridors so no line crosses any
-% shape, and every label sits clear of lines and edges.
+%==============================================================================
+% figures/tikz/usecase-diagram.tex
+% UML Use Case Diagram — redesigned v3 (2026-10) per UML standards.
+%
+% CHANGES vs v2:
+%   - NO AI agents outside the system boundary. The only actors are HUMAN:
+%     Platform Administrator (PA, standalone) and the abstract Tenant User
+%     (TU) generalising 3 concrete roles (Employee, Manager, Tenant IT
+%     Administrator) via a UML generalisation trunk (hollow triangle).
+%   - 7 use cases (UC-01..UC-07) after removing "عرض الإشعارات".
+%   - One internal <<include>> hub: "تحليل النية وتوجيه الطلب وفحص الصلاحية"
+%     (Intent Routing & RBAC Check) connected from UC-01/02/03, plus
+%     <<include>> UC-03 -> UC-01 (data extraction before analysis).
+%   - Associations: Employee -> UC-01,02 | Manager -> UC-01,02,03 |
+%     IT Admin -> UC-04,05,06 | PA -> UC-07.
+% Layout: human actors on the RIGHT (RTL first-read), use cases inside the
+% system boundary in the centre, three tinted service zones, legend left.
+% Every Arabic label is wrapped in \textarabic{} inside bidi's LTR
+% environment (proven fix for Arabic word order in TikZ nodes).
+%==============================================================================
 \newsavebox{\UCBox}%
 \begin{lrbox}{\UCBox}%
 \begin{LTR}%
@@ -23,16 +30,6 @@
     \draw[line width=1.1pt, #1] (0,-0.3) -- (-0.22,-0.75);
     \draw[line width=1.1pt, #1] (0,-0.3) -- (0.22,-0.75);
   },
-  robot/.pic={
-    \draw[line width=1pt, #1] (0,0.44) -- (0,0.58);
-    \fill[#1] (0,0.65) circle (0.05);
-    \draw[line width=1pt, #1, rounded corners=2.5pt] (-0.24,0.14) rectangle (0.24,0.44);
-    \fill[#1] (-0.11,0.29) circle (0.045);
-    \fill[#1] (0.11,0.29) circle (0.045);
-    \draw[line width=1pt, #1, rounded corners=3pt] (-0.3,-0.44) rectangle (0.3,0.08);
-    \draw[line width=1pt, #1] (0,-0.18) circle (0.1);
-    \fill[#1] (0,-0.18) circle (0.035);
-  },
   ucellipse/.style={
     draw=kauprimary!70, fill=kauprimary!14, line width=0.8pt,
     ellipse, align=center, inner xsep=6pt, inner ysep=4pt,
@@ -41,6 +38,9 @@
   },
   ucadmin/.style={
     ucellipse, draw=kausecondary!70, fill=kausecondary!13
+  },
+  ucplatform/.style={
+    ucellipse, draw=kauaccent!80, fill=kauaccent!7
   },
   ucroute/.style={
     ellipse, draw=kauaccent, fill=kauaccent!8, dashed,
@@ -52,141 +52,150 @@
     align=center, inner sep=4pt, text=kaudark,
     font=\scriptsize\bfseries, minimum width=2.35cm
   },
-  agentchip/.style={
-    rounded corners=3pt, draw=kausecondary!60, fill=white,
-    align=center, inner sep=3.5pt, text=kausecondary!90!black,
-    font=\scriptsize\bfseries, minimum width=2.0cm
+  abstractchip/.style={
+    rounded corners=3pt, draw=kausecondary, dashed, fill=white,
+    align=center, inner sep=4pt, text=kaudark,
+    font=\scriptsize\bfseries, minimum width=2.6cm
+  },
+  zonepill/.style={
+    rounded corners=3pt, fill=#1, text=white, inner sep=3.5pt,
+    font=\tiny\bfseries
   },
   assoc/.style={draw=kaudark!75, line width=0.8pt},
   dep/.style={draw=kauaccent!90, line width=0.8pt, dashed, -stealth},
-  exec/.style={draw=kausecondary!90, line width=0.9pt},
-  deleg/.style={draw=kausecondary!75, line width=0.7pt}
+  gen/.style={draw=kaudark!65, line width=0.85pt}
 ]
 
   % ---- Zone tints (behind everything) ----
-  \fill[kauprimary!6, rounded corners=9pt] (3.35,-1.42) rectangle (10.55,-7.42);
-  \fill[kausecondary!6, rounded corners=9pt] (3.35,-7.62) rectangle (10.55,-13.54);
-  \draw[kauprimary!45, dotted, line width=0.6pt] (3.35,-7.52) -- (10.55,-7.52);
+  \fill[kauprimary!6, rounded corners=9pt] (3.35,-1.42) rectangle (10.55,-6.05);
+  \fill[kausecondary!6, rounded corners=9pt] (3.35,-6.25) rectangle (10.55,-11.0);
+  \fill[kauaccent!5, rounded corners=9pt] (3.35,-11.2) rectangle (10.55,-13.45);
 
   % ---- System boundary + title tab ----
   \draw[kauprimary!80, line width=1.1pt, rounded corners=10pt]
-    (3.1,1.15) rectangle (10.8,-13.75);
+    (3.1,1.15) rectangle (10.8,-13.7);
   \node[fill=kauprimary, text=white, rounded corners=4pt, inner sep=6pt,
         font=\bfseries\small] at (6.95,1.15)
     {\textarabic{نظام بيان الذكي للاستعلام والتحليل}};
 
-  % ---- Internal hub: Route Query ----
-  \node[ucroute, minimum width=3.3cm, minimum height=1.02cm] (route) at (6.95,-0.68)
-    {\textarabic{توجيه الاستعلام}\\[1pt]{\tiny\EN{Route Query (internal)}}};
+  % ---- Zone labels (top-right corner of each zone = first-read) ----
+  \node[zonepill=kauprimary, anchor=east] at (10.4,-1.62)
+    {\textarabic{خدمات الاستعلام الذكي}};
+  \node[zonepill=kausecondary, anchor=east] at (10.4,-6.45)
+    {\textarabic{خدمات الإدارة المؤسسية}};
+  \node[zonepill=kauaccent!85!black, anchor=east] at (10.4,-11.40)
+    {\textarabic{خدمات تشغيل المنصة}};
 
-  % ---- Use cases: user zone ----
-  \node[ucellipse] (uc1) at (6.95,-2.25) {\EN{UC-01}\\[1pt]\textarabic{طرح استعلام عن البيانات}};
-  \node[ucellipse] (uc2) at (6.95,-3.73) {\EN{UC-02}\\[1pt]\textarabic{البحث في المستندات}};
-  \node[ucellipse] (uc3) at (6.95,-5.21) {\EN{UC-03}\\[1pt]\textarabic{توليد تقرير مخصص}};
-  \node[ucellipse] (uc4) at (6.95,-6.69) {\EN{UC-04}\\[1pt]\textarabic{عرض الإشعارات}};
+  % ---- Internal include hub: Intent Routing & RBAC Check ----
+  \node[ucroute, minimum width=4.6cm, minimum height=1.05cm] (route) at (6.95,-0.62)
+    {\textarabic{تحليل النية وتوجيه الطلب وفحص الصلاحية}\\[1pt]{\tiny\EN{Intent Routing \& RBAC Check (internal)}}};
+
+  % ---- Use cases: user-services zone ----
+  \node[ucellipse] (uc1) at (6.95,-2.42) {\EN{UC-01}\\[1pt]\textarabic{طرح استعلام عن البيانات}};
+  \node[ucellipse] (uc2) at (6.95,-3.92) {\EN{UC-02}\\[1pt]\textarabic{البحث في المستندات واللوائح}};
+  \node[ucellipse, minimum height=1.3cm] (uc3) at (6.95,-5.45) {\EN{UC-03}\\[1pt]\textarabic{توليد تقرير مخصص}\\[1pt]\textarabic{واكتشاف القيم الشاذة}};
 
   % ---- Use cases: administration zone ----
-  \node[ucadmin] (uc5) at (6.95,-8.37) {\EN{UC-05}\\[1pt]\textarabic{إدارة المستخدمين والأدوار}};
-  \node[ucadmin] (uc6) at (6.95,-9.85) {\EN{UC-06}\\[1pt]\textarabic{إدارة مصادر البيانات}};
-  \node[ucadmin] (uc7) at (6.95,-11.33) {\EN{UC-07}\\[1pt]\textarabic{مراجعة سجل التدقيق}};
-  \node[ucadmin] (uc8) at (6.95,-12.81) {\EN{UC-08}\\[1pt]\textarabic{تشغيل التهيئة الذكية}};
+  \node[ucadmin] (uc4) at (6.95,-7.15) {\EN{UC-04}\\[1pt]\textarabic{إدارة المستخدمين والأدوار}};
+  \node[ucadmin, minimum height=1.3cm] (uc5) at (6.95,-8.72) {\EN{UC-05}\\[1pt]\textarabic{إدارة مصادر البيانات}\\[1pt]\textarabic{وتصنيفها الأمني}};
+  \node[ucadmin, minimum height=1.3cm] (uc6) at (6.95,-10.30) {\EN{UC-06}\\[1pt]\textarabic{مراجعة سجل التدقيق}\\[1pt]\textarabic{ومسار التنفيذ}};
 
-  % ---- HUMAN ACTORS (right side) ----
-  \pic at (14.35,-3.45) {stickman={kaudark}};
-  \node[humanchip, below=3pt] at (14.35,-4.42)
+  % ---- Use cases: platform zone ----
+  \node[ucplatform, minimum height=1.3cm] (uc7) at (6.95,-12.35) {\EN{UC-07}\\[1pt]\textarabic{تشغيل التهيئة الذكية}\\[1pt]\textarabic{للمنصة}};
+
+  % ================= HUMAN ACTORS (right side, outside boundary) =================
+
+  % ---- Abstract parent: Tenant User (TU) ----
+  \pic at (13.75,-2.05) {stickman={kaudark}};
+  \node[abstractchip, below=3pt] at (13.75,-2.62)
+    {\textarabic{مستخدم المؤسسة \EN{(TU)}}\\[1pt]{\tiny\itshape\EN{\{abstract\}}}};
+  \node[font=\tiny, text=kaudark!60, below=1pt] at (13.75,-3.42)
+    {\textarabic{فاعل مجرد — علاقة تخصيص}};
+
+  % ---- Concrete role 1: Enterprise Employee ----
+  \pic at (13.75,-4.55) {stickman={kaudark}};
+  \node[humanchip, below=3pt] at (13.75,-5.12)
     {\textarabic{موظف المؤسسة}\\[1pt]{\tiny\EN{Enterprise Employee}}};
 
-  \pic at (14.35,-6.10) {stickman={kaudark}};
-  \node[humanchip, below=3pt] at (14.35,-7.07)
+  % ---- Concrete role 2: Enterprise Manager ----
+  \pic at (13.75,-7.15) {stickman={kaudark}};
+  \node[humanchip, below=3pt] at (13.75,-7.72)
     {\textarabic{مدير المؤسسة}\\[1pt]{\tiny\EN{Enterprise Manager}}};
 
-  \pic at (14.35,-9.30) {stickman={kaudark}};
-  \node[humanchip, below=3pt] at (14.35,-10.27)
-    {\textarabic{مسؤول النظام}\\[1pt]{\tiny\EN{System Administrator}}};
+  % ---- Concrete role 3: Tenant IT Administrator ----
+  \pic at (13.75,-9.75) {stickman={kaudark}};
+  \node[humanchip, below=3pt] at (13.75,-10.32)
+    {\textarabic{مسؤول تقنية المعلومات}\\[1pt]{\tiny\EN{Tenant IT Administrator}}};
 
-  \pic at (14.35,-12.40) {stickman={kaudark}};
-  \node[humanchip, below=3pt] at (14.35,-13.37)
-    {\textarabic{مشغل التهيئة}\\[1pt]{\tiny\EN{Onboarding Operator}}};
+  % ---- Platform Administrator (standalone actor) ----
+  \pic at (13.75,-12.30) {stickman={kaudark}};
+  \node[humanchip, below=3pt] at (13.75,-12.87)
+    {\textarabic{مسؤول المنصة \EN{(PA)}}\\[1pt]{\tiny\EN{Platform Administrator}}};
 
-  % ---- AI AGENT ACTORS (left side — 5 types) ----
-  \pic at (1.45,-1.75) {robot={kausecondary!90!black}};
-  \node[agentchip, below=3pt] at (1.45,-2.72)
-    {\textarabic{الوكيل المشرف}\\[1pt]{\tiny\EN{Supervisor Agent}}};
+  % ---- Generalisation trunk: 3 concrete roles --|> TU (hollow triangle) ----
+  \draw[gen] (14.55,-4.55) -- (15.35,-4.55) -- (15.35,-2.95);
+  \draw[gen] (14.55,-7.15) -- (15.35,-7.15) -- (15.35,-2.95);
+  \draw[gen] (14.55,-9.75) -- (15.35,-9.75) -- (15.35,-2.95);
+  \draw[gen, -{Triangle[open, length=2.4mm, width=2.2mm]}] (15.35,-2.95) -- (14.75,-2.95);
+  \node[font=\tiny, text=kaudark!65, rotate=90] at (15.62,-5.6)
+    {\textarabic{تعميم \EN{Generalization}}};
 
-  \pic at (1.45,-4.05) {robot={kausecondary!90!black}};
-  \node[agentchip, below=3pt] at (1.45,-5.02)
-    {\textarabic{وكيل قواعد البيانات}\\[1pt]{\tiny\EN{SQL Agent}}};
+  % ================= Associations (actor -> use case) =================
 
-  \pic at (1.45,-6.35) {robot={kausecondary!90!black}};
-  \node[agentchip, below=3pt] at (1.45,-7.32)
-    {\textarabic{وكيل الاسترجاع}\\[1pt]{\tiny\EN{RAG Agent}}};
+  % Employee: UC-01, UC-02
+  \draw[assoc] (13.35,-4.55) -- (uc1.north east);
+  \draw[assoc] (13.35,-4.85) -- (uc2.east);
 
-  \pic at (1.45,-8.65) {robot={kausecondary!90!black}};
-  \node[agentchip, below=3pt] at (1.45,-9.62)
-    {\textarabic{وكيل التحليل}\\[1pt]{\tiny\EN{Analyst Agent}}};
+  % Manager: UC-01, UC-02, UC-03
+  \draw[assoc] (13.35,-7.05) -- (uc1.east);
+  \draw[assoc] (13.35,-7.35) -- (uc2.south east);
+  \draw[assoc] (13.35,-7.65) -- (uc3.east);
 
-  \pic at (1.45,-10.95) {robot={kausecondary!90!black}};
-  \node[agentchip, below=3pt] at (1.45,-11.92)
-    {\textarabic{وكيل التقارير}\\[1pt]{\tiny\EN{Reporter Agent}}};
+  % Tenant IT Administrator: UC-04, UC-05, UC-06
+  \draw[assoc] (13.35,-9.65) -- (uc4.east);
+  \draw[assoc] (13.35,-9.95) -- (uc5.north east);
+  \draw[assoc] (13.35,-10.25) -- (uc6.east);
 
-  % ---- Associations: employee (UC-01..04) ----
-  \draw[assoc] (14.0,-3.45) -- (uc1.east);
-  \draw[assoc] (14.0,-3.45) -- (uc2.east);
-  \draw[assoc] (14.0,-3.45) -- (uc3.east);
-  \draw[assoc] (14.0,-3.45) -- (uc4.east);
+  % Platform Administrator: UC-07
+  \draw[assoc] (13.35,-12.20) -- (uc7.east);
 
-  % ---- Associations: manager (UC-01..04, offset anchors) ----
-  \draw[assoc] (14.0,-6.10) -- (uc1.south east);
-  \draw[assoc] (14.0,-6.10) -- (uc2.south east);
-  \draw[assoc] (14.0,-6.10) -- (uc3.south east);
-  \draw[assoc] (14.0,-6.10) -- (uc4.north east);
+  % ================= include / extend relations =================
 
-  % ---- Associations: system administrator (UC-04..07) ----
-  \draw[assoc] (14.0,-9.30) -- (uc4.south east);
-  \draw[assoc] (14.0,-9.30) -- (uc5.north east);
-  \draw[assoc] (14.0,-9.30) -- (uc6.north east);
-  \draw[assoc] (14.0,-9.30) -- (uc7.north east);
-
-  % ---- Associations: onboarding operator (UC-08) ----
-  \draw[assoc] (14.0,-12.40) -- (uc8.north east);
-
-  % ---- Include / extend (routed through empty side corridors) ----
+  % UC-01 -> hub
   \draw[dep] (uc1.north east) -- (route.east)
     node[midway, above right=-1pt, font=\scriptsize\itshape, text=kaudark!85,
          fill=white, inner sep=1.5pt] {\EN{<<include>>}};
+
+  % UC-02 -> hub (routed through the left corridor)
   \draw[dep] (uc2.north west)
-    .. controls (4.30,-2.80) and (4.30,-1.25) .. (route.west)
+    .. controls (4.35,-3.30) and (4.35,-1.35) .. (route.west)
+    node[pos=0.32, font=\scriptsize\itshape, text=kaudark!85,
+         fill=white, inner sep=1.5pt] {\EN{<<include>>}};
+
+  % UC-03 -> hub (routed through the outer left corridor)
+  \draw[dep] (uc3.north west)
+    .. controls (3.90,-5.60) and (3.90,-1.45) .. (route.south west)
     node[pos=0.30, font=\scriptsize\itshape, text=kaudark!85,
          fill=white, inner sep=1.5pt] {\EN{<<include>>}};
-  \draw[dep] (uc3.west)
-    .. controls (4.75,-4.90) and (4.75,-2.60) .. (uc1.west)
-    node[pos=0.50, xshift=-0.35cm, font=\scriptsize\itshape, text=kaudark!85,
-         fill=white, inner sep=1.5pt] {\EN{<<extend>>}};
 
-  % ---- Execution: hub -> supervisor ----
-  \draw[exec] (route.south west) -- (2.90,-1.75)
-    node[pos=0.62, anchor=south, font=\scriptsize\bfseries, text=kausecondary!90!black,
-         inner sep=1.5pt] {\textarabic{تنفيذ}};
+  % UC-03 -> UC-01 (extract data before analysis; right corridor)
+  \draw[dep] (uc3.north east)
+    .. controls (9.75,-4.95) and (9.75,-3.10) .. (uc1.south east)
+    node[pos=0.50, right=1pt, font=\scriptsize\itshape, text=kaudark!85,
+         align=left, fill=white, inner sep=1.5pt]
+    {\EN{<<include>>}\\\textarabic{\tiny استخراج البيانات}};
 
-  % ---- Delegation bus: supervisor -> specialist agents ----
-  \draw[deleg] (2.90,-1.75) -- (2.90,-10.95);
-  \draw[deleg] (2.90,-1.75) -- (1.80,-1.75);
-  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-4.05) -- (1.85,-4.05);
-  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-6.35) -- (1.85,-6.35);
-  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-8.65) -- (1.85,-8.65);
-  \draw[deleg, -{stealth[scale=0.75]}] (2.90,-10.95) -- (1.85,-10.95);
-
-  % ---- Legend ----
+  % ================= Legend =================
   \node[draw=dividerdim!80, fill=white, rounded corners=3pt, inner sep=6pt,
-        anchor=north west, font=\tiny, text=kaudark] at (0.10,-12.55)
+        anchor=north west, font=\tiny, text=kaudark] at (0.20,-8.30)
   {%
     \begin{tabular}{@{}c@{\hspace{5pt}}r@{}}
       \tikz{\pic[scale=0.62, yshift=0.02] {stickman={kaudark}};} & \textarabic{فاعل بشري خارجي} \\[3pt]
-      \tikz{\pic[scale=0.62] {robot={kausecondary!90!black}};} & \textarabic{فاعل داخلي: وكيل ذكاء اصطناعي} \\[3pt]
+      \tikz{\draw[gen, -{Triangle[open]}] (0,0.1) -- (0.42,0.1);} & \textarabic{علاقة تعميم بين الفاعلين} \\[3pt]
       \tikz{\fill[kauprimary!14, draw=kauprimary!70] (0.2,0.1) ellipse [x radius=0.17, y radius=0.095];} & \textarabic{حالة استخدام} \\[3pt]
+      \tikz{\draw[dashed, draw=kauaccent, line width=0.8pt, fill=kauaccent!8] (0.2,0.1) ellipse [x radius=0.17, y radius=0.095];} & \textarabic{حالة داخلية مضمنة} \\[3pt]
       \tikz{\draw[assoc] (0,0.1) -- (0.42,0.1);} & \textarabic{ارتباط فاعل بحالة} \\[3pt]
-      \tikz{\draw[dep] (0,0.1) -- (0.42,0.1);} & \textarabic{علاقة تضمين أو توسيع} \\[3pt]
-      \tikz{\draw[deleg] (0.02,0.18) -- (0.02,0.02) -- (0.42,0.02);} & \textarabic{تفويض بين الوكلاء} \\
+      \tikz{\draw[dep] (0,0.1) -- (0.42,0.1);} & \textarabic{علاقة تضمين \EN{<<include>>}} \\
     \end{tabular}%
   };
 

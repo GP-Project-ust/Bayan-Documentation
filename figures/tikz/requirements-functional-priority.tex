@@ -1,6 +1,7 @@
 % Professional MoSCoW priority distribution for Figure 3-2.
-% Counts: Must Have = 20, Should Have = 8, Could Have = 2 (30 total).
-% RTL fix (2026-09): every Arabic label is wrapped in \textarabic{} so it
+% Counts: Must Have = 20 (69.0%), Should Have = 8 (27.6%),
+%         Could Have = 1 (3.4%) — 29 total (updated 2026-10 after FR-30 removal).
+% RTL fix: every Arabic label is wrapped in \textarabic{} so it
 % typesets with correct RTL word order inside TikZ's LTR nodes (same proven
 % fix as the Gantt charts / use-case diagrams). The proportional bar now
 % reads right-to-left: Must (rightmost) -> Should -> Could, matching the
@@ -17,15 +18,15 @@
   \node[font=\bfseries\large, text=kauprimary] at (0,2.35)
     {\textarabic{توزيع الأولويات وفق منهجية \EN{MoSCoW}}};
   \node[font=\footnotesize, text=dividerdim] at (0,1.85)
-    {\textarabic{إجمالي المتطلبات الوظيفية: 30 متطلباً}};
+    {\textarabic{إجمالي المتطلبات الوظيفية: 29 متطلباً}};
 
-  % Proportional bar (66.7%, 26.7%, 6.7%) — Must starts at the RIGHT edge.
-  \fill[kauprimary, rounded corners=3pt] (-2.8,0.85) rectangle (8.5,1.45);
-  \fill[kausecondary] (-7.3,0.85) rectangle (-2.8,1.45);
-  \fill[dividerdim, rounded corners=3pt] (-8.5,0.85) rectangle (-7.3,1.45);
-  \node[text=white, font=\bfseries\small] at (2.85,1.15) {66.7\%};
-  \node[text=white, font=\bfseries\small] at (-5.05,1.15) {26.7\%};
-  \node[text=white, font=\bfseries\small] at (-7.9,1.15) {6.7\%};
+  % Proportional bar (69.0%, 27.6%, 3.4%) — Must starts at the RIGHT edge.
+  \fill[kauprimary, rounded corners=3pt] (-3.23,0.85) rectangle (8.5,1.45);
+  \fill[kausecondary] (-7.92,0.85) rectangle (-3.23,1.45);
+  \fill[dividerdim, rounded corners=3pt] (-8.5,0.85) rectangle (-7.92,1.45);
+  \node[text=white, font=\bfseries\small] at (2.64,1.15) {69.0\%};
+  \node[text=white, font=\bfseries\small] at (-5.58,1.15) {27.6\%};
+  \node[text=dividerdim, font=\bfseries\small, anchor=west] at (-8.35,1.72) {3.4\%};
 
   % Three explanatory cards arranged in reading order from right to left.
   \node[statcard, draw=kauprimary, fill=kauprimary!6, text width=4.6cm] (must) at (5.45,-0.55)
@@ -40,8 +41,8 @@
 
   \node[statcard, draw=dividerdim, fill=kaulight, text width=4.6cm] (could) at (-5.45,-0.55)
     {\textcolor{dividerdim}{\bfseries\textarabic{منخفضة\quad\EN{Could Have}}}\par
-     \textcolor{dividerdim}{\fontsize{24}{26}\selectfont\bfseries 2}\par
-     \footnotesize\textarabic{تحسينات اختيارية مستقبلية}};
+     \textcolor{dividerdim}{\fontsize{24}{26}\selectfont\bfseries 1}\par
+     \footnotesize\textarabic{تحسين اختياري وحيد: رسوم تفاعلية}};
 
   % Compact legend line reinforces the release focus.
   \draw[draw=dividersilver, line width=0.6pt] (-8.5,-1.85) -- (8.5,-1.85);

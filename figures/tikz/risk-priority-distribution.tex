@@ -1,6 +1,6 @@
 %==============================================================================
 % figures/tikz/risk-priority-distribution.tex
-% Horizontal bar chart: number of risks per priority level — Thesis §3.5.
+% Horizontal bar chart: number of risks per priority level — Thesis §3.6.
 % Data (from the risk-register summary table):
 %   عالية (High)            = 6
 %   متوسطة-عالية (Med-High) = 7
@@ -9,6 +9,9 @@
 %   حرجة (Critical)         = 0
 %   (total = 22)
 % Bar colours mirror the 5×5 risk-matrix shading.
+% RTL fix (2026-10): title and axis titles are wrapped in \textarabic{} so the
+% Arabic word order renders correctly inside TikZ's LTR nodes (same proven fix
+% as the Gantt charts / use-case diagrams).
 % Depends on main.tex: kauprimary/kauaccent/kaudark/dividersilver + \EN macro.
 %==============================================================================
 \resizebox{0.85\textwidth}{!}{%
@@ -23,7 +26,7 @@
 ]
 
 % ---- Title ----
-\node[title] at (4.2,5.7) {توزيع المخاطر حسب مستوى الأولوية};
+\node[title] at (4.2,5.7) {\textarabic{توزيع المخاطر حسب مستوى الأولوية}};
 
 % ---- Light vertical gridlines (behind bars) ----
 \foreach \x in {1,2,...,8}{%
@@ -65,7 +68,7 @@
   \draw[kaudark] (\x,-0.05) -- (\x,-0.20);
   \node[ticknum] at (\x,-0.42) {\x};
 }
-\node[axistitle] at (4.2,-0.95) {عدد المخاطر};
+\node[axistitle] at (4.2,-0.95) {\textarabic{عدد المخاطر}};
 
 \end{tikzpicture}%
 }

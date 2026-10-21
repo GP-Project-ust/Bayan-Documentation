@@ -1,6 +1,6 @@
 %==============================================================================
 % figures/tikz/risk-category-distribution.tex
-% Vertical bar chart: number of risks per category — Thesis §3.5.
+% Vertical bar chart: number of risks per category — Thesis §3.6.
 % Data (from the risk-register summary table):
 %   تقنية             = 6
 %   أمنية             = 3
@@ -11,6 +11,8 @@
 %   مشروعية           = 2
 %   (total = 22)
 % All bars use the kauprimary brand colour.
+% RTL fix (2026-10): title and axis titles are wrapped in \textarabic{} so the
+% Arabic word order renders correctly inside TikZ's LTR nodes.
 % Depends on main.tex: kauprimary/kauaccent/kaudark/dividersilver + \EN macro.
 %==============================================================================
 \resizebox{0.85\textwidth}{!}{%
@@ -26,7 +28,7 @@
 ]
 
 % ---- Title ----
-\node[title] at (4,7.9) {توزيع المخاطر حسب الفئة};
+\node[title] at (4,7.9) {\textarabic{توزيع المخاطر حسب الفئة}};
 
 % ---- Light horizontal gridlines (behind bars) ----
 \foreach \y in {1,2,...,7}{%
@@ -39,7 +41,7 @@
   \draw[kaudark] (-0.06,\y) -- (0.06,\y);
   \node[ticknum] at (-0.18,\y) {\y};
 }
-\node[axistitle, rotate=90] at (-0.95,3.5) {عدد المخاطر};
+\node[axistitle, rotate=90] at (-0.95,3.5) {\textarabic{عدد المخاطر}};
 
 % ---- X-axis (category) baseline ----
 \draw[kaudark] (0,0) -- (7.8,0);
