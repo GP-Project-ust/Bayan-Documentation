@@ -1,0 +1,182 @@
+%==============================================================================
+% figures/tikz/agent-state-graph.tex
+% Multi-Agent State & Orchestration Graph — new for Section 3.5 (2026-10).
+%
+% Shows (per the thesis agent-modeling section):
+%   - The five agent nodes orchestrated by the Supervisor via conditional
+%     edges (labels: استعلام بيانات / سؤال لوائح / تحليل وتقرير).
+%   - The shared AgentState object + a dashed state bus: every node reads
+%     and updates the common state (LangGraph state-passing model).
+%   - The conditional self-correction loop inside the SQL agent (max 3
+%     retries), the hybrid RAG->SQL parameter path, the analyst conditional
+%     call, and the final return path to the supervisor.
+%   - Data layers: PostgreSQL via Smart Views + Qdrant; Audit Log & Trace.
+% All Arabic labels are wrapped in \textarabic{} (proven RTL fix inside
+% TikZ LTR nodes). Depends on main.tex colors + \EN macro.
+%==============================================================================
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  font=\small,
+  pill/.style={
+    rounded corners=8pt, draw=kauaccent, fill=kauaccent!8, text=kaudark,
+    font=\small\bfseries, align=center, inner sep=6pt,
+    minimum width=4.6cm, minimum height=0.62cm
+  },
+  supbox/.style={
+    rectangle, rounded corners=5pt, draw=kauprimary, fill=kauprimary!12,
+    text=kaudark, font=\small\bfseries, align=center,
+    minimum width=5.6cm, minimum height=1.2cm, line width=1.2pt
+  },
+  agentbox/.style={
+    rectangle, rounded corners=4pt, draw=kausecondary, fill=kausecondary!10,
+    text=kaudark, font=\footnotesize\bfseries, align=center,
+    minimum width=3.4cm, minimum height=1.2cm, inner sep=4pt
+  },
+  statebox/.style={
+    rectangle, rounded corners=5pt, draw=kauprimary, fill=kauprimary!8,
+    text=kaudark, font=\footnotesize\bfseries, align=center,
+    minimum width=3.5cm, minimum height=1.3cm, dashed
+  },
+  datastore/.style={
+    cylinder, shape border rotate=90, aspect=0.3,
+    draw=kaudark, fill=kaudark!8, text=kaudark,
+    font=\scriptsize, align=center, inner sep=2pt
+  },
+  auditbox/.style={
+    rectangle, rounded corners=4pt, draw=kaudark!70, fill=kaudark!5,
+    text=kaudark, font=\scriptsize\bfseries, align=center,
+    minimum width=4.0cm, minimum height=0.9cm
+  },
+  outpill/.style={
+    rounded corners=7pt, draw=kauaccent, fill=kauaccent!12, text=kaudark,
+    font=\footnotesize\bfseries, align=center,
+    minimum width=3.8cm, minimum height=0.75cm
+  },
+  arrowS/.style={->, >=stealth, line width=1.0pt, draw=kauprimary},
+  arrowA/.style={->, >=stealth, line width=0.7pt, draw=kausecondary!90!black},
+  arrowR/.style={->, >=stealth, line width=0.7pt, draw=kauaccent!90!black, dashed},
+  arrowL/.style={->, >=stealth, line width=0.6pt, draw=kaudark!55, dotted},
+  statbus/.style={draw=kauprimary!60, line width=0.75pt, dashed},
+  lbl/.style={font=\tiny\bfseries, text=kaudark, fill=white, inner sep=1.2pt},
+  lbls/.style={font=\tiny, text=kaudark!90, fill=white, inner sep=1.2pt},
+]
+
+  %==========================================================================
+  % ENTRY: user query (top-centre) -> Supervisor
+  %==========================================================================
+  \node[pill] (query) at (2.2,1.0)
+    {\textarabic{استعلام المستخدم بالعربية}};
+  \node[supbox] (sup) at (2.2,-0.5)
+    {\textarabic{الوكيل المشرف \EN{(Supervisor)}}\\[1pt]
+     {\scriptsize\textarabic{تحليل النية + فحص \EN{RBAC} + التوجيه المشروط}}};
+  \draw[arrowS] (query.south) -- (sup.north);
+
+  %==========================================================================
+  % AGENTS: SQL (right = first read) and RAG (left)
+  %==========================================================================
+  \node[agentbox] (sql) at (6.4,-3.3)
+    {\textarabic{وكيل قواعد البيانات \EN{(SQL)}}\\[1pt]
+     {\scriptsize\textarabic{عبر طبقة \EN{Smart Views}}}};
+  \node[agentbox] (rag) at (0.6,-3.3)
+    {\textarabic{وكيل الاسترجاع \EN{(RAG)}}\\[1pt]
+     {\scriptsize\textarabic{بحث دلالي في \EN{Qdrant}}}};
+
+  % Supervisor conditional dispatch edges
+  \draw[arrowA] (sup.south east) -- (sql.north)
+    node[lbls, pos=0.55, right=1pt] {\textarabic{استعلام بيانات}};
+  \draw[arrowA] (sup.south west) -- (rag.north)
+    node[lbls, pos=0.55, left=1pt] {\textarabic{سؤال لوائح}};
+
+  % RAG -> Supervisor return (documented chunks)
+  \draw[arrowR] (rag.north west)
+    .. controls (-1.6,-2.4) and (-1.6,-1.4) .. (sup.south west)
+    node[lbls, pos=0.30, left=2pt] {\textarabic{مقاطع موثقة}};
+
+  % Hybrid pattern: RAG -> SQL parameter pass (regulatory threshold)
+  \draw[arrowR] (rag.east) -- (sql.west)
+    node[lbls, midway, above=2pt] {\textarabic{معامل من اللائحة (هجين)}};
+
+  % SQL self-correction loop (max 3 retries)
+  \draw[arrowA] (sql.north east)
+    .. controls +(1.15,0.55) and +(1.15,-0.55) .. (sql.south east);
+  \node[font=\tiny\bfseries, text=kaudark, align=center] at (8.95,-3.3)
+    {\textarabic{حلقة تصحيح ذاتي}\\[-1pt]\textarabic{(حتى 3 محاولات)}};
+
+  %==========================================================================
+  % ANALYST (conditional call) and REPORTER
+  %==========================================================================
+  \node[agentbox] (analyst) at (6.4,-6.1)
+    {\textarabic{وكيل التحليل \EN{(Analyst)}}\\[1pt]
+     {\scriptsize\textarabic{إحصاء + كشف القيم الشاذة}}};
+  \node[agentbox, minimum width=4.6cm] (rep) at (2.2,-8.35)
+    {\textarabic{وكيل التقارير \EN{(Reporter)}}\\[1pt]
+     {\scriptsize\textarabic{تنسيق \EN{RTL} + تصدير \EN{PDF/Excel/CSV}}}};
+
+  \draw[arrowA] (sql.south) -- (analyst.north)
+    node[lbls, pos=0.55, right=1pt] {\textarabic{بيانات خام}};
+  \draw[arrowA] (analyst.south) -- (rep.north east)
+    node[lbls, pos=0.55, right=2pt] {\textarabic{رؤى ومؤشرات}};
+
+  % Reporter -> Supervisor final-result trunk (right side)
+  \draw[arrowA] (rep.east) -- (10.2,-8.35) -- (10.2,-0.5) -- (sup.east);
+  \node[font=\tiny\bfseries, text=kaudark!85, rotate=90] at (10.48,-4.4)
+    {\textarabic{النتيجة النهائية}};
+
+  %==========================================================================
+  % Shared AgentState object + state bus (left side)
+  %==========================================================================
+  \node[statebox] (state) at (-5.3,-0.5)
+    {\textarabic{كائن الحالة المشتركة \EN{AgentState}}\\[1pt]
+     {\scriptsize\textarabic{يُقرأ ويُحدَّث في كل عقدة}}};
+  \draw[statbus, <->, >=stealth] (state.east) -- (sup.west)
+    node[lbls, midway, above=1pt] {\textarabic{قراءة / تحديث}};
+
+  % Vertical state bus + horizontal stubs from each agent
+  \draw[statbus] (-5.3,-1.15) -- (-5.3,-8.35);
+  \draw[statbus] (rag.west) -- (-5.3,-3.3);
+  \draw[statbus] (sql.south west) -- (4.0,-4.7) -- (-5.3,-4.7);
+  \draw[statbus] (analyst.west) -- (-5.3,-6.1);
+  \draw[statbus] (rep.west) -- (-5.3,-8.35);
+  \node[font=\tiny\bfseries, text=kauprimary!80!black, rotate=90] at (-5.62,-5.2)
+    {\textarabic{ناقل الحالة المشتركة \EN{(AgentState Bus)}}};
+
+  %==========================================================================
+  % Data stores: PostgreSQL (right) + Qdrant (left)
+  %==========================================================================
+  \node[datastore, minimum width=1.5cm, minimum height=1.0cm] (pg) at (9.2,-5.6)
+    {\EN{PostgreSQL}};
+  \draw[arrowL] (sql.south east) -- (pg.north);
+
+  \node[datastore, minimum width=1.5cm, minimum height=0.95cm] (qd) at (-3.0,-5.4)
+    {\EN{Qdrant}};
+  \draw[arrowL] (rag.south west) -- (qd.north);
+
+  %==========================================================================
+  % Final outputs: answer pill (right) + audit box (left)
+  %==========================================================================
+  \node[outpill] (out) at (3.6,-10.05)
+    {\textarabic{الإجابة النهائية للمستخدم}};
+  \draw[arrowS] (rep.south) -- (out.north);
+
+  \node[auditbox] (audit) at (-2.4,-10.05)
+    {\textarabic{سجل التدقيق ومسار الوكلاء}\\[-1pt]{\tiny\EN{Audit Log + Agent Trace}}};
+  \draw[arrowL] (rep.south west) -- (audit.north east)
+    node[lbls, pos=0.45, left=2pt] {\textarabic{تسجيل}};
+
+  %==========================================================================
+  % Legend (bottom-right)
+  %==========================================================================
+  \node[draw=dividerdim!80, fill=white, rounded corners=3pt, inner sep=5pt,
+        anchor=north east, font=\tiny, text=kaudark] at (10.3,-9.5)
+  {%
+    \begin{tabular}{@{}c@{\hspace{5pt}}r@{}}
+      \tikz{\draw[arrowA] (0,0.08) -- (0.42,0.08);} & \textarabic{توجيه المشرف (حواف مشروطة)} \\[2pt]
+      \tikz{\draw[arrowR] (0,0.08) -- (0.42,0.08);} & \textarabic{تدفق بيانات أو معامل بين الوكلاء} \\[2pt]
+      \tikz{\draw[statbus] (0,0.08) -- (0.42,0.08);} & \textarabic{قراءة / تحديث \EN{AgentState}} \\[2pt]
+      \tikz{\draw[arrowL] (0,0.08) -- (0.42,0.08);} & \textarabic{وصول إلى مخازن البيانات والتسجيل} \\
+    \end{tabular}%
+  };
+
+\end{tikzpicture}%
+}

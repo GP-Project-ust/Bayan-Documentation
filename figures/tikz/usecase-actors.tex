@@ -1,11 +1,21 @@
-% Actor classification — v3 (2026-09): two-level actor taxonomy.
-% Level 1 = actor KIND (pattern): external human actor (top band,
-% 4 types) vs internal AI-agent actor (bottom band, 5 types —
-% Reporter Agent added for full consistency with ch1/ch2/arch).
+%==============================================================================
+% figures/tikz/usecase-actors.tex
+% Human actor taxonomy for Bayan — redesigned v4 (2026-10) per UML standards.
+%
+% CHANGES vs v3:
+%   - AI agents REMOVED entirely: per UML, the five agents are internal system
+%     components (nodes inside the boundary), NOT actors. They are modeled in
+%     Section 3.5 (Agent Modeling) instead.
+%   - Two-level ORGANISATIONAL taxonomy of the four HUMAN actors:
+%       Level 1: Platform Administrator (PA)
+%       Level 2: Tenant Users (TU) — abstract actor generalising 3 concrete
+%                roles: Tenant IT Administrator, Enterprise Manager,
+%                Enterprise Employee (UML generalisation, hollow triangle).
+%   - Numbered badges (1-4) match the rows of tab:use-case-actors.
 % Every Arabic label is wrapped in \textarabic{} inside bidi's LTR
-% environment (same proven fix as the Gantt charts) so word order
-% renders correctly. Card order runs right-to-left to match Arabic
-% reading; numbered badges (1-9) match the actors table in 3.4.1.
+% environment (same proven fix as the Gantt charts) so word order renders
+% correctly. Card order runs right-to-left to match Arabic reading.
+%==============================================================================
 \newsavebox{\ActorsBox}%
 \begin{lrbox}{\ActorsBox}%
 \begin{LTR}%
@@ -18,19 +28,25 @@
     \draw[line width=1.1pt, #1] (0,-0.3) -- (-0.22,-0.75);
     \draw[line width=1.1pt, #1] (0,-0.3) -- (0.22,-0.75);
   },
-  robot/.pic={
-    \draw[line width=1pt, #1] (0,0.44) -- (0,0.58);
-    \fill[#1] (0,0.65) circle (0.05);
-    \draw[line width=1pt, #1, rounded corners=2.5pt] (-0.24,0.14) rectangle (0.24,0.44);
-    \fill[#1] (-0.11,0.29) circle (0.045);
-    \fill[#1] (0.11,0.29) circle (0.045);
-    \draw[line width=1pt, #1, rounded corners=3pt] (-0.3,-0.44) rectangle (0.3,0.08);
-    \draw[line width=1pt, #1] (0,-0.18) circle (0.1);
-    \fill[#1] (0,-0.18) circle (0.035);
+  server/.pic={
+    % Stacked server racks icon (Platform Administrator)
+    \draw[line width=1.05pt, #1, rounded corners=2pt] (-0.34,0.14) rectangle (0.34,0.44);
+    \draw[line width=1.05pt, #1, rounded corners=2pt] (-0.34,-0.20) rectangle (0.34,0.10);
+    \draw[line width=1.05pt, #1, rounded corners=2pt] (-0.34,-0.54) rectangle (0.34,-0.24);
+    \fill[#1] (-0.20,0.29) circle (0.035);
+    \fill[#1] (-0.20,-0.05) circle (0.035);
+    \fill[#1] (-0.20,-0.39) circle (0.035);
+    \draw[line width=0.9pt, #1] (0.04,0.29) -- (0.24,0.29);
+    \draw[line width=0.9pt, #1] (0.04,-0.05) -- (0.24,-0.05);
+    \draw[line width=0.9pt, #1] (0.04,-0.39) -- (0.24,-0.39);
   },
   actorcard/.style={
     rounded corners=6pt, draw=#1!75, fill=white, line width=0.9pt,
     minimum width=3.7cm, minimum height=3.05cm
+  },
+  widecard/.style={
+    rounded corners=6pt, draw=#1!75, fill=white, line width=0.9pt,
+    minimum width=10.6cm, minimum height=1.62cm
   },
   actornum/.style={
     circle, fill=#1, text=white, font=\bfseries\scriptsize,
@@ -47,97 +63,73 @@
     align=center, font=\tiny, text=kaudark!85, inner sep=0pt,
     text width=3.25cm
   },
-  actordescn/.style={
-    align=center, font=\tiny, text=kaudark!85, inner sep=0pt,
-    text width=2.5cm
-  },
   bandpill/.style={
     rounded corners=4pt, fill=#1, text=white, inner sep=5pt,
     font=\bfseries\scriptsize
-  }
+  },
+  gen/.style={draw=kaudark!65, line width=0.85pt}
 ]
 
-  % ================= KIND 1: external human actor (4 types) =================
-  \fill[kauprimary!6, rounded corners=10pt] (0.15,0.62) rectangle (15.85,-3.95);
+  % ============ LEVEL 1: Platform Administrator (PA) ============
+  \fill[kauprimary!6, rounded corners=10pt] (0.15,0.62) rectangle (15.85,-2.30);
   \node[bandpill=kauprimary] at (8.0,0.55)
-    {\textarabic{النمط الأول: الفاعل البشري الخارجي — أربعة أنواع}};
+    {\textarabic{المستوى الأول: مسؤول المنصة \EN{Platform Administrator (PA)}}};
 
-  % Type 1 (rightmost): Enterprise Employee
-  \draw[actorcard=kauprimary] (12.1,-0.55) rectangle (15.8,-3.6);
-  \pic at (13.95,-1.35) {stickman={kaudark}};
-  \node[actornum=kauprimary] at (15.45,-0.85) {\EN{1}};
-  \node[actorname] at (13.95,-2.28) {\textarabic{موظف المؤسسة}};
-  \node[actoreng]  at (13.95,-2.62) {\EN{Enterprise Employee}};
-  \node[actordesc] at (13.95,-3.05) {\textarabic{إدخال الاستعلامات الأساسية والبحث في اللوائح والسياسات}};
+  \draw[widecard=kauprimary] (2.7,-0.85) rectangle (13.3,-2.0);
+  \pic at (4.05,-1.42) {server={kaudark}};
+  \node[actornum=kauprimary] at (12.9,-1.08) {\EN{1}};
+  \node[actorname, anchor=west] at (5.35,-1.18)
+    {\textarabic{مسؤول المنصة \EN{(Platform Administrator — PA)}}};
+  \node[actordesc, anchor=west, text width=7.4cm] at (5.35,-1.72)
+    {\textarabic{تشغيل المنصة تقنياً: التهيئة الذكية للمؤسسات، وإدارة محرك الذكاء الاصطناعي ومزودي النماذج (\EN{Ollama} / السحابة)، ومراقبة صحة الحاويات والنظام}};
 
-  % Type 2: Enterprise Manager
-  \draw[actorcard=kauprimary] (8.15,-0.55) rectangle (11.85,-3.6);
-  \pic at (10.0,-1.35) {stickman={kaudark}};
-  \node[actornum=kauprimary] at (11.5,-0.85) {\EN{2}};
-  \node[actorname] at (10.0,-2.28) {\textarabic{مدير المؤسسة}};
-  \node[actoreng]  at (10.0,-2.62) {\EN{Enterprise Manager}};
-  \node[actordesc] at (10.0,-3.05) {\textarabic{الاطلاع على التقارير المتقدمة ومتابعة المؤشرات التشغيلية}};
+  % ============ LEVEL 2: Tenant Users (TU) — abstract + 3 roles ============
+  \fill[kausecondary!6, rounded corners=10pt] (0.15,-2.70) rectangle (15.85,-9.42);
+  \node[bandpill=kausecondary] at (8.0,-2.77)
+    {\textarabic{المستوى الثاني: مستخدمو المؤسسة \EN{Tenant Users (TU)} --- فاعل مجرد يتفرع بالتعميم إلى ثلاثة أدوار}};
 
-  % Type 3: System Administrator
-  \draw[actorcard=kauprimary] (4.2,-0.55) rectangle (7.9,-3.6);
-  \pic at (6.05,-1.35) {stickman={kaudark}};
-  \node[actornum=kauprimary] at (7.55,-0.85) {\EN{3}};
-  \node[actorname] at (6.05,-2.28) {\textarabic{مسؤول النظام}};
-  \node[actoreng]  at (6.05,-2.62) {\EN{System Administrator}};
-  \node[actordesc] at (6.05,-3.05) {\textarabic{إدارة المستخدمين والأدوار وضبط الصلاحيات وسجلات التدقيق}};
+  % Abstract parent chip (dashed = abstract actor)
+  \node[rounded corners=5pt, draw=kausecondary, dashed, line width=0.9pt,
+        fill=white, inner sep=5pt, font=\scriptsize\bfseries, text=kaudark]
+    (tuparent) at (8.0,-3.62)
+    {\textarabic{مستخدم المؤسسة \EN{(Tenant Users — TU)}}\;\textit{\tiny\EN{\{abstract\}}}};
 
-  % Type 4: Onboarding Operator
-  \draw[actorcard=kauprimary] (0.25,-0.55) rectangle (3.95,-3.6);
-  \pic at (2.1,-1.35) {stickman={kaudark}};
-  \node[actornum=kauprimary] at (3.6,-0.85) {\EN{4}};
-  \node[actorname] at (2.1,-2.28) {\textarabic{مشغل التهيئة}};
-  \node[actoreng]  at (2.1,-2.62) {\EN{Onboarding Operator}};
-  \node[actordesc] at (2.1,-3.05) {\textarabic{ربط النظام بالمؤسسات الجديدة وتهيئة البيانات لأول مرة}};
+  % Generalisation bus: 3 children -> TU parent (hollow triangle at parent)
+  \draw[gen] (13.1,-4.95) -- (13.1,-4.35) -- (8.0,-4.35);
+  \draw[gen] (8.0,-4.95) -- (8.0,-4.35);
+  \draw[gen] (2.9,-4.95) -- (2.9,-4.35) -- (8.0,-4.35);
+  \draw[gen, -{Triangle[open, length=2.4mm, width=2.2mm]}] (8.0,-4.35) -- (8.0,-3.98);
+  \node[font=\tiny, text=kaudark!70] at (10.35,-4.55)
+    {\textarabic{تعميم \EN{(Generalization)}}};
 
-  % ============ KIND 2: internal AI-agent actor (5 types) ============
-  \fill[kausecondary!6, rounded corners=10pt] (0.15,-4.35) rectangle (15.85,-8.92);
-  \node[bandpill=kausecondary] at (8.0,-4.42)
-    {\textarabic{النمط الثاني: الفاعل الداخلي وكيل الذكاء الاصطناعي — خمسة أنواع}};
+  % Role 1 (rightmost, first read): Tenant IT Administrator
+  \draw[actorcard=kausecondary] (11.25,-4.95) rectangle (14.95,-8.0);
+  \pic at (13.1,-5.75) {stickman={kaudark}};
+  \node[actornum=kausecondary] at (14.6,-5.25) {\EN{2}};
+  \node[actorname] at (13.1,-6.68) {\textarabic{مسؤول تقنية المعلومات}\\[-1pt]\textarabic{بالمؤسسة}};
+  \node[actoreng]  at (13.1,-7.24) {\EN{Tenant IT Administrator}};
+  \node[actordesc] at (13.1,-7.68) {\textarabic{إدارة حسابات المستخدمين والأدوار (\EN{RBAC})، وربط مصادر البيانات وتصنيفها الأمني، ومراجعة سجل التدقيق}};
 
-  % Type 5 (rightmost): Supervisor Agent — unified entry point
-  \draw[actorcard=kausecondary] (12.88,-5.52) rectangle (15.8,-8.57);
-  \pic at (14.34,-6.32) {robot={kausecondary!90!black}};
-  \node[actornum=kausecondary] at (15.45,-5.82) {\EN{5}};
-  \node[actorname] at (14.34,-7.25) {\textarabic{الوكيل المشرف}};
-  \node[actoreng]  at (14.34,-7.59) {\EN{Supervisor Agent}};
-  \node[actordescn] at (14.34,-8.02) {\textarabic{نقطة الدخول الموحدة وتحليل النية وتوجيه الطلبات}};
+  % Role 2: Enterprise Manager
+  \draw[actorcard=kausecondary] (6.15,-4.95) rectangle (9.85,-8.0);
+  \pic at (8.0,-5.75) {stickman={kaudark}};
+  \node[actornum=kausecondary] at (9.5,-5.25) {\EN{3}};
+  \node[actorname] at (8.0,-6.68) {\textarabic{مدير المؤسسة}};
+  \node[actoreng]  at (8.0,-7.24) {\EN{Enterprise Manager}};
+  \node[actordesc] at (8.0,-7.68) {\textarabic{استعلامات البيانات المهيكلة والبحث في اللوائح، وطلب التقارير التحليلية واكتشاف القيم الشاذة}};
 
-  % Type 6: SQL Agent
-  \draw[actorcard=kausecondary] (9.71,-5.52) rectangle (12.63,-8.57);
-  \pic at (11.17,-6.32) {robot={kausecondary!90!black}};
-  \node[actornum=kausecondary] at (12.28,-5.82) {\EN{6}};
-  \node[actorname] at (11.17,-7.25) {\textarabic{وكيل قواعد البيانات}};
-  \node[actoreng]  at (11.17,-7.59) {\EN{SQL Agent}};
-  \node[actordescn] at (11.17,-8.02) {\textarabic{تحويل الأسئلة العربية إلى استعلامات قواعد البيانات}};
+  % Role 3: Enterprise Employee
+  \draw[actorcard=kausecondary] (1.05,-4.95) rectangle (4.75,-8.0);
+  \pic at (2.9,-5.75) {stickman={kaudark}};
+  \node[actornum=kausecondary] at (4.4,-5.25) {\EN{4}};
+  \node[actorname] at (2.9,-6.68) {\textarabic{موظف المؤسسة}};
+  \node[actoreng]  at (2.9,-7.24) {\EN{Enterprise Employee}};
+  \node[actordesc] at (2.9,-7.68) {\textarabic{الاستعلامات التشغيلية اليومية ضمن حدود الصلاحية، والبحث الدلالي في اللوائح والسياسات}};
 
-  % Type 7: RAG Agent
-  \draw[actorcard=kausecondary] (6.54,-5.52) rectangle (9.46,-8.57);
-  \pic at (8.0,-6.32) {robot={kausecondary!90!black}};
-  \node[actornum=kausecondary] at (9.11,-5.82) {\EN{7}};
-  \node[actorname] at (8.0,-7.25) {\textarabic{وكيل الاسترجاع}};
-  \node[actoreng]  at (8.0,-7.59) {\EN{RAG Agent}};
-  \node[actordescn] at (8.0,-8.02) {\textarabic{استرجاع المقاطع النصية من المستندات واللوائح}};
-
-  % Type 8: Analyst Agent
-  \draw[actorcard=kausecondary] (3.37,-5.52) rectangle (6.29,-8.57);
-  \pic at (4.83,-6.32) {robot={kausecondary!90!black}};
-  \node[actornum=kausecondary] at (5.94,-5.82) {\EN{8}};
-  \node[actorname] at (4.83,-7.25) {\textarabic{وكيل التحليل}};
-  \node[actoreng]  at (4.83,-7.59) {\EN{Analyst Agent}};
-  \node[actordescn] at (4.83,-8.02) {\textarabic{التحليل الإحصائي واكتشاف الانحرافات والقيم الشاذة}};
-
-  % Type 9: Reporter Agent
-  \draw[actorcard=kausecondary] (0.2,-5.52) rectangle (3.12,-8.57);
-  \pic at (1.66,-6.32) {robot={kausecondary!90!black}};
-  \node[actornum=kausecondary] at (2.77,-5.82) {\EN{9}};
-  \node[actorname] at (1.66,-7.25) {\textarabic{وكيل التقارير}};
-  \node[actoreng]  at (1.66,-7.59) {\EN{Reporter Agent}};
-  \node[actordescn] at (1.66,-8.02) {\textarabic{تنسيق المخرجات وتوليد التقارير المنسقة للتصدير}};
+  % Footnote: agents are internal components (Section 3.5)
+  \node[rounded corners=4pt, draw=dividerdim!80, dashed, fill=white,
+        inner sep=5pt, font=\tiny, text=kaudark!85, align=center] at (8.0,-8.95)
+    {\textarabic{وكلاء الذكاء الاصطناعي الخمسة ليست فاعلين؛ فهي مكونات داخلية ضمن حدود النظام تُنمذَج في القسم \EN{3.5} (نمذجة منظومة الوكلاء)}};
 
 \end{tikzpicture}%
 \end{LTR}%

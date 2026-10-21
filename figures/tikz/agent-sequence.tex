@@ -1,0 +1,137 @@
+%==============================================================================
+% figures/tikz/agent-sequence.tex
+% Multi-Agent Interaction Sequence Diagram — new for Section 3.5 (2026-10).
+%
+% UML sequence diagram for one integrated hybrid query:
+%   "أظهر الطلاب المتجاوزين لنسبة الغياب المسموحة وفق لائحة الجامعة"
+% Lifelines ordered right-to-left (RTL reading): Tenant User -> Next.js UI ->
+% Supervisor -> RAG Agent -> SQL Agent (Smart Views) -> Analyst -> Reporter ->
+% Audit & Trace. 17 numbered messages, 5 phase bands, activation bars on the
+% supervisor / UI / specialist agents. Solid arrows = calls, dashed =
+% returns, self-loops = internal processing (incl. SQL self-correction).
+% All Arabic labels wrapped in \textarabic{} (proven RTL fix).
+%==============================================================================
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  font=\small,
+  x=1cm, y=1cm,
+  head/.style={
+    rectangle, rounded corners=4pt, draw=kauprimary, fill=kauprimary!10,
+    text=kaudark, align=center, inner sep=4pt,
+    font=\scriptsize\bfseries, minimum width=2.25cm, minimum height=0.82cm
+  },
+  call/.style={->, >=stealth, line width=0.75pt, draw=kaudark!80},
+  ret/.style={->, >=stealth, line width=0.6pt, draw=kausecondary!90!black, dashed},
+  selfm/.style={->, >=stealth, line width=0.6pt, draw=kaudark!75},
+  lifeline/.style={draw=kaudark!45, dashed, line width=0.5pt},
+  phase/.style={font=\tiny\bfseries, text=kauprimary!85!black},
+  msgl/.style={font=\tiny, text=kaudark, fill=white, inner sep=0.8pt},
+  actbar/.style={fill=kausecondary!30, draw=kausecondary!80!black, line width=0.4pt},
+]
+
+  %==========================================================================
+  % Lifeline x-positions (right -> left = RTL reading order)
+  %==========================================================================
+  \def\ux{8.8}     % Tenant User
+  \def\uix{6.45}   % Next.js chat UI
+  \def\sux{4.1}    % Supervisor Agent
+  \def\ragx{1.75}  % RAG Agent
+  \def\sqlx{-0.6}  % SQL Agent (Smart Views)
+  \def\anx{-2.95}  % Analyst Agent
+  \def\repx{-5.3}  % Reporter Agent
+  \def\aux{-7.65}  % Audit & Trace
+
+  % ---- Phase bands (alternating tints, drawn first) ----
+  \fill[kauprimary!4]  (10.6,-1.05)  rectangle (-8.7,-4.30);
+  \fill[kausecondary!5] (10.6,-4.30)  rectangle (-8.7,-7.20);
+  \fill[kauprimary!4]  (10.6,-7.20)  rectangle (-8.7,-9.80);
+  \fill[kausecondary!5] (10.6,-9.80)  rectangle (-8.7,-12.90);
+  \fill[kauprimary!4]  (10.6,-12.90) rectangle (-8.7,-15.35);
+
+  % ---- Phase separators + labels (right margin = first read) ----
+  \foreach \yy in {-4.30,-7.20,-9.80,-12.90}{%
+    \draw[draw=dividersilver, dotted, line width=0.5pt] (10.6,\yy) -- (-8.7,\yy);
+  }
+  \node[phase] at (9.75,-1.35)  {\textarabic{المرحلة 1: الاستيعاب والتحقق}};
+  \node[phase] at (9.75,-4.60)  {\textarabic{المرحلة 2: استرجاع المعيار من اللائحة}};
+  \node[phase] at (9.75,-7.50)  {\textarabic{المرحلة 3: استخراج البيانات}};
+  \node[phase] at (9.75,-10.10) {\textarabic{المرحلة 4: التحليل وتوليد التقرير}};
+  \node[phase] at (9.75,-13.20) {\textarabic{المرحلة 5: التسليم والتوثيق}};
+
+  % ---- Lifelines ----
+  \foreach \xx in {8.8,6.45,4.1,1.75,-0.6,-2.95,-5.3,-7.65}{%
+    \draw[lifeline] (\xx,-0.82) -- (\xx,-15.35);
+  }
+
+  % ---- Header boxes ----
+  \node[head] at (\ux,0)    {\textarabic{مستخدم المؤسسة}\\[-1pt]{\tiny\EN{(Tenant User)}}};
+  \node[head] at (\uix,0)   {\textarabic{واجهة المحادثة}\\[-1pt]{\tiny\EN{Next.js}}};
+  \node[head, draw=kauprimary, fill=kauprimary!16, line width=0.9pt] at (\sux,0)
+    {\textarabic{الوكيل المشرف}\\[-1pt]{\tiny\EN{(Supervisor)}}};
+  \node[head] at (\ragx,0)  {\textarabic{وكيل الاسترجاع}\\[-1pt]{\tiny\EN{(RAG Agent)}}};
+  \node[head] at (\sqlx,0)  {\textarabic{وكيل قواعد البيانات}\\[-1pt]{\tiny\EN{SQL + Smart Views}}};
+  \node[head] at (\anx,0)   {\textarabic{وكيل التحليل}\\[-1pt]{\tiny\EN{(Analyst)}}};
+  \node[head] at (\repx,0)  {\textarabic{وكيل التقارير}\\[-1pt]{\tiny\EN{(Reporter)}}};
+  \node[head, draw=kaudark!70, fill=kaudark!6] at (\aux,0)
+    {\textarabic{التدقيق والتتبع}\\[-1pt]{\tiny\EN{Audit \& Trace}}};
+
+  % ---- Activation bars ----
+  \fill[actbar] (\uix-0.07,-1.45) rectangle (\uix+0.07,-14.55);  % UI (streaming)
+  \fill[actbar] (\sux-0.09,-2.20) rectangle (\sux+0.09,-14.25);  % Supervisor
+  \fill[actbar] (\ragx-0.07,-4.70) rectangle (\ragx+0.07,-6.30); % RAG
+  \fill[actbar] (\sqlx-0.07,-7.55) rectangle (\sqlx+0.07,-9.15); % SQL
+  \fill[actbar] (\anx-0.07,-9.85) rectangle (\anx+0.07,-10.70);  % Analyst
+  \fill[actbar] (\repx-0.07,-11.40) rectangle (\repx+0.07,-12.25);% Reporter
+  \fill[actbar] (\aux-0.07,-2.92) rectangle (\aux+0.07,-3.10);   % Audit tick 1
+  \fill[actbar] (\aux-0.07,-12.92) rectangle (\aux+0.07,-13.10); % Audit tick 2
+
+  %==========================================================================
+  % Messages
+  %==========================================================================
+  % Phase 1: intake & verification
+  \draw[call] (\ux,-1.50) -- (\uix,-1.50)
+    node[msgl, midway, above] {\textarabic{1: استعلام عربي مركّب (بيانات + لائحة)}};
+  \draw[call] (\uix,-2.30) -- (\sux,-2.30)
+    node[msgl, midway, above] {\textarabic{2: إرسال الطلب \EN{(POST /api/query)}}};
+  \draw[call] (\sux,-3.00) -- (\aux,-3.00)
+    node[msgl, midway, above] {\textarabic{3: تسجيل بدء الجلسة \EN{(session id)}}};
+  \draw[selfm] (\sux,-3.55) .. controls +(0.75,0.0) and +(0.75,-0.52) .. (\sux,-4.07);
+  \node[msgl, anchor=west] at (\sux+0.85,-3.81) {\textarabic{4: تحليل النية + فحص \EN{RBAC}}};
+
+  % Phase 2: retrieve the regulatory threshold
+  \draw[call] (\sux,-4.80) -- (\ragx,-4.80)
+    node[msgl, midway, above] {\textarabic{5: استخراج نسبة الغياب المسموحة من اللائحة}};
+  \draw[selfm] (\ragx,-5.35) .. controls +(0.75,0.0) and +(0.75,-0.5) .. (\ragx,-5.85);
+  \node[msgl, anchor=west] at (\ragx+0.85,-5.60) {\textarabic{6: بحث متجهي في \EN{Qdrant}}};
+  \draw[ret] (\ragx,-6.45) -- (\sux,-6.45)
+    node[msgl, midway, above] {\textarabic{7: النسبة = 25\% مع توثيق المصدر}};
+
+  % Phase 3: structured data extraction
+  \draw[call] (\sux,-7.65) -- (\sqlx,-7.65)
+    node[msgl, midway, above] {\textarabic{8: استعلام: الطلاب بغياب يفوق 25\%}};
+  \draw[selfm] (\sqlx,-8.20) .. controls +(0.75,0.0) and +(0.75,-0.5) .. (\sqlx,-8.70);
+  \node[msgl, anchor=west] at (\sqlx+0.85,-8.45) {\textarabic{9: توليد \EN{SQL} + تصحيح ذاتي}};
+  \draw[ret] (\sqlx,-9.30) -- (\sux,-9.30)
+    node[msgl, midway, above] {\textarabic{10: بيانات خام \EN{(DataFrame)}}};
+
+  % Phase 4: analysis & report generation
+  \draw[call] (\sux,-10.00) -- (\anx,-10.00)
+    node[msgl, midway, above] {\textarabic{11: تحليل إحصائي وكشف شواذ}};
+  \draw[ret] (\anx,-10.62) -- (\sux,-10.62)
+    node[msgl, midway, above] {\textarabic{12: مؤشرات + تنبيهات شذوذ}};
+  \draw[call] (\sux,-11.50) -- (\repx,-11.50)
+    node[msgl, midway, above] {\textarabic{13: توليد التقرير المنسق \EN{(RTL)}}};
+  \draw[ret] (\repx,-12.12) -- (\sux,-12.12)
+    node[msgl, midway, above] {\textarabic{14: تقرير نهائي + تصدير \EN{PDF/Excel}}};
+
+  % Phase 5: delivery & auditing
+  \draw[call] (\sux,-13.00) -- (\aux,-13.00)
+    node[msgl, midway, above] {\textarabic{15: تسجيل مسار الوكلاء \EN{(Agent Trace)}}};
+  \draw[call] (\sux,-13.80) -- (\uix,-13.80)
+    node[msgl, midway, above] {\textarabic{16: بث الإجابة \EN{(SSE Stream)}}};
+  \draw[call] (\uix,-14.50) -- (\ux,-14.50)
+    node[msgl, midway, above] {\textarabic{17: عرض التقرير والرسوم والتصدير}};
+
+\end{tikzpicture}%
+}
