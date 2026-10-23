@@ -48,12 +48,15 @@
 % Thesis title (large, colored, framed)
 % NOTE: TikZ nodes default to LTR, which reverses Arabic word order.
 %   Wrapping the Arabic title in \RL{} forces right-to-left rendering.
+%   text width + align=center let the long title wrap onto balanced lines
+%   instead of overflowing the page (title updated 2026-10).
 \begin{tikzpicture}[overlay,remember picture]
 \node[rectangle,draw=kauprimary,line width=1.2pt,rounded corners=6pt,
-      inner sep=18pt,fill=kaulight,
-      minimum width=0.85\textwidth,align=center]
-  at (current page.center)
-  {\RL{\Huge\bfseries\color{kauprimary}\thesisTitleAR}\\[8pt]
+      inner sep=16pt,fill=kaulight,
+      minimum width=0.85\textwidth,
+      text width=0.84\textwidth,align=center]
+  at ([yshift=-0.6cm]current page.center)
+  {\RL{\huge\bfseries\color{kauprimary}\thesisTitleAR}\\[8pt]
    \large\bfseries\color{dividerdim}\textenglish{\thesisTitleEN}};
 \end{tikzpicture}
 
