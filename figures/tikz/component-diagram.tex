@@ -1,0 +1,186 @@
+%==============================================================================
+% figures/tikz/component-diagram.tex
+% UML Component Diagram for Bayan — Chapter 4, Section 4.1.2 (fig:component-diagram)
+%==============================================================================
+% Design-level component diagram: named components with provided (●) and
+% required (○) interfaces, unlike the conceptual architecture in Fig 2-x
+% (multi-agent-arch.tex) and the deployment view in Fig 3-x.
+% Components: chat UI, API gateway, agent subsystem (supervisor + 4 agents),
+% Smart Views layer, university ERP DB (read-only), Qdrant, platform DB,
+% audit unit, LLM provider (local-first, switchable).
+% RTL fix: every Arabic label is wrapped in \textarabic{} (same proven fix as
+% all thesis TikZ figures). English terms use \EN{}.
+% Reading order right-to-left: presentation → application → data.
+%==============================================================================
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  comp/.style={
+    rectangle, rounded corners=5pt,
+    draw=kauprimary, fill=kauprimary!7, text=kaudark,
+    font=\small, align=center, line width=1pt,
+    inner sep=5pt,
+  },
+  agent/.style={
+    rectangle, rounded corners=3pt,
+    draw=kausecondary, fill=kausecondary!10, text=kaudark,
+    font=\scriptsize, align=center, line width=0.7pt,
+    inner sep=2.5pt, minimum width=1.7cm, minimum height=0.95cm,
+  },
+  supervisor/.style={
+    rectangle, rounded corners=4pt,
+    draw=kauprimary, fill=kauprimary!16, text=kaudark,
+    font=\scriptsize\bfseries, align=center, line width=1pt,
+    inner sep=3pt, minimum width=2.4cm, minimum height=1.1cm,
+  },
+  db/.style={
+    cylinder, shape border rotate=90, aspect=0.3,
+    draw=kaudark, fill=kaudark!8, text=kaudark,
+    font=\scriptsize, align=center, line width=0.9pt,
+    inner sep=2.5pt,
+  },
+  support/.style={
+    rectangle, rounded corners=4pt,
+    draw=kauaccent, fill=kauaccent!8, text=kaudark,
+    font=\scriptsize, align=center, line width=0.9pt,
+    inner sep=4pt,
+  },
+  views/.style={
+    rectangle, rounded corners=5pt,
+    draw=kauaccent, fill=kauaccent!8, text=kaudark,
+    font=\small, align=center, line width=1pt,
+    inner sep=5pt,
+  },
+  iflabel/.style={font=\scriptsize, text=kaudark, fill=white, inner sep=1.5pt},
+  agentedge/.style={->, >=stealth, line width=0.6pt, draw=kausecondary},
+]
+
+  %==========================================================================
+  % ROW 1 (top): Chat UI  |  API Gateway  |  Smart Views layer
+  %==========================================================================
+  \node[comp, text width=2.7cm] (chat) at (19.0, 9.2)
+    {\textarabic{واجهة المحادثة}\\[1pt]
+     {\scriptsize\EN{Next.js 15}}\\[2pt]
+     {\tiny\textarabic{محادثة عربية \EN{RTL}، جداول ورسوم}}};
+  \node[comp, text width=3.3cm] (api) at (14.7, 9.2)
+    {\textarabic{خادم \EN{API} — بوابة \EN{FastAPI}}\\[2pt]
+     {\tiny\textarabic{مصادقة \EN{RBAC}، تطبيع عربي}}\\
+     {\tiny\textarabic{حدود معدل (\EN{Redis})، فحص صحة}}};
+  \node[views, text width=6.6cm, minimum height=2.3cm] (sv) at (2.4, 9.2)
+    {\textarabic{طبقة العروض الذكية — \EN{Smart Views}}\\[2pt]
+     {\tiny\textarabic{8--12 مشهداً موصوفاً بالعربية + كتالوج \EN{JSON}}}\\
+     {\tiny\EN{v\_student\_profile}, \EN{v\_fees\_summary}, \ldots}};
+
+  %==========================================================================
+  % ROW 2 (middle): Agent subsystem  |  Qdrant  |  University ERP DB
+  %==========================================================================
+  \node[agent] (sql) at (8.5, 6.8) {\textarabic{وكيل \EN{SQL}}};
+  \node[agent] (rag) at (8.5, 4.4) {\textarabic{وكيل \EN{RAG}}};
+  \node[agent] (analyst) at (11.6, 6.8) {\textarabic{المحلل}};
+  \node[agent] (reporter) at (11.6, 4.4) {\textarabic{المُعِدّ}};
+  \node[supervisor] (sup) at (10.0, 5.6) {\textarabic{المشرف \EN{Supervisor}}};
+
+  \draw[agentedge] (sup.west) -- (sql.south);
+  \draw[agentedge] (sup.west) -- (rag.north);
+  \draw[agentedge] (sup.east) -- (analyst.south);
+  \draw[agentedge] (sup.east) -- (reporter.north);
+
+  % LangGraph subsystem container (dashed, encloses the five agents)
+  \draw[dashed, line width=1.1pt, draw=kauprimary!55, rounded corners=7pt]
+    (7.5, 3.6) rectangle (12.5, 7.6);
+  \node[font=\scriptsize\bfseries\color{kauprimary}, fill=white, inner sep=2.5pt]
+    (lgchip) at (11.8, 7.6) {\textarabic{منظومة الوكلاء — \EN{LangGraph}}};
+
+  \node[db, text width=4.2cm, minimum height=2.2cm] (qdrant) at (1.6, 5.2)
+    {\textarabic{المخزن المتجهي \EN{Qdrant}}\\[1pt]
+     {\tiny\textarabic{مجموعة \EN{bayan\_policies}}}\\
+     {\tiny\textarabic{تضمين \EN{multilingual-e5-large}}}};
+  \node[db, text width=4.0cm, minimum height=2.2cm] (erp) at (-5.2, 5.2)
+    {\textarabic{قاعدة بيانات الجامعة}\\[1pt]
+     {\tiny\EN{Odoo 17 + OpenEduCat}}\\
+     {\tiny\textarabic{340 جدولاً — قراءة فقط}}};
+
+  %==========================================================================
+  % ROW 3 (bottom): Platform DB  |  LLM provider  |  Audit unit
+  %==========================================================================
+  \node[db, text width=5.6cm, minimum height=2.2cm] (pdb) at (-1.6, 1.4)
+    {\textarabic{قاعدة بيانات النظام}\\[1pt]
+     {\tiny\EN{PostgreSQL 16 + pgvector}}\\
+     {\tiny\textarabic{محادثات، ذاكرة، تدقيق}}};
+  \node[support, text width=3.7cm, minimum height=2.0cm] (llm) at (5.4, 1.4)
+    {\textarabic{مزوّد النموذج — \EN{Ollama}}\\[1pt]
+     {\tiny\EN{Qwen 2.5 14B} \textarabic{محلي}}\\
+     {\tiny\textarabic{قابل للتبديل (\EN{GPT-4o})}}};
+  \node[support, text width=3.7cm, minimum height=2.0cm] (audit) at (10.4, 1.4)
+    {\textarabic{وحدة التدقيق — \EN{Audit}}\\[1pt]
+     {\tiny\textarabic{أثر التنفيذ \EN{agent\_trace}}}\\
+     {\tiny\textarabic{سجل عمليات دائم}}};
+
+  %==========================================================================
+  % PROVIDED / REQUIRED INTERFACES
+  % provided (lollipop): filled circle at provider edge
+  % required (socket):    open circle at consumer edge
+  %==========================================================================
+  \draw[draw=kauprimary, line width=1.1pt] (16.65, 9.2) -- (17.4, 9.2);
+  \fill[kauprimary] (16.9, 9.2) circle (0.11);
+  \draw[kauprimary, line width=1.1pt] (17.15, 9.2) circle (0.11);
+  \node[iflabel] at (17.05, 9.62) {\EN{REST / SSE}};
+
+  \draw[draw=kauprimary, line width=1.1pt]
+    (14.7, 8.05) -- (14.7, 6.9) -- (12.5, 6.9);
+  \fill[kauprimary] (12.75, 6.9) circle (0.11);
+  \draw[kauprimary, line width=1.1pt] (14.7, 7.8) circle (0.11);
+  \node[iflabel] at (13.9, 7.2) {\textarabic{استدعاء \EN{invoke()}}};
+
+  \draw[draw=kauprimary, line width=1.1pt]
+    (7.5, 6.3) -- (6.9, 6.3) -- (6.9, 9.2) -- (5.95, 9.2);
+  \fill[kauprimary] (6.2, 9.2) circle (0.11);
+  \draw[kauprimary, line width=1.1pt] (7.25, 6.3) circle (0.11);
+  \node[iflabel] at (4.4, 9.62) {\EN{SELECT} \textarabic{فقط}};
+
+  \draw[->, >=stealth, line width=0.8pt, draw=kaudark!60, dashed]
+    (-3.0, 8.05) -- (-4.35, 6.5);
+  \node[iflabel, text=kaudark] at (-2.9, 7.28)
+    {\textarabic{تعريف المشاهد فوق الجداول الخام}};
+
+  \draw[draw=kauprimary, line width=1.1pt] (7.5, 4.7) -- (4.4, 4.7);
+  \fill[kauprimary] (4.65, 4.7) circle (0.11);
+  \draw[kauprimary, line width=1.1pt] (7.25, 4.7) circle (0.11);
+  \node[iflabel] at (5.95, 5.08)
+    {\textarabic{بحث متجهي} \EN{top\_k=5}};
+
+  \draw[draw=kauprimary, line width=1.1pt]
+    (8.0, 3.6) -- (8.0, 3.0) -- (5.4, 3.0) -- (5.4, 2.4);
+  \fill[kauprimary] (5.4, 2.65) circle (0.11);
+  \draw[kauprimary, line width=1.1pt] (8.0, 3.35) circle (0.11);
+  \node[iflabel] at (6.7, 3.32) {\EN{LLM API}};
+
+  \draw[draw=kauprimary, line width=1.1pt] (10.4, 3.6) -- (10.4, 2.4);
+  \fill[kauprimary] (10.4, 2.65) circle (0.11);
+  \draw[kauprimary, line width=1.1pt] (10.4, 3.35) circle (0.11);
+  \node[iflabel] at (11.75, 3.0) {\textarabic{أثر} \EN{agent\_trace}};
+
+  \draw[draw=kauprimary, line width=1.1pt]
+    (10.4, 0.4) -- (10.4, -0.35) -- (-1.6, -0.35) -- (-1.6, 0.3);
+  \fill[kauprimary] (-1.6, 0.05) circle (0.11);
+  \draw[kauprimary, line width=1.1pt] (10.4, 0.15) circle (0.11);
+  \node[iflabel] at (4.4, -0.72) {\textarabic{تثبيت السجلات}};
+
+  %==========================================================================
+  % LEGEND
+  %==========================================================================
+  \draw[draw=kauprimary, line width=1.1pt] (-6.6, -1.25) -- (-5.8, -1.25);
+  \fill[kauprimary] (-5.65, -1.25) circle (0.11);
+  \node[font=\scriptsize, text=kaudark, anchor=west] at (-5.45, -1.25)
+    {\textarabic{واجهة موفرة (يقدّمها المكون)}};
+  \draw[draw=kauprimary, line width=1.1pt] (1.6, -1.25) -- (2.4, -1.25);
+  \draw[kauprimary, line width=1.1pt] (2.55, -1.25) circle (0.11);
+  \node[font=\scriptsize, text=kaudark, anchor=west] at (2.75, -1.25)
+    {\textarabic{واجهة مطلوبة (يستهلكها المكون)}};
+  \draw[->, >=stealth, line width=0.8pt, draw=kaudark!60, dashed]
+    (9.4, -1.25) -- (10.2, -1.25);
+  \node[font=\scriptsize, text=kaudark, anchor=west] at (10.4, -1.25)
+    {\textarabic{تبعية تعريف}};
+
+\end{tikzpicture}%
+}
