@@ -1,0 +1,105 @@
+%==============================================================================
+% figures/tikz/semantic-index-structure.tex
+% Semantic Index structure & intentional separation — Chapter 4, Section
+% 4.3.4 (fig:sv-semantic-index)
+%==============================================================================
+% Restores the integrated architecture of the original draft's only figure
+% ("المعمارية التكاملية لآلية عمل الفهرس الدلالي وطبقة الرؤى الذكية في منصة
+% بيان") with the corrected terminology: the index is built from the
+% university DB *metadata* by Smart Initialization (UC-07, eight steps),
+% lives in the platform DB (PostgreSQL 16 + pgvector) as seven components,
+% and is intentionally separated from the Smart Views layer (reference IDs
+% only — never SQL). It is a structure figure, not a query-flow figure:
+% the query path is drawn by smart-views-flow.tex (4.3.5).
+% Style: same visual language as component-diagram.tex / smart-views-flow.tex.
+% Reading order right-to-left.
+%==============================================================================
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  comp/.style={
+    rectangle, rounded corners=5pt,
+    draw=kauprimary, fill=kauprimary!7, text=kaudark,
+    font=\small, align=center, line width=1pt, inner sep=5pt,
+  },
+  db/.style={
+    cylinder, shape border rotate=90, aspect=0.3,
+    draw=kaudark, fill=kaudark!8, text=kaudark,
+    font=\small, align=center, line width=0.9pt, inner sep=2.5pt,
+  },
+  part/.style={
+    rectangle, rounded corners=3pt,
+    draw=kausecondary, fill=kausecondary!10, text=kaudark,
+    font=\scriptsize, align=center, line width=0.7pt,
+    inner sep=3pt, text width=1.6cm,
+  },
+  views/.style={
+    rectangle, rounded corners=5pt,
+    draw=kauaccent, fill=kauaccent!8, text=kaudark,
+    font=\small, align=center, line width=1pt, inner sep=5pt,
+  },
+  iflabel/.style={font=\scriptsize, text=kaudark, fill=white, inner sep=1.5pt},
+  flow/.style={->, >=stealth, line width=0.9pt, draw=kausecondary},
+  dflow/.style={->, >=stealth, line width=0.7pt, draw=kaudark!60, dashed},
+]
+
+  %==========================================================================
+  % Right: the university DB — schema metadata only, never operational rows
+  %==========================================================================
+  \node[db, text width=3.0cm, minimum height=2.1cm] (udb) at (15.6, 6.8)
+    {\textarabic{قاعدة بيانات الجامعة}\\[1pt]
+     {\scriptsize\EN{Odoo 17 + OpenEduCat}}\\
+     {\scriptsize\textarabic{البيانات الوصفية للمخطط}}};
+
+  %==========================================================================
+  % Middle: Smart Initialization (UC-07) — proposes, never approves
+  %==========================================================================
+  \node[comp, text width=3.3cm, minimum height=2.1cm] (init) at (10.9, 6.8)
+    {\textarabic{التهيئة الذكية} (\EN{UC-07})\\[2pt]
+     {\scriptsize\textarabic{ثماني خطوات من الربط إلى التفعيل}}\\
+     {\scriptsize\textarabic{اقتراح آلي، والاعتماد بصلاحيات \EN{UC-05}}}};
+
+  %==========================================================================
+  % Center: the Semantic Index container — 7 components in the platform DB
+  %==========================================================================
+  \draw[dashed, line width=1.1pt, draw=kauprimary!55, rounded corners=7pt]
+    (0.0, 4.1) rectangle (8.3, 9.5);
+  \node[font=\scriptsize\bfseries\color{kauprimary}, fill=white, inner sep=2.5pt]
+    (idxchip) at (4.15, 9.5) {\textarabic{الفهرس الدلالي}};
+  \node[font=\tiny, text=kaudark] at (4.15, 8.95)
+    {\textarabic{يقيم في قاعدة بيانات النظام} — \EN{PostgreSQL 16 + pgvector}};
+
+  \node[part] (p1) at (1.9, 7.55) {\textarabic{فهرس الجداول}};
+  \node[part] (p2) at (3.7, 7.55) {\textarabic{فهرس الأعمدة}};
+  \node[part] (p3) at (5.5, 7.55) {\textarabic{فهرس العلاقات}};
+  \node[part] (p4) at (7.3, 7.55) {\textarabic{قاموس المصطلحات}};
+
+  \node[part] (p5) at (2.4, 5.6) {\textarabic{المتجهات الدلالية}};
+  \node[part] (p6) at (4.7, 5.6) {\textarabic{فهرس أوصاف المشاهد}};
+  \node[part] (p7) at (7.0, 5.6) {\textarabic{بيانات التصنيف الوصفي}};
+
+  %==========================================================================
+  % Left: the Smart Views layer — intentional separation
+  %==========================================================================
+  \node[views, text width=4.1cm, minimum height=2.0cm] (sv) at (2.1, 1.1)
+    {\textarabic{طبقة العروض الذكية}\\[1pt]
+     {\scriptsize\textarabic{تعريف تنفيذي عند الطلب}}\\
+     {\scriptsize\textarabic{لا يخزن الفهرس استعلاماً واحداً}}};
+
+  %==========================================================================
+  % Edges
+  %==========================================================================
+  \draw[flow] (udb.west) -- (init.east);
+  \node[iflabel] at (13.25, 7.30) {\textarabic{فحص المخطط}};
+
+  \draw[flow] (init.west) -- (8.3, 6.8);
+  \node[iflabel] at (8.68, 6.32) {\textarabic{بناء وتفعيل}};
+
+  \draw[dflow] (2.6, 4.1) -- (2.1, 2.1);
+  \node[iflabel, anchor=west] at (2.75, 3.35)
+    {\textarabic{معرّف مرجعي فقط — لا استعلامات}};
+  \node[iflabel, anchor=west] at (2.75, 3.07)
+    {\textarabic{تحديث مستقل دون إعادة بناء}};
+
+\end{tikzpicture}%
+}

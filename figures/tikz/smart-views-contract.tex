@@ -1,0 +1,96 @@
+%==============================================================================
+% figures/tikz/smart-views-contract.tex
+% Six-element view contract + schema reduction — Chapter 4, Section 4.3.1
+% (fig:sv-contract)
+%==============================================================================
+% Zoom-in on the Smart Views layer from the component diagram (4.1): the raw
+% ERP schema (340+ Latin-named tables, no descriptions) is reduced into a
+% catalog of twelve Arabic-described views. Every view is a documented
+% six-element contract (hexagon): canonical SQL, Arabic semantic
+% description, business labels, bound parameters, relations & permissions,
+% and an inherited security tier. Only the role-filtered catalog reaches
+% the SQL agent under the token budget.
+% Style: same visual language as component-diagram.tex and
+% smart-views-flow.tex (kauprimary / kauaccent / kausecondary, cylinder for
+% the DB, \textarabic{} for Arabic labels, \EN{} for Latin). Reading order
+% right-to-left.
+%==============================================================================
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  db/.style={
+    cylinder, shape border rotate=90, aspect=0.3,
+    draw=kaudark, fill=kaudark!8, text=kaudark,
+    font=\small, align=center, line width=0.9pt, inner sep=2.5pt,
+  },
+  hex/.style={
+    regular polygon, regular polygon sides=6,
+    draw=kauaccent, fill=kauaccent!10, text=kaudark,
+    font=\small, align=center, line width=1.2pt,
+    inner sep=10pt,
+  },
+  views/.style={
+    rectangle, rounded corners=5pt,
+    draw=kauaccent, fill=kauaccent!8, text=kaudark,
+    font=\small, align=center, line width=1pt, inner sep=5pt,
+  },
+  agent/.style={
+    rectangle, rounded corners=3pt,
+    draw=kausecondary, fill=kausecondary!10, text=kaudark,
+    font=\small, align=center, line width=0.7pt, inner sep=3pt,
+  },
+  iflabel/.style={font=\scriptsize, text=kaudark, fill=white, inner sep=1.5pt},
+  flow/.style={->, >=stealth, line width=0.9pt, draw=kausecondary},
+  dflow/.style={->, >=stealth, line width=0.7pt, draw=kaudark!60, dashed},
+]
+
+  %==========================================================================
+  % Right: the raw ERP schema (technical names, no descriptions)
+  %==========================================================================
+  \node[db, text width=3.2cm, minimum height=2.2cm] (db) at (14.6, 5.0)
+    {\textarabic{قاعدة بيانات الجامعة}\\[1pt]
+     {\scriptsize\EN{Odoo 17 + OpenEduCat}}\\
+     {\scriptsize\textarabic{أكثر من 340 جدولاً خاماً}}\\
+     {\scriptsize\textarabic{أسماء تقنية بلا توصيف}}};
+
+  %==========================================================================
+  % Center: the six-element documented contract (hexagon)
+  %==========================================================================
+  \node[hex, text width=3.1cm, minimum width=6.2cm, minimum height=5.8cm]
+    (hex) at (6.8, 5.0)
+    {\textbf{\textarabic{العرض الذكي}}\\[1pt]
+     {\scriptsize\textarabic{عقد موثق سداسي العناصر}}\\[5pt]
+     {\scriptsize\textarabic{استعلام \EN{SQL} معياري}}\\[2pt]
+     {\scriptsize\textarabic{توصيف دلالي بالعربية}}\\[2pt]
+     {\scriptsize\textarabic{تسميات أعمال للمخرجات}}\\[2pt]
+     {\scriptsize\textarabic{معاملات مربوطة}}\\[2pt]
+     {\scriptsize\textarabic{علاقات وصلاحيات}}\\[2pt]
+     {\scriptsize\textarabic{تصنيف أمني موروث}}};
+
+  %==========================================================================
+  % Left: the approved catalog, then the SQL agent (role-filtered)
+  %==========================================================================
+  \node[views, text width=3.7cm, minimum height=2.4cm] (cat) at (0.2, 5.6)
+    {\textarabic{كتالوج المشاهد المعتمدة}\\[1pt]
+     {\scriptsize\textarabic{12 مشهداً موصوفاً بالعربية}}\\[2pt]
+     {\scriptsize\textarabic{بحالة «معتمد» فقط}}\\
+     {\scriptsize\textarabic{قالب \EN{SQL} محفوظ أو مشاهدة فعلية}}};
+  \node[agent, text width=2.6cm] (sql) at (0.2, 1.2)
+    {\textarabic{وكيل \EN{SQL}}\\[1pt]
+     {\scriptsize\textarabic{قراءة فقط}}};
+
+  %==========================================================================
+  % Edges (right-to-left reading order)
+  %==========================================================================
+  \draw[flow] (db.west) -- (hex.east);
+  \node[iflabel] at (11.5, 5.55) {\textarabic{اختصاز}};
+  \node[iflabel] at (11.5, 5.27) {\textarabic{يفوق 20 ضعفاً}};
+
+  \draw[flow] (hex.west) -- (cat.east);
+  \node[iflabel] at (2.98, 5.63) {\textarabic{اعتماد}};
+
+  \draw[dflow] (cat.south) -- (sql.north);
+  \node[iflabel, anchor=west] at (0.75, 3.10) {\textarabic{مفلتر بحسب الدور}};
+
+\end{tikzpicture}%
+}
