@@ -1,0 +1,125 @@
+%==============================================================================
+% figures/tikz/smart-views-flow.tex
+% Integrated query-execution flow — Chapter 4, Section 4.3.5 (fig:smart-views-flow)
+%==============================================================================
+% Data-query path through the two cooperating components of the Smart Views
+% layer: Semantic Index (retrieval) + Relationship Resolver (join paths) +
+% Smart Views layer (contract decision point), then validation/isolation
+% inside the SQL agent track, execution on the university DB (read-only),
+% and closing with Analyst/Reporter + Audit trail.
+% Style: same visual language as component-diagram.tex (4.1) — kauprimary
+% boxes, kauaccent for the views layer, cylinder for the DB, \textarabic{}
+% for Arabic labels and \EN{} for Latin ones. Reading order right-to-left.
+% Rebuilt in TikZ from the author's original drawing, with the two spelling
+% fixes (طبقة العرض spacing + قاموس المصطلحات) and corrected store naming.
+%==============================================================================
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  comp/.style={
+    rectangle, rounded corners=5pt,
+    draw=kauprimary, fill=kauprimary!7, text=kaudark,
+    font=\small, align=center, line width=1pt, inner sep=5pt,
+  },
+  views/.style={
+    rectangle, rounded corners=5pt,
+    draw=kauaccent, fill=kauaccent!8, text=kaudark,
+    font=\small, align=center, line width=1pt, inner sep=5pt,
+  },
+  supervisor/.style={
+    rectangle, rounded corners=4pt,
+    draw=kauprimary, fill=kauprimary!16, text=kaudark,
+    font=\small\bfseries, align=center, line width=1pt, inner sep=4pt,
+  },
+  db/.style={
+    cylinder, shape border rotate=90, aspect=0.3,
+    draw=kaudark, fill=kaudark!8, text=kaudark,
+    font=\small, align=center, line width=0.9pt, inner sep=2.5pt,
+  },
+  support/.style={
+    rectangle, rounded corners=4pt,
+    draw=kauaccent, fill=kauaccent!8, text=kaudark,
+    font=\small, align=center, line width=0.9pt, inner sep=4pt,
+  },
+  agent/.style={
+    rectangle, rounded corners=3pt,
+    draw=kausecondary, fill=kausecondary!10, text=kaudark,
+    font=\small, align=center, line width=0.7pt, inner sep=3pt,
+  },
+  iflabel/.style={font=\scriptsize, text=kaudark, fill=white, inner sep=1.5pt},
+  flow/.style={->, >=stealth, line width=0.9pt, draw=kausecondary},
+  dflow/.style={->, >=stealth, line width=0.7pt, draw=kaudark!60, dashed},
+]
+
+  %==========================================================================
+  % ROW A (top): question -> Supervisor -> Semantic Index
+  %==========================================================================
+  \node[comp, text width=2.2cm] (q) at (15.0, 9.0)
+    {\textarabic{سؤال المستخدم}};
+  \node[supervisor, text width=2.9cm] (sup) at (11.0, 9.0)
+    {\textarabic{المشرف \EN{Supervisor}}\\[1pt]
+     {\scriptsize\textarabic{قرار المسار (4.2)}}};
+  \node[comp, text width=3.0cm] (idx) at (6.6, 9.0)
+    {\textarabic{الفهرس الدلالي}\\[1pt]
+     {\scriptsize\textarabic{بحث دلالي بالمعنى}}};
+
+  %==========================================================================
+  % ROW B (middle): Relationship Resolver -> Smart Views layer
+  %==========================================================================
+  \node[comp, text width=3.0cm] (res) at (6.6, 5.4)
+    {\textarabic{محرك حل العلاقات}\\[1pt]
+     {\scriptsize\textarabic{مسارات معتمدة فقط}}};
+  \node[views, text width=3.4cm, minimum height=2.2cm] (sv) at (1.6, 5.4)
+    {\textarabic{طبقة العروض الذكية}\\[1pt]
+     {\scriptsize\EN{Smart Views}}\\[2pt]
+     {\scriptsize\textarabic{عرض معتمد أو استعلام ديناميكي}}};
+
+  %==========================================================================
+  % ROW C (bottom): validation/isolation -> university DB -> output
+  %==========================================================================
+  \node[support, text width=3.0cm] (chk) at (1.6, 1.8)
+    {\textarabic{التحقق والعزل}\\[1pt]
+     {\scriptsize\textarabic{\EN{AST} ثم قراءة فقط}}};
+  \node[db, text width=3.4cm, minimum height=1.9cm] (db) at (6.6, 1.8)
+    {\textarabic{قاعدة بيانات الجامعة}\\[1pt]
+     {\scriptsize\EN{Odoo 17 + OpenEduCat}}};
+  \node[agent, text width=3.0cm] (out) at (11.6, 1.8)
+    {\textarabic{المحلل والمُعِدّ}\\[1pt]
+     {\scriptsize\textarabic{صياغة الإجابة العربية}}};
+
+  %==========================================================================
+  % AUDIT (bottom center)
+  %==========================================================================
+  \node[support, text width=3.2cm] (aud) at (6.6, -1.6)
+    {\textarabic{سجل التدقيق}\\[1pt]
+     {\scriptsize\textarabic{يُثبَّت في قاعدة النظام}}};
+
+  %==========================================================================
+  % FLOW EDGES (right-to-left reading order)
+  %==========================================================================
+  \draw[flow] (q.west) -- (sup.east);
+  \draw[flow] (sup.west) -- (idx.east);
+  \node[iflabel] at (8.8, 9.62) {\textarabic{نوايا}};
+  \node[iflabel] at (8.8, 9.34) {\textarabic{بيانات}};
+
+  \draw[flow] (idx.south) -- (res.north);
+  \node[iflabel, anchor=west] at (7.35, 7.2)
+    {\textarabic{استرجاع 15--20 عنصراً}};
+
+  \draw[flow] (res.west) -- (sv.east);
+  \node[iflabel] at (4.2, 5.85) {\textarabic{ربط معتمد}};
+
+  \draw[flow] (sv.south) -- (chk.north);
+
+  \draw[flow] (chk.east) -- (db.west);
+  \node[iflabel] at (3.85, 2.42) {\EN{SELECT}};
+  \node[iflabel] at (3.85, 2.15) {\textarabic{فقط}};
+
+  \draw[flow] (db.east) -- (out.west);
+  \node[iflabel] at (9.5, 2.3) {\textarabic{النتائج}};
+
+  \draw[dflow] (db.south) -- (aud.north);
+  \node[iflabel, anchor=west] at (7.45, 0.0) {\EN{agent\_trace}};
+
+\end{tikzpicture}%
+}
