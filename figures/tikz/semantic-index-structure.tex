@@ -6,8 +6,8 @@
 % Restores the integrated architecture of the original draft's only figure
 % ("المعمارية التكاملية لآلية عمل الفهرس الدلالي وطبقة الرؤى الذكية في منصة
 % بيان") with the corrected terminology: the index is built from the
-% university DB *metadata* by Smart Initialization (UC-07, eight steps),
-% lives in the platform DB (PostgreSQL 16 + pgvector) as seven components,
+% university DB *metadata* by Smart Initialization (UC-07, seven steps),
+% lives in the platform DB (PostgreSQL 16 + pgvector) as six components,
 % and is intentionally separated from the Smart Views layer (reference IDs
 % only — never SQL). It is a structure figure, not a query-flow figure:
 % the query path is drawn by smart-views-flow.tex (4.3.5).
@@ -56,11 +56,11 @@
   %==========================================================================
   \node[comp, text width=3.3cm, minimum height=2.1cm] (init) at (10.9, 6.8)
     {\textarabic{التهيئة الذكية} (\EN{UC-07})\\[2pt]
-     {\scriptsize\textarabic{ثماني خطوات من الربط إلى التفعيل}}\\
+     {\scriptsize\textarabic{سبع خطوات من الربط إلى التفعيل}}\\
      {\scriptsize\textarabic{اقتراح آلي، والاعتماد بصلاحيات \EN{UC-05}}}};
 
   %==========================================================================
-  % Center: the Semantic Index container — 7 components in the platform DB
+  % Center: the Semantic Index container — 6 components in the platform DB
   %==========================================================================
   \draw[dashed, line width=1.1pt, draw=kauprimary!55, rounded corners=7pt]
     (0.0, 4.1) rectangle (8.3, 9.5);
@@ -69,14 +69,13 @@
   \node[font=\tiny, text=kaudark] at (4.15, 8.95)
     {\textarabic{يقيم في قاعدة بيانات النظام} — \EN{PostgreSQL 16 + pgvector}};
 
-  \node[part] (p1) at (1.9, 7.55) {\textarabic{فهرس الجداول}};
-  \node[part] (p2) at (3.7, 7.55) {\textarabic{فهرس الأعمدة}};
+  \node[part] (p1) at (1.9, 7.55) {\textarabic{فهرس النماذج والجداول}};
+  \node[part] (p2) at (3.7, 7.55) {\textarabic{فهرس الحقول}};
   \node[part] (p3) at (5.5, 7.55) {\textarabic{فهرس العلاقات}};
   \node[part] (p4) at (7.3, 7.55) {\textarabic{قاموس المصطلحات}};
 
-  \node[part] (p5) at (2.4, 5.6) {\textarabic{المتجهات الدلالية}};
-  \node[part] (p6) at (4.7, 5.6) {\textarabic{فهرس أوصاف المشاهد}};
-  \node[part] (p7) at (7.0, 5.6) {\textarabic{بيانات التصنيف الوصفي}};
+  \node[part] (p5) at (3.0, 5.6) {\textarabic{المتجهات الدلالية}};
+  \node[part] (p6) at (5.4, 5.6) {\textarabic{فهرس أوصاف العروض}};
 
   %==========================================================================
   % Left: the Smart Views layer — intentional separation
