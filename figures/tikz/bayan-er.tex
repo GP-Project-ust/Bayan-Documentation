@@ -52,7 +52,7 @@
   \node[ent] (tenants) at (9.8,10.4) {%
     \begin{tabular}{@{}l@{\hspace{4pt}}l@{\hspace{4pt}}c@{}}
       \rowcolor{kauprimary!88}
-      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{المؤسسات}}~\EN{(Tenants)}}}\\[2.5pt]
+      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{المؤسسات}~\EN{(Tenants)}}}}\\[2.5pt]
       \EN{tenant\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kauaccent}{\textbf{\EN{PK}}}\\
       \EN{tenant\_name} & {\tiny\textcolor{kaudark!65}{\EN{VARCHAR}}} & \\
       \EN{odoo\_connection\_url} & {\tiny\textcolor{kaudark!65}{\EN{VARCHAR}}} & \\
@@ -66,7 +66,7 @@
   \node[ent] (smartviews) at (3.2,10.4) {%
     \begin{tabular}{@{}l@{\hspace{4pt}}l@{\hspace{4pt}}c@{}}
       \rowcolor{kauprimary!88}
-      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{العروض الذكية}}~\EN{(Smart Views)}}}\\[2.5pt]
+      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{العروض الذكية}~\EN{(Smart Views)}}}}\\[2.5pt]
       \EN{view\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kauaccent}{\textbf{\EN{PK}}}\\
       \EN{tenant\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kausecondary}{\textbf{\EN{FK}}}\\
       \EN{view\_name} & {\tiny\textcolor{kaudark!65}{\EN{VARCHAR}}} & \\
@@ -80,7 +80,7 @@
   \node[ent] (users) at (9.8,6.4) {%
     \begin{tabular}{@{}l@{\hspace{4pt}}l@{\hspace{4pt}}c@{}}
       \rowcolor{kauprimary!88}
-      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{المستخدمون}}~\EN{(Users)}}}\\[2.5pt]
+      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{المستخدمون}~\EN{(Users)}}}}\\[2.5pt]
       \EN{user\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kauaccent}{\textbf{\EN{PK}}}\\
       \EN{tenant\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kausecondary}{\textbf{\EN{FK}}}\\
       \EN{username} & {\tiny\textcolor{kaudark!65}{\EN{VARCHAR}}} & \\
@@ -94,7 +94,7 @@
   \node[ent] (documents) at (3.2,6.4) {%
     \begin{tabular}{@{}l@{\hspace{4pt}}l@{\hspace{4pt}}c@{}}
       \rowcolor{kauprimary!88}
-      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{فهرس المستندات}}~\EN{(Documents)}}}\\[2.5pt]
+      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{فهرس المستندات}~\EN{(Documents)}}}}\\[2.5pt]
       \EN{doc\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kauaccent}{\textbf{\EN{PK}}}\\
       \EN{tenant\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kausecondary}{\textbf{\EN{FK}}}\\
       \EN{filename} & {\tiny\textcolor{kaudark!65}{\EN{VARCHAR}}} & \\
@@ -108,7 +108,7 @@
   \node[ent] (auditlogs) at (5.4,1.5) {%
     \begin{tabular}{@{}l@{\hspace{4pt}}l@{\hspace{4pt}}c@{}}
       \rowcolor{kauprimary!88}
-      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{سجل التدقيق}}~\EN{(Audit Logs)}}}\\[2.5pt]
+      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{سجل التدقيق}~\EN{(Audit Logs)}}}}\\[2.5pt]
       \EN{log\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kauaccent}{\textbf{\EN{PK}}}\\
       \EN{tenant\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kausecondary}{\textbf{\EN{FK}}}\\
       \EN{user\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kausecondary}{\textbf{\EN{FK}}}\\
@@ -124,7 +124,7 @@
   \node[ent] (sessions) at (12.3,2.0) {%
     \begin{tabular}{@{}l@{\hspace{4pt}}l@{\hspace{4pt}}c@{}}
       \rowcolor{kauprimary!88}
-      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{الجلسات}}~\EN{(Sessions)}}}\\[2.5pt]
+      \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{الجلسات}~\EN{(Sessions)}}}}\\[2.5pt]
       \EN{session\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kauaccent}{\textbf{\EN{PK}}}\\
       \EN{user\_id} & {\tiny\textcolor{kaudark!65}{\EN{UUID}}} & \textcolor{kausecondary}{\textbf{\EN{FK}}}\\
       \EN{jwt\_token} & {\tiny\textcolor{kaudark!65}{\EN{VARCHAR}}} & \\
