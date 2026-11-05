@@ -24,7 +24,10 @@
 % Edge routing (2026-11-06 geometric review): Tenants->AuditLogs is routed
 % from the SW corner straight down to AuditLogs.north so it stays clear of
 % the Users box; Tenants->Documents runs from the west side to the Documents
-% NE corner; all 1/N marks sit outside the entity boxes.
+% NE corner; all 1/N marks sit outside the entity boxes. Audit Logs sits at
+% x=5.4 (shifted left 0.4cm on 2026-11-06) so the Users->AuditLogs labels
+% ((RESTRICT) etc.) keep a safe clearance under both local tectonic fonts
+% and the CI texlive font versions.
 %==============================================================================
 \resizebox{0.98\textwidth}{!}{%
 \begin{tikzpicture}[
@@ -102,7 +105,7 @@
   %==========================================================================
   % ENTITY: Audit Logs (bottom-center-left) — 7 fields, RESTRICT on user_id
   %==========================================================================
-  \node[ent] (auditlogs) at (5.8,1.5) {%
+  \node[ent] (auditlogs) at (5.4,1.5) {%
     \begin{tabular}{@{}l@{\hspace{4pt}}l@{\hspace{4pt}}c@{}}
       \rowcolor{kauprimary!88}
       \multicolumn{3}{@{}c@{}}{\textcolor{white}{\textarabic{\textbf{سجل التدقيق}}~\EN{(Audit Logs)}}}\\[2.5pt]
