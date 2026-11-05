@@ -1,39 +1,268 @@
 %------------------------------------------------------------------------------
 % 4.4 تصميم قواعد البيانات والتخزين
-% المالك: BE (مهمة جانت ٢.٢.٢ — التسليم 31/10/2026)
-% الحجم المستهدف: 3-4 صفحات
-%
-% عناصر مطلوبة:
-%   [ ] 4.4.1 قاعدة بيانات ERP (Odoo Education): فلسفة «القراءة فقط عبر
-%       العروض الذكية» — لا تعديل لمخطط Odoo إطلاقاً؛ الجداول الأساسية
-%       المستفادة (الطلاب، البرامج، الكليات، الرسوم، النتائج...) ومستخدم
-%       الربط المخصص بأدنى صلاحية (SELECT على العروض فقط)
-%   [ ] 4.4.2 قاعدة بيانات النظام الداخلية + مخطط ER (fig:bayan-er) — TikZ
-%       جديد في figures/tikz/bayan-er.tex: المستخدمون، الأدوار، الجلسات،
-%       سجل التدقيق، تعريفات العروض الذكية، فهرس المستندات — بالعلاقات
-%       والمفاتيح. راجع backend/prisma/schema.prisma في مستودع Bayan للدقة
-%   [ ] 4.4.3 مخزن المتجهات Qdrant: المجموعات (Collections)، بنية الحمولة
-%       (Payload: المصدر، رقم الصفحة، التصنيف الأمني للوثيقة)، نموذج التضمين
-%       multilingual-e5-large وأبعاد المتجهات، واستراتيجية الفهرسة وإعادة
-%       البناء عند تحديث المستندات
-%
-% تحذيرات:
-%   - مخطط ER هنا للقاعدة الداخلية الجديدة فقط؛ مخطط Odoo جاهز ومستقر
-%     ويُكتفى بجرد الجداول المستخدمة منه دون إعادة رسمه بالكامل
-%   - هذا القسم هو موضع «مخططات الكيانات» التي تعد بها مهمة جانت ٢.٢.٤
+% المصدر: النسخة النهائية لقسم وليد الأنسي (Word، rev.2 بتاريخ 2026-11-05)
+% بعد ملاحظات التعديل — مدموجة في اللاتيكس مع التصحيحات المعتمدة
+% في المراجعة الشاملة (2026-11-06):
+%   [x] op.marksheet.reg ← op.marksheet.register مع op.marksheet.line
+%       (الحقول student_id وtotal_marks وgrade على op.marksheet.line)
+%   [x] مزامنة مخطط ERD مع الجداول: agent_trace (لا agent_trace_steps)
+%       وcreated_at (لا timestamp)؛ وإعادة رسمه بـ TikZ في
+%       figures/tikz/bayan-er.tex بتسمية خط المؤسسة←المستندات «تُفهرِس»
+%   [x] PostgreSQL 16 + pgvector صراحةً: استضافة الفهرس الدلالي (4.3.4)
+%       وجداول المحادثات في القاعدة الداخلية — وفاءً بإحالات 4.1 و4.3
+%   [x] توحيد security_level بين كيان فهرس المستندات وحمولة Qdrant
+%   [x] «يحصّن ضد حقن SQL» بدل «يحمي كلياً» (دفاع طبقي مع مسار الوكيل)
+%   [x] «العروض الذكية» توحيداً للمصطلح مع القسم 4.3
+%   [x] «إدارة حالة الوكلاء (AgentState)» في مصدر Word ← «جداول المحادثات
+%       وذاكرة المحادثة» — لأن AgentState حالة تشغيلية في الذاكرة (4.2.2)
+%       لا جداول قاعدة بيانات، ولأن 4.1 يذكر المحادثات صراحة
 %------------------------------------------------------------------------------
 \section{تصميم قواعد البيانات والتخزين}
 \label{sec:db-design}
-~
 
-\subsection{قاعدة بيانات \EN{ERP} بيئة التطبيق}
+صُممت بنية البيانات في نظام «بيان» وفق معمارية هجينة تفصل العمليات التشغيلية (الخاصة بالمؤسسات) عن العمليات الإدارية والتحليلية (الخاصة بالنظام متعدد الوكلاء)، بما يحفظ سلامة بيانات المؤسسات الأصلية مع توفير بيئة مرنة وسريعة لإدارة الوكلاء وسجلات التدقيق والبحث الدلالي في إطار منصة تقنية مشتركة. ويتوزع القسم على ثلاث فقرات: قاعدة بيانات \EN{ERP} وبيئة التطبيق (الفقرة \ref{subsec:erp-db})، والقاعدة الداخلية للمنصة ومخططها العلائقي (الفقرة \ref{subsec:bayan-db})، ومخزن المتجهات \EN{Qdrant} \cite{qdrant2024} (الفقرة \ref{subsec:vector-store}).
+
+\subsection{قاعدة بيانات \EN{ERP} (بيئة التطبيق \EN{Odoo 17 + OpenEduCat})}
 \label{subsec:erp-db}
-~
+
+يعتمد النظام مبدأ «القراءة فقط عبر العروض الذكية» \EN{(Read-Only via Smart Views)} عند التعامل مع قاعدة بيانات \EN{Odoo} الأصلية؛ إذ يعمل وكيل \EN{SQL} بطريقة غير تدميرية لا ينفذ فيها أي أوامر تعديل أو حذف، وتُبنى استعلاماته حصراً فوق طبقة العروض الذكية \EN{(Smart Views)} التي تعمل طبقةً تجريدية تختزل المخطط الأصلي المعقد في عروض موصوفة بالعربية (القسم \ref{sec:smart-views-design}). ويعزل هذا التصميم النموذج اللغوي عن الجداول المباشرة، فيقلل ظاهرة الهلوسة ويرفع دقة التحويل من اللغة الطبيعية إلى \EN{SQL (NL2SQL)}.
+
+ولغرض محاكاة البيئة الجامعية، يستهدف النظام جداول نمطية من نظام \EN{OpenEduCat} داخل \EN{Odoo 17}، ويعرض الجدول \ref{tab:erp-models} أبرزها مع أهم حقولها المستفادة في تصميم العروض:
+
+\begin{table}[H]
+\centering
+\caption{الجداول التشغيلية المستهدفة من \EN{OpenEduCat} وأهم حقولها المستفادة في تصميم العروض.}
+\label{tab:erp-models}
+\scriptsize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{4.2cm}|}
+\hline
+\textbf{اسم النموذج في النظام} & \textbf{الغرض المؤسسي} & \textbf{أهم الحقول المستفادة} \\
+\hline
+\EN{op.student} & البيانات الشخصية والأكاديمية للطلاب & \EN{gr\_no, first\_name, last\_name, birth\_date} \\
+\hline
+\EN{op.course} & البرامج والتخصصات الأكاديمية & \EN{name, code, department\_id} \\
+\hline
+\EN{op.department} & الكليات والأقسام العلمية & \EN{name, code, parent\_id} \\
+\hline
+\EN{op.faculty} & بيانات أعضاء هيئة التدريس & \EN{first\_name, last\_name, partner\_id, birth\_date} \\
+\hline
+\EN{op.student.fees.details} & الرسوم والحالة المالية للطالب & \EN{student\_id, invoice\_id, amount, state} \\
+\hline
+\EN{op.marksheet.register} / \EN{op.marksheet.line} & كشوف الدرجات وتفاصيل النتائج الأكاديمية & \EN{student\_id, total\_marks, grade} \\
+\hline
+\end{tabularx}
+\end{table}
+
+وتُفصَّل النماذج المرجعية ومسارات الربط بينها في القسم \ref{sec:smart-views-design}، مع ما فيه من تنبيه إلى أن أسماء النماذج المنقوطة قد تختلف عن أسماء الجداول الفيزيائية في \EN{PostgreSQL}، وهو ما يحسمه فحص المخطط عند التهيئة.
+
+ولضمان أعلى معايير الأمان المذكورة في المتطلبات، يُربط وكيل \EN{SQL} بقاعدة بيانات \EN{Odoo} لكل مؤسسة عبر مستخدم ربط مخصص \EN{(Dedicated Service Account)} يمتلك أدنى صلاحية ممكنة \EN{(Least Privilege)}؛ فتقتصر صلاحيات هذا المستخدم على تنفيذ أمر \EN{SELECT} حصراً على العروض الذكية المحددة، ويُحرم تماماً من الوصول إلى الجداول الأساسية ومن تنفيذ أوامر التعديل \EN{(INSERT, UPDATE, DELETE)}. وبذلك تُحصَّن واجهة الوصول ضد هجمات حقن \EN{SQL (SQL Injection)} ضمن دفاع طبقي تكتمل حلقاته بالمدقق النحوي والمنفذ المعزول في مسار الوكيل (الفقرة \ref{subsec:sv-execution-path}).
 
 \subsection{قاعدة البيانات الداخلية ومخطط \EN{ER}}
 \label{subsec:bayan-db}
-~
+
+بُنيت للمنصة قاعدة بيانات داخلية مستقلة (\EN{PostgreSQL 16} مع امتداد \EN{pgvector}) تُدار بها العمليات التشغيلية للنظام بعيداً عن بيانات \EN{Odoo}. وبما أن «بيان» صُمم منصةً متعددة المؤسسات \EN{(Multi-Tenant)}، فقد هُندست جداولها لعزل بيانات كل مؤسسة وإدارة المصادقة والجلسات وتعريفات العروض الذكية وفهرسة المستندات وسجلات التدقيق على نحو مستقل، إلى جانب جداول المحادثات وذاكرة المحادثة التي تتغذى منها الحالة المشتركة للوكلاء عند التنفيذ (الفقرة \ref{subsec:agents-state}). وتستضيف القاعدة نفسها الفهرس الدلالي بمكوناته الستة في امتداد \EN{pgvector} (الفقرة \ref{subsec:sv-semantic-index})، ويتيح نوع العمود \EN{JSONB} تخزين مخرجات معقدة كأثر تنفيذ الوكلاء، مع تطبيق سياسات الاحتفاظ بالسجلات لأغراض المساءلة.
+
+وتتكون القاعدة الداخلية من ستة كيانات رئيسية:
+
+\textbf{1. كيان المؤسسات \EN{(Tenants)}:} السجل الجذري للعزل متعدد المؤسسات؛ لكل مؤسسة مشتركة صف واحد يحدد هويتها واتصالها بقاعدة \EN{Odoo} الخاصة بها ومزود النموذج اللغوي المعتمد لديها:
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان المؤسسات \EN{(Tenants)} في القاعدة الداخلية.}
+\label{tab:db-tenants}
+\scriptsize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\hline
+\EN{tenant\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} — المعرف الفريد للمؤسسة \\
+\hline
+\EN{tenant\_name} & \EN{VARCHAR} & اسم المؤسسة (مثل: جامعة العلوم والتكنولوجيا) \\
+\hline
+\EN{odoo\_connection\_url} & \EN{VARCHAR} & رابط الاتصال بقاعدة \EN{Odoo} الخاصة بالمؤسسة (مشفَّر) \\
+\hline
+\EN{llm\_provider} & \EN{ENUM} & مزود النموذج اللغوي: \EN{(Ollama\_Local / GPT4o\_Cloud)} وفق \EN{FR-13} \\
+\hline
+\EN{is\_active} & \EN{BOOLEAN} & حالة اشتراك المؤسسة في المنصة \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{2. كيان المستخدمين \EN{(Users)}:} حسابات الدخول إلى المنصة بأدوارها الأربعة المتطابقة مع نمذجة الفاعلين في الفصل الثالث، وتُجزَّأ كلمات المرور ولا تُخزَّن نصاً واضحاً:
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان المستخدمين \EN{(Users)} في القاعدة الداخلية.}
+\label{tab:db-users}
+\scriptsize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\hline
+\EN{user\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} \\
+\hline
+\EN{tenant\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} يربط بكيان المؤسسات \\
+\hline
+\EN{username} & \EN{VARCHAR} & اسم المستخدم (فريد) \\
+\hline
+\EN{password\_hash} & \EN{VARCHAR} & كلمة المرور مجزَّأة بخوارزمية \EN{bcrypt} بكلفة 12 (\EN{NFR-05}) \\
+\hline
+\EN{role\_type} & \EN{ENUM} & الدور: \EN{(Platform\_Admin, Tenant\_IT\_Admin, Enterprise\_Manager, Enterprise\_Employee)} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{3. كيان الجلسات \EN{(Sessions)}:} الجلسات الفعالة ورموز المصادقة قصيرة الصلاحية المرتبطة بكل مستخدم:
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان الجلسات \EN{(Sessions)} في القاعدة الداخلية.}
+\label{tab:db-sessions}
+\scriptsize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\hline
+\EN{session\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} — يتطابق مع معرّف المحادثة في منظومة الوكلاء (الفقرة \ref{subsec:agents-state}) \\
+\hline
+\EN{user\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} يربط بكيان المستخدمين \\
+\hline
+\EN{jwt\_token} & \EN{VARCHAR} & رمز المصادقة قصير الصلاحية \EN{(JWT)} \\
+\hline
+\EN{expires\_at} & \EN{TIMESTAMP} & تاريخ ووقت انتهاء الصلاحية \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{4. كيان تعريفات العروض الذكية \EN{(Smart Views)}:} التعريفات المعتمدة للعروض المملوكة لكل مؤسسة وفق كتالوج القسم \ref{sec:smart-views-design} وتصنيفه الأمني الرباعي؛ ويُخزَّن التعريف لا نتائج التنفيذ:
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان تعريفات العروض الذكية \EN{(Smart Views)} في القاعدة الداخلية.}
+\label{tab:db-views-defs}
+\scriptsize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\hline
+\EN{view\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} \\
+\hline
+\EN{tenant\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} للمؤسسة المالكة للعرض \\
+\hline
+\EN{view\_name} & \EN{VARCHAR} & اسم العرض الذكي \\
+\hline
+\EN{base\_table} & \EN{VARCHAR} & الجدول الأساسي المرتبط في \EN{Odoo} \\
+\hline
+\EN{security\_level} & \EN{ENUM} & مستوى الوصول: \EN{(Public, Masked, Restricted, Blacklist)} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{5. كيان فهرس المستندات \EN{(Document Metadata)}:} فهرس المستندات واللوائح المرفوعة التي تغذي مسار \EN{RAG}، بمستوى أمني لكل مستند يُستخدم لتصفية نتائج الاسترجاع:
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان فهرس المستندات \EN{(Document Metadata)} في القاعدة الداخلية.}
+\label{tab:db-docs}
+\scriptsize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\hline
+\EN{doc\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} \\
+\hline
+\EN{tenant\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} للمؤسسة المالكة للمستند \\
+\hline
+\EN{filename} & \EN{VARCHAR} & اسم المستند أو اللائحة الأصلي \\
+\hline
+\EN{security\_level} & \EN{ENUM} & مستوى الوصول الأمني للمستند لتصفية نتائج \EN{RAG} \\
+\hline
+\EN{uploaded\_at} & \EN{TIMESTAMP} & تاريخ ووقت فهرسة المستند \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{6. كيان سجل التدقيق \EN{(Audit Logs)}:} السجل المركزي لأثر التنفيذ الذي تستند إليه المساءلة؛ يحفظ سؤال المستخدم والاستعلام المولد وأثر تنفيذ الوكلاء معاً في السجل الواحد:
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان سجل التدقيق \EN{(Audit Logs)} في القاعدة الداخلية.}
+\label{tab:db-audit}
+\scriptsize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\hline
+\EN{log\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} \\
+\hline
+\EN{tenant\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} لتصفية السجلات حسب المؤسسة \\
+\hline
+\EN{user\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} بلا حذف متتالٍ \EN{(RESTRICT)} حفاظاً على أثر التدقيق \\
+\hline
+\EN{user\_query} & \EN{TEXT} & سؤال المستخدم الأصلي بالعربية \\
+\hline
+\EN{generated\_sql} & \EN{TEXT} & الاستعلام المولد والمنفذ \\
+\hline
+\EN{agent\_trace} & \EN{JSONB} & مسار تنفيذ الوكلاء التفصيلي \\
+\hline
+\EN{created\_at} & \EN{TIMESTAMP} & توقيت تنفيذ العملية (مفهرس لتسريع البحث) \\
+\hline
+\end{tabularx}
+\end{table}
+
+ويوضح الشكل \ref{fig:bayan-er} العلاقات بين كيانات القاعدة الداخلية في نظام «بيان»؛ إذ ترتبط المؤسسة \EN{(Tenant)} بعلاقة واحد إلى متعدد \EN{(1:N)} مع المستخدمين \EN{(Users)} والعروض الذكية \EN{(Smart Views)} والمستندات \EN{(Documents)} وسجلات التدقيق \EN{(Audit Logs)}، بحيث تمتلك كل مؤسسة عدة سجلات من كل كيان من هذه الكيانات. ويرتبط المستخدم \EN{(User)} بعلاقة واحد إلى متعدد مع الجلسات \EN{(Sessions)} ومع سجلات التدقيق، فيفتح عدة جلسات وينشئ عدة سجلات تدقيق. وتُطبَّق على علاقة المستخدم بسجلات التدقيق سياسة منع الحذف المتتالي \EN{(RESTRICT)}؛ لضمان بقاء سجلات التدقيق محفوظة وعدم حذفها عند حذف حساب المستخدم، بما يخدم متطلبات المساءلة وعدم الإنكار.
+
+\begin{figure}[H]
+  \centering
+  \input{figures/tikz/bayan-er.tex}
+  \caption{مخطط الكيانات والعلاقات \EN{(ERD)} لقاعدة البيانات الداخلية لنظام «بيان»: ستة كيانات بعلاقاتها \EN{(1:N)}، مع منع الحذف المتتالي \EN{(RESTRICT)} على علاقة المستخدم بسجلات التدقيق.}
+  \label{fig:bayan-er}
+\end{figure}
 
 \subsection{مخزن المتجهات \EN{Qdrant}}
 \label{subsec:vector-store}
-~
+
+يؤدي مخزن \EN{Qdrant} دوراً مفصلياً في معمارية الاسترجاع المعزز بالتوليد \EN{(RAG)}؛ إذ يختص بتخزين التمثيلات المتجهة \EN{(Vector Embeddings)} للمستندات غير المهيكلة كاللوائح والسياسات الجامعية، ويتيح لوكيل \EN{RAG} تنفيذ بحث دلالي سريع يتجاوز قيود البحث النصي التقليدي (\EN{FR-16}). وقد صُممت الحمولة الوصفية \EN{(Payload)} المرافقة لكل متجه لضمان عزل بيانات المؤسسات ودقة الاستشهاد وتطبيق قيود الأمان، ويعرض الجدول \ref{tab:qdrant-payload} حقولها وأغراضها:
+
+\begin{table}[H]
+\centering
+\caption{حقول الحمولة الوصفية \EN{(Payload)} المرافقة لكل متجه في مخزن \EN{Qdrant}.}
+\label{tab:qdrant-payload}
+\scriptsize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{1.9cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{حقل الحمولة \EN{(Payload)}} & \textbf{نوع البيانات} & \textbf{الغرض التشغيلي والأمني} \\
+\hline
+\EN{tenant\_id} & \EN{String} & عزل متجهات كل مؤسسة لضمان عدم تداخل البيانات \\
+\hline
+\EN{source\_doc} & \EN{String} & توثيق اسم المستند واللائحة المصدرية للإجابة \\
+\hline
+\EN{page\_number} & \EN{Integer} & الإسناد الدقيق لرقم الصفحة ضمن المستند المسترجع \\
+\hline
+\EN{security\_level} & \EN{Enum} & تصفية نتائج البحث وفق صلاحيات التحكم بالأدوار \EN{(RBAC)} والتصنيف الأمني للمستند \\
+\hline
+\EN{chunk\_text} & \EN{String} & النص الأصلي المقتطع الذي سيُمرَّر للنموذج اللغوي \\
+\hline
+\end{tabularx}
+\end{table}
+
+يستخدم النظام نموذج التضمين \EN{multilingual-e5-large} الذي يحول النصوص العربية إلى متجهات رقمية عالية الأبعاد (تصل إلى 1024 بعداً) بما يحافظ على السياق الدلالي العميق للغة العربية (\EN{FR-20})، وتُجمع متجهات المستندات في مجموعة واحدة باسم \EN{bayan\_policies}؛ فيتحقق عزل المؤسسات وتطبيق قيود الأمان أثناء البحث عبر ترشيح الحمولة \EN{(Payload Filtering)} بحقلي \EN{tenant\_id} و\EN{security\_level}، دون الحاجة إلى مجموعة مستقلة لكل مؤسسة أو لكل تصنيف.
+
+وتُدار دورة حياة المستندات وتحديثها في المخزن عبر خوارزمية مؤتمتة من أربع خطوات تضمن عدم تكرار البيانات الدلالية أو تضاربها:
+
+\begin{itemize}[label=\textcolor{kauprimary}{$\blacktriangleright$},leftmargin=*]
+  \item \textbf{تحديد التحديث:} التقاط إشعار بتعديل لائحة أو مستند في النظام لإحدى المؤسسات.
+  \item \textbf{الحذف الانتقائي:} حذف جميع النقاط \EN{(Points/Vectors)} القديمة المرتبطة بالقيمتين المتطابقتين \EN{source\_doc} و\EN{tenant\_id} في \EN{Qdrant}.
+  \item \textbf{التضمين الجديد:} تجزئة المستند المحدَّث \EN{(Chunking)} وتمرير مقاطعه إلى نموذج \EN{multilingual-e5-large} لإنتاج متجهات جديدة.
+  \item \textbf{الإدراج الوثائقي:} إدراج المتجهات الجديدة بحمولتها المحدَّثة، وتحديث سجل فهرس المستندات \EN{(Document Metadata)} في القاعدة الداخلية.
+\end{itemize}
+
+وبذلك يكتمل ثلاثي التخزين في «بيان» على نحو مقصود: قاعدة \EN{Odoo} للبيانات التشغيلية للمؤسسة ولا تُقرأ إلا عبر العروض الذكية، والقاعدة الداخلية \EN{(PostgreSQL 16 + pgvector)} لبيانات المنصة والفهرس الدلالي، ومخزن \EN{Qdrant} للمتجهات الوثائقية في مسار \EN{RAG}. ويقوم الفصل بين \EN{pgvector} و\EN{Qdrant} على اختلاف طبيعة المحتوى؛ فالأول يفهرس البيانات الوصفية المنظمة للمخطط والعروض والمصطلحات (الفقرة \ref{subsec:sv-semantic-index})، والثاني يخزن مقاطع النصوص اللوائحية بحمولاتها الوصفية، فلا تتداخل مساحتا البحث في المسارين، ويتاح تطوير كل مخزن وتوسيعه على حدة دون المساس بالآخر.
