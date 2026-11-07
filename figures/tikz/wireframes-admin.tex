@@ -1,0 +1,251 @@
+%==============================================================================
+% figures/tikz/wireframes-admin.tex
+% Admin-panel wireframe (grayscale) — Chapter 4, Section 4.7.2
+% (fig:wireframes-admin)
+%==============================================================================
+% Low-fidelity wireframe of the administration console used by the Tenant
+% IT Administrator. Right-hand sidebar (RTL-first): logo placeholder,
+% five navigation items with «إدارة المستخدمين والأدوار» active, and the
+% bottom user card with logout. The content area stacks the three admin
+% tasks vertically: (1) users & roles management with the accounts table
+% [UC-04], (2) the audit log with date/type filters and the security
+% rejection row [UC-06], and (3) the Smart Views console that was absent
+% from the original interface draft — catalog cards with technical name,
+% brief description, security tier, approval status, and review/approve
+% actions [UC-05]. Serves the paragraph between fig:wireframes-chat and
+% fig:wireframes-admin in sec7_ui.tex (three admin tasks of the console).
+% Spelling fixes over the interface draft: «الأدوار» (not «الأبار») and
+% «سجل التدقيق» (not «التدفق»); official role names verbatim from the
+% stakeholders table (sec3_requirements.tex); the three view names and
+% security tiers verbatim from the Smart Views catalog
+% (sec3_smart_views.tex, tab:sv-catalog).
+% Style: grayscale-only wireframe per the 4.7.2 convention (صناديق رمادية
+% بلا هوية بصرية) — tabular-in-node tables as in bayan-er.tex,
+% \textarabic{} for Arabic text, \EN{}/\CODE{} for Latin/monospace, and
+% right-to-left reading order (sidebar far right; first table column on
+% the right). Semantic exceptions only: the faded \EN{UC-xx} tags and the
+% red «مرفوض (تجاوز الصلاحية)» cell in the audit log.
+%==============================================================================
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  panel/.style={rounded corners=5pt, draw=gray!70, line width=0.9pt},
+  field/.style={rounded corners=3pt, draw=gray!60, line width=0.7pt,
+    fill=gray!10},
+  btn/.style={rounded corners=3pt, draw=gray!70, line width=0.7pt,
+    fill=gray!15, font=\scriptsize, text=kaudark, inner sep=2.5pt},
+  btnprim/.style={btn, fill=gray!25, font=\scriptsize\bfseries},
+  navpill/.style={rounded corners=3pt, draw=gray!60, line width=0.7pt,
+    fill=gray!13, inner sep=0pt, minimum width=2.72cm,
+    minimum height=0.52cm},
+  navtext/.style={anchor=east, font=\scriptsize, text=kaudark,
+    inner sep=0pt},
+  lblE/.style={anchor=east, font=\scriptsize, text=kaudark,
+    inner sep=0pt},
+  ttl/.style={anchor=east, font=\small\bfseries, text=kaudark,
+    inner sep=0pt},
+  uclbl/.style={anchor=west, font=\scriptsize, text=gray!70,
+    inner sep=0pt},
+  ph/.style={anchor=east, font=\scriptsize, text=gray, inner sep=0pt},
+  viewcard/.style={rounded corners=4pt, draw=gray!65, line width=0.8pt,
+    fill=gray!8},
+  cardtxt/.style={font=\scriptsize, text=kaudark, inner sep=1pt},
+  cbtn/.style={rounded corners=3pt, draw=gray!70, line width=0.7pt,
+    fill=gray!15, font=\scriptsize, text=kaudark, inner sep=0pt,
+    minimum width=1.35cm, minimum height=0.42cm},
+]
+
+  %==========================================================================
+  % SCREEN FRAME (fill first) + RIGHT SIDEBAR (RTL: sidebar far right)
+  %==========================================================================
+  \fill[white, rounded corners=8pt] (0.4,0.5) rectangle (15.6,13.1);
+  \begin{scope}
+    \clip[rounded corners=8pt] (0.4,0.5) rectangle (15.6,13.1);
+    \fill[gray!6] (12.5,0.5) rectangle (15.6,13.1);
+  \end{scope}
+  \draw[gray!60, line width=0.6pt] (12.5,0.5) -- (12.5,13.1);
+
+  %---- Logo placeholder (box with crossed diagonals) + brand ---------------
+  \draw[gray!70, line width=0.7pt, fill=white]
+    (13.62,12.32) rectangle (14.38,12.94);
+  \draw[gray!70, line width=0.5pt]
+    (13.62,12.32) -- (14.38,12.94) (13.62,12.94) -- (14.38,12.32);
+  \node[font=\small\bfseries, text=kaudark] at (14,12.08)
+    {\textarabic{بيان}};
+  \node[font=\scriptsize, text=kaudark] at (14,11.80)
+    {\textarabic{لوحة الإدارة}};
+
+  %---- Navigation items (active = إدارة المستخدمين والأدوار) ---------------
+  \node[navpill] at (14,11.30) {};
+  \node[navtext] at (15.18,11.30) {\textarabic{الرئيسية}};
+
+  \node[navpill, fill=gray!20, draw=gray!70, minimum height=0.72cm]
+    at (14,10.45) {};
+  \node[navtext, font=\scriptsize\bfseries] at (15.18,10.59)
+    {\textarabic{إدارة المستخدمين}};
+  \node[navtext, font=\scriptsize\bfseries] at (15.18,10.31)
+    {\textarabic{والأدوار}};
+
+  \node[navpill] at (14,9.60) {};
+  \node[navtext] at (15.18,9.60) {\textarabic{العروض الذكية}};
+
+  \node[navpill] at (14,8.75) {};
+  \node[navtext] at (15.18,8.75) {\textarabic{سجل التدقيق}};
+
+  \node[navpill] at (14,7.90) {};
+  \node[navtext] at (15.18,7.90) {\textarabic{الإعدادات}};
+
+  %---- Bottom user card (full official role name) + logout ------------------
+  \path[rounded corners=3pt, draw=gray!60, line width=0.7pt, fill=gray!12]
+    (12.64,0.72) rectangle (15.36,2.05);
+  \node[anchor=north, text width=2.45cm, align=center, font=\scriptsize,
+        text=kaudark, inner sep=0pt] at (14,1.93)
+    {\textarabic{سارة — مسؤول تقنية المعلومات بالمؤسسة}};
+  \node[btn, fill=white, draw=gray!60, minimum width=1.6cm,
+        minimum height=0.40cm] at (14,1.02) {\textarabic{تسجيل خروج}};
+
+  %==========================================================================
+  % PANEL 1 (top): إدارة المستخدمين والأدوار [UC-04]
+  %==========================================================================
+  \path[panel, fill=gray!5, draw=none] (0.6,8.75) rectangle (12.3,12.95);
+  \begin{scope}
+    \clip[rounded corners=5pt] (0.6,8.75) rectangle (12.3,12.95);
+    \fill[gray!20] (0.6,12.42) rectangle (12.3,12.95);
+  \end{scope}
+  \draw[panel] (0.6,8.75) rectangle (12.3,12.95);
+  \node[ttl] at (12.1,12.68) {\textarabic{إدارة المستخدمين والأدوار}};
+  \node[uclbl] at (0.8,12.68) {\EN{UC-04}};
+
+  %---- Toolbar: search field (right) + add-user button (far left) -----------
+  \path[field] (7.0,11.85) rectangle (12.1,12.30);
+  \node[ph] at (11.95,12.08) {\textarabic{بحث بالاسم أو البريد...}};
+  \node[btnprim, minimum width=1.75cm, minimum height=0.45cm]
+    at (1.675,12.08) {\textarabic{إضافة مستخدم}};
+
+  %---- Accounts table (tabular-in-node; columns ordered from the right). ----
+  % bidi mirrors tabular: the FIRST source column renders rightmost, so the
+  % source is written directly in the intended visual right-to-left order
+  % (الاسم rightmost ... إجراءات leftmost). Cells are flushed right
+  % (\raggedleft) for the RTL table look, and every column is wide enough to
+  % keep its longest Arabic string on ONE line (a wrapped multi-line
+  % \textarabic paragraph inside an LTR p-column gets its second line
+  % displaced — bidi/p-column interplay), so single-line cells are a hard
+  % requirement here (widths verified against the 150-dpi render).
+  \node[anchor=north east, inner sep=0pt] at (12.1,11.62) {%
+    {\footnotesize
+    \renewcommand{\arraystretch}{1.3}%
+    \begin{tabular}{@{}>{\raggedleft\arraybackslash}p{1.50cm}@{\hspace{6pt}}>{\raggedleft\arraybackslash}p{3.40cm}@{\hspace{6pt}}>{\raggedleft\arraybackslash}p{2.90cm}@{\hspace{6pt}}>{\raggedleft\arraybackslash}p{1.15cm}@{\hspace{6pt}}>{\raggedleft\arraybackslash}p{1.45cm}@{}}
+    \arrayrulecolor{gray!50}
+    \rowcolor{gray!15}
+    \textarabic{\textbf{الاسم}} & \textarabic{\textbf{البريد المؤسسي}} &
+    \textarabic{\textbf{الدور}} & \textarabic{\textbf{الحالة}} &
+    \textarabic{\textbf{إجراءات}} \\ \hline
+    \textarabic{أحمد عبدالله} & \EN{ahmed@example.edu} &
+    \textarabic{مدير المؤسسة} & \textarabic{نشط} &
+    \textarabic{تعديل الدور} \\ \hline
+    \textarabic{سارة محمد} & \EN{sara@example.edu} &
+    \textarabic{مسؤول تقنية المعلومات} & \textarabic{نشط} &
+    \textarabic{تعديل الدور} \\ \hline
+    \textarabic{خالد علي} & \EN{khaled@example.edu} &
+    \textarabic{موظف المؤسسة} & {\scriptsize\textarabic{[موقوف]}} &
+    \textarabic{تعديل الدور} \\ \hline
+    \end{tabular}}};
+
+  %==========================================================================
+  % PANEL 2 (middle): سجل التدقيق [UC-06]
+  %==========================================================================
+  \path[panel, fill=gray!5, draw=none] (0.6,4.85) rectangle (12.3,8.53);
+  \begin{scope}
+    \clip[rounded corners=5pt] (0.6,4.85) rectangle (12.3,8.53);
+    \fill[gray!20] (0.6,8.00) rectangle (12.3,8.53);
+  \end{scope}
+  \draw[panel] (0.6,4.85) rectangle (12.3,8.53);
+  \node[ttl] at (12.1,8.26) {\textarabic{سجل التدقيق}};
+  \node[uclbl] at (0.8,8.26) {\EN{UC-06}};
+
+  %---- Toolbar: date range + operation-type dropdown + full-log button ------
+  \path[field] (9.55,7.55) rectangle (12.10,7.97);
+  \node[lblE] at (11.95,7.76)
+    {\textarabic{من: \EN{\_\_/\_\_/\_\_\_\_\_}}};
+  \path[field] (6.85,7.55) rectangle (9.40,7.97);
+  \node[lblE] at (9.25,7.76)
+    {\textarabic{إلى: \EN{\_\_/\_\_/\_\_\_\_\_}}};
+  \path[field] (4.00,7.55) rectangle (6.70,7.97);
+  \node[lblE] at (6.55,7.76) {\textarabic{نوع العملية: الكل}};
+  \node[anchor=west, font=\scriptsize, text=gray!70, inner sep=0pt]
+    at (4.18,7.76) {$\blacktriangledown$};
+  \node[btn, minimum width=2.2cm, minimum height=0.45cm] at (1.9,7.76)
+    {\textarabic{عرض السجل الكامل}};
+
+  %---- Audit table (bidi mirrors tabular: source col1 renders rightmost,
+  % so the source is written in the visual right-to-left order: الوقت أولاً) --
+  \node[anchor=north east, inner sep=0pt] at (12.1,7.42) {%
+    {\footnotesize
+    \renewcommand{\arraystretch}{1.3}%
+    \begin{tabular}{@{}>{\raggedleft\arraybackslash}p{1.15cm}@{\hspace{6pt}}>{\raggedleft\arraybackslash}p{1.60cm}@{\hspace{6pt}}>{\raggedleft\arraybackslash}p{3.81cm}@{\hspace{6pt}}>{\raggedleft\arraybackslash}p{3.95cm}@{}}
+    \arrayrulecolor{gray!50}
+    \rowcolor{gray!15}
+    \textarabic{\textbf{الوقت}} & \textarabic{\textbf{المستخدم}} &
+    \textarabic{\textbf{الإجراء}} & \textarabic{\textbf{النتيجة}} \\ \hline
+    \EN{09:15} & \textarabic{أحمد} &
+    \textarabic{تسجيل دخول} & \textarabic{نجاح} \\ \hline
+    \EN{09:42} & \textarabic{سارة} &
+    \textarabic{تحديث دور مستخدم} & \textarabic{نجاح} \\ \hline
+    \EN{10:03} & \textarabic{أحمد} &
+    \textarabic{تنفيذ استعلام \EN{SQL}} &
+    \textcolor{red!70!black}{\textarabic{\textbf{مرفوض (تجاوز الصلاحية)}}} \\ \hline
+    \end{tabular}}};
+
+  %==========================================================================
+  % PANEL 3 (bottom): العروض الذكية [UC-05] — absent from the original draft
+  %==========================================================================
+  \path[panel, fill=gray!5, draw=none] (0.6,0.75) rectangle (12.3,4.63);
+  \begin{scope}
+    \clip[rounded corners=5pt] (0.6,0.75) rectangle (12.3,4.63);
+    \fill[gray!20] (0.6,4.10) rectangle (12.3,4.63);
+  \end{scope}
+  \draw[panel] (0.6,0.75) rectangle (12.3,4.63);
+  \node[ttl] at (12.1,4.36) {\textarabic{العروض الذكية}};
+  \node[uclbl] at (0.8,4.36) {\EN{UC-05}};
+
+  %---- Toolbar: catalog search + create-view button -------------------------
+  \path[field] (7.6,3.53) rectangle (12.1,3.98);
+  \node[ph] at (11.95,3.76) {\textarabic{بحث في الكتالوج...}};
+  \node[btnprim, minimum width=2.05cm, minimum height=0.45cm]
+    at (1.825,3.76) {\textarabic{إنشاء عرض ذكي}};
+
+  %---- Catalog card 1 (rightmost): عام — معتمد ------------------------------
+  \path[viewcard] (8.5,0.95) rectangle (12.1,3.4);
+  \node[cardtxt] at (10.3,3.10) {\CODE{\textbf{v\_academic\_catalog}}};
+  \node[cardtxt] at (10.3,2.74) {\textarabic{دليل البرامج الأكاديمية}};
+  \node[cardtxt] at (10.3,2.38) {\textarabic{التصنيف: عام}};
+  \node[cardtxt] at (10.3,2.02) {\textarabic{الحالة: معتمد}};
+  \node[cbtn] at (11.08,1.40) {\textarabic{مراجعة}};
+  \node[cbtn] at (9.52,1.40) {\textarabic{اعتماد}};
+
+  %---- Catalog card 2 (middle): مقنّع — معتمد -------------------------------
+  \path[viewcard] (4.65,0.95) rectangle (8.25,3.4);
+  \node[cardtxt] at (6.45,3.10) {\CODE{\textbf{v\_student\_profile\_masked}}};
+  \node[cardtxt] at (6.45,2.74) {\textarabic{الملف الأساسي المقنّع للطالب}};
+  \node[cardtxt] at (6.45,2.38) {\textarabic{التصنيف: مقنّع}};
+  \node[cardtxt] at (6.45,2.02) {\textarabic{الحالة: معتمد}};
+  \node[cbtn] at (7.23,1.40) {\textarabic{مراجعة}};
+  \node[cbtn] at (5.67,1.40) {\textarabic{اعتماد}};
+
+  %---- Catalog card 3 (leftmost): مقيّد — قيد المراجعة (اعتماد معطّل) --------
+  \path[viewcard] (0.8,0.95) rectangle (4.4,3.4);
+  \node[cardtxt] at (2.6,3.10) {\CODE{\textbf{v\_student\_enrollment}}};
+  \node[cardtxt] at (2.6,2.74) {\textarabic{قيد الطالب والبرنامج والدفعة}};
+  \node[cardtxt] at (2.6,2.38) {\textarabic{التصنيف: مقيّد}};
+  \node[cardtxt] at (2.6,2.02) {\textarabic{الحالة: قيد المراجعة}};
+  \node[cbtn] at (3.38,1.40) {\textarabic{مراجعة}};
+  \node[cbtn, dashed, fill=white] at (1.82,1.40) {\textarabic{اعتماد}};
+
+  %==========================================================================
+  % SCREEN FRAME (stroke on top — closes the wireframe)
+  %==========================================================================
+  \draw[gray!70, line width=1pt, rounded corners=8pt]
+    (0.4,0.5) rectangle (15.6,13.1);
+
+\end{tikzpicture}%
+}

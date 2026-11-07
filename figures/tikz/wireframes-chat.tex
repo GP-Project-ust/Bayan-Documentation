@@ -1,0 +1,187 @@
+%==============================================================================
+% figures/tikz/wireframes-chat.tex
+% Wireframe of the main chat screen — Chapter 4, Section 4.7.2 (fig:wireframes-chat)
+%==============================================================================
+% Grayscale wireframe of BAYAN's main conversation screen, rebuilt in TikZ
+% from the team's original UI draft after the linguistic fixes recorded in
+% sec7_ui.tex («قبول» not «قبون», «الأدوار», «إحصائيات») and after
+% completing what the draft was missing: the input field + send button, the
+% waiting indicator, and the numbered pattern markers (1)-(5) tied to the
+% five dialogue patterns of subsection 4.7.1.
+% Reading order is right-to-left — the original designer's choice kept
+% intact: navigation sidebar at the far right, user bubble on the right,
+% assistant messages on the left.
+% Style ratio: wireframe greys only — gray!5..25 / kaulight fills,
+% gray!60/70 / dividersilver strokes, kaudark text. The only semantic
+% exceptions allowed by the house rule: the kauprimary number circles
+% (1)-(5), the single green!60!black connection dot, and the dashed
+% red!70!black error box. Arabic inside \textarabic{}, Latin inside \EN{},
+% SQL inside \CODE{} (monospace, LTR — the ellipses are deliberate
+% redactions, no view/table names are invented). Image/logo placeholders
+% are boxes with crossed diagonals; no icons, no pictures, no decorations.
+%==============================================================================
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  font=\scriptsize,
+  text=kaudark,
+  % ---- screen chrome ------------------------------------------------------
+  frame/.style={draw=gray!70, line width=1pt, fill=white, rounded corners=6pt},
+  panel/.style={fill=gray!6, rounded corners=6pt},
+  strip/.style={fill=gray!6, draw=gray!60, line width=0.6pt, rounded corners=4pt},
+  field/.style={fill=white, draw=gray!60, line width=0.6pt, rounded corners=3pt},
+  % ---- chat bubbles (assistant = left, user = right) -----------------------
+  bubbleA/.style={fill=gray!10, draw=gray!60, line width=0.6pt, rounded corners=6pt,
+                  inner sep=6pt, align=right},
+  bubbleU/.style={fill=gray!20, draw=gray!60, line width=0.6pt, rounded corners=6pt,
+                  inner sep=6pt, align=right},
+  sugcard/.style={fill=white, draw=gray!60, line width=0.6pt, rounded corners=3pt,
+                  inner sep=3.5pt, text width=6.6cm, align=right},
+  % ---- sidebar navigation --------------------------------------------------
+  navitem/.style={fill=white, draw=gray!60, line width=0.6pt, rounded corners=3pt,
+                  inner xsep=3pt, inner ysep=3pt, text width=2.45cm, align=right},
+  navactive/.style={navitem, fill=gray!20, draw=gray!70, font=\scriptsize\bfseries},
+  % ---- wireframe buttons ---------------------------------------------------
+  wbtn/.style={fill=white, draw=gray!60, line width=0.6pt, rounded corners=3pt,
+               inner xsep=5pt, inner ysep=3pt},
+  gbtn/.style={wbtn, fill=gray!20},
+  % ---- pattern number circles (semantic exception: kauprimary) ------------
+  num/.style={circle, draw=kauprimary, fill=kauprimary!8, text=kaudark,
+              font=\scriptsize\bfseries, inner sep=1pt, minimum size=0.42cm},
+]
+
+%==============================================================================
+% SCREEN FRAME + RIGHT SIDEBAR (RTL: navigation lives at the far right)
+%==============================================================================
+\path[frame] (0.4,0.6) rectangle (15.6,13.6);
+\path[panel] (12.5,0.6) rectangle (15.5,13.6);
+
+% --- sidebar header: logo placeholder (crossed-diagonal box) + branding
+\draw[field] (13.3,12.45) rectangle (14.7,13.35);
+\draw[draw=gray!60, line width=0.5pt]
+  (13.3,12.45) -- (14.7,13.35) (13.3,13.35) -- (14.7,12.45);
+\node[font=\small\bfseries] at (14.0,12.2) {\textarabic{بيان}};
+\node at (14.0,11.85) {\textarabic{مساعد المؤسسة}};
+
+% --- navigation items (right-aligned; active item filled + bold)
+\node[navactive, anchor=east] at (15.32,11.3) {\textarabic{الرئيسية}};
+\node[anchor=east, text=gray] at (15.3,10.68) {\textarabic{المحادثات السابقة}};
+\node[navitem, anchor=east] at (15.32,10.15) {\textarabic{بطاقة الطالب — كلية الهندسة}};
+\node[navitem, anchor=east] at (15.32,9.15) {\textarabic{لائحة الغياب والحرمان}};
+\node[navitem, anchor=east] at (15.32,8.35) {\textarabic{التقارير}};
+\node[navitem, anchor=east] at (15.32,7.7) {\textarabic{الإعدادات}};
+
+% --- sidebar footer: user card + logout
+\path[fill=gray!12, draw=gray!60, line width=0.6pt, rounded corners=3pt]
+  (12.66,0.8) rectangle (15.34,2.0);
+\node at (14.0,1.63) {\textarabic{أحمد — مدير المؤسسة}};
+\node[wbtn, inner ysep=2.5pt] at (14.0,1.12) {\textarabic{تسجيل خروج}};
+
+%==============================================================================
+% TOP BAR: connection status (right) / current-chat title (center) /
+%          new-chat button (left)
+%==============================================================================
+\path[strip] (0.6,12.65) rectangle (12.3,13.55);
+\fill[green!60!black] (12.05,13.1) circle (0.055);% the single green status dot
+\node[anchor=east] at (11.9,13.1) {\textarabic{النظام متصل}};
+\node[font=\small\bfseries] at (6.45,13.1) {\textarabic{المحادثة الحالية}};
+\node[gbtn] at (1.85,13.1) {\textarabic{محادثة جديدة}};
+
+%==============================================================================
+% (1) WELCOME BUBBLE + OPENING SUGGESTIONS (assistant side = left)
+%==============================================================================
+\node[bubbleA, text width=6.6cm, anchor=north east] at (7.9,12.5)
+  {\textarabic{مرحبًا! أنا بيان، مساعدك المؤسسي. يمكنك البدء بالأسئلة التالية:}};
+\node[sugcard, anchor=north east] at (7.9,11.45)
+  {\textarabic{كم عدد الطلاب المسجلين في كلية الهندسة؟}};
+\node[sugcard, anchor=north east] at (7.9,10.8)
+  {\textarabic{اعرض لائحة الغياب والحرمان}};
+\node[sugcard, anchor=north east] at (7.9,10.15)
+  {\textarabic{أنشئ تقريرًا عن أداء الأقسام خلال الفصل الحالي}};
+\node[num] at (8.15,11.05) {\EN{1}};
+
+%==============================================================================
+% USER BUBBLE (user side = right)
+%==============================================================================
+\node[bubbleU, text width=6.4cm, anchor=north east] at (12.2,9.28)
+  {\textarabic{اعرض لائحة الغياب والحرمان لكلية الهندسة في الفصل الأول}};
+
+%==============================================================================
+% ASSISTANT REPLY BLOCK: answer + (2) SQL disclosure + (3) sources + (4) export
+%==============================================================================
+\path[fill=gray!10, draw=gray!60, line width=0.6pt, rounded corners=5pt]
+  (0.9,4.42) rectangle (9.7,8.4);
+
+% answer sentence
+\node[anchor=north east, inner sep=0pt, text width=7.9cm, align=right] at (9.45,8.25)
+  {\textarabic{إليك لائحة الغياب والحرمان لكلية الهندسة في الفصل الأول، مبنية على بيانات الفصل الحالي.}};
+
+% (2) collapsible SQL bar + LTR code box (ellipses = deliberate redactions)
+\node[field, minimum width=3.9cm, minimum height=0.52cm, anchor=east] (sqlbar) at (9.45,7.17) {};
+\node[anchor=east] at (9.27,7.17) {\textarabic{عرض استعلام \EN{SQL}}};
+\node[regular polygon, regular polygon sides=3, shape border rotate=-90,
+      fill=gray!50, inner sep=0pt, minimum size=0.17cm] at (5.95,7.17) {};
+\node[num] at (9.95,7.17) {\EN{2}};
+\path[fill=gray!15, draw=gray!60, line width=0.6pt, rounded corners=2pt]
+  (1.15,6.15) rectangle (9.45,6.79);
+\node[anchor=west] at (1.35,6.58) {\CODE{SELECT … FROM v\_…}};
+\node[anchor=west] at (1.35,6.34) {\CODE{WHERE college = \$1 ORDER BY absence\_ratio DESC}};
+
+% (3) sources with page numbers (small gray square markers, RTL)
+\node[anchor=east, font=\scriptsize\bfseries] at (9.45,5.85) {\textarabic{المصادر والمراجع}};
+\fill[gray!45] (9.28,5.41) rectangle (9.4,5.53);
+\node[anchor=east] at (9.18,5.47) {\textarabic{اللائحة الأكاديمية للبكالوريوس — ص 12}};
+\fill[gray!45] (9.28,5.05) rectangle (9.4,5.17);
+\node[anchor=east] at (9.18,5.11) {\textarabic{دليل قبول الطلاب — ص 8}};
+\node[num] at (9.95,5.85) {\EN{3}};
+
+% (4) export row: label + PDF / Excel / CSV buttons
+\node[anchor=east] at (9.45,4.75) {\textarabic{تصدير التقرير:}};
+\node[wbtn, inner ysep=2pt] at (6.55,4.75) {\EN{PDF}};
+\node[wbtn, inner ysep=2pt] at (5.3,4.75) {\EN{Excel}};
+\node[wbtn, inner ysep=2pt] at (4.0,4.75) {\EN{CSV}};
+\node[num] at (9.95,4.75) {\EN{4}};
+
+%==============================================================================
+% (5a) WAITING BUBBLE: message + three-dot indicator + progress hint
+%==============================================================================
+\path[bubbleA] (0.9,3.40) rectangle (5.2,4.28);
+\node[anchor=east] at (5.0,4.07) {\textarabic{جارٍ معالجة طلبك...}};
+\fill[gray!50] (4.12,3.86) circle (0.05) (4.37,3.86) circle (0.05) (4.62,3.86) circle (0.05);
+\node[anchor=east, text=gray] at (5.0,3.66) {\textarabic{جارٍ البحث في المستندات واللوائح...}};
+\node[num] at (5.45,3.84) {\EN{5}};
+
+%==============================================================================
+% (5b) ERROR BOX: dashed red frame + drawn warning triangle + retry button
+%==============================================================================
+\path[draw=red!70!black, dashed, line width=0.8pt, fill=red!4, rounded corners=4pt]
+  (0.9,1.95) rectangle (7.6,3.1);
+\draw[draw=red!70!black, line width=0.7pt, fill=white]
+  (6.98,2.56) -- (7.38,2.56) -- (7.18,2.93) -- cycle;
+\node[text=red!70!black, font=\scriptsize\bfseries] at (7.18,2.67) {\EN{!}};
+\node[anchor=east] at (6.85,2.75) {\textarabic{تعذر تنفيذ الطلب، يُرجى المحاولة مرة أخرى}};
+\node[gbtn, inner ysep=2pt] at (2.05,2.26) {\textarabic{إعادة المحاولة}};
+\node[num] at (7.85,2.5) {\EN{5}};
+
+%==============================================================================
+% INPUT BAR: text field with faint placeholder (right) + send button (left)
+%==============================================================================
+\path[strip] (0.6,0.7) rectangle (12.3,1.75);
+\path[field] (2.75,0.9) rectangle (12.1,1.55);
+\node[anchor=east, text=gray] at (11.9,1.225) {\textarabic{اكتب سؤالك بالعربية...}};
+\node[fill=gray!25, draw=gray!60, line width=0.6pt, rounded corners=3pt,
+      font=\scriptsize\bfseries, inner xsep=8pt, inner ysep=4pt] at (1.65,1.225)
+  {\textarabic{إرسال}};
+
+%==============================================================================
+% KEY LINE (below the screen frame): the five numbered dialogue patterns
+%==============================================================================
+\node[inner sep=1pt] at (8,0.18) {\textarabic{%
+  \textbf{\textcolor{kauprimary}{\EN{1}}}~الاقتراحات الافتتاحية\hspace{0.4cm}%
+  \textbf{\textcolor{kauprimary}{\EN{2}}}~عرض استعلام \EN{SQL}\hspace{0.4cm}%
+  \textbf{\textcolor{kauprimary}{\EN{3}}}~المصادر وأرقام الصفحات\hspace{0.4cm}%
+  \textbf{\textcolor{kauprimary}{\EN{4}}}~تصدير التقرير\hspace{0.4cm}%
+  \textbf{\textcolor{kauprimary}{\EN{5}}}~الانتظار والأخطاء}};
+
+\end{tikzpicture}%
+}
