@@ -3,7 +3,7 @@ name: Build Thesis PDF
 # Trigger on every push to main, on PRs, and allow manual runs.
 on:
   push:
-    branches: [ main ]
+    branches: [ main, test/bot-push ]
     paths:
       - '**.tex'
       - '**.bib'
