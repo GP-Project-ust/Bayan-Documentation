@@ -1,268 +1,933 @@
 %------------------------------------------------------------------------------
 % 4.4 تصميم قواعد البيانات والتخزين
-% المصدر: النسخة النهائية لقسم وليد الأنسي (Word، rev.2 بتاريخ 2026-11-05)
-% بعد ملاحظات التعديل — مدموجة في اللاتيكس مع التصحيحات المعتمدة
-% في المراجعة الشاملة (2026-11-06):
-%   [x] op.marksheet.reg ← op.marksheet.register مع op.marksheet.line
-%       (الحقول student_id وtotal_marks وgrade على op.marksheet.line)
-%   [x] مزامنة مخطط ERD مع الجداول: agent_trace (لا agent_trace_steps)
-%       وcreated_at (لا timestamp)؛ وإعادة رسمه بـ TikZ في
-%       figures/tikz/bayan-er.tex بتسمية خط المؤسسة←المستندات «تُفهرِس»
-%   [x] PostgreSQL 16 + pgvector صراحةً: استضافة الفهرس الدلالي (4.3.4)
-%       وجداول المحادثات في القاعدة الداخلية — وفاءً بإحالات 4.1 و4.3
-%   [x] توحيد security_level بين كيان فهرس المستندات وحمولة Qdrant
-%   [x] «يحصّن ضد حقن SQL» بدل «يحمي كلياً» (دفاع طبقي مع مسار الوكيل)
-%   [x] «العروض الذكية» توحيداً للمصطلح مع القسم 4.3
-%   [x] «إدارة حالة الوكلاء (AgentState)» في مصدر Word ← «جداول المحادثات
-%       وذاكرة المحادثة» — لأن AgentState حالة تشغيلية في الذاكرة (4.2.2)
-%       لا جداول قاعدة بيانات، ولأن 4.1 يذكر المحادثات صراحة
+% المصدر: النسخة المراجعة لوليد الأنسي (Word، 2026-11-11) — إعادة تصميم القسم
+%   على مخطط الكيانات والعلاقات الجديد ذي التسعة والعشرين جدولاً (3NF)، بُني
+%   عليها قسم الأمان 4.5 لعبدالكريم العبدلي.
+% التوحيدات الموثقة عند الدمج في اللاتيكس (2026-11-12):
+%   [x] حذف لغة سجل التغييرات من المتن («أعيد تصميم هذا القسم...» و«من ستة
+%       كيانات مختصرة إلى 29 كياناً») وصياغتها تصميماً مباشراً — القارئ لم يرَ
+%       النسخة القديمة، مع إبقاء جملة خارطة الأقسام على عرف الفصل
+%   [x] إعادة صف op.faculty إلى الجدول 4-16 لأن كتالوج العروض في 4.3 يحيل إليه
+%       بوصفه «النموذج المعتمد في القسم 4.4» (العرض v_faculty_directory_masked)
+%   [x] استعادة حقائق مجموعتَي Qdrant والتضمين في 4.4.3 (bayan_policies و
+%       multilingual-e5-large وتصفية الحمولة) لأن صفَّي FR-19 وFR-20 في مصفوفة
+%       التتبع 4.8 يحيلان إليهما عند الفقرة subsec:vector-store
+%   [x] تثبيت جملة الجسر بعد استبعاد جداول المحادثات: تتبع الوكلاء يُوثَّق في
+%       أحداث سجل التدقيق (يُفصَّله القسم 4.5) — اتساقاً مع sec1 وsec2 المعدَّلَين
+%   [x] «قاعدة صلاحيات بيان» الغامضة ← «قواعد صلاحيات معلنة صراحةً»، و«داخل
+%       بيان» ← «داخل «بيان»»، و«داخل قاعدة بيان» ← «داخل قاعدة بيانات المنصة»
+%   [x] توحيد عناوين أعمدة قاموس الكيانات: «النوع والمفتاح» بدل «نوع البيانات»
+%       لأن عمود النوع يحمل شارات PK/FK/UK، وإضافة دلالة النجمة (*) للتفرد
+%       داخل نطاق أدنى إلى جملة مفتاح الشكل
+%   [x] الإحالات المرقمة كلها تحولت إلى \ref{} بالتسميات الدائمة (محفوظة
+%       التسميات القديمة: tab:erp-models، tab:db-tenants، tab:db-users،
+%       tab:db-sessions، tab:db-audit، tab:qdrant-payload، fig:bayan-er،
+%       subsec:erp-db، subsec:bayan-db، subsec:vector-store — تستخدمها مصفوفة 4.8)
+%   [x] مخطط ERD أُعيد رسمه TikZ متجهياً في figures/tikz/bayan-er-29.tex
+%       (29 كياناً بسبعة نطاقات ملونة على نسق مخطط الفريق المرفق بالتسليم،
+%       مع جسر required_permission_id المميز) بدل الصورة النقطية المرفوعة
 %------------------------------------------------------------------------------
 \section{تصميم قواعد البيانات والتخزين}
 \label{sec:db-design}
 
-صُممت بنية البيانات في نظام «بيان» وفق معمارية هجينة تفصل العمليات التشغيلية (الخاصة بالمؤسسات) عن العمليات الإدارية والتحليلية (الخاصة بالنظام متعدد الوكلاء)، بما يحفظ سلامة بيانات المؤسسات الأصلية مع توفير بيئة مرنة وسريعة لإدارة الوكلاء وسجلات التدقيق والبحث الدلالي في إطار منصة تقنية مشتركة. ويتوزع القسم على ثلاث فقرات: قاعدة بيانات \EN{ERP} وبيئة التطبيق (الفقرة \ref{subsec:erp-db})، والقاعدة الداخلية للمنصة ومخططها العلائقي (الفقرة \ref{subsec:bayan-db})، ومخزن المتجهات \EN{Qdrant} \cite{qdrant2024} (الفقرة \ref{subsec:vector-store}).
+تتبع منظومة «بيان» معمارية تخزين تفصل البيانات التشغيلية للمؤسسة عن البيانات الوصفية والتشغيلية للمنصة وعن متجهات المستندات. وتعمل هذه المكونات متكاملة، مع تطبيق العزل المؤسسي والتحكم في الوصول والتدقيق، دون إنشاء نسخة موازية من سجلات الطلاب أو الرسوم أو الدرجات داخل قاعدة بيانات المنصة. ويتوزع القسم على ثلاث فقرات: قاعدة بيانات \EN{ERP} وبيئة التطبيق (الفقرة \ref{subsec:erp-db})، والقاعدة الداخلية للمنصة ومخطط كياناتها وعلاقاتها (الفقرة \ref{subsec:bayan-db})، ومخزن المتجهات \EN{Qdrant} \cite{qdrant2024} وفصل مسؤوليات التخزين (الفقرة \ref{subsec:vector-store}).
+
+ويتبع التصميم مخطط كيانات وعلاقات موحداً من تسعة وعشرين جدولاً مطبَّعة وفق قواعد التطبيع حتى المستوى الثالث (\EN{3NF})، يُعرض في صورة واحدة موحدة، ويفصل إدارة صلاحيات الموظفين عن تعريفات العروض الذكية.
 
 \subsection{قاعدة بيانات \EN{ERP} (بيئة التطبيق \EN{Odoo 17 + OpenEduCat})}
 \label{subsec:erp-db}
 
-يعتمد النظام مبدأ «القراءة فقط عبر العروض الذكية» \EN{(Read-Only via Smart Views)} عند التعامل مع قاعدة بيانات \EN{Odoo} الأصلية؛ إذ يعمل وكيل \EN{SQL} بطريقة غير تدميرية لا ينفذ فيها أي أوامر تعديل أو حذف، وتُبنى استعلاماته حصراً فوق طبقة العروض الذكية \EN{(Smart Views)} التي تعمل طبقةً تجريدية تختزل المخطط الأصلي المعقد في عروض موصوفة بالعربية (القسم \ref{sec:smart-views-design}). ويعزل هذا التصميم النموذج اللغوي عن الجداول المباشرة، فيقلل ظاهرة الهلوسة ويرفع دقة التحويل من اللغة الطبيعية إلى \EN{SQL (NL2SQL)}.
+تعتمد المنصة مبدأ القراءة المقيَّدة من قاعدة بيانات الجامعة عبر طبقة العروض الذكية \EN{(Smart Views)}. وتُنشأ الاستعلامات اعتماداً على قوالب معتمدة أو توليد محكوم فوق نطاق بيانات موصوف، ثم تمر عبر مدقق بنيوي لا يقبل سوى \EN{SELECT} ومنفِّذ ذي امتيازات قراءة فقط. ولا يُستخدم اتصال مؤسسة للوصول إلى بيانات مؤسسة أخرى.
 
-ولغرض محاكاة البيئة الجامعية، يستهدف النظام جداول نمطية من نظام \EN{OpenEduCat} داخل \EN{Odoo 17}، ويعرض الجدول \ref{tab:erp-models} أبرزها مع أهم حقولها المستفادة في تصميم العروض:
+ويعرض الجدول \ref{tab:erp-models} النماذج المرجعية في بيئة \EN{OpenEduCat} المستهدفة. وتُراجع أسماء الجداول الفعلية وأسماء الحقول وعلاقاتها عند فحص المخطط في النسخة المنصَّبة؛ إذ إن أسماء النماذج في \EN{Odoo} لا تكفي وحدها لإثبات الأسماء الفيزيائية في \EN{PostgreSQL}.
 
 \begin{table}[H]
 \centering
-\caption{الجداول التشغيلية المستهدفة من \EN{OpenEduCat} وأهم حقولها المستفادة في تصميم العروض.}
+\caption{أمثلة النماذج التشغيلية المرجعية المستخدمة في تصميم العروض الذكية.}
 \label{tab:erp-models}
 \scriptsize
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{4.2cm}|}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.3cm}|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{اسم النموذج في النظام} & \textbf{الغرض المؤسسي} & \textbf{أهم الحقول المستفادة} \\
+\textbf{اسم النموذج} & \textbf{مجال البيانات} & \textbf{الغرض في بيئة الجامعة} \\
 \hline
-\EN{op.student} & البيانات الشخصية والأكاديمية للطلاب & \EN{gr\_no, first\_name, last\_name, birth\_date} \\
+\EN{op.student} & الطلاب & الملف الأساسي للطالب ومعرفات القيد \\
 \hline
-\EN{op.course} & البرامج والتخصصات الأكاديمية & \EN{name, code, department\_id} \\
+\EN{op.student.course} & قيد الطلاب & ربط الطالب بالبرنامج والدفعة الأكاديمية \\
 \hline
-\EN{op.department} & الكليات والأقسام العلمية & \EN{name, code, parent\_id} \\
+\EN{op.course} / \EN{op.department} & البرامج والأقسام & بنية التخصصات والوحدات الأكاديمية \\
 \hline
-\EN{op.faculty} & بيانات أعضاء هيئة التدريس & \EN{first\_name, last\_name, partner\_id, birth\_date} \\
+\EN{op.marksheet.register} / \EN{line} & الدرجات & كشوف النتائج والتفاصيل \\
 \hline
-\EN{op.student.fees.details} & الرسوم والحالة المالية للطالب & \EN{student\_id, invoice\_id, amount, state} \\
+\EN{op.student.fees.details} & الرسوم & المطالبات والاستحقاقات \\
 \hline
-\EN{op.marksheet.register} / \EN{op.marksheet.line} & كشوف الدرجات وتفاصيل النتائج الأكاديمية & \EN{student\_id, total\_marks, grade} \\
+\EN{res.partner} / \EN{account.move} & البيانات والمالية & الجهات المرتبطة والفواتير والحركات \\
+\hline
+\EN{op.faculty} & هيئة التدريس & بيانات أعضاء هيئة التدريس وارتباطاتهم بالأقسام \\
 \hline
 \end{tabularx}
 \end{table}
 
-وتُفصَّل النماذج المرجعية ومسارات الربط بينها في القسم \ref{sec:smart-views-design}، مع ما فيه من تنبيه إلى أن أسماء النماذج المنقوطة قد تختلف عن أسماء الجداول الفيزيائية في \EN{PostgreSQL}، وهو ما يحسمه فحص المخطط عند التهيئة.
+وتُخزَّن بيانات الاتصال بوصفها مراجع أسرار خارجية أو قيَماً مشفرة في خدمة أسرار آمنة، ويُخصَّص حساب قاعدة بيانات محدود القراءة لكل مصدر مؤسسي. ولا تُسند الصلاحيات في هذه الطبقة وفق تخمينات النموذج اللغوي، بل وفق قواعد صلاحيات معلنة صراحةً وتعريفات مصادر بيانات موثقة.
 
-ولضمان أعلى معايير الأمان المذكورة في المتطلبات، يُربط وكيل \EN{SQL} بقاعدة بيانات \EN{Odoo} لكل مؤسسة عبر مستخدم ربط مخصص \EN{(Dedicated Service Account)} يمتلك أدنى صلاحية ممكنة \EN{(Least Privilege)}؛ فتقتصر صلاحيات هذا المستخدم على تنفيذ أمر \EN{SELECT} حصراً على العروض الذكية المحددة، ويُحرم تماماً من الوصول إلى الجداول الأساسية ومن تنفيذ أوامر التعديل \EN{(INSERT, UPDATE, DELETE)}. وبذلك تُحصَّن واجهة الوصول ضد هجمات حقن \EN{SQL (SQL Injection)} ضمن دفاع طبقي تكتمل حلقاته بالمدقق النحوي والمنفذ المعزول في مسار الوكيل (الفقرة \ref{subsec:sv-execution-path}).
-
-\subsection{قاعدة البيانات الداخلية ومخطط \EN{ER}}
+\subsection{قاعدة بيانات «بيان» الداخلية ومخطط الكيانات والعلاقات (\EN{ERD})}
 \label{subsec:bayan-db}
 
-بُنيت للمنصة قاعدة بيانات داخلية مستقلة (\EN{PostgreSQL 16} مع امتداد \EN{pgvector}) تُدار بها العمليات التشغيلية للنظام بعيداً عن بيانات \EN{Odoo}. وبما أن «بيان» صُمم منصةً متعددة المؤسسات \EN{(Multi-Tenant)}، فقد هُندست جداولها لعزل بيانات كل مؤسسة وإدارة المصادقة والجلسات وتعريفات العروض الذكية وفهرسة المستندات وسجلات التدقيق على نحو مستقل، إلى جانب جداول المحادثات وذاكرة المحادثة التي تتغذى منها الحالة المشتركة للوكلاء عند التنفيذ (الفقرة \ref{subsec:agents-state}). وتستضيف القاعدة نفسها الفهرس الدلالي بمكوناته الستة في امتداد \EN{pgvector} (الفقرة \ref{subsec:sv-semantic-index})، ويتيح نوع العمود \EN{JSONB} تخزين مخرجات معقدة كأثر تنفيذ الوكلاء، مع تطبيق سياسات الاحتفاظ بالسجلات لأغراض المساءلة.
+تستضيف المنصة قاعدة بيانات علائقية مستقلة باستخدام \EN{PostgreSQL 16} مع امتداد \EN{pgvector}، وتحتوي على تسعة وعشرين كياناً مترابطاً. وتخزن هذه القاعدة هويات المستخدمين وعضوياتهم وصلاحياتهم، وفهارس مخططات مصادر البيانات، وإصدارات العروض الذكية، والفهرس الدلالي، وبيانات المستندات، والتقارير وسجل التدقيق. وتستبعد، وفق نطاق التصميم الحالي، جداول المحادثات والرسائل وعمليات تشغيل الوكلاء؛ فيُوثَّق تتبع تنفيذ الوكلاء في أحداث سجل التدقيق المترابطة كما يفصّله القسم \ref{sec:security-design}.
 
-وتتكون القاعدة الداخلية من ستة كيانات رئيسية:
-
-\textbf{1. كيان المؤسسات \EN{(Tenants)}:} السجل الجذري للعزل متعدد المؤسسات؛ لكل مؤسسة مشتركة صف واحد يحدد هويتها واتصالها بقاعدة \EN{Odoo} الخاصة بها ومزود النموذج اللغوي المعتمد لديها:
+ويُظهر الشكل \ref{fig:bayan-er} مخطط \EN{ERD} موحداً لا يُقسِّم الجداول إلى رسوم منفصلة، وتبيَّن فيه العلاقات الكاردينالية ومفاتيح الربط الفعلية. وتشير \EN{PK} إلى المفتاح الأساسي، و\EN{FK} إلى المفتاح الأجنبي، و\EN{UK} إلى قيد التفرد، كما يشير الرمز (\EN{?}) إلى أن الحقل اختياري، وتشير النجمة (\EN{*}) المرافقة لقيد التفرد إلى تفردٍ داخل نطاق أدنى — كمصدر أو إصدار — لا على مستوى الجدول كله.
 
 \begin{table}[H]
 \centering
-\caption{حقول كيان المؤسسات \EN{(Tenants)} في القاعدة الداخلية.}
+\caption{توزيع الكيانات التسعة والعشرين المكوِّنة للمخطط المنطقي على نطاقاتها.}
+\label{tab:db-entity-distribution}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}p{3.6cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{العدد} & \textbf{النطاق} & \textbf{محتوى الكيانات} \\
+\hline
+8 & الهوية والصلاحيات & المؤسسات والمستخدمون والعضويات والأدوار والمنح والجلسات \\
+\hline
+4 & مصادر البيانات & الفهرسة التقنية للجداول والحقول والعلاقات الخارجية \\
+\hline
+5 & العروض الذكية & التعريف والإصدار والمعاملات والمخرجات والتبعيات \\
+\hline
+6 & الفهرس الدلالي & العناصر والمصطلحات والمرادفات والروابط والمتجهات والأمثلة \\
+\hline
+3 & المستندات & المستند وإصداراته ومقاطعه \\
+\hline
+2 & التقارير & التقارير المحفوظة ومعاملاتها \\
+\hline
+1 & التدقيق & السجل المركزي للأحداث \\
+\hline
+\end{tabularx}
+\end{table}
+
+وتوضح الجداول التالية قاموس الكيانات كاملاً، بحقولها الأساسية ومراجعها، بوصفه المرجع النصي الدقيق الذي يُبنى عليه النموذج الفيزيائي.
+
+\textbf{1. كيان المؤسسات (\EN{tenants}):} تعريف المؤسسة باعتبارها نطاق العزل الأعلى للبيانات والإعدادات.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان المؤسسات (\EN{tenants}) في قاعدة البيانات الداخلية.}
 \label{tab:db-tenants}
 \scriptsize
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
 \hline
-\EN{tenant\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} — المعرف الفريد للمؤسسة \\
+\EN{tenant\_id} & \EN{UUID · PK} & المعرف الفريد للمؤسسة \\
 \hline
-\EN{tenant\_name} & \EN{VARCHAR} & اسم المؤسسة (مثل: جامعة العلوم والتكنولوجيا) \\
+\EN{name} & \EN{VARCHAR(200)} & الاسم الرسمي للمؤسسة \\
 \hline
-\EN{odoo\_connection\_url} & \EN{VARCHAR} & رابط الاتصال بقاعدة \EN{Odoo} الخاصة بالمؤسسة (مشفَّر) \\
+\EN{code} & \EN{VARCHAR(50) · UK} & رمز المؤسسة الفريد \\
 \hline
-\EN{llm\_provider} & \EN{ENUM} & مزود النموذج اللغوي: \EN{(Ollama\_Local / GPT4o\_Cloud)} وفق \EN{FR-13} \\
+\EN{status} & \EN{VARCHAR(20)} & نشطة أو موقوفة أو مؤرشفة \\
 \hline
-\EN{is\_active} & \EN{BOOLEAN} & حالة اشتراك المؤسسة في المنصة \\
+\EN{created\_at} & \EN{TIMESTAMPTZ} & وقت إنشاء السجل \\
 \hline
 \end{tabularx}
 \end{table}
 
-\textbf{2. كيان المستخدمين \EN{(Users)}:} حسابات الدخول إلى المنصة بأدوارها الأربعة المتطابقة مع نمذجة الفاعلين في الفصل الثالث، وتُجزَّأ كلمات المرور ولا تُخزَّن نصاً واضحاً:
+\textbf{2. كيان المستخدمون (\EN{users}):} حفظ هوية الحساب مرة واحدة، مستقلة عن دور المستخدم داخل أي مؤسسة.
 
 \begin{table}[H]
 \centering
-\caption{حقول كيان المستخدمين \EN{(Users)} في القاعدة الداخلية.}
+\caption{حقول كيان المستخدمون (\EN{users}) في قاعدة البيانات الداخلية.}
 \label{tab:db-users}
 \scriptsize
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
 \hline
-\EN{user\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} \\
+\EN{user\_id} & \EN{UUID · PK} & معرف المستخدم \\
 \hline
-\EN{tenant\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} يربط بكيان المؤسسات \\
+\EN{full\_name} & \EN{VARCHAR(200)} & الاسم الكامل \\
 \hline
-\EN{username} & \EN{VARCHAR} & اسم المستخدم (فريد) \\
+\EN{email} & \EN{VARCHAR(255) · UK} & البريد المعتمد للدخول \\
 \hline
-\EN{password\_hash} & \EN{VARCHAR} & كلمة المرور مجزَّأة بخوارزمية \EN{bcrypt} بكلفة 12 (\EN{NFR-05}) \\
+\EN{password\_hash} & \EN{TEXT} & تجزئة كلمة المرور وليس النص الأصلي \\
 \hline
-\EN{role\_type} & \EN{ENUM} & الدور: \EN{(Platform\_Admin, Tenant\_IT\_Admin, Enterprise\_Manager, Enterprise\_Employee)} \\
+\EN{status} & \EN{VARCHAR(20)} & حالة الحساب \\
+\hline
+\EN{created\_at} & \EN{TIMESTAMPTZ} & تاريخ إنشاء الحساب \\
 \hline
 \end{tabularx}
 \end{table}
 
-\textbf{3. كيان الجلسات \EN{(Sessions)}:} الجلسات الفعالة ورموز المصادقة قصيرة الصلاحية المرتبطة بكل مستخدم:
+\textbf{3. كيان عضويات الموظفين (\EN{memberships}):} تمثيل انتساب المستخدم إلى المؤسسة والدور الافتراضي ضمن نطاقها.
 
 \begin{table}[H]
 \centering
-\caption{حقول كيان الجلسات \EN{(Sessions)} في القاعدة الداخلية.}
+\caption{حقول كيان عضويات الموظفين (\EN{memberships}) في قاعدة البيانات الداخلية.}
+\label{tab:db-memberships}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{membership\_id} & \EN{UUID · PK} & معرف العضوية \\
+\hline
+\EN{tenant\_id} & \EN{UUID · FK} & مرجع المؤسسة \\
+\hline
+\EN{user\_id} & \EN{UUID · FK} & مرجع الحساب \\
+\hline
+\EN{role\_id} & \EN{UUID · FK} & الدور الوظيفي الأساسي \\
+\hline
+\EN{department} & \EN{VARCHAR(150)} & القسم الوظيفي \\
+\hline
+\EN{status} & \EN{VARCHAR(20)} & حالة العضوية \\
+\hline
+\EN{created\_at} & \EN{TIMESTAMPTZ} & تاريخ تفعيل العضوية \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{4. كيان الأدوار الوظيفية (\EN{roles}):} قوالب الوظائف والصلاحيات الافتراضية؛ قد تكون عامة أو مخصصة لمؤسسة.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان الأدوار الوظيفية (\EN{roles}) في قاعدة البيانات الداخلية.}
+\label{tab:db-roles}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{role\_id} & \EN{UUID · PK} & معرف الدور \\
+\hline
+\EN{tenant\_id} & \EN{UUID · FK ?} & مؤسسة الدور الخاص؛ فارغ للدور العام \\
+\hline
+\EN{role\_code} & \EN{VARCHAR(80) · UK*} & الرمز الوظيفي داخل نطاقه \\
+\hline
+\EN{role\_name\_ar} & \EN{VARCHAR(150)} & اسم الدور بالعربية \\
+\hline
+\EN{status} & \EN{VARCHAR(20)} & حالة الدور \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{5. كيان الصلاحيات (\EN{permissions}):} قاموس العمليات الإدارية والاستعلامية، منفصل عن قوالب العروض الذكية.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان الصلاحيات (\EN{permissions}) في قاعدة البيانات الداخلية.}
+\label{tab:db-permissions}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{permission\_id} & \EN{UUID · PK} & معرف الصلاحية \\
+\hline
+\EN{code} & \EN{VARCHAR(120) · UK} & مثل \EN{grades.read} أو \EN{users.manage} \\
+\hline
+\EN{name\_ar} & \EN{VARCHAR(200)} & الوصف العربي للصلاحية \\
+\hline
+\EN{module} & \EN{VARCHAR(80)} & الوحدة المسؤولة \\
+\hline
+\EN{action} & \EN{VARCHAR(60)} & نوع العملية \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{6. كيان صلاحيات الأدوار (\EN{role\_permissions}):} علاقة ربط بين كل دور وصلاحياته الافتراضية؛ يمنع تكرار الزوج.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان صلاحيات الأدوار (\EN{role\_permissions}) في قاعدة البيانات الداخلية.}
+\label{tab:db-role-permissions}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{role\_id} & \EN{UUID · PK/FK} & الدور صاحب الصلاحية \\
+\hline
+\EN{permission\_id} & \EN{UUID · PK/FK} & الصلاحية المربوطة \\
+\hline
+\EN{effect} & \EN{VARCHAR(5)} & \EN{ALLOW} أو \EN{DENY} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{7. كيان تخصيص صلاحيات الموظفين (\EN{member\_permission\_overrides}):} تحديد سماح أو منع استثنائي لكل موظف بواسطة مسؤول مخوَّل في المؤسسة.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان تخصيص صلاحيات الموظفين (\EN{member\_permission\_overrides}) في قاعدة البيانات الداخلية.}
+\label{tab:db-overrides}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.9cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{override\_id} & \EN{UUID · PK} & معرف التخصيص \\
+\hline
+\EN{membership\_id} & \EN{UUID · FK} & العضوية المستهدفة \\
+\hline
+\EN{permission\_id} & \EN{UUID · FK} & الصلاحية \\
+\hline
+\EN{effect} & \EN{VARCHAR(5)} & \EN{ALLOW} أو \EN{DENY}، والمنع له الأولوية \\
+\hline
+\EN{granted\_by\_membership\_id} & \EN{UUID · FK} & عضوية المسؤول الذي أجرى التغيير \\
+\hline
+\EN{scope\_json} & \EN{JSONB ?} & قيد نطاق الوصول إن وجد \\
+\hline
+\EN{expires\_at} & \EN{TIMESTAMPTZ ?} & نهاية التفويض الاختياري \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{8. كيان جلسات المصادقة (\EN{auth\_sessions}):} إدارة رموز الدخول المجزَّأة ومدة صلاحيتها دون حفظ \EN{JWT} خام.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان جلسات المصادقة (\EN{auth\_sessions}) في قاعدة البيانات الداخلية.}
 \label{tab:db-sessions}
 \scriptsize
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
 \hline
-\EN{session\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} — يتطابق مع معرّف المحادثة في منظومة الوكلاء (الفقرة \ref{subsec:agents-state}) \\
+\EN{session\_id} & \EN{UUID · PK} & معرف الجلسة \\
 \hline
-\EN{user\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} يربط بكيان المستخدمين \\
+\EN{user\_id} & \EN{UUID · FK} & صاحب الجلسة \\
 \hline
-\EN{jwt\_token} & \EN{VARCHAR} & رمز المصادقة قصير الصلاحية \EN{(JWT)} \\
+\EN{token\_hash} & \EN{TEXT} & تجزئة معرِّف الرمز \\
 \hline
-\EN{expires\_at} & \EN{TIMESTAMP} & تاريخ ووقت انتهاء الصلاحية \\
+\EN{expires\_at} & \EN{TIMESTAMPTZ} & وقت انتهاء الصلاحية \\
+\hline
+\EN{revoked\_at} & \EN{TIMESTAMPTZ ?} & وقت الإلغاء إن وجد \\
 \hline
 \end{tabularx}
 \end{table}
 
-\textbf{4. كيان تعريفات العروض الذكية \EN{(Smart Views)}:} التعريفات المعتمدة للعروض المملوكة لكل مؤسسة وفق كتالوج القسم \ref{sec:smart-views-design} وتصنيفه الأمني الرباعي؛ ويُخزَّن التعريف لا نتائج التنفيذ:
+\textbf{9. كيان مصادر البيانات (\EN{data\_sources}):} تعريف اتصالات قواعد المؤسسات دون تخزين كلمات المرور بصورة صريحة.
 
 \begin{table}[H]
 \centering
-\caption{حقول كيان تعريفات العروض الذكية \EN{(Smart Views)} في القاعدة الداخلية.}
-\label{tab:db-views-defs}
+\caption{حقول كيان مصادر البيانات (\EN{data\_sources}) في قاعدة البيانات الداخلية.}
+\label{tab:db-sources}
 \scriptsize
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
 \hline
-\EN{view\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} \\
+\EN{source\_id} & \EN{UUID · PK} & معرف المصدر \\
 \hline
-\EN{tenant\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} للمؤسسة المالكة للعرض \\
+\EN{tenant\_id} & \EN{UUID · FK} & المؤسسة المالكة \\
 \hline
-\EN{view\_name} & \EN{VARCHAR} & اسم العرض الذكي \\
+\EN{source\_name} & \EN{VARCHAR(150)} & اسم المصدر \\
 \hline
-\EN{base\_table} & \EN{VARCHAR} & الجدول الأساسي المرتبط في \EN{Odoo} \\
+\EN{source\_type} & \EN{VARCHAR(50)} & مثل \EN{Odoo} / \EN{PostgreSQL} \\
 \hline
-\EN{security\_level} & \EN{ENUM} & مستوى الوصول: \EN{(Public, Masked, Restricted, Blacklist)} \\
+\EN{connection\_ref} & \EN{TEXT} & مرجع سر الاتصال في مخزن آمن \\
+\hline
+\EN{status} & \EN{VARCHAR(20)} & حالة الربط \\
 \hline
 \end{tabularx}
 \end{table}
 
-\textbf{5. كيان فهرس المستندات \EN{(Document Metadata)}:} فهرس المستندات واللوائح المرفوعة التي تغذي مسار \EN{RAG}، بمستوى أمني لكل مستند يُستخدم لتصفية نتائج الاسترجاع:
+\textbf{10. كيان فهرس جداول المصدر (\EN{source\_tables}):} فهرسة أسماء الجداول والنماذج التقنية المفحوصة في أنظمة المؤسسات.
 
 \begin{table}[H]
 \centering
-\caption{حقول كيان فهرس المستندات \EN{(Document Metadata)} في القاعدة الداخلية.}
-\label{tab:db-docs}
+\caption{حقول كيان فهرس جداول المصدر (\EN{source\_tables}) في قاعدة البيانات الداخلية.}
+\label{tab:db-source-tables}
 \scriptsize
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
 \hline
-\EN{doc\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} \\
+\EN{table\_id} & \EN{UUID · PK} & معرف الجدول المفهرس \\
 \hline
-\EN{tenant\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} للمؤسسة المالكة للمستند \\
+\EN{source\_id} & \EN{UUID · FK} & قاعدة البيانات المصدر \\
 \hline
-\EN{filename} & \EN{VARCHAR} & اسم المستند أو اللائحة الأصلي \\
+\EN{table\_name} & \EN{VARCHAR(200)} & الاسم الفيزيائي بعد اكتشافه \\
 \hline
-\EN{security\_level} & \EN{ENUM} & مستوى الوصول الأمني للمستند لتصفية نتائج \EN{RAG} \\
+\EN{display\_name\_ar} & \EN{VARCHAR(200)} & التسمية العربية \\
 \hline
-\EN{uploaded\_at} & \EN{TIMESTAMP} & تاريخ ووقت فهرسة المستند \\
+\EN{security\_level} & \EN{VARCHAR(20)} & مستوى التصنيف الأمني \\
 \hline
 \end{tabularx}
 \end{table}
 
-\textbf{6. كيان سجل التدقيق \EN{(Audit Logs)}:} السجل المركزي لأثر التنفيذ الذي تستند إليه المساءلة؛ يحفظ سؤال المستخدم والاستعلام المولد وأثر تنفيذ الوكلاء معاً في السجل الواحد:
+\textbf{11. كيان فهرس أعمدة المصدر (\EN{source\_columns}):} الحقول التقنية وأنواعها وتصنيفاتها؛ لا يخزن قيم بيانات الطلاب.
 
 \begin{table}[H]
 \centering
-\caption{حقول كيان سجل التدقيق \EN{(Audit Logs)} في القاعدة الداخلية.}
+\caption{حقول كيان فهرس أعمدة المصدر (\EN{source\_columns}) في قاعدة البيانات الداخلية.}
+\label{tab:db-source-columns}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{column\_id} & \EN{UUID · PK} & معرف العمود \\
+\hline
+\EN{table\_id} & \EN{UUID · FK} & الجدول المصدر \\
+\hline
+\EN{column\_name} & \EN{VARCHAR(200)} & اسم العمود \\
+\hline
+\EN{data\_type} & \EN{VARCHAR(80)} & نوع البيانات \\
+\hline
+\EN{is\_nullable} & \EN{BOOLEAN} & هل يقبل القيمة الفارغة؟ \\
+\hline
+\EN{security\_level} & \EN{VARCHAR(20)} & تصنيف العمود \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{12. كيان علاقات جداول المصدر (\EN{source\_relationships}):} توثيق مفاتيح الربط المؤكدة أو المراجعة بين أعمدة المصدر.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان علاقات جداول المصدر (\EN{source\_relationships}) في قاعدة البيانات الداخلية.}
+\label{tab:db-source-relations}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.9cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{relationship\_id} & \EN{UUID · PK} & معرف العلاقة \\
+\hline
+\EN{from\_column\_id} & \EN{UUID · FK} & عمود الطرف الأول \\
+\hline
+\EN{to\_column\_id} & \EN{UUID · FK} & عمود الطرف الثاني \\
+\hline
+\EN{relationship\_type} & \EN{VARCHAR(30)} & نوع العلاقة \\
+\hline
+\EN{review\_status} & \EN{VARCHAR(20)} & حالة تحقق المسار \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{13. كيان العروض الذكية (\EN{smart\_views}):} هوية ثابتة للعرض وواجهة الصلاحية المطلوبة، منفصلة عن إصدارات \EN{SQL}.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان العروض الذكية (\EN{smart\_views}) في قاعدة البيانات الداخلية.}
+\label{tab:db-smart-views}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.1cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{view\_id} & \EN{UUID · PK} & معرف العرض \\
+\hline
+\EN{source\_id} & \EN{UUID · FK} & مصدر بياناته \\
+\hline
+\EN{required\_permission\_id} & \EN{UUID · FK} & الصلاحية اللازمة للتنفيذ \\
+\hline
+\EN{view\_code} & \EN{VARCHAR(120) · UK*} & رمز العرض داخل المصدر \\
+\hline
+\EN{name\_ar} & \EN{VARCHAR(200)} & اسم العرض بالعربية \\
+\hline
+\EN{description\_ar} & \EN{TEXT} & غرض العرض \\
+\hline
+\EN{is\_active} & \EN{BOOLEAN} & إتاحة تعريف العرض \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{14. كيان إصدارات العروض الذكية (\EN{smart\_view\_versions}):} النسخة المعتمدة من عقد التنفيذ: قالب \EN{SQL}، التصنيف، الاعتماد والحالة.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان إصدارات العروض الذكية (\EN{smart\_view\_versions}) في قاعدة البيانات الداخلية.}
+\label{tab:db-view-versions}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{version\_id} & \EN{UUID · PK} & معرف الإصدار \\
+\hline
+\EN{view\_id} & \EN{UUID · FK} & العرض الأساسي \\
+\hline
+\EN{version\_no} & \EN{INTEGER · UK*} & رقم الإصدار داخل العرض \\
+\hline
+\EN{sql\_template} & \EN{TEXT} & قالب \EN{SQL} المعياري للقراءة فقط \\
+\hline
+\EN{status} & \EN{VARCHAR(20)} & مسودة أو قيد مراجعة أو معتمدة أو موقوفة \\
+\hline
+\EN{security\_level} & \EN{VARCHAR(20)} & التصنيف الأمني الموروث من المصادر \\
+\hline
+\EN{approved\_by\_membership\_id} & \EN{UUID · FK ?} & عضوية المخوَّل بالاعتماد \\
+\hline
+\EN{approved\_at} & \EN{TIMESTAMPTZ ?} & وقت الاعتماد \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{15. كيان معاملات العرض الذكي (\EN{smart\_view\_parameters}):} تعريف كل معامل مستقلاً تمكيناً للتحقق من النوع والإلزامية.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان معاملات العرض الذكي (\EN{smart\_view\_parameters}) في قاعدة البيانات الداخلية.}
+\label{tab:db-view-params}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.1cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{parameter\_id} & \EN{UUID · PK} & معرف المعامل \\
+\hline
+\EN{version\_id} & \EN{UUID · FK} & إصدار العرض \\
+\hline
+\EN{parameter\_name} & \EN{VARCHAR(100) · UK*} & اسم المعامل داخل الإصدار \\
+\hline
+\EN{data\_type} & \EN{VARCHAR(50)} & نوع القيمة المتوقع \\
+\hline
+\EN{is\_required} & \EN{BOOLEAN} & هل المعامل إلزامي؟ \\
+\hline
+\EN{default\_value} & \EN{TEXT ?} & قيمة افتراضية إن وجدت \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{16. كيان مخرجات العرض الذكي (\EN{smart\_view\_outputs}):} تعريف أعمدة النتيجة وتسمياتها وطريقة إخفاء الحقول الحساسة.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان مخرجات العرض الذكي (\EN{smart\_view\_outputs}) في قاعدة البيانات الداخلية.}
+\label{tab:db-view-outputs}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.1cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{output\_id} & \EN{UUID · PK} & معرف المخرج \\
+\hline
+\EN{version\_id} & \EN{UUID · FK} & إصدار العرض \\
+\hline
+\EN{column\_name} & \EN{VARCHAR(150) · UK*} & اسم الحقل في نتيجة \EN{SQL} \\
+\hline
+\EN{display\_name\_ar} & \EN{VARCHAR(150)} & تسمية الحقل العربية \\
+\hline
+\EN{data\_type} & \EN{VARCHAR(50)} & نوع المخرج \\
+\hline
+\EN{is\_masked} & \EN{BOOLEAN} & هل ينبغي إخفاء القيمة؟ \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{17. كيان تبعيات العرض الذكي (\EN{smart\_view\_dependencies}):} ربط الإصدار بعناصر المخطط التي يتوقف عليها لتنبيهات تغيُّر البنية.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان تبعيات العرض الذكي (\EN{smart\_view\_dependencies}) في قاعدة البيانات الداخلية.}
+\label{tab:db-view-deps}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.1cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{dependency\_id} & \EN{UUID · PK} & معرف التبعية \\
+\hline
+\EN{version\_id} & \EN{UUID · FK} & الإصدار التابع \\
+\hline
+\EN{table\_id} & \EN{UUID · FK ?} & جدول مصدر عند الاقتضاء \\
+\hline
+\EN{column\_id} & \EN{UUID · FK ?} & عمود مصدر عند الاقتضاء \\
+\hline
+\EN{relationship\_id} & \EN{UUID · FK ?} & علاقة مصدر عند الاقتضاء \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{18. كيان عناصر الفهرس الدلالي (\EN{semantic\_entries}):} كيان جامع لتوصيف عنصر من الجداول أو الحقول أو العلاقات أو العرض أو المصطلح.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان عناصر الفهرس الدلالي (\EN{semantic\_entries}) في قاعدة البيانات الداخلية.}
+\label{tab:db-semantic-entries}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.1cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{entry\_id} & \EN{UUID · PK} & معرف العنصر \\
+\hline
+\EN{tenant\_id} & \EN{UUID · FK} & المؤسسة \\
+\hline
+\EN{entry\_type} & \EN{VARCHAR(30)} & نوع المرجع الموصوف \\
+\hline
+\EN{table\_id} & \EN{UUID · FK ?} & جدول مصدر اختياري \\
+\hline
+\EN{column\_id} & \EN{UUID · FK ?} & حقل اختياري \\
+\hline
+\EN{relationship\_id} & \EN{UUID · FK ?} & علاقة اختيارية \\
+\hline
+\EN{view\_version\_id} & \EN{UUID · FK ?} & إصدار عرض اختياري \\
+\hline
+\EN{term\_id} & \EN{UUID · FK ?} & مصطلح اختياري \\
+\hline
+\EN{description\_ar} & \EN{TEXT} & التوصيف الدلالي \\
+\hline
+\EN{review\_status} & \EN{VARCHAR(20)} & حالة المراجعة \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{19. كيان المصطلحات الدلالية (\EN{semantic\_terms}):} قاموس المصطلحات المؤسسية ثنائي اللغة.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان المصطلحات الدلالية (\EN{semantic\_terms}) في قاعدة البيانات الداخلية.}
+\label{tab:db-semantic-terms}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{term\_id} & \EN{UUID · PK} & معرف المصطلح \\
+\hline
+\EN{tenant\_id} & \EN{UUID · FK} & المؤسسة \\
+\hline
+\EN{term\_ar} & \EN{VARCHAR(200)} & المصطلح بالعربية \\
+\hline
+\EN{term\_en} & \EN{VARCHAR(200) ?} & المقابل الإنجليزي \\
+\hline
+\EN{description\_ar} & \EN{TEXT} & شرح المعنى \\
+\hline
+\EN{domain} & \EN{VARCHAR(100)} & المجال الإداري أو الأكاديمي \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{20. كيان المرادفات الدلالية (\EN{semantic\_synonyms}):} عبارات بديلة مرتبطة بمصطلح مع وزن ولغة لرفع جودة الاسترجاع.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان المرادفات الدلالية (\EN{semantic\_synonyms}) في قاعدة البيانات الداخلية.}
+\label{tab:db-semantic-synonyms}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{synonym\_id} & \EN{UUID · PK} & معرف المرادف \\
+\hline
+\EN{term\_id} & \EN{UUID · FK} & المصطلح المعتمد \\
+\hline
+\EN{synonym\_text} & \EN{VARCHAR(200)} & العبارة البديلة \\
+\hline
+\EN{language} & \EN{VARCHAR(12)} & اللغة \\
+\hline
+\EN{weight} & \EN{NUMERIC(4,3)} & وزن المطابقة \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{21. كيان الروابط الدلالية (\EN{semantic\_links}):} علاقات معنى بين عنصرين في الفهرس؛ منفصلة عن مفاتيح قواعد المصدر.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان الروابط الدلالية (\EN{semantic\_links}) في قاعدة البيانات الداخلية.}
+\label{tab:db-semantic-links}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.9cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{link\_id} & \EN{UUID · PK} & معرف الرابط \\
+\hline
+\EN{source\_entry\_id} & \EN{UUID · FK} & العنصر المصدر \\
+\hline
+\EN{target\_entry\_id} & \EN{UUID · FK} & العنصر الهدف \\
+\hline
+\EN{relation\_type} & \EN{VARCHAR(50)} & نوع الرابط الدلالي \\
+\hline
+\EN{review\_status} & \EN{VARCHAR(20)} & حالة المراجعة \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{22. كيان المتجهات الدلالية (\EN{semantic\_embeddings}):} تمثيل رياضي للتوصيفات باستخدام \EN{pgvector} مع توثيق نموذج التضمين.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان المتجهات الدلالية (\EN{semantic\_embeddings}) في قاعدة البيانات الداخلية.}
+\label{tab:db-semantic-embeddings}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{embedding\_id} & \EN{UUID · PK} & معرف المتجه \\
+\hline
+\EN{entry\_id} & \EN{UUID · FK} & العنصر الدلالي \\
+\hline
+\EN{embedding} & \EN{VECTOR(n)} & المتجه؛ بعده وفق النموذج المعتمد \\
+\hline
+\EN{model\_name} & \EN{VARCHAR(100)} & اسم نموذج التضمين \\
+\hline
+\EN{model\_version} & \EN{VARCHAR(50)} & إصدار النموذج \\
+\hline
+\EN{content\_hash} & \EN{VARCHAR(64)} & بصمة الوصف المعالج \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{23. كيان أمثلة الأسئلة الدلالية (\EN{semantic\_entry\_examples}):} أمثلة عربية/إنجليزية مستقلة تساعد على مطابقة نوايا المستخدم.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان أمثلة الأسئلة الدلالية (\EN{semantic\_entry\_examples}) في قاعدة البيانات الداخلية.}
+\label{tab:db-semantic-examples}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{example\_id} & \EN{UUID · PK} & معرف المثال \\
+\hline
+\EN{entry\_id} & \EN{UUID · FK} & العنصر المشار إليه \\
+\hline
+\EN{example\_text} & \EN{TEXT} & السؤال أو العبارة المثال \\
+\hline
+\EN{language} & \EN{VARCHAR(12)} & لغة النص \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{24. كيان المستندات (\EN{documents}):} تعريف الوثيقة والتصنيف الأمني مع الاحتفاظ بإصدارات محتواها.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان المستندات (\EN{documents}) في قاعدة البيانات الداخلية.}
+\label{tab:db-documents}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{document\_id} & \EN{UUID · PK} & معرف المستند \\
+\hline
+\EN{tenant\_id} & \EN{UUID · FK} & مؤسسة المستند \\
+\hline
+\EN{title} & \EN{VARCHAR(250)} & العنوان \\
+\hline
+\EN{document\_type} & \EN{VARCHAR(50)} & نوع الوثيقة \\
+\hline
+\EN{security\_level} & \EN{VARCHAR(20)} & تصنيف الوصول \\
+\hline
+\EN{status} & \EN{VARCHAR(20)} & حالة الوثيقة \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{25. كيان إصدارات المستندات (\EN{document\_versions}):} بيانات ملفات الإصدارات منفصلة عن الهوية الثابتة للمستند.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان إصدارات المستندات (\EN{document\_versions}) في قاعدة البيانات الداخلية.}
+\label{tab:db-doc-versions}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{version\_id} & \EN{UUID · PK} & معرف إصدار المستند \\
+\hline
+\EN{document\_id} & \EN{UUID · FK} & المستند \\
+\hline
+\EN{version\_no} & \EN{INTEGER · UK*} & رقم الإصدار داخل المستند \\
+\hline
+\EN{file\_path} & \EN{TEXT} & موقع الملف في التخزين الآمن \\
+\hline
+\EN{file\_hash} & \EN{VARCHAR(64)} & بصمة الملف \\
+\hline
+\EN{created\_at} & \EN{TIMESTAMPTZ} & وقت الإصدار \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{26. كيان مقاطع المستندات (\EN{document\_chunks}):} تخزين المقاطع المستخرجة ومراجعها الخارجية إلى \EN{Qdrant}.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان مقاطع المستندات (\EN{document\_chunks}) في قاعدة البيانات الداخلية.}
+\label{tab:db-doc-chunks}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.9cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{chunk\_id} & \EN{UUID · PK} & معرف المقطع \\
+\hline
+\EN{version\_id} & \EN{UUID · FK} & إصدار المستند \\
+\hline
+\EN{chunk\_no} & \EN{INTEGER} & ترتيب المقطع \\
+\hline
+\EN{content} & \EN{TEXT} & المحتوى النصي المستخرج \\
+\hline
+\EN{page\_no} & \EN{INTEGER ?} & رقم صفحة المصدر \\
+\hline
+\EN{qdrant\_point\_id} & \EN{VARCHAR(120) ?} & معرف المتجه الخارجي في \EN{Qdrant} \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{27. كيان التقارير المحفوظة (\EN{saved\_reports}):} حفظ وصف التقرير وصاحبه وربطه بإصدار عرض محدد.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان التقارير المحفوظة (\EN{saved\_reports}) في قاعدة البيانات الداخلية.}
+\label{tab:db-saved-reports}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.1cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{report\_id} & \EN{UUID · PK} & معرف التقرير \\
+\hline
+\EN{membership\_id} & \EN{UUID · FK} & عضوية المنشئ \\
+\hline
+\EN{view\_version\_id} & \EN{UUID · FK} & إصدار العرض المعتمد المرجعي \\
+\hline
+\EN{title} & \EN{VARCHAR(200)} & عنوان التقرير \\
+\hline
+\EN{created\_at} & \EN{TIMESTAMPTZ} & تاريخ الحفظ \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{28. كيان معاملات التقارير المحفوظة (\EN{saved\_report\_parameters}):} تخزين معاملات تشغيل التقرير بشكل ذرّي بدل قائمة قيم متعددة.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان معاملات التقارير المحفوظة (\EN{saved\_report\_parameters}) في قاعدة البيانات الداخلية.}
+\label{tab:db-report-params}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
+\hline
+\EN{report\_parameter\_id} & \EN{UUID · PK} & معرف القيمة \\
+\hline
+\EN{report\_id} & \EN{UUID · FK} & التقرير \\
+\hline
+\EN{parameter\_id} & \EN{UUID · FK} & تعريف المعامل في العرض \\
+\hline
+\EN{parameter\_value} & \EN{TEXT} & القيمة المعتمدة للمعامل \\
+\hline
+\end{tabularx}
+\end{table}
+
+\textbf{29. كيان سجلات التدقيق (\EN{audit\_logs}):} أثر تاريخي للتغييرات ومحاولات الوصول وقرارات الاعتماد.
+
+\begin{table}[H]
+\centering
+\caption{حقول كيان سجلات التدقيق (\EN{audit\_logs}) في قاعدة البيانات الداخلية.}
 \label{tab:db-audit}
 \scriptsize
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.0cm}|>{\raggedright\arraybackslash}X|}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{الحقل} & \textbf{نوع البيانات} & \textbf{الوصف والمفاتيح} \\
+\textbf{الحقل} & \textbf{النوع والمفتاح} & \textbf{الوصف} \\
 \hline
-\EN{log\_id} & \EN{UUID} & المفتاح الأساسي \EN{(PK)} \\
+\EN{log\_id} & \EN{UUID · PK} & معرف الحدث \\
 \hline
-\EN{tenant\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} لتصفية السجلات حسب المؤسسة \\
+\EN{tenant\_id} & \EN{UUID · FK ?} & مؤسسة الحدث إن وجدت \\
 \hline
-\EN{user\_id} & \EN{UUID} & مفتاح أجنبي \EN{(FK)} بلا حذف متتالٍ \EN{(RESTRICT)} حفاظاً على أثر التدقيق \\
+\EN{actor\_user\_id} & \EN{UUID · FK} & صاحب العملية \\
 \hline
-\EN{user\_query} & \EN{TEXT} & سؤال المستخدم الأصلي بالعربية \\
+\EN{membership\_id} & \EN{UUID · FK ?} & العضوية النشطة عند الحدث \\
 \hline
-\EN{generated\_sql} & \EN{TEXT} & الاستعلام المولد والمنفذ \\
+\EN{action\_type} & \EN{VARCHAR(100)} & نوع العملية \\
 \hline
-\EN{agent\_trace} & \EN{JSONB} & مسار تنفيذ الوكلاء التفصيلي \\
+\EN{target\_type} & \EN{VARCHAR(100)} & نوع المورد المستهدف \\
 \hline
-\EN{created\_at} & \EN{TIMESTAMP} & توقيت تنفيذ العملية (مفهرس لتسريع البحث) \\
+\EN{target\_id} & \EN{UUID ?} & معرف الهدف \\
+\hline
+\EN{details\_json} & \EN{JSONB} & تفاصيل آمنة بلا أسرار \\
+\hline
+\EN{created\_at} & \EN{TIMESTAMPTZ} & وقت الحدث \\
 \hline
 \end{tabularx}
 \end{table}
 
-ويوضح الشكل \ref{fig:bayan-er} العلاقات بين كيانات القاعدة الداخلية في نظام «بيان»؛ إذ ترتبط المؤسسة \EN{(Tenant)} بعلاقة واحد إلى متعدد \EN{(1:N)} مع المستخدمين \EN{(Users)} والعروض الذكية \EN{(Smart Views)} والمستندات \EN{(Documents)} وسجلات التدقيق \EN{(Audit Logs)}، بحيث تمتلك كل مؤسسة عدة سجلات من كل كيان من هذه الكيانات. ويرتبط المستخدم \EN{(User)} بعلاقة واحد إلى متعدد مع الجلسات \EN{(Sessions)} ومع سجلات التدقيق، فيفتح عدة جلسات وينشئ عدة سجلات تدقيق. وتُطبَّق على علاقة المستخدم بسجلات التدقيق سياسة منع الحذف المتتالي \EN{(RESTRICT)}؛ لضمان بقاء سجلات التدقيق محفوظة وعدم حذفها عند حذف حساب المستخدم، بما يخدم متطلبات المساءلة وعدم الإنكار.
+\subsubsection*{التكامل المرجعي والقيود بعد التطبيع (\EN{3NF})}
+
+تلتزم الكيانات بقاعدة اعتماد كل خاصية غير مفتاحية على مفتاح الكيان دون اعتماد انتقالي غير لازم. ولهذا حُفظت معاملات العروض الذكية ومخرجاتها وتبعياتها في جداول مرتبطة بالإصدار، وأُفردت المرادفات وأمثلة الأسئلة ومتجهاتها بعلاقات مستقلة، وفُصلت بيانات المستند عن إصداراته ومقاطعه. وتُستخدم \EN{JSONB} فقط لحفظ بنى سياسات أو أدلة تدقيق متغيرة لا تمثل بديلاً عن علاقة متكررة مستقلة.
+
+وتُفرض قيود التفرد اللازمة: عضوية واحدة لكل مستخدم داخل المؤسسة؛ وزوج واحد لكل (دور، صلاحية) ولكل (عضوية، صلاحية) في جدول التخصيص؛ واسم جدول فريد داخل المصدر؛ واسم عمود فريد داخل الجدول؛ ورقم إصدار فريد لكل عرض؛ واسم معامل فريد داخل الإصدار؛ ورقم إصدار فريد لكل مستند؛ وتفرد قيم معاملات التقرير بالزوج (التقرير، المعامل).
+
+ويعتمد فصل صلاحيات الموظفين عن العروض الذكية على الربط المفاهيمي والمرجعي الوحيد المطلوب لتشغيل العرض، وهو إحالة \EN{smart\_views.required\_permission\_id} إلى \EN{permissions.permission\_id}. وتظل المنح الفردية في \EN{member\_permission\_overrides} وصلاحيات الدور في \EN{role\_permissions}. ولا يعني امتلاك مسؤول تقنية المعلومات سلطة إدارة المستخدمين السماح له تلقائياً برؤية بيانات الطلاب أو الرسوم؛ كما يتقدم المنع الصريح على السماح، وتُتحقق حدود المؤسسة والتصنيف الأمني وحالة اعتماد الإصدار قبل التنفيذ (القسم \ref{sec:security-design}).
+
+وتخضع \EN{semantic\_entries} لشرط تحقق يفرض ارتباط العنصر بهدف وصفي واحد فقط: جدول أو عمود أو علاقة أو إصدار عرض أو مصطلح. ويجب إثبات أن المراجع المرتبطة بكيان واحد تعود إلى نطاق المؤسسة ومصدر البيانات المسموح، عبر قيود مركبة وإجراءات تحقق مناسبة. كذلك يلتزم كل تقرير محفوظ بأن تكون معاملاته مرتبطة بالإصدار نفسه الذي يعتمد عليه التقرير.
 
 \begin{figure}[H]
   \centering
-  \input{figures/tikz/bayan-er.tex}
-  \caption{مخطط الكيانات والعلاقات \EN{(ERD)} لقاعدة البيانات الداخلية لنظام «بيان»: ستة كيانات بعلاقاتها \EN{(1:N)}، مع منع الحذف المتتالي \EN{(RESTRICT)} على علاقة المستخدم بسجلات التدقيق.}
+  \input{figures/tikz/bayan-er-29.tex}
+  \caption{مخطط الكيانات والعلاقات (\EN{ERD}) الموحَّد لقاعدة بيانات نظام «بيان» بعد التطبيع \EN{3NF} (تسعة وعشرون جدولاً).}
   \label{fig:bayan-er}
 \end{figure}
 
-\subsection{مخزن المتجهات \EN{Qdrant}}
+\noindent\textbf{ملاحظة:} يعرض الشكل \ref{fig:bayan-er} تصميماً بصرياً موحداً، ويُعد قاموس الحقول والعلاقات المرجعية النصية في هذا القسم مرجعاً تكميلياً للتحقق من التفاصيل الدقيقة عند الانتقال إلى النموذج الفيزيائي.
+
+\subsection{مخزن المتجهات \EN{Qdrant} وفصل مسؤوليات التخزين}
 \label{subsec:vector-store}
 
-يؤدي مخزن \EN{Qdrant} دوراً مفصلياً في معمارية الاسترجاع المعزز بالتوليد \EN{(RAG)}؛ إذ يختص بتخزين التمثيلات المتجهة \EN{(Vector Embeddings)} للمستندات غير المهيكلة كاللوائح والسياسات الجامعية، ويتيح لوكيل \EN{RAG} تنفيذ بحث دلالي سريع يتجاوز قيود البحث النصي التقليدي (\EN{FR-16}). وقد صُممت الحمولة الوصفية \EN{(Payload)} المرافقة لكل متجه لضمان عزل بيانات المؤسسات ودقة الاستشهاد وتطبيق قيود الأمان، ويعرض الجدول \ref{tab:qdrant-payload} حقولها وأغراضها:
+يُخصَّص مخزن \EN{Qdrant} \cite{qdrant2024} لتخزين متجهات مقاطع اللوائح والوثائق غير المهيكلة، بينما تحتفظ قاعدة \EN{PostgreSQL} بالهوية المرجعية للمستند وإصداراته ومقاطعه وحقول التدقيق. ويربط الحقل \EN{document\_chunks.qdrant\_point\_id} كل مقطع بتمثيله الخارجي، دون تمثيله بمفتاح أجنبي علائقي بين نظامين منفصلين. أما متجهات توصيف المخطط والمصطلحات، فتُحفظ داخل \EN{semantic\_embeddings} باستعمال \EN{pgvector} (الفقرة \ref{subsec:sv-semantic-index}). ويعرض الجدول \ref{tab:qdrant-payload} الحقول الوصفية اللازمة لتصفية متجهات الوثائق في المخزن:
 
 \begin{table}[H]
 \centering
-\caption{حقول الحمولة الوصفية \EN{(Payload)} المرافقة لكل متجه في مخزن \EN{Qdrant}.}
+\caption{الحقول الوصفية اللازمة لتصفية متجهات الوثائق في مخزن \EN{Qdrant}.}
 \label{tab:qdrant-payload}
 \scriptsize
-\renewcommand{\arraystretch}{1.35}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{1.9cm}|>{\raggedright\arraybackslash}X|}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{2.9cm}|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{حقل الحمولة \EN{(Payload)}} & \textbf{نوع البيانات} & \textbf{الغرض التشغيلي والأمني} \\
+\textbf{حقل الحمولة} & \textbf{نوع البيانات} & \textbf{الغرض الوظيفي والأمني} \\
 \hline
-\EN{tenant\_id} & \EN{String} & عزل متجهات كل مؤسسة لضمان عدم تداخل البيانات \\
+\EN{tenant\_id} & \EN{UUID / String} & عزل المؤسسة على مستوى البحث والاسترجاع \\
 \hline
-\EN{source\_doc} & \EN{String} & توثيق اسم المستند واللائحة المصدرية للإجابة \\
+\EN{document\_id} & \EN{UUID / String} & مرجع الوثيقة الأصلية \\
 \hline
-\EN{page\_number} & \EN{Integer} & الإسناد الدقيق لرقم الصفحة ضمن المستند المسترجع \\
+\EN{version\_id} & \EN{UUID / String} & مرجع إصدار الوثيقة \\
 \hline
-\EN{security\_level} & \EN{Enum} & تصفية نتائج البحث وفق صلاحيات التحكم بالأدوار \EN{(RBAC)} والتصنيف الأمني للمستند \\
+\EN{chunk\_id} & \EN{UUID / String} & مرجع المقطع في \EN{PostgreSQL} \\
 \hline
-\EN{chunk\_text} & \EN{String} & النص الأصلي المقتطع الذي سيُمرَّر للنموذج اللغوي \\
+\EN{page\_number} & \EN{INTEGER ?} & رقم الصفحة لأغراض الاستشهاد \\
+\hline
+\EN{security\_level} & \EN{VARCHAR} & التصنيف الأمني المعتمد للمحتوى \\
 \hline
 \end{tabularx}
 \end{table}
 
-يستخدم النظام نموذج التضمين \EN{multilingual-e5-large} الذي يحول النصوص العربية إلى متجهات رقمية عالية الأبعاد (تصل إلى 1024 بعداً) بما يحافظ على السياق الدلالي العميق للغة العربية (\EN{FR-20})، وتُجمع متجهات المستندات في مجموعة واحدة باسم \EN{bayan\_policies}؛ فيتحقق عزل المؤسسات وتطبيق قيود الأمان أثناء البحث عبر ترشيح الحمولة \EN{(Payload Filtering)} بحقلي \EN{tenant\_id} و\EN{security\_level}، دون الحاجة إلى مجموعة مستقلة لكل مؤسسة أو لكل تصنيف.
+وتمر عملية الفهرسة عند رفع مستند أو تحديثه بأربع خطوات: توثيق إصدار المستند وبصمته، وتقسيمه إلى مقاطع مع الاحتفاظ بمواضعها، وإنشاء التضمينات وفق نموذج \EN{multilingual-e5-large} المعتمد بمتجهات تصل إلى 1024 بعداً (\EN{FR-20})، ثم إدراج نقاط \EN{Qdrant} في مجموعة موحدة باسم \EN{bayan\_policies} بمرجع المؤسسة والتصنيف الأمني، مع ترشيح الحمولة عند البحث. وعند الحذف أو سحب النشر، تُحدَّث المراجع ويُزال أو يُحجب التمثيل المتجه بحسب سياسة الاحتفاظ. ويشترط أن تُطبَّق تصفية المؤسسة والتصنيف قبل الاسترجاع، ثم يُتحقق من صلاحية المستخدم عند إرجاع المقاطع، دون الحاجة إلى مجموعة مستقلة لكل مؤسسة أو لكل تصنيف.
 
-وتُدار دورة حياة المستندات وتحديثها في المخزن عبر خوارزمية مؤتمتة من أربع خطوات تضمن عدم تكرار البيانات الدلالية أو تضاربها:
-
-\begin{itemize}[label=\textcolor{kauprimary}{$\blacktriangleright$},leftmargin=*]
-  \item \textbf{تحديد التحديث:} التقاط إشعار بتعديل لائحة أو مستند في النظام لإحدى المؤسسات.
-  \item \textbf{الحذف الانتقائي:} حذف جميع النقاط \EN{(Points/Vectors)} القديمة المرتبطة بالقيمتين المتطابقتين \EN{source\_doc} و\EN{tenant\_id} في \EN{Qdrant}.
-  \item \textbf{التضمين الجديد:} تجزئة المستند المحدَّث \EN{(Chunking)} وتمرير مقاطعه إلى نموذج \EN{multilingual-e5-large} لإنتاج متجهات جديدة.
-  \item \textbf{الإدراج الوثائقي:} إدراج المتجهات الجديدة بحمولتها المحدَّثة، وتحديث سجل فهرس المستندات \EN{(Document Metadata)} في القاعدة الداخلية.
-\end{itemize}
-
-وبذلك يكتمل ثلاثي التخزين في «بيان» على نحو مقصود: قاعدة \EN{Odoo} للبيانات التشغيلية للمؤسسة ولا تُقرأ إلا عبر العروض الذكية، والقاعدة الداخلية \EN{(PostgreSQL 16 + pgvector)} لبيانات المنصة والفهرس الدلالي، ومخزن \EN{Qdrant} للمتجهات الوثائقية في مسار \EN{RAG}. ويقوم الفصل بين \EN{pgvector} و\EN{Qdrant} على اختلاف طبيعة المحتوى؛ فالأول يفهرس البيانات الوصفية المنظمة للمخطط والعروض والمصطلحات (الفقرة \ref{subsec:sv-semantic-index})، والثاني يخزن مقاطع النصوص اللوائحية بحمولاتها الوصفية، فلا تتداخل مساحتا البحث في المسارين، ويتاح تطوير كل مخزن وتوسيعه على حدة دون المساس بالآخر.
+وبذلك يبقى لكل مخزن اختصاص واضح: \EN{Odoo/OpenEduCat} لسجلات المؤسسة التشغيلية؛ و\EN{PostgreSQL} و\EN{pgvector} للبيانات المنظمة والتوصيفات الدلالية داخل «بيان»؛ و\EN{Qdrant} لمتجهات الوثائق. ويحد هذا الفصل من تكرار البيانات، ويحقق إمكان التوسع دون التضحية بسلامة العلاقات أو ضوابط الوصول.

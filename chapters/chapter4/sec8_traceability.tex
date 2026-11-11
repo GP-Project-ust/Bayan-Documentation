@@ -44,7 +44,7 @@
 \hline
 FR-01 & تسجيل الدخول باسم المستخدم وكلمة المرور & كيانا المستخدمين والجلسات في القاعدة الداخلية (الجدولان \ref{tab:db-users} و\ref{tab:db-sessions}، الفقرة \ref{subsec:bayan-db}) مع إدارة الجلسات والرموز قصيرة الصلاحية (الفقرة \ref{subsec:auth-session}) & مُلبّى \\
 \hline
-FR-02 & إنشاء حسابات جديدة وتعيين الأدوار من مدير النظام & حقل الدور \EN{role\_type} بأربعة أدوار في كيان المستخدمين (الجدول \ref{tab:db-users}) وشاشة إدارة المستخدمين والأدوار في لوحة الإدارة (الشكل \ref{fig:wireframes-admin}، الفقرة \ref{subsec:ui-wireframes}) & مُلبّى \\
+FR-02 & إنشاء حسابات جديدة وتعيين الأدوار من مدير النظام & قوالب الأدوار الوظيفية وربطها بالعضويات في المخطط المطبَّع (الجدولان \ref{tab:db-roles} و\ref{tab:db-memberships}) مع تخصيص القدرات لكل موظف (الجدول \ref{tab:db-overrides}) وشاشة إدارة المستخدمين والأدوار في لوحة الإدارة (الشكل \ref{fig:wireframes-admin}، الفقرة \ref{subsec:ui-wireframes}) & مُلبّى \\
 \hline
 FR-03 & تغيير كلمة المرور & حقل \EN{password\_hash} المجزَّأ بخوارزمية \EN{bcrypt} (الجدول \ref{tab:db-users}) ونقاط نهاية إدارة الحسابات في كتالوج الواجهات البرمجية (الفقرة \ref{subsec:api-catalog}) & مُلبّى \\
 \hline
@@ -66,7 +66,7 @@ FR-11 & تنفيذ استعلامات \EN{SQL} على \EN{PostgreSQL} وإرجا
 \hline
 FR-12 & عرض مسار التنفيذ \EN{Agent Trace} للمستخدم & حقل \EN{agent\_trace} في الحالة المشتركة (الفقرة \ref{subsec:agents-state}) وتثبيته لدى وحدة التدقيق (الفقرة \ref{subsec:audit-design}) وإتاحته للمستخدم المتقدم في المحادثة (الفقرة \ref{subsec:ui-conversation}) & مُلبّى \\
 \hline
-FR-13 & التبديل بين النموذج المحلي \EN{Ollama} والسحابي \EN{API} & طبقة المزوّد القابلة للتبديل دون تعديل الشفرة (الجدول \ref{tab:arch-decisions}، الفقرة \ref{subsec:arch-decisions}) وحقل \EN{llm\_provider} في كيان المؤسسات (الجدول \ref{tab:db-tenants}) & مُلبّى \\
+FR-13 & التبديل بين النموذج المحلي \EN{Ollama} والسحابي \EN{API} & طبقة المزوّد القابلة للتبديل دون تعديل الشفرة بقرار معماري مسجل (الجدول \ref{tab:arch-decisions}، الفقرة \ref{subsec:arch-decisions}) تُدار من إعدادات تشغيل المنصة لدى مسؤولها & مُلبّى \\
 \hline
 FR-14 & معالجة أخطاء \EN{SQL} النحوية بإعادة المحاولة بتقنية \EN{Few-Shot} & حلقة الإصلاح الذاتي بثلاث محاولات بتغذية راجعة من رسالة الخطأ (الجدول \ref{tab:edge-rules}، الفقرة \ref{subsec:agents-edges}) والمدقق النحوي \EN{AST} (الجدول \ref{tab:tool-schemas}) & مُلبّى \\
 \hline
