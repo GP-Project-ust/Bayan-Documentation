@@ -111,7 +111,7 @@ jobs:
           retention-days: 30
 
       - name: Commit built PDF back to the repo
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/test/bot-push' && github.event_name == 'push'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
