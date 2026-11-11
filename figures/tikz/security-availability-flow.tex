@@ -1,0 +1,83 @@
+%==============================================================================
+% figures/tikz/security-availability-flow.tex
+% Availability-verification flow before executing a request — Chapter 4,
+% Section 4.5.1.4 (fig:security-availability)
+%==============================================================================
+% Redrawn in TikZ (vector) from AbdulKarim Al-Abdli's submitted flowchart
+% image (Word, 2026-11-11): identity/session/membership check -> capability
+% & scope with no explicit DENY -> in-tenant resource with allowed
+% classification and approved version -> constrained execution then masking
+% -> deliver result and record the trace; any failure -> safe rejection with
+% reason logging (server-side, before content reaches the model).
+% Style: house style (kauprimary/kausecondary/kauaccent, \textarabic{} for
+% Arabic, \EN{} for Latin). Vertical top-down main path; failure branch to
+% the right, matching the submitted drawing.
+%==============================================================================
+\resizebox{0.8\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  font=\small,
+  startend/.style={
+    rectangle, rounded corners=9pt, draw=kauprimary,
+    fill=kauprimary!14, text=kaudark, align=center,
+    line width=1pt, inner sep=6pt, minimum width=4.7cm,
+  },
+  proc/.style={
+    rectangle, rounded corners=4pt, draw=kauprimary,
+    fill=kauprimary!7, text=kaudark, align=center,
+    line width=1pt, inner sep=5pt, minimum width=4.7cm,
+  },
+  decision/.style={
+    diamond, aspect=2.2, draw=kausecondary,
+    fill=kausecondary!10, text=kaudark, align=center,
+    line width=1pt, inner sep=2.5pt,
+  },
+  reject/.style={
+    rectangle, rounded corners=4pt, draw=kaudark,
+    fill=kaudark!8, text=kaudark, align=center,
+    line width=1pt, inner sep=5pt, minimum width=3.9cm,
+  },
+  flow/.style={->, >=stealth, line width=0.95pt, draw=kauprimary},
+  failflow/.style={->, >=stealth, line width=0.95pt, draw=kaudark!75},
+  lbl/.style={font=\scriptsize\bfseries, text=kaudark, fill=white, inner sep=1.2pt},
+]
+
+  %==========================================================================
+  % Main vertical path + failure branch to the right (as in the original)
+  %==========================================================================
+  \node[startend] (start) at (6.2, 12.4)
+    {\textarabic{\textbf{هوية وجلسة وعضوية فعّالة}}};
+
+  \node[decision] (d1) at (6.2, 10.0)
+    {\textarabic{\textbf{القدرة والنطاق}}\\\textarabic{في المدى ولا منع صريح؟}};
+
+  \node[decision] (d2) at (6.2, 7.1)
+    {\textarabic{\textbf{مورد من المؤسسة}}\\\textarabic{وتصنيف ونسخة مسموحان؟}};
+
+  \node[proc] (exec) at (6.2, 4.4)
+    {\textarabic{\textbf{تنفيذ مقيَّد ثم تقنيع}}};
+
+  \node[startend, fill=kauprimary!20] (deliver) at (6.2, 1.9)
+    {\textarabic{\textbf{تسليم النتيجة وتسجيل الأثر}}};
+
+  \node[reject] (reject) at (12.2, 8.55)
+    {\textarabic{\textbf{رفض آمن وتسجيل السبب}}};
+
+  %==========================================================================
+  % Edges
+  %==========================================================================
+  \draw[flow] (start) -- (d1);
+
+  \draw[flow] (d1) -- node[lbl, left=2.5pt] {\textarabic{نجاح}} (d2);
+  \draw[failflow] (d1.east) -- node[lbl, above=1.5pt] {\textarabic{فشل}}
+    ([xshift=-2pt]reject.north west) -- (reject.north);
+
+  \draw[flow] (d2) -- node[lbl, left=2.5pt] {\textarabic{نجاح}} (exec);
+  \draw[failflow] (d2.east) -- node[lbl, below=1.5pt] {\textarabic{فشل}}
+    ([xshift=2pt]reject.south west) -- (reject.south);
+
+  \draw[flow] (exec) -- (deliver);
+
+\end{tikzpicture}
+%
+}
